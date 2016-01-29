@@ -15,8 +15,10 @@ public class BezierCurveGenerator {
 
 	public BezierCurveGenerator() { }
 
-	// Generates a bezier curve and return its verrtices
-	public Vector3[] GenerateBezierCurve(Vector3 startPosition, Vector3 endPosition, Vector3 startTangent, Vector3 endTangent, int segmentCount) {
+	// Generates a bezier curve
+	// out curve: The Vector3[] were to output the curve
+	// Return: if the curve was regenerated
+	public bool GenerateBezierCurve(Vector3 startPosition, Vector3 endPosition, Vector3 startTangent, Vector3 endTangent, int segmentCount, out Vector3[] curve) {
 		if(this.segmentCount != segmentCount || this.startPosition != startPosition || this.endPosition != endPosition 
 		   || this.startTangent != startTangent || this.endTangent != endTangent) {
 			this.segmentCount = segmentCount;
@@ -27,17 +29,23 @@ public class BezierCurveGenerator {
 
 			Debug.Log("Regenerating curve");
 
-			bezierPoints = new Vector3[segmentCount + 1];
-			bezierPoints[0] = startPosition;
-			bezierPoints[segmentCount] = endPosition;
+			curve = new Vector3[segmentCount + 1];
+			curve[0] = startPosition;
+			curve[segmentCount] = endPosition;
 
 			float inc = 1.0F / segmentCount;
 			for(int i = 1; i < segmentCount; ++i) {
-				bezierPoints[i] = CalculateBezierPoint(i * inc);
+				curve[i] = CalculateBezierPoint(i * inc);
 			}
+
+			bezierPoints = curve;
+
+			return true;
 		}
 
-		return bezierPoints;
+		curve = bezierPoints;
+
+		return false;
 	}
 
 	// Calculates a point at a fraction t along the curve
