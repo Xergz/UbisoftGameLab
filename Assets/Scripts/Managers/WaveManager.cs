@@ -46,25 +46,20 @@ public class WaveManager : MonoBehaviour {
 	/// <param name="x">The x coordinate.</param>
 	/// <param name="y">The y coordinate.</param>
 	public Vector3 GetSurfaceNormalAt(float x, float y) {
-		Vector3 normal = Vector3.up;
-
-
+		
 		// 1. Récupérer deux points proches sur l'axe des x
-		//float xHeight1, xHeight2;
 		float xHeight1 = getOceanHeightAt(x - NORMAL_PRECISION, y);
 		float xHeight2 = getOceanHeightAt (x + NORMAL_PRECISION, y);
-		Vector3 xHeight = new Vector3 (x + NORMAL_PRECISION, xHeight2, 0) - new Vector3(x - NORMAL_PRECISION, xHeight1, 0);
 
 		// 2. Récupérer deux points proches sur l'axe des y
 		float zHeight1 = getOceanHeightAt(x, y - NORMAL_PRECISION);
 		float zHeight2 = getOceanHeightAt (x, y + NORMAL_PRECISION);
-		Vector3 zHeight = new Vector3 (0, zHeight1, y - NORMAL_PRECISION) - new Vector3 (0, zHeight2, y + NORMAL_PRECISION);
 
-		//normal = (xHeight + zHeight).normalized;
-
-		normal = Vector3.Cross (xHeight, zHeight);
-
-		return normal;
+		// On calcule la normale délimitée par le plan formé par les 4 points
+		return Vector3.Cross(
+			new Vector3(2 * NORMAL_PRECISION, xHeight2 - xHeight1, 0),
+			new Vector3 (0, zHeight1 - zHeight2, -2 * NORMAL_PRECISION)
+		);
 	}
 
 	//
