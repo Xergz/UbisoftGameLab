@@ -18,7 +18,7 @@ public class FloatOnWave : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 pos = this.transform.position;
-		WaveManager.SurfaceInfo infos = this.waves.GetSurfaceAt (pos.x, pos.y, SurfaceWidth, SurfaceLength);
+		WaveManager.SurfaceInfo infos = this.waves.GetSurfaceAt (pos.x, pos.z, SurfaceWidth, SurfaceLength);
 
 		pos.y = infos.Height + FloatingOffset;
 
