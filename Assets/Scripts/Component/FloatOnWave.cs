@@ -9,13 +9,20 @@ public class FloatOnWave : MonoBehaviour {
 	[Range(-1.0f, 1.0f)]
 	public float FloatingOffset = 0.0f;
 
+	[Tooltip("Specify the surface's length")]
+	public float SurfaceLength = 1.0f;
+
+	[Tooltip("Specify the surface's width")]
+	public float SurfaceWidth = 1.0f;
+
 	// Update is called once per frame
 	void Update () {
-
 		Vector3 pos = this.transform.position;
-		pos.y = waves.getOceanHeightAt (pos.x, pos.z) + FloatingOffset;
+		WaveManager.SurfaceInfo infos = this.waves.GetSurfaceAt (pos.x, pos.y, SurfaceWidth, SurfaceLength);
+
+		pos.y = infos.Height + FloatingOffset;
 
 		this.transform.position = pos;
-		this.transform.up = waves.GetSurfaceNormalAt (pos.x, pos.z);
+		this.transform.up = infos.Normal;
 	}
 }
