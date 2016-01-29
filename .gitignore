@@ -124,3 +124,7 @@ local.properties
 *.unityproj
 *.pidb.meta
 sysinfo.txt
+
+# Nathan #
+##########
+*nathan*
