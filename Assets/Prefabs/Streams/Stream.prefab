@@ -156,7 +156,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: b9388ff86c1f5ee48a787081ab86f226, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -202,16 +202,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e36844cf260d345bf79b08be32d4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentCount: 20
   width: 5
-  power: 5
-  debug: 0
-  startPosition: {x: -10, y: 0, z: -10}
-  endPosition: {x: 10, y: 0, z: 10}
-  startTangent: {x: -5, y: 0, z: 5}
-  endTangent: {x: 5, y: 0, z: -5}
-  tangentArrow: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
+  strength: 5
+  color: 0
   direction: 1
+  debug: 0
+  segmentCount: 20
+  startPosition: {x: -10, y: 0, z: -10}
+  startTangent: {x: -5, y: 0, z: 5}
+  endPosition: {x: 10, y: 0, z: 10}
+  endTangent: {x: 5, y: 0, z: -5}
+  greenStreamMaterial: {fileID: 2100000, guid: 3a876c20fccd2de4f99942ddb6872376, type: 2}
+  blueStreamMaterial: {fileID: 2100000, guid: b9388ff86c1f5ee48a787081ab86f226, type: 2}
+  yellowStreamMaterial: {fileID: 2100000, guid: b278c5cca00e8a042bfd376585d956a5,
+    type: 2}
+  redStreamMaterial: {fileID: 2100000, guid: a3c77753efd2920498dd134fb6e1fd0a, type: 2}
+  tangentArrow: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
 --- !u!120 &12002244
 LineRenderer:
   m_ObjectHideFlags: 1
