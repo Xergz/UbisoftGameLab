@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 m_EditorVersion: 5.3.1f1
+=======
+m_EditorVersion: 5.3.1p1
+>>>>>>> refs/remotes/origin/master
 m_StandardAssetsVersion: 0
