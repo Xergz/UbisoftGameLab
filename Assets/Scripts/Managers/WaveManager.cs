@@ -45,9 +45,18 @@ public class WaveManager : MonoBehaviour {
 	/// <returns>The <see cref="System.Single"/>.</returns>
 	/// <param name="position">The position in the ocean from the top view.</param>
 	public float getOceanHeightAt(float x, float y) {
+		return getOceanHeightAt (x, y, Time.realtimeSinceStartup);
+	}
+
+	/// <summary>
+	/// Gets the ocean height at a specific location and a specific time point.
+	/// </summary>
+	/// <returns>The <see cref="System.Single"/>.</returns>
+	/// <param name="position">The position in the ocean from the top view.</param>
+	public float getOceanHeightAt(float x, float y, float time) {
 		float height = 0.0f;
 
-		height = Noise.Generate (x * noiseScale, y * noiseScale, Time.realtimeSinceStartup * waveSpeed);
+		height = Noise.Generate (x * noiseScale, y * noiseScale, time * waveSpeed);
 		height *= waveIntensity;
 
 		return height;
@@ -74,6 +83,22 @@ public class WaveManager : MonoBehaviour {
 			new Vector3(2 * surfaceWidth, xHeight2 - xHeight1, 0),
 			new Vector3 (0, zHeight1 - zHeight2, -2 * surfaceLength)
 		);
+	}
+
+	/// <summary>
+	/// Gets the height displacement at a specific surface point from a specific time point
+	/// </summary>
+	/// <returns>The <see cref="System.Single"/>.</returns>
+	/// <param name="x">The x coordinate of the surface</param>
+	/// <param name="z">The z coordinate of the surface</param>
+	/// <param name="elaspedTime">Elasped time.</param>
+	public float GetHeightDisplacementAt(float x, float z, float elaspedTime) {
+		float time = Time.realtimeSinceStartup;
+
+		float currentHeight = getOceanHeightAt (x, z, time);
+		float lastHeight = getOceanHeightAt (x, z, time - elaspedTime);
+
+		return currentHeight - lastHeight;
 	}
 
 	public SurfaceInfo GetSurfaceAt(float x, float y, float width = NORMAL_PRECISION, float length = NORMAL_PRECISION) {
