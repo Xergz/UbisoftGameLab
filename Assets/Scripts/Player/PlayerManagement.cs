@@ -34,9 +34,9 @@ public class PlayerManagement : MonoBehaviour {
     void playerMouvement()
     {
         
-        float speed=2;
-        float moveFoward = Input.GetAxis("Vertical");
-        float turn = Input.GetAxis("Horizontal"); 
+        
+        float moveFoward = Input.GetAxis("LeftJoystickY");
+        float turn = Input.GetAxis("LeftJoystickX"); 
 
         Vector3 movement;
         movement = new Vector3(0.0f, forceTurn*turn, 0.0f);
