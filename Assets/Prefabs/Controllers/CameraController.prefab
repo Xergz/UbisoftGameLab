@@ -97,8 +97,8 @@ MonoBehaviour:
   distanceMin: 3
   distanceMax: 10
   movementSmooth: {x: 0.05, y: 0.1, z: 0.05}
-  rotation: {x: 0, y: 38}
-  controllerSensitivity: {x: 2, y: 2}
+  rotation: {x: 0, y: 35}
+  controllerSensitivity: {x: 1, y: 0.25}
 --- !u!124 &12441870
 Behaviour:
   m_ObjectHideFlags: 1
