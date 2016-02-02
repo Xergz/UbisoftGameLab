@@ -8,7 +8,7 @@
     LeftJoystickButton,
     RightJoystickX,
     RightJoystickY,
-    LeftJoystickButton,
+    RightJoystickButton,
     RightTrigger,
     LeftTrigger,
     RightBumper,
