@@ -3,12 +3,9 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour {
 
-    [SerializeField]
-    private IInputReceiver cameraController;
-    [SerializeField]
-    private IInputReceiver playerController;
-    [SerializeField]
-    private IInputReceiver streamController;
+    public InputReceiver cameraController;
+    public InputReceiver playerController;
+    public InputReceiver streamController;
 
     private float LeftJoystickXStatus;
     private float LeftJoystickYStatus;
@@ -16,8 +13,20 @@ public class InputManager : MonoBehaviour {
     private float RightJoystickYStatus;
     private float LeftTriggerStatus;
     private float RightTriggerStatus;
-    private float LeftBumperStatus;
-    private float RightBumperStatus;
+
+    void Awake () {
+        cameraController = GameObject.Find("CameraController").GetComponent<CameraController>();
+    }
+
+    void Start () {
+        LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
+        LeftJoystickYStatus = Input.GetAxis("LeftJoystickY");
+        RightJoystickXStatus = Input.GetAxis("RightJoystickX");
+        RightJoystickYStatus = Input.GetAxis("RightJoystickY"); ;
+        LeftTriggerStatus = Input.GetAxis("LeftTrigger");
+        RightTriggerStatus = Input.GetAxis("RightTrigger");
+    }
+
 
     // Update is called once per frame
     void Update () {
@@ -30,19 +39,19 @@ public class InputManager : MonoBehaviour {
     private void CheckButtons()
     {
         if (Input.GetButtonDown("AButton")){
-            streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, 1));
+            //streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, 1));
         }
 
         if (Input.GetButtonDown("BButton")){
-            streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, 1));
+            //streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, 1));
         }
 
         if (Input.GetButtonDown("XButton")){
-            streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, 1));
+            //streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, 1));
         }
 
         if (Input.GetButtonDown("YButton")){
-            streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, 1));
+            //streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, 1));
         }
 
         if (Input.GetButtonDown("StartButton")){
@@ -57,23 +66,27 @@ public class InputManager : MonoBehaviour {
     private void CheckJoysticks()
     {
         if (Input.GetAxis("LeftJoystickX") != LeftJoystickXStatus){
-            playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX, Input.GetAxis("LeftJoystickX")));
+            LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
+            //playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
         }
 
-        if (Input.GetAxis("LeftJoystickX") != LeftJoystickXStatus){
-            playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX, Input.GetAxis("LeftJoystickX")));
+        if (Input.GetAxis("LeftJoystickY") != LeftJoystickYStatus){
+            LeftJoystickYStatus = Input.GetAxis("LeftJoystickY");
+            //playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
         }
 
         if (Input.GetButtonDown("LeftJoystickButton")){
-            playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickButton, 1));
+            //playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickButton, 1));
         }
 
         if (Input.GetAxis("RightJoystickX") != RightJoystickXStatus){
-            cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, Input.GetAxis("RightJoystickX")));
+            RightJoystickXStatus = Input.GetAxis("RightJoystickX");
+            cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
         }
 
         if (Input.GetAxis("RightJoystickY") != RightJoystickYStatus){
-            cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickY, Input.GetAxis("RightJoystickY")));
+            RightJoystickYStatus = Input.GetAxis("RightJoystickY");
+            cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickY, RightJoystickYStatus));
         }
 
         if (Input.GetButtonDown("RightJoystickButton")){
@@ -84,11 +97,11 @@ public class InputManager : MonoBehaviour {
     private void CheckTriggers()
     {
         if (Input.GetAxis("LeftTrigger") != LeftTriggerStatus){
-
+            LeftTriggerStatus = Input.GetAxis("LeftTrigger");
         }
 
         if (Input.GetAxis("RightTrigger") != RightTriggerStatus){
-
+            RightTriggerStatus = Input.GetAxis("RightTrigger");
         }
     }
 

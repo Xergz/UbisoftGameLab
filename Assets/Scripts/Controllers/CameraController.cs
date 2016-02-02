@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
-{
+public class CameraController : InputReceiver {
     public Transform playerTransform;
 
     public float distance = 5f;
@@ -18,16 +17,19 @@ public class CameraController : MonoBehaviour
     private Vector3 positionTarget = Vector3.zero;
 
 
-	void ReceiveInputEvent() {
-        //Bellow is temporary code until we have an update manager
-        controllerInput.x = Input.GetAxis("Horizontal");
-        if(Mathf.Abs(controllerInput.x) < 0.2) {
-            controllerInput.x = 0;
+	public override void ReceiveInputEvent(InputEvent inputEvent) {
+        if (inputEvent.inputAxis == EnumAxis.RightJoystickX) {
+            controllerInput.x = inputEvent.value;
+            if (Mathf.Abs(controllerInput.x) < 0.2) {
+                controllerInput.x = 0;
+            }
         }
 
-        controllerInput.y = Input.GetAxis("Vertical");
-        if (Mathf.Abs(controllerInput.y) < 0.2) {
-            controllerInput.y = 0;
+        if (inputEvent.inputAxis == EnumAxis.RightJoystickY) {
+            controllerInput.y = inputEvent.value*-1;
+            if (Mathf.Abs(controllerInput.y) < 0.2) {
+                controllerInput.y = 0;
+            }
         }
     }
 
@@ -40,7 +42,6 @@ public class CameraController : MonoBehaviour
         if (playerTransform == null)
             return;
 
-        ReceiveInputEvent(); //Temporary until we have an input manager
         CalculateMovement();
         CalculateCameraTarget();
         UpdatePosition();
