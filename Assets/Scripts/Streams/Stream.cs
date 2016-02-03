@@ -2,74 +2,163 @@
 using UnityEngine.Rendering;
 using System.Collections;
 
+/// <summary>
+/// Describes a stream
+/// </summary>
 public class Stream : MonoBehaviour {
 
-	public int segmentCount = 20;
+    public EnumStreamColor Color { get { return color; } }
 
-	public float width = 5F;
-	public float power = 5F;
+	private const int MAX_SEGMENT_COUNT = 200; // Maximum number of segments in the bezier curve
+	private const int MIN_SEGMENT_COUNT = 10; // Minimum number of segments in the bezier curve
 
-	[Tooltip("Displays the starting and ending tangents as well as the curve itself")]
-	public bool debug = false;
+	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
+    private const float MAX_AMPLITUDE = 3F; // The maximum amplitude for the natural oscillation of the curve
+    private const float MIN_AMPLITUDE = 0.25F; // The minimum amplitude for the natural oscillation of the curve
+    private const float RANDOMIZATION_TIME = 30F; // The number of seconds between each randomization of the curve amplitude
 
-	public Vector3 startPosition;
-	public Vector3 endPosition;
-	public Vector3 startTangent;
-	public Vector3 endTangent;
+    private float amplitudeStartPos = 1; // The amplitude of the oscillation for the starting position
+    private float amplitudeStartTan = 1; // The amplitude of the oscillation for the starting tangent
+    private float amplitudeEndPos = 1; // The amplitude of the oscillation for the ending position
+    private float amplitudeEndTan = 1; // The amplitude of the oscillation for the ending tangent
 
-	public GameObject tangentArrow;
+    [Tooltip("The width of the stream")]
+    [SerializeField]
+    private float width = 5F;
+    [Tooltip("The strength of the stream")]
+    [SerializeField]
+    private float strength = 5F;
+    // To know when the width changes (needed since I can't do a function if I want to allow in editor modification)
+    private float oldWidth;
 
-	public EnumStreamDirection direction = EnumStreamDirection.POSITIVE;
+    [Tooltip("The color of the stream")]
+    [SerializeField]
+    private EnumStreamColor color = EnumStreamColor.GREEN;
+
+    [Tooltip("The direction of the stream")]
+    [SerializeField]
+    private EnumStreamDirection direction = EnumStreamDirection.POSITIVE;
+    // To know when the direction changes (needed since I can't do a function if I want to allow in editor modification)
+    private EnumStreamDirection oldDirection;
+
+    [Tooltip("Displays the starting and ending tangents as well as the curve itself")]
+    [SerializeField]
+    private bool debug = false;
+
+    [Tooltip("The number of segments in the bezier curve representing the stream")]
+    [SerializeField]
+    [Range(10, 200)]
+	private int segmentCount = 20;
+
+    [Tooltip("Starting position of the bezier curve representing the stream")]
+    [SerializeField]
+    private Vector3 startPosition;
+    [Tooltip("Starting tangent of the bezier curve representing the stream")]
+    [SerializeField]
+    private Vector3 startTangent;
+    [Tooltip("Ending position of the bezier curve representing the stream")]
+    [SerializeField]
+    private Vector3 endPosition;
+    [Tooltip("Ending tangent of the bezier curve representing the stream")]
+    [SerializeField]
+    private Vector3 endTangent;
+
+    private Vector3[] streamCurve; // The bezier curve
+	private Vector3[] tangents; // The array containing the tangents for each point of the stream
+	private Vector3[] vertices; // The vertices for the stream mesh
+	private Vector2[] uv; // The UV coordinates for each vertices
+	private Vector3[] normals; // The normals for each vertices
+
+    private int[] triangles; // The triangles for the mesh
+
+    private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
+
+	private Mesh mesh; // The curve's mesh
+
+    [SerializeField]
+    private Material greenStreamMaterial;
+    [SerializeField]
+    private Material blueStreamMaterial;
+    [SerializeField]
+    private Material yellowStreamMaterial;
+    [SerializeField]
+    private Material redStreamMaterial;
+
+    [Tooltip("A prefab used to represent the direction of the tangents")]
+    [SerializeField]
+    private GameObject tangentArrow;
+
+    private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
 
-	private const int MAX_SEGMENT_COUNT = 200;
-	private const int MIN_SEGMENT_COUNT = 10;
-
-	private const float MAX_CURVE_POINTS_SPACING = 2F;
-
-	private float oldWidth;
-
-	private EnumStreamDirection oldDirection;
-
-	private int[] triangles;
-
-	private Vector3[] streamCurve;
-	private Vector3[] tangents;
-	private Vector3[] vertices;
-	private Vector2[] uv;
-	private Vector3[] normals;
-
-	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer;
-	
-	private Mesh mesh;
-
-	private BezierCurveGenerator curveGenerator;
-
-	
-	// Return the force to apply to a unit within the stream (assumes the unit is within the stream)
-	public Vector3 GetForceAtPosition(Vector3 position) {
-		return tangents[GetClosestCurvePointIndex(position)] * power * (int) direction;
+    /// <summary>
+    /// Get the force to apply to an object within the stream (assumes the object is within the stream)
+    /// </summary>
+    /// <param name="position">The position of the object</param>
+    /// <returns>The force to apply to the object</returns>
+    public Vector3 GetForceAtPosition(Vector3 position) {
+		return tangents[GetClosestCurvePointIndex(position)] * strength * (int) direction;
 	}
+
+    /// <summary>
+    /// Switch the direction of the stream (POSITIVE -> NEGATIVE or NEGATIVE -> POSITIVE)
+    /// </summary>
+    public void SwitchDirection() {
+        direction = (EnumStreamDirection) (-((int) direction));
+    }
+
+    /// <summary>
+    /// Sets the handles of the bezier curve representing the stream (positions and tangents)
+    /// </summary>
+    /// <param name="startPosition">Starting position of the bezier curve representing the stream</param>
+    /// <param name="startTangent">Starting tangent of the bezier curve representing the stream</param>
+    /// <param name="endPosition">Ending position of the bezier curve representing the stream</param>
+    /// <param name="endTangent">Ending tangent of the bezier curve representing the stream</param>
+    public void SetHandles(Vector3 startPosition, Vector3 startTangent, Vector3 endPosition, Vector3 endTangent) {
+        this.startPosition = startPosition;
+        this.startTangent = startTangent;
+        this.endPosition = endPosition;
+        this.endTangent = endTangent;
+    }
 
 
 	private void Start () {
 		curveGenerator = new BezierCurveGenerator();
 
 		mesh = new Mesh();
-		GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshFilter>().mesh = mesh;
 		GetComponent<MeshCollider>().sharedMesh = mesh;
 
-		oldWidth = width - 1;
-		oldDirection = (EnumStreamDirection) (-((int) direction));
+        switch(color) {
+            case EnumStreamColor.GREEN:
+                GetComponent<MeshRenderer>().material = greenStreamMaterial;
+                break;
+            case EnumStreamColor.BLUE:
+                GetComponent<MeshRenderer>().material = blueStreamMaterial;
+                break;
+            case EnumStreamColor.YELLOW:
+                GetComponent<MeshRenderer>().material = yellowStreamMaterial;
+                break;
+            case EnumStreamColor.RED:
+                GetComponent<MeshRenderer>().material = redStreamMaterial;
+                break;
+        }
 
-		#region DEBUG
-		curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
+        oldWidth = width - 1;
+        oldDirection = (EnumStreamDirection) (-((int) direction));
+
+        // Invoke the RandomizeAmplitude method every RANDOMIZATION_TIME
+        InvokeRepeating("RandomizeAmplitude", RANDOMIZATION_TIME, RANDOMIZATION_TIME);
+
+        #region DEBUG
+        curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
 		startLineRenderer = transform.GetChild(2).GetComponent<LineRenderer>();
 		endLineRenderer = transform.GetChild(3).GetComponent<LineRenderer>();
 		#endregion
 	}
 	
 	private void Update () {
+        //UpdateHandles();
 		UpdateCurve();
 
 		#region DEBUG
@@ -98,43 +187,28 @@ public class Stream : MonoBehaviour {
 		#endregion
 	}
 
-	// Update the stream's curve
-	private void UpdateCurve() {
+    /// <summary>
+    /// Update the stream's bezier curve. Will do nothing if the stream hasn't changed. 
+    /// Can be safely called every frame without impact on performance. 
+    /// Also makes sure the curve is smooth enough by calculated the required segment count.
+    /// </summary>
+    private void UpdateCurve() {
 		// Only update the curve if a new one was generated
 		segmentCount = Mathf.Max(Mathf.Min(segmentCount, MAX_SEGMENT_COUNT), MIN_SEGMENT_COUNT);
-		bool curveChanged = curveGenerator.GenerateBezierCurve(startPosition, endPosition, startTangent, endTangent, segmentCount, out streamCurve);
+		bool curveChanged = curveGenerator.GenerateBezierCurve(startPosition, startTangent, endPosition, endTangent, segmentCount, out streamCurve);
 
 		if(curveChanged) {
 			// To make sure the tangents are accurate enough
 			while(Vector3.Distance(streamCurve[0], streamCurve[1]) > MAX_CURVE_POINTS_SPACING && segmentCount < MAX_SEGMENT_COUNT) {
 				segmentCount = Mathf.Min(segmentCount + 10, MAX_SEGMENT_COUNT);
-				curveGenerator.GenerateBezierCurve(startPosition, endPosition, startTangent, endTangent, segmentCount, out streamCurve);
+				curveGenerator.GenerateBezierCurve(startPosition, startTangent, endPosition, endTangent, segmentCount, out streamCurve);
 			}
 
-			// Calculate the tangents for every point
-			tangents = new Vector3[streamCurve.Length];
-			tangents[0] = Vector3.Normalize(startTangent - startPosition);
-			tangents[streamCurve.Length - 1] = Vector3.Normalize(-(endTangent - endPosition));
-
-			for(int i = 1; i < streamCurve.Length - 1; ++i) {
-				tangents[i] = Vector3.Normalize(streamCurve[i + 1] - streamCurve[i - 1]);
-			}
+            GenerateTangents();
 		}
 
 		if(curveChanged || oldDirection != direction) {
-			// Clear the old arrows
-			foreach(Transform child in transform.GetChild(0)) {
-				GameObject.Destroy(child.gameObject);
-			}
-
-			// Instantiate the tangent arrows
-			for(int i = 1; i < streamCurve.Length - 1; ++i) {
-				GameObject arrow = Instantiate(tangentArrow);
-				arrow.transform.parent = transform.GetChild(0);
-				arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.05F, streamCurve[i].z);
-				arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
-			}
-
+            GenerateTangentArrows();
 			oldDirection = direction;
 		}
 
@@ -144,7 +218,41 @@ public class Stream : MonoBehaviour {
 		}
 	}
 
-	// Generate the stream's mesh
+    /// <summary>
+    /// Generates new arrows to visualize the tangents
+    /// </summary>
+    private void GenerateTangentArrows() {
+        // Clear the old arrows
+        foreach(Transform child in transform.GetChild(0)) {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        // Instantiate the tangent arrows
+        for(int i = 1; i < streamCurve.Length - 1; ++i) {
+            GameObject arrow = Instantiate(tangentArrow);
+            arrow.transform.parent = transform.GetChild(0);
+            arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.05F, streamCurve[i].z);
+            arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
+        }
+    }
+
+    /// <summary>
+    /// Generates new tangents from the curve
+    /// </summary>
+    private void GenerateTangents() {
+        tangents = new Vector3[streamCurve.Length];
+        tangents[0] = Vector3.Normalize(startTangent - startPosition);
+        tangents[streamCurve.Length - 1] = Vector3.Normalize(-(endTangent - endPosition));
+
+        for (int i = 1; i < streamCurve.Length - 1; ++i)
+        {
+            tangents[i] = Vector3.Normalize(streamCurve[i + 1] - streamCurve[i - 1]);
+        }
+    }
+
+	/// <summary>
+    /// Generate the stream's mesh (vertices, UV coordinates, normals and triangles)
+    /// </summary>
 	private void GenerateMesh() {
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
 
@@ -187,7 +295,9 @@ public class Stream : MonoBehaviour {
 		mesh.triangles = triangles;
 	}
 
-	// Gets the closest curve point to a position in the world
+	/// <summary>
+    /// Gets the closest curve point to a position in the world
+    /// </summary>
 	private int GetClosestCurvePointIndex(Vector3 position) {
 		int closestPoint = 0;
 
@@ -204,4 +314,11 @@ public class Stream : MonoBehaviour {
 
 		return closestPoint;
 	}
+
+    private void RandomizeAmplitude() {
+        amplitudeStartPos = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeStartTan = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeEndPos = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeEndTan = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+    }
 }
