@@ -124,7 +124,15 @@ local.properties
 *.unityproj
 *.pidb.meta
 sysinfo.txt
-
-# Nathan #
-##########
-*nathan*
+Assets/Scenes/Gab/
+Assets/Scenes/Gab.meta
+Assets/Scenes/Emile/
+Assets/Scenes/Emile.meta
+Assets/Scenes/AlexC/
+Assets/Scenes/AlexC.meta
+Assets/Scenes/AlexL/
+Assets/Scenes/AlexL.meta
+Assets/Scenes/Nathan/
+Assets/Scenes/Nathan.meta
+Assets/Scenes/Clement/
+Assets/Scenes/Clement.meta
