@@ -13,6 +13,14 @@ public class Stream : MonoBehaviour {
 	private const int MIN_SEGMENT_COUNT = 10; // Minimum number of segments in the bezier curve
 
 	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
+    private const float MAX_AMPLITUDE = 3F; // The maximum amplitude for the natural oscillation of the curve
+    private const float MIN_AMPLITUDE = 0.25F; // The minimum amplitude for the natural oscillation of the curve
+    private const float RANDOMIZATION_TIME = 30F; // The number of seconds between each randomization of the curve amplitude
+
+    private float amplitudeStartPos = 1; // The amplitude of the oscillation for the starting position
+    private float amplitudeStartTan = 1; // The amplitude of the oscillation for the starting tangent
+    private float amplitudeEndPos = 1; // The amplitude of the oscillation for the ending position
+    private float amplitudeEndTan = 1; // The amplitude of the oscillation for the ending tangent
 
     [Tooltip("The width of the stream")]
     [SerializeField]
@@ -139,6 +147,9 @@ public class Stream : MonoBehaviour {
         oldWidth = width - 1;
         oldDirection = (EnumStreamDirection) (-((int) direction));
 
+        // Invoke the RandomizeAmplitude method every RANDOMIZATION_TIME
+        InvokeRepeating("RandomizeAmplitude", RANDOMIZATION_TIME, RANDOMIZATION_TIME);
+
         #region DEBUG
         curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
 		startLineRenderer = transform.GetChild(2).GetComponent<LineRenderer>();
@@ -147,6 +158,7 @@ public class Stream : MonoBehaviour {
 	}
 	
 	private void Update () {
+        //UpdateHandles();
 		UpdateCurve();
 
 		#region DEBUG
@@ -302,4 +314,11 @@ public class Stream : MonoBehaviour {
 
 		return closestPoint;
 	}
+
+    private void RandomizeAmplitude() {
+        amplitudeStartPos = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeStartTan = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeEndPos = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+        amplitudeEndTan = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
+    }
 }
