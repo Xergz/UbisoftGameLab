@@ -5,7 +5,7 @@ using SimplexNoise;
 /// <summary>
 /// Manage the wave simulator.
 /// </summary>
-public class WaveManager : MonoBehaviour {
+public class WaveController : MonoBehaviour {
 
 	/// <summary>
 	/// The ocean's surface informations at a specific location
@@ -45,7 +45,7 @@ public class WaveManager : MonoBehaviour {
 	/// <returns>The <see cref="System.Single"/>.</returns>
 	/// <param name="position">The position in the ocean from the top view.</param>
 	public float getOceanHeightAt(float x, float y) {
-		return getOceanHeightAt (x, y, Time.realtimeSinceStartup);
+		return getOceanHeightAt (x, y, Time.time);
 	}
 
 	/// <summary>
