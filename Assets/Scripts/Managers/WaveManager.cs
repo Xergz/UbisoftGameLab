@@ -45,7 +45,7 @@ public class WaveManager : MonoBehaviour {
 	/// <returns>The <see cref="System.Single"/>.</returns>
 	/// <param name="position">The position in the ocean from the top view.</param>
 	public float getOceanHeightAt(float x, float y) {
-		return getOceanHeightAt (x, y, Time.realtimeSinceStartup);
+		return getOceanHeightAt (x, y, Time.time);
 	}
 
 	/// <summary>
