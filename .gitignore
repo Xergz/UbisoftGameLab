@@ -124,6 +124,7 @@ local.properties
 *.unityproj
 *.pidb.meta
 sysinfo.txt
+Assets/generated*
 
 # Nathan #
 ##########
