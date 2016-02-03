@@ -5,7 +5,7 @@ using SimplexNoise;
 /// <summary>
 /// Manage the wave simulator.
 /// </summary>
-public class WaveManager : MonoBehaviour {
+public class WaveController : MonoBehaviour {
 
 	/// <summary>
 	/// The ocean's surface informations at a specific location

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FloatOnWave : MonoBehaviour {
 	[Tooltip("Specify the wave's manager")]
-	public WaveManager waves;
+	public WaveController waves;
 
 	[Tooltip("Specify the floating line of the object")]
 	[Range(-1.0f, 1.0f)]
@@ -18,7 +18,7 @@ public class FloatOnWave : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 pos = this.transform.position;
-		WaveManager.SurfaceInfo infos = this.waves.GetSurfaceAt (pos.x, pos.z, SurfaceWidth, SurfaceLength);
+		WaveController.SurfaceInfo infos = this.waves.GetSurfaceAt (pos.x, pos.z, SurfaceWidth, SurfaceLength);
 
 		pos.y = infos.Height + FloatingOffset;
 
