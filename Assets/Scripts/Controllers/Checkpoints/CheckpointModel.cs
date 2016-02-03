@@ -53,7 +53,15 @@ public class CheckpointModel {
 		// In a case where a corruption happened, the original file 
 		// will still be usable
 		string tempFile = Path.GetTempFileName();
+		string saveFile =  Path.GetFileNameWithoutExtension(file);
+
 		Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
+		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> ();
+		long[] checkPointOffsets = new long[reverseCheckpoints.Count];
+
+		while (lastCheckpoints.Count > 0) {
+			reverseCheckpoints.Push (lastCheckpoints.Pop ());
+		}
 
 		using (BinaryWriter writer = new BinaryWriter(File.Open(tempFile, FileMode.Open))) {
 			// Write the file header
@@ -62,10 +70,60 @@ public class CheckpointModel {
 			}
 			writer.Write (VALID_HEADER_VERSION);
 
-			// Write
+			// Write checkpoints
+			long checkPointIndex = 0;
+			while (reverseCheckpoints.Count > 0) {
+				Checkpoint checkpoint = reverseCheckpoints.Pop ();
+
+				checkPointOffsets [checkPointIndex] = writer.BaseStream.Position;
+
+				// Writing scene ID
+				writer.Write ((System.UInt32)checkpoint.SceneID);
+
+				// Writing current life
+				writer.Write ((System.UInt32)checkpoint.CurrentLife);
+
+				// Writing the position
+				writer.Write ((float)checkpoint.Position.x);
+				writer.Write ((float)checkpoint.Position.y);
+
+				// Writing the orientation
+				writer.Write((System.UInt16)checkpoint.Orientation);
+
+				// Writing collectables
+				writer.Write ((System.UInt32)checkpoint.Collectables.Count);
+				foreach (KeyValuePair<int, bool> pair in checkpoint.Collectables) {
+					// 31 bits for collectable id + 1 bit for associated boolean value
+					System.UInt32 collectable = (System.UInt32)(pair.Key << 1);
+
+					if (pair.Value) {
+						collectable |= 1;
+					}
+
+					writer.Write (collectable);
+				}
+
+				checkPointIndex++;
+			}
+
+			long tableOffset = writer.BaseStream.Position;
+
+			// Write checkpoint table
+			for (int i = 0; i < checkPointOffsets.Length; i++) {
+				writer.Write ((System.UInt32)checkPointOffsets[i]);
+			}
+
+			// Write the table's offset
+			writer.Write((System.UInt32)tableOffset);
 		}
-			
-		// TODO: Replace the current save with tempFile
+
+		// On supprime l'ancienne sauvegarde
+		if (File.Exists (saveFile)) {
+			File.Delete (saveFile);
+		}
+
+		// On déplace le fichier temporaire à la place du fichier de sauvegarde
+		File.Move (tempFile, saveFile);
 	}
 
 	/// <summary>
