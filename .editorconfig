@@ -1,0 +1,28 @@
+# EditorConfig : http://editorconfig.org
+
+# Top most EditorConfig file
+root = true
+
+# Every files
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# C# files 
+[*.{cs}]
+# File encoding should always be UTF-8 to reduce compatibility issues
+charset = utf-8
+
+# Avoid lines longer than 120 characters
+max_line_length = 120
+
+# A tab should be 4 spaces
+indent_style = space
+indent_size = 4
+
+# Every operator should be preceded and followed by a space.
+spaces_around_operators = true
+
+trim_trailing_whitespace = true
+
+indent_brace_style = K&R
