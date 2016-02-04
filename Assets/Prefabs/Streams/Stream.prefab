@@ -204,17 +204,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 5
   strength: 5
+  oscillationSpeed: 0.25
+  oscillationAmplitude: 1
   color: 0
   direction: 1
   debug: 0
   segmentCount: 20
-  startPosition: {x: -10, y: 0, z: -10}
-  startTangent: {x: -5, y: 0, z: 5}
-  endPosition: {x: 10, y: 0, z: 10}
-  endTangent: {x: 5, y: 0, z: -5}
+  startPositionHandle: {x: -10, y: 0, z: -10}
+  startTangentHandle: {x: -10, y: 0, z: 0}
+  endPositionHandle: {x: 10, y: 0, z: 10}
+  endTangentHandle: {x: 10, y: 0, z: 0}
   greenStreamMaterial: {fileID: 2100000, guid: 3a876c20fccd2de4f99942ddb6872376, type: 2}
   blueStreamMaterial: {fileID: 2100000, guid: b9388ff86c1f5ee48a787081ab86f226, type: 2}
-  yellowStreamMaterial: {fileID: 2100000, guid: b278c5cca00e8a042bfd376585d956a5,
+  yellowStreamMaterial: {fileID: 2100000, guid: e431bcd0fcb3e7a4b96ebaebeec8f385,
     type: 2}
   redStreamMaterial: {fileID: 2100000, guid: a3c77753efd2920498dd134fb6e1fd0a, type: 2}
   tangentArrow: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
