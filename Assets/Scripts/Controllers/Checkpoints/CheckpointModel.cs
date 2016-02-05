@@ -53,7 +53,7 @@ public class CheckpointModel {
 		// In a case where a corruption happened, the original file 
 		// will still be usable
 		string tempFile = Path.GetTempFileName();
-		string saveFile =  Path.GetFileNameWithoutExtension(file);
+		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
 
 		Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
 		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> ();
@@ -108,6 +108,9 @@ public class CheckpointModel {
 
 			long tableOffset = writer.BaseStream.Position;
 
+			// Write the number of entries in the table
+			writer.Write ((System.UInt32)checkPointOffsets.Length);
+
 			// Write checkpoint table
 			for (int i = 0; i < checkPointOffsets.Length; i++) {
 				writer.Write ((System.UInt32)checkPointOffsets[i]);
@@ -125,11 +128,55 @@ public class CheckpointModel {
 		// On déplace le fichier temporaire à la place du fichier de sauvegarde
 		File.Move (tempFile, saveFile);
 	}
-
+		
 	/// <summary>
 	/// Load the model from a permanent representation
 	/// </summary>
 	/// <param name="file">The file from where to load the model.</param>
 	public void LoadFrom(string file) {
+		// Clear the current state of the stack
+		checkpoints.Clear ();
+
+		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
+
+		using (BinaryReader reader = new BinaryReader (File.Open(saveFile, FileMode.Open))) {
+			// Read the 32 bit magic number
+			for (int i = 0; i < VALID_HEADER_MAGIC.Length; i++) {
+				char magic = reader.ReadChar ();
+
+				if (magic != VALID_HEADER_MAGIC [i]) {
+					// TODO: Throw an exception
+					// The header magic number is invalid
+				}
+			}
+
+			byte version = reader.ReadByte ();
+
+			if (version != VALID_HEADER_VERSION) {
+				// TODO: Throw an exception
+				// Unsupported version
+			}
+
+			// We move at the end of the file to read the checkpoints table offset
+			reader.BaseStream.Seek (4, SeekOrigin.End);
+
+			System.UInt32 endOfTable = (System.UInt32)reader.BaseStream.Position;
+			System.UInt32 tableOffset = reader.ReadUInt32 ();
+
+			// We move at the beginning of the checkpoints table
+			reader.BaseStream.Seek (tableOffset, SeekOrigin.Begin);
+
+			// We read the number of checkpoints
+			System.UInt32 checkpointsCount = reader.ReadUInt32 ();
+			System.UInt32[] checkpointOffsets = new System.UInt32[checkpointsCount];
+
+			// Read every entries in the table
+			for (int i = 0; i < checkpointsCount; i++) {
+				checkpointOffsets [i] = reader.ReadUInt32 ();
+			}
+
+			// TODO: Read every checkpoints and store them into the stack
+
+		}
 	}
 }
