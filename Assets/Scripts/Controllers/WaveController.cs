@@ -46,7 +46,7 @@ public class WaveController : MonoBehaviour {
 	/// <param name="x">The X coordinate of the location</param>
 	/// <param name="z">The Z coordinate of the location</param>
 	public float GetOceanHeightAt(float x, float z) {
-		return GetOceanHeightAt (x, z, Time.time);
+		return GetOceanHeightAt(x, z, Time.time);
 	}
 
 	/// <summary>
@@ -59,7 +59,7 @@ public class WaveController : MonoBehaviour {
 	public float GetOceanHeightAt(float x, float z, float time) {
 		float height = 0.0f;
 
-		height = Noise.Generate (x * noiseScale, z * noiseScale, time * waveSpeed);
+		height = Noise.Generate(x * noiseScale, z * noiseScale, time * waveSpeed);
 		height *= waveIntensity;
 
 		return height;
@@ -72,19 +72,19 @@ public class WaveController : MonoBehaviour {
 	/// <param name="x">The X coordinate.</param>
 	/// <param name="z">The Z coordinate.</param>
 	public Vector3 GetSurfaceNormalAt(float x, float z, float surfaceWidth = NORMAL_PRECISION, float surfaceLength = NORMAL_PRECISION) {
-		
+
 		// 1. Récupérer deux points proches sur l'axe des x
 		float xHeight1 = GetOceanHeightAt(x - surfaceWidth, z);
-		float xHeight2 = GetOceanHeightAt (x + surfaceWidth, z);
+		float xHeight2 = GetOceanHeightAt(x + surfaceWidth, z);
 
 		// 2. Récupérer deux points proches sur l'axe des z
 		float zHeight1 = GetOceanHeightAt(x, z - surfaceLength);
-		float zHeight2 = GetOceanHeightAt (x, z + surfaceLength);
+		float zHeight2 = GetOceanHeightAt(x, z + surfaceLength);
 
 		// On calcule la normale délimitée par le plan formé par les 4 points
 		return Vector3.Cross(
 			new Vector3(2 * surfaceWidth, xHeight2 - xHeight1, 0),
-			new Vector3 (0, zHeight1 - zHeight2, -2 * surfaceLength)
+			new Vector3(0, zHeight1 - zHeight2, -2 * surfaceLength)
 		);
 	}
 
@@ -98,14 +98,14 @@ public class WaveController : MonoBehaviour {
 	public float GetHeightDisplacementAt(float x, float z, float elaspedTime) {
 		float time = Time.time;
 
-		float currentHeight = GetOceanHeightAt (x, z, time);
-		float lastHeight = GetOceanHeightAt (x, z, time - elaspedTime);
+		float currentHeight = GetOceanHeightAt(x, z, time);
+		float lastHeight = GetOceanHeightAt(x, z, time - elaspedTime);
 
 		return currentHeight - lastHeight;
 	}
 
 	public SurfaceInfo GetSurfaceAt(float x, float z, float width = NORMAL_PRECISION, float length = NORMAL_PRECISION) {
-		return new SurfaceInfo (GetSurfaceNormalAt(x, z, width, length), GetOceanHeightAt(x, z));
+		return new SurfaceInfo(GetSurfaceNormalAt(x, z, width, length), GetOceanHeightAt(x, z));
 	}
 
 	//
@@ -120,10 +120,10 @@ public class WaveController : MonoBehaviour {
 		Vector3[] vertices = surfaceMesh.vertices;
 		Vector3 worldPos;
 
-		for (int i = 0; i < vertices.Length; i++) {
-			worldPos = worldTransform.TransformPoint (vertices [i]);
+		for(int i = 0; i < vertices.Length; i++) {
+			worldPos = worldTransform.TransformPoint(vertices[i]);
 
-			vertices[i].y = GetOceanHeightAt (worldPos.x, worldPos.z);
+			vertices[i].y = GetOceanHeightAt(worldPos.x, worldPos.z);
 		}
 
 		surfaceMesh.vertices = vertices;
