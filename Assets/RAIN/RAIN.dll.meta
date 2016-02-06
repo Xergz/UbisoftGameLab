@@ -1,5 +1,18 @@
 fileFormatVersion: 2
-guid: fe33c6edd001f4cc2a772cb71aff86be
+guid: 9fa2ecd1ff2ad394281dd3bf72c5b76e
+labels:
+- AI
+- Scripting
+- FPS
+- RPG
+- Behavior
+- Pathfinding
+- BehaviorTrees
+- Sensors
+- Mecanim
+- Animation
+- Motion
+- RAIN
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -9,14 +22,6 @@ PluginImporter:
     Any:
       enabled: 1
       settings: {}
-    Editor:
-      enabled: 0
-      settings:
-        DefaultValueInitialized: true
-    WindowsStoreApps:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
   userData: 
   assetBundleName: 
   assetBundleVariant: 
