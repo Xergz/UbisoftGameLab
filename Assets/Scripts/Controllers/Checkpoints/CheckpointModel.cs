@@ -84,12 +84,14 @@ public class CheckpointModel {
 		string tempFile = Path.GetTempFileName();
 		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
 
-		Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
-		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> ();
+		//Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
+		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> (this.checkpoints);
 
+		/*
 		while (lastCheckpoints.Count > 0) {
 			reverseCheckpoints.Push (lastCheckpoints.Pop ());
 		}
+		*/
 
 		long[] checkPointOffsets = new long[reverseCheckpoints.Count];
 
