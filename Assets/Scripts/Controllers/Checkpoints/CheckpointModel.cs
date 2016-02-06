@@ -5,7 +5,7 @@ using System.IO;
 /// This class is the data representation of the checkpoints
 /// </summary>
 public class CheckpointModel {
-	private Stack<Checkpoint> checkpoints;
+	private Stack<Checkpoint> checkpoints = new Stack<Checkpoint>();
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69,  75};
 	private byte   VALID_HEADER_VERSION = 10;
@@ -86,11 +86,12 @@ public class CheckpointModel {
 
 		Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
 		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> ();
-		long[] checkPointOffsets = new long[reverseCheckpoints.Count];
 
 		while (lastCheckpoints.Count > 0) {
 			reverseCheckpoints.Push (lastCheckpoints.Pop ());
 		}
+
+		long[] checkPointOffsets = new long[reverseCheckpoints.Count];
 
 		using (BinaryWriter writer = new BinaryWriter(File.Open(tempFile, FileMode.Open))) {
 			// Write the file header
@@ -152,6 +153,8 @@ public class CheckpointModel {
 		// Writing collectables
 		System.UInt32 collectableCount = reader.ReadUInt32();
 	
+		checkpoint.Collectables = new Dictionary<uint, bool> ();
+
 		for (System.UInt32 i = 0; i < collectableCount; i++) {
 			System.UInt32 collectable = reader.ReadUInt32 ();
 
@@ -191,7 +194,7 @@ public class CheckpointModel {
 			}
 
 			// We move at the end of the file to read the checkpoints table offset
-			reader.BaseStream.Seek (4, SeekOrigin.End);
+			reader.BaseStream.Seek (-4, SeekOrigin.End);
 
 			System.UInt32 endOfTable = (System.UInt32)reader.BaseStream.Position;
 			System.UInt32 tableOffset = reader.ReadUInt32 ();

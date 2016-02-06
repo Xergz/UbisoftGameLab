@@ -40,6 +40,6 @@ public class Filesystem {
 			Directory.CreateDirectory (saveDir);
 		}
 
-		return saveDir;
+		return saveDir + "/"; 
 	}
 }

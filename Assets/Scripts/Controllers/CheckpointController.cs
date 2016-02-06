@@ -16,6 +16,7 @@ public class CheckpointController {
 	/// <param name="restorer">The assigned game restorer.</param>
 	public CheckpointController(GameRestorer restorer) {
 		this.restorer = restorer;
+		this.model = new CheckpointModel ();
 	}
 
 	/// <summary>
@@ -48,5 +49,16 @@ public class CheckpointController {
 	/// <remarks>The last checkpoint will be replaced by the one before it</remarks>
 	public void DiscardLastCheckpoint() {
 		this.model.Discard ();
+	}
+
+	public void SaveCheckpoint(Checkpoint newCheckpoint) {
+		this.model.Update (newCheckpoint);
+
+		this.model.SaveTo ("test-checkpoints-1");
+	}
+
+	public void LoadCheckpointsFrom(string filename) {
+		this.model.LoadFrom (filename);
+		this.restorer.RestoreGameStateFrom (this.model.Current);
 	}
 }
