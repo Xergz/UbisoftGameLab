@@ -31,6 +31,12 @@ public class CameraController : InputReceiver {
                 controllerInput.y = 0;
             }
         }
+
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickButton) {
+            if(inputEvent.value > 0) {
+                Reset();
+            }
+        }
     }
 
 	void Start() {
