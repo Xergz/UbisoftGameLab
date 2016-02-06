@@ -38,8 +38,6 @@ public class BezierCurveGenerator {
             this.endPosition = endPosition;
 			this.endTangent = endTangent;
 
-			Debug.Log("Regenerating curve");
-
 			curve = new Vector3[segmentCount + 1];
 			curve[0] = startPosition;
 			curve[segmentCount] = endPosition;
@@ -67,11 +65,9 @@ public class BezierCurveGenerator {
     /// <param name="t">The percentage of the curve at which the point to generate stands</param>
     private Vector3 CalculateBezierPoint(float t) {
 		float t2 = t * t;
-		float t3 = t2 * t;
 		float u = 1 - t;
 		float u2 = u * u;
-		float u3 = u2 * u;
 
-		return (u3 * startPosition) + (3 * u2 * t * startTangent) + (3 * u * t2 * endTangent) + (t3 * endPosition);
+		return (u2 * u * startPosition) + (3 * u2 * t * startTangent) + (3 * u * t2 * endTangent) + (t2 * t * endPosition);
 	}
 }
