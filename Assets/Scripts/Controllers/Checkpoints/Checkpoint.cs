@@ -9,12 +9,12 @@ public struct Checkpoint {
 	/// <summary>
 	/// The scene where is located the checkpoint
 	/// </summary>
-	public int SceneID;
+	public System.UInt32 SceneID;
 
 	/// <summary>
 	/// The player's life
 	/// </summary>
-	public int CurrentLife;
+	public System.UInt32 CurrentLife;
 
 	/// <summary>
 	/// Position from the top where the player should start
@@ -24,11 +24,11 @@ public struct Checkpoint {
 	/// <summary>
 	/// The orientation from the top from which the player should start
 	/// </summary>
-	public float Orientation;
+	public System.UInt16 Orientation;
 
 	/// <summary>
 	/// Enumerates every collectable the player may obtains
 	/// </summary>
 	/// <remarks>Must contains every collectables, even the ones the player didn't find</remarks>
-	public Dictionary<int, bool> Collectables;
+	public Dictionary<System.UInt32, bool> Collectables;
 }

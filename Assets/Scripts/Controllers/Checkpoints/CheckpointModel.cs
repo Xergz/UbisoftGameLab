@@ -43,6 +43,35 @@ public class CheckpointModel {
 		checkpoints.Push (newCheckpoint);
 	}
 
+
+	private void saveCheckpointTo(BinaryWriter writer, Checkpoint checkpoint) {
+		// Writing scene ID
+		writer.Write (checkpoint.SceneID);
+
+		// Writing current life
+		writer.Write (checkpoint.CurrentLife);
+
+		// Writing the position
+		writer.Write ((float)checkpoint.Position.x);
+		writer.Write ((float)checkpoint.Position.y);
+
+		// Writing the orientation
+		writer.Write(checkpoint.Orientation);
+
+		// Writing collectables
+		writer.Write ((System.UInt32)checkpoint.Collectables.Count);
+		foreach (KeyValuePair<System.UInt32, bool> pair in checkpoint.Collectables) {
+			// 31 bits for collectable id + 1 bit for associated boolean value
+			System.UInt32 collectable = (System.UInt32)(pair.Key << 1);
+
+			if (pair.Value) {
+				collectable |= 1;
+			}
+
+			writer.Write (collectable);
+		}
+	}
+
 	/// <summary>
 	/// Save the model into a permanent representation
 	/// </summary>
@@ -77,31 +106,7 @@ public class CheckpointModel {
 
 				checkPointOffsets [checkPointIndex] = writer.BaseStream.Position;
 
-				// Writing scene ID
-				writer.Write ((System.UInt32)checkpoint.SceneID);
-
-				// Writing current life
-				writer.Write ((System.UInt32)checkpoint.CurrentLife);
-
-				// Writing the position
-				writer.Write ((float)checkpoint.Position.x);
-				writer.Write ((float)checkpoint.Position.y);
-
-				// Writing the orientation
-				writer.Write((System.UInt16)checkpoint.Orientation);
-
-				// Writing collectables
-				writer.Write ((System.UInt32)checkpoint.Collectables.Count);
-				foreach (KeyValuePair<int, bool> pair in checkpoint.Collectables) {
-					// 31 bits for collectable id + 1 bit for associated boolean value
-					System.UInt32 collectable = (System.UInt32)(pair.Key << 1);
-
-					if (pair.Value) {
-						collectable |= 1;
-					}
-
-					writer.Write (collectable);
-				}
+				saveCheckpointTo (writer, checkpoint);
 
 				checkPointIndex++;
 			}
@@ -129,6 +134,34 @@ public class CheckpointModel {
 		File.Move (tempFile, saveFile);
 	}
 		
+
+	private void LoadCheckpointFrom(BinaryReader reader, ref Checkpoint checkpoint) {
+		// Writing scene ID
+		checkpoint.SceneID = reader.ReadUInt32 ();
+
+		// Writing current life
+		checkpoint.CurrentLife = reader.ReadUInt32 ();
+
+		// Writing the position
+		checkpoint.Position.x = reader.ReadSingle();
+		checkpoint.Position.y = reader.ReadSingle ();
+
+		// Writing the orientation
+		checkpoint.Orientation = reader.ReadUInt16 ();
+
+		// Writing collectables
+		System.UInt32 collectableCount = reader.ReadUInt32();
+	
+		for (System.UInt32 i = 0; i < collectableCount; i++) {
+			System.UInt32 collectable = reader.ReadUInt32 ();
+
+			bool collected = (collectable & 1) != 0;
+			System.UInt32 collectableID = (collectable >> 1);
+
+			checkpoint.Collectables.Add (collectableID, collected);
+		}
+	}
+
 	/// <summary>
 	/// Load the model from a permanent representation
 	/// </summary>
@@ -175,7 +208,16 @@ public class CheckpointModel {
 				checkpointOffsets [i] = reader.ReadUInt32 ();
 			}
 
-			// TODO: Read every checkpoints and store them into the stack
+			// Load every checkpoints and store them in the stack
+			for (int i = 0; i < checkpointOffsets.Length; i++) {
+				reader.BaseStream.Seek (checkpointOffsets[i], SeekOrigin.Begin);
+
+				Checkpoint loadedCheckpoint = new Checkpoint ();
+
+				LoadCheckpointFrom (reader, ref loadedCheckpoint);
+
+				checkpoints.Push (loadedCheckpoint);
+			}
 
 		}
 	}
