@@ -18,27 +18,27 @@ public class CameraController : InputReceiver {
 
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
-        if (inputEvent.inputAxis == EnumAxis.RightJoystickX) {
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickX) {
             controllerInput.x = inputEvent.value;
-            if (Mathf.Abs(controllerInput.x) < 0.2) {
+            if(Mathf.Abs(controllerInput.x) < 0.2) {
                 controllerInput.x = 0;
             }
         }
 
-        if (inputEvent.inputAxis == EnumAxis.RightJoystickY) {
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickY) {
             controllerInput.y = inputEvent.value*-1;
-            if (Mathf.Abs(controllerInput.y) < 0.2) {
+            if(Mathf.Abs(controllerInput.y) < 0.2) {
                 controllerInput.y = 0;
             }
         }
     }
 
-	void Start () {
+	void Start() {
         distance = Mathf.Clamp(distance, distanceMin, distanceMax);
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
 	}
 	
-	void LateUpdate () {
+	void LateUpdate() {
         if (playerTransform == null)
             return;
 
@@ -47,7 +47,7 @@ public class CameraController : InputReceiver {
         UpdatePosition();
 	}
 
-    void CalculateMovement () {
+    void CalculateMovement() {
         distance -= controllerInput.y * controllerSensitivity.y;
         distance = Mathf.Clamp(distance, distanceMin, distanceMax);
 
@@ -58,16 +58,15 @@ public class CameraController : InputReceiver {
         else if (rotation.x < 360) {
             rotation.x += 360;
          }
-
     }
 
-    void CalculateCameraTarget () {
+    void CalculateCameraTarget() {
         Vector3 direction = new Vector3(0, 0, -distance);
         Quaternion rotate = Quaternion.Euler(rotation.y, rotation.x, 0);
         positionTarget = playerTransform.position + rotate * direction;
     }
 
-    void UpdatePosition () {
+    void UpdatePosition() {
         var posX = Mathf.SmoothDamp(transform.position.x, positionTarget.x, ref movementVelocity.x, movementSmooth.x);
         var posY = Mathf.SmoothDamp(transform.position.y, positionTarget.y, ref movementVelocity.y, movementSmooth.y);
         var posZ = Mathf.SmoothDamp(transform.position.z, positionTarget.z, ref movementVelocity.z, movementSmooth.z);
@@ -76,7 +75,7 @@ public class CameraController : InputReceiver {
         transform.LookAt(playerTransform);
     }
 
-    void Reset () {
+    void Reset() {
         distance = distanceDefault;
         rotation = new Vector2(0f, 40f);
     }
