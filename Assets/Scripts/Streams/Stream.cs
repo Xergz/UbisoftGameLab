@@ -8,9 +8,6 @@ using System.Collections.Generic;
 /// </summary>
 [ExecuteInEditMode]
 public class Stream : MonoBehaviour {
-
-	public bool MovesRandomly { get { return movesRandomly; } }
-
 	public WaveController WaveController { get { return waveController; } set { waveController = value; } }
 
 
@@ -76,9 +73,6 @@ public class Stream : MonoBehaviour {
 	[Tooltip("Whether the stream will oscillate or not")]
 	[SerializeField]
 	private bool oscillate = true;
-	[Tooltip("Whether the stream will be randomly moved by the StreamController or not")]
-	[SerializeField]
-	private bool movesRandomly = true;
 
 	[Tooltip("The number of segments in the bezier curve representing the stream")]
 	[SerializeField]

@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldTransform: {fileID: 0}
   surfaceMeshFilter: {fileID: 0}
-  waveIntensity: 0.66
+  waveIntensity: 0.75
   noiseScale: 0.025
   waveSpeed: 0.33
 --- !u!1001 &100100000
