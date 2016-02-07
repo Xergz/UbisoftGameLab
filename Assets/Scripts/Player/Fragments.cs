@@ -13,4 +13,8 @@ public class Fragments : MonoBehaviour {
 	void Update () {
 	
 	}
+    public Fragments()
+    {
+        text = "test";
+    }
 }
