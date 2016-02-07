@@ -76,9 +76,9 @@ public class CameraController : InputReceiver {
     }
 
     void UpdatePosition() {
-        var posX = Mathf.Lerp(transform.position.x, positionTarget.x, movementSmooth.x);
-        var posY = Mathf.Lerp(transform.position.y, positionTarget.y, movementSmooth.y);
-        var posZ = Mathf.Lerp(transform.position.z, positionTarget.z, movementSmooth.z);
+        var posX = Mathf.Lerp(transform.position.x, positionTarget.x, Time.deltaTime * movementSmooth.x);
+        var posY = Mathf.Lerp(transform.position.y, positionTarget.y, Time.deltaTime * movementSmooth.y);
+        var posZ = Mathf.Lerp(transform.position.z, positionTarget.z, Time.deltaTime * movementSmooth.z);
 
         transform.position = new Vector3(posX, posY, posZ);
         transform.LookAt(playerTransform);
