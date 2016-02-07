@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour, GameRestorer {
 	public void RestoreGameStateFrom(Checkpoint checkpoint) {
 		if (Player != null) {
 			// TODO: Restore player's state
+
+            Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
+            Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
 		}
 	}
 
@@ -36,6 +39,9 @@ public class GameController : MonoBehaviour, GameRestorer {
 	// Use this for initialization
 	void Start () {
 		this.checkpoints = new CheckpointController (this);
+        this.checkpoints.SaveFile = "patate";
+
+        this.checkpoints.LoadCheckpointsFromSaveFile ();
 	}
 
 	// Update is called once per frame

@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class CheckpointZone : MonoBehaviour {
-	private CheckpointController checkpoints;
-
 	public GameController game;
 
 	/// <summary>
@@ -16,16 +14,10 @@ public class CheckpointZone : MonoBehaviour {
 	/// </summary>
 	public string GUID;
 
-	// Use this for initialization
-	void Start () {
-		if (game != null) {
-			checkpoints = game.Checkpoints;
-		}
-	}
 
-	void OnCollisionEnter (Collision col)
+	void OnTriggerEnter (Collider other)
 	{
-		if (col.gameObject == game.Player) {
+		if (other.gameObject == game.Player) {
 			Checkpoint checkpoint = new Checkpoint ();
 
 			checkpoint.GUID = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes(GUID), 0);
@@ -35,7 +27,7 @@ public class CheckpointZone : MonoBehaviour {
 			checkpoint.Orientation = (System.UInt16)this.transform.eulerAngles.y;
 
 			// Save the checkpoint or do nothing if already saved
-			checkpoints.SaveCheckpoint (checkpoint);
+			game.Checkpoints.SaveCheckpoint (checkpoint);
 		}
 	}
 }
