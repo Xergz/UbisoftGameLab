@@ -17,6 +17,7 @@ public class InputManager : MonoBehaviour {
 	void Awake() {
 		cameraController = GameObject.Find("CameraController").GetComponent<CameraController>();
 		streamController = GameObject.Find("StreamController").GetComponent<StreamController>();
+		playerController = GameObject.Find("PlayerController").GetComponent<PlayerController>();
 	}
 
 	void Start() {
@@ -79,12 +80,12 @@ public class InputManager : MonoBehaviour {
 		if(Input.GetJoystickNames().Length != 0 && Input.GetJoystickNames()[0] != "") {
 			if(Input.GetAxis("LeftJoystickX") != LeftJoystickXStatus) {
 				LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
-				//playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
 			}
 
 			if(Input.GetAxis("LeftJoystickY") != LeftJoystickYStatus) {
 				LeftJoystickYStatus = Input.GetAxis("LeftJoystickY");
-				//playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
 			}
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
@@ -114,12 +115,12 @@ public class InputManager : MonoBehaviour {
 		} else {
 			if(Input.GetAxis("KeyboardAD") != LeftJoystickXStatus) {
 				LeftJoystickXStatus = Input.GetAxis("KeyboardAD");
-				//playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
 			}
 
 			if(Input.GetAxis("KeyboardWS") != LeftJoystickYStatus) {
 				LeftJoystickYStatus = Input.GetAxis("KeyboardWS");
-				//playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
 			}
 
 			if(Input.GetAxis("KeyboardLeftRight") != RightJoystickXStatus) {
@@ -134,7 +135,6 @@ public class InputManager : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("LeftJoystickButton")) {
-			//playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickButton, 1));
 			Debug.Log("Left joystick button pressed");
 		}
 

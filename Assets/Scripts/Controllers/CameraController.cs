@@ -18,22 +18,22 @@ public class CameraController : InputReceiver {
 
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
-        if(inputEvent.inputAxis == EnumAxis.RightJoystickX) {
-            controllerInput.x = inputEvent.value;
+        if(inputEvent.InputAxis == EnumAxis.RightJoystickX) {
+            controllerInput.x = inputEvent.Value;
             if(Mathf.Abs(controllerInput.x) < 0.2) {
                 controllerInput.x = 0;
             }
         }
 
-        if(inputEvent.inputAxis == EnumAxis.RightJoystickY) {
-            controllerInput.y = inputEvent.value*-1;
+        if(inputEvent.InputAxis == EnumAxis.RightJoystickY) {
+            controllerInput.y = inputEvent.Value*-1;
             if(Mathf.Abs(controllerInput.y) < 0.2) {
                 controllerInput.y = 0;
             }
         }
 
-        if(inputEvent.inputAxis == EnumAxis.RightJoystickButton) {
-            if(inputEvent.value > 0) {
+        if(inputEvent.InputAxis == EnumAxis.RightJoystickButton) {
+            if(inputEvent.Value > 0) {
                 Reset();
             }
         }

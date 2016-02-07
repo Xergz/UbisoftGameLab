@@ -16,23 +16,23 @@ public class StreamController : InputReceiver {
 	/// </summary>
 	/// <param name="stream">The stream to register</param>
 	/// <param name="color">The color of the stream</param>
-	public static void Register(Stream stream, EnumStreamColor color) {
+	public static void RegisterStream(Stream stream, EnumStreamColor color) {
 		GetStreamList(color).Add(stream);
 	}
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
-		switch(inputEvent.inputAxis) {
+		switch(inputEvent.InputAxis) {
 			case EnumAxis.AButton:
-				ChangeSelectedColor(EnumStreamColor.GREEN, inputEvent.value);
+				ChangeSelectedColor(EnumStreamColor.GREEN, inputEvent.Value);
 				break;
 			case EnumAxis.BButton:
-				ChangeSelectedColor(EnumStreamColor.RED, inputEvent.value);
+				ChangeSelectedColor(EnumStreamColor.RED, inputEvent.Value);
 				break;
 			case EnumAxis.XButton:
-				ChangeSelectedColor(EnumStreamColor.BLUE, inputEvent.value);
+				ChangeSelectedColor(EnumStreamColor.BLUE, inputEvent.Value);
 				break;
 			case EnumAxis.YButton:
-				ChangeSelectedColor(EnumStreamColor.YELLOW, inputEvent.value);
+				ChangeSelectedColor(EnumStreamColor.YELLOW, inputEvent.Value);
 				break;
 			case EnumAxis.RightBumper:
 				if(selectedColor != EnumStreamColor.NONE) {
