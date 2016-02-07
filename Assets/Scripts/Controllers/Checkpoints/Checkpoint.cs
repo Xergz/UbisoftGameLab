@@ -5,6 +5,7 @@ using System.Collections.Generic;
 /// Store every data about a checkpoint
 /// </summary>
 public class Checkpoint {
+	public System.UInt32 GUID;
 
 	/// <summary>
 	/// The scene where is located the checkpoint

@@ -9,6 +9,7 @@ public class CheckpointModel {
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69,  75};
 	private byte   VALID_HEADER_VERSION = 10;
+	private List<System.UInt32> guids = new List<System.UInt32>();
 
 	/// <summary>
 	/// Describe the file header
@@ -43,8 +44,14 @@ public class CheckpointModel {
 		checkpoints.Push (newCheckpoint);
 	}
 
+	public bool ContainsGUID(System.UInt32 guid) {
+		return guids.Contains (guid);
+	}
 
 	private void saveCheckpointTo(BinaryWriter writer, Checkpoint checkpoint) {
+		// Writing guid
+		writer.Write (checkpoint.GUID);
+
 		// Writing scene ID
 		writer.Write (checkpoint.SceneID);
 
@@ -133,20 +140,24 @@ public class CheckpointModel {
 		
 
 	private void LoadCheckpointFrom(BinaryReader reader, ref Checkpoint checkpoint) {
-		// Writing scene ID
+		// Reading GUID
+		checkpoint.GUID = reader.ReadUInt32 ();
+		guids.Add (checkpoint.GUID);
+
+		// Reading scene ID
 		checkpoint.SceneID = reader.ReadUInt32 ();
 
-		// Writing current life
+		// Reading current life
 		checkpoint.CurrentLife = reader.ReadUInt32 ();
 
-		// Writing the position
+		// Reading the position
 		checkpoint.Position.x = reader.ReadSingle();
 		checkpoint.Position.y = reader.ReadSingle ();
 
-		// Writing the orientation
+		// Reading the orientation
 		checkpoint.Orientation = reader.ReadUInt16 ();
 
-		// Writing collectables
+		// Reading collectables
 		System.UInt32 collectableCount = reader.ReadUInt32();
 
 		for (System.UInt32 i = 0; i < collectableCount; i++) {
@@ -166,6 +177,7 @@ public class CheckpointModel {
 	public void LoadFrom(string file) {
 		// Clear the current state of the stack
 		checkpoints.Clear ();
+		guids.Clear ();
 
 		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
 

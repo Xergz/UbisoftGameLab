@@ -60,10 +60,18 @@ public class CheckpointController {
 		this.model.Discard ();
 	}
 
-	public void SaveCheckpoint(Checkpoint newCheckpoint) {
-		this.model.Update (newCheckpoint);
+	public bool SaveCheckpoint(Checkpoint newCheckpoint) {
+		bool added = false;
 
-		this.model.SaveTo (SaveFile);
+		if (!this.model.ContainsGUID (newCheckpoint.GUID)) {
+			this.model.Update (newCheckpoint);
+
+			this.model.SaveTo (SaveFile);
+
+			added = true;
+		}
+
+		return added;
 	}
 
 	public void LoadCheckpointsFromSaveFile() {
