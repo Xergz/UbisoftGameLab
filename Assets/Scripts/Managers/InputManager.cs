@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour {
 
 	void Awake() {
 		cameraController = GameObject.Find("CameraController").GetComponent<CameraController>();
+		streamController = GameObject.Find("StreamController").GetComponent<StreamController>();
 	}
 
 	void Start() {

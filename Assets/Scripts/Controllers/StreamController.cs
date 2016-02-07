@@ -62,11 +62,6 @@ public class StreamController : InputReceiver {
 		}
 	}
 
-	// Update is called once per frame
-	private void Update() {
-
-	}
-
 	private void ChangeSelectedColor(EnumStreamColor color, float value) {
 		if(value > 0) {
 			selectedColor = color;
