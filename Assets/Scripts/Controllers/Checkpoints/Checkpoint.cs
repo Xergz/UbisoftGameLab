@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Store every data about a checkpoint
 /// </summary>
-public struct Checkpoint {
+public class Checkpoint {
 
 	/// <summary>
 	/// The scene where is located the checkpoint
@@ -31,4 +31,26 @@ public struct Checkpoint {
 	/// </summary>
 	/// <remarks>Must contains every collectables, even the ones the player didn't find</remarks>
 	public Dictionary<System.UInt32, bool> Collectables;
+
+	public Checkpoint() {
+		this.SceneID = 0;
+
+		this.CurrentLife = 0;
+
+		this.Position = new Vector2 (0, 0);
+		this.Orientation = 0;
+
+		this.Collectables = new Dictionary<System.UInt32, bool> ();
+	}
+
+	public Checkpoint(System.UInt32 scene, System.UInt32 life, Vector2 pos, System.UInt16 orientation) {
+		this.SceneID = scene;
+
+		this.CurrentLife = life;
+
+		this.Position = pos;
+		this.Orientation = orientation;
+
+		this.Collectables = new Dictionary<System.UInt32, bool> ();
+	}
 }

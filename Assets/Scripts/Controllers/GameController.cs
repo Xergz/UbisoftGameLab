@@ -1,15 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour, GameRestorer {
+	private CheckpointController checkpoints;
+
+	/// <summary>
+	/// The gameobject representing the player
+	/// </summary>
+	public GameObject Player = null;
+
+	/// <summary>
+	/// Gets the checkpoints controller.
+	/// </summary>
+	/// <value>The checkpoints controller.</value>
+	public CheckpointController Checkpoints {
+		get {
+			return checkpoints;
+		}
+	}
+		
+	/// <summary>
+	/// Restores the game state from a checkpoint.
+	/// </summary>
+	/// <param name="checkpoint">Checkpoint.</param>
+	public void RestoreGameStateFrom(Checkpoint checkpoint) {
+		if (Player != null) {
+			// TODO: Restore player's state
+		}
+	}
+
+	//
+	// UNITY CALLBACKS
+	//
 
 	// Use this for initialization
 	void Start () {
-	
+		this.checkpoints = new CheckpointController (this);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }

@@ -11,6 +11,15 @@ public class CheckpointController {
 	private CheckpointModel model;
 
 	/// <summary>
+	/// The save file's name
+	/// </summary>
+	/// <value>The save file.</value>
+	public string SaveFile {
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="CheckpointController"/> class.
 	/// </summary>
 	/// <param name="restorer">The assigned game restorer.</param>
@@ -54,7 +63,11 @@ public class CheckpointController {
 	public void SaveCheckpoint(Checkpoint newCheckpoint) {
 		this.model.Update (newCheckpoint);
 
-		this.model.SaveTo ("test-checkpoints-1");
+		this.model.SaveTo (SaveFile);
+	}
+
+	public void LoadCheckpointsFromSaveFile() {
+		LoadCheckpointsFrom (SaveFile);
 	}
 
 	public void LoadCheckpointsFrom(string filename) {

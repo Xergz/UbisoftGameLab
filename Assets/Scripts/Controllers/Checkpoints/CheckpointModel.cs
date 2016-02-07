@@ -87,12 +87,6 @@ public class CheckpointModel {
 		//Stack<Checkpoint> lastCheckpoints = new Stack<Checkpoint> (this.checkpoints);
 		Stack<Checkpoint> reverseCheckpoints = new Stack<Checkpoint> (this.checkpoints);
 
-		/*
-		while (lastCheckpoints.Count > 0) {
-			reverseCheckpoints.Push (lastCheckpoints.Pop ());
-		}
-		*/
-
 		long[] checkPointOffsets = new long[reverseCheckpoints.Count];
 
 		using (BinaryWriter writer = new BinaryWriter(File.Open(tempFile, FileMode.Open))) {
@@ -154,8 +148,6 @@ public class CheckpointModel {
 
 		// Writing collectables
 		System.UInt32 collectableCount = reader.ReadUInt32();
-	
-		checkpoint.Collectables = new Dictionary<uint, bool> ();
 
 		for (System.UInt32 i = 0; i < collectableCount; i++) {
 			System.UInt32 collectable = reader.ReadUInt32 ();
