@@ -13,7 +13,6 @@ public class CameraController : InputReceiver {
     public Vector2 controllerSensitivity = new Vector2(2f, 2f);
 
     private Vector2 controllerInput = new Vector2(0f, 0f);
-    private Vector3 movementVelocity = Vector3.zero;
     private Vector3 positionTarget = Vector3.zero;
 
 
@@ -77,9 +76,9 @@ public class CameraController : InputReceiver {
     }
 
     void UpdatePosition() {
-        var posX = Mathf.SmoothDamp(transform.position.x, positionTarget.x, ref movementVelocity.x, movementSmooth.x);
-        var posY = Mathf.SmoothDamp(transform.position.y, positionTarget.y, ref movementVelocity.y, movementSmooth.y);
-        var posZ = Mathf.SmoothDamp(transform.position.z, positionTarget.z, ref movementVelocity.z, movementSmooth.z);
+        var posX = Mathf.Lerp(transform.position.x, positionTarget.x, movementSmooth.x);
+        var posY = Mathf.Lerp(transform.position.y, positionTarget.y, movementSmooth.y);
+        var posZ = Mathf.Lerp(transform.position.z, positionTarget.z, movementSmooth.z);
 
         transform.position = new Vector3(posX, posY, posZ);
         transform.LookAt(playerTransform);
