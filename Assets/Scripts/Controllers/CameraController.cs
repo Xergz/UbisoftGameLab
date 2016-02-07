@@ -31,9 +31,19 @@ public class CameraController : InputReceiver {
                 controllerInput.y = 0;
             }
         }
+
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickButton) {
+            if(inputEvent.value > 0) {
+                Reset();
+            }
+        }
     }
 
 	void Start() {
+        if (playerTransform == null) {
+            Debug.LogError("No transform is linked to the camera controller");
+        }
+
         distance = Mathf.Clamp(distance, distanceMin, distanceMax);
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
 	}

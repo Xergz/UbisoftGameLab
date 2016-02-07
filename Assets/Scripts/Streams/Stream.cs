@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections;
+using System.Linq;
 using SimplexNoise;
+using System.Collections.Generic;
 
 /// <summary>
 /// Describes a stream
 /// </summary>
+[ExecuteInEditMode]
 public class Stream : MonoBehaviour {
+	public WaveController WaveController { get { return waveController; } set { waveController = value; } }
 
-	public EnumStreamColor Color { get { return color; } } // The color of the stream
-
-	[Tooltip("The wave controller to synchronize with")]
-	public WaveController waveController;
 
 	private const int MAX_SEGMENT_COUNT = 200; // Maximum number of segments in the bezier curve
 	private const int MIN_SEGMENT_COUNT = 10; // Minimum number of segments in the bezier curve
@@ -19,22 +17,26 @@ public class Stream : MonoBehaviour {
 	private const int MIN_WAVE_PRECISION = 3; // Minimum number of points used to simulate the waves
 
 	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
-    private const float MAX_WIDTH = 1F; // The maximum width for the stream
-    private const float MIN_WIDTH = 10F; // The minimum width for the stream 
-    private const float MAX_POSITION_AMPLITUDE = 1.75F; // The maximum amplitude for the position oscillation
+	private const float MAX_WIDTH = 1F; // The maximum width for the stream
+	private const float MIN_WIDTH = 10F; // The minimum width for the stream 
+	private const float MAX_POSITION_AMPLITUDE = 1.75F; // The maximum amplitude for the position oscillation
 	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation 
 	private const float MAX_TANGENT_AMPLITUDE = 25F; // The maximum amplitude for the tangent oscillation
 	private const float MIN_TANGENT_AMPLITUDE = 5F; // The minimum amplitude for the tangent oscillation
-    private const float MAX_NOISE_OFFSET = 5F; // The maximum noise offset so that not all streams are the same
-    private const float MIN_NOISE_OFFSET = 0F; // The minimum noise offset so that not all streams are the same
+	private const float MAX_NOISE_OFFSET = 5F; // The maximum noise offset so that not all streams are the same
+	private const float MIN_NOISE_OFFSET = 0F; // The minimum noise offset so that not all streams are the same
 
-    [Tooltip("The width of the stream")]
-    [Range(MIN_WIDTH, MAX_WIDTH)]
+	[Tooltip("The wave controller to synchronize with")]
+	[SerializeField]
+	private WaveController waveController;
+
+	[Tooltip("The width of the stream")]
+	[Range(MIN_WIDTH, MAX_WIDTH)]
 	[SerializeField]
 	private float width = 5F;
-    // To know when the width changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
-    private float oldWidth;
-    [Tooltip("The strength of the stream")]
+	// To know when the width changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
+	private float oldWidth;
+	[Tooltip("The strength of the stream")]
 	[SerializeField]
 	private float strength = 5F;
 	[Tooltip("The speed at which the stream will oscillate")]
@@ -51,12 +53,12 @@ public class Stream : MonoBehaviour {
 	[Tooltip("The height of the mesh collider")]
 	[SerializeField]
 	private float colliderHeight = 4;
-    private float randomizedNoiseOffset; // An offset so that not all streams have the same oscillation
+	private float randomizedNoiseOffset; // An offset so that not all streams have the same oscillation
 
 
-    [Tooltip("The color of the stream")]
+	[Tooltip("The color of the stream")]
 	[SerializeField]
-	private EnumStreamColor color = EnumStreamColor.GREEN;
+	private EnumStreamColor color = EnumStreamColor.NONE;
 
 	[Tooltip("The direction of the stream")]
 	[SerializeField]
@@ -76,16 +78,16 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	[Range(MIN_SEGMENT_COUNT, MAX_SEGMENT_COUNT)]
 	private int segmentCount = 20;
-    // To know when the segmentCount changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
-    private int oldSegmentCount;
+	// To know when the segmentCount changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
+	private int oldSegmentCount;
 	[Tooltip("The number of point used to simulate the waves. If even, will be augmented by one (sorry don't want to handle even numbers)")]
 	[SerializeField]
 	[Range(MIN_WAVE_PRECISION, MAX_WAVE_PRECISION)]
 	private int wavePrecision = 3;
-    // To know when the wave precision changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
-    private int oldWavePrecision;
+	// To know when the wave precision changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
+	private int oldWavePrecision;
 
-    [Tooltip("Starting position of the bezier curve representing the stream")]
+	[Tooltip("Starting position of the bezier curve representing the stream")]
 	[SerializeField]
 	private Vector3 startPositionHandle;
 	[Tooltip("Starting tangent of the bezier curve representing the stream")]
@@ -98,16 +100,13 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private Vector3 endTangentHandle;
 
-    private Vector3[] streamCurve; // The bezier curve
-    private Vector3[] tangents; // The array containing the tangents for each point of the stream
+	private Vector3[] streamCurve; // The bezier curve
+	private Vector3[] tangents; // The array containing the tangents for each point of the stream
 
-    [SerializeField]
-    private Vector3[] colliderVertices;
-    [SerializeField]
-    private int[] colliderTriangles;
-    private int[] streamTriangles;
+	private int[] colliderTriangles; // The triangles for the collider mesh
+	private int[] streamTriangles; // The triangles for the stream mesh
 
-    private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
+	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
 
 	private Mesh streamMesh; // The curve's mesh. It follows the waves of the ocean
 	private Mesh colliderMesh; // The collider mesh. It is tall and does not move.
@@ -129,7 +128,7 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private GameObject tangentArrow;
 
-    private MeshCollider meshCollider;
+	private MeshCollider meshCollider;
 
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
@@ -164,14 +163,13 @@ public class Stream : MonoBehaviour {
 		this.endTangentHandle = endTangentHandle;
 	}
 
-
 	private void Awake() {
 		curveGenerator = new BezierCurveGenerator();
 
 		streamMesh = new Mesh();
 		colliderMesh = new Mesh();
 		GetComponent<MeshFilter>().mesh = streamMesh;
-        meshCollider = GetComponent<MeshCollider>();
+		meshCollider = GetComponent<MeshCollider>();
 
 		switch(color) {
 			case EnumStreamColor.GREEN:
@@ -189,11 +187,11 @@ public class Stream : MonoBehaviour {
 		}
 
 		oldWidth = -1F;
-        oldSegmentCount = -1;
-        oldWavePrecision = -1;
+		oldSegmentCount = -1;
+		oldWavePrecision = -1;
 		oldDirection = (EnumStreamDirection) (-((int) direction));
 
-        randomizedNoiseOffset = Random.Range(MIN_NOISE_OFFSET, MAX_NOISE_OFFSET);
+		randomizedNoiseOffset = Random.Range(MIN_NOISE_OFFSET, MAX_NOISE_OFFSET);
 
 		#region DEBUG
 		curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
@@ -202,9 +200,32 @@ public class Stream : MonoBehaviour {
 		#endregion
 	}
 
+	private void Start() {
+		if(Application.isPlaying) {
+			StreamController.Register(this, color); // We must wait for when the StreamController will be initialized
+		}
+	}
+
 	private void Update() {
+		if(!Application.isPlaying) {
+			switch(color) {
+				case EnumStreamColor.GREEN:
+					GetComponent<MeshRenderer>().material = greenStreamMaterial;
+					break;
+				case EnumStreamColor.BLUE:
+					GetComponent<MeshRenderer>().material = blueStreamMaterial;
+					break;
+				case EnumStreamColor.YELLOW:
+					GetComponent<MeshRenderer>().material = yellowStreamMaterial;
+					break;
+				case EnumStreamColor.RED:
+					GetComponent<MeshRenderer>().material = redStreamMaterial;
+					break;
+			}
+		}
+
 		Vector3 startPosition, startTangent, endPosition, endTangent; // out parameters
-		if(oscillate) {
+		if(oscillate && Application.isPlaying) {
 			UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
 		} else {
 			startPosition = startPositionHandle;
@@ -239,6 +260,11 @@ public class Stream : MonoBehaviour {
 		}
 		#endregion
 	}
+
+	private void OnEnable() {
+		Awake();
+	}
+
 
 	/// <summary>
 	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise. 
@@ -298,16 +324,15 @@ public class Stream : MonoBehaviour {
 			GenerateTangents(startPosition, startTangent, endPosition, endTangent);
 		}
 
-        bool generateTriangles = false;
+		bool generateTriangles = false;
 
-        if(oldWavePrecision != wavePrecision || oldSegmentCount != segmentCount)
-        {
-            generateTriangles = true;
-            oldWavePrecision = wavePrecision;
-            oldSegmentCount = segmentCount;
-        }
+		if(oldWavePrecision != wavePrecision || oldSegmentCount != segmentCount) {
+			generateTriangles = true;
+			oldWavePrecision = wavePrecision;
+			oldSegmentCount = segmentCount;
+		}
 
-        if (curveChanged || oldDirection != direction) {
+		if(curveChanged || oldDirection != direction) {
 			GenerateTangentArrows();
 			oldDirection = direction;
 		}
@@ -340,15 +365,22 @@ public class Stream : MonoBehaviour {
 	/// </summary>
 	private void GenerateTangentArrows() {
 		// Clear the old arrows
-		foreach(Transform child in transform.GetChild(0)) {
-			GameObject.Destroy(child.gameObject);
+		List<Transform> children = transform.GetChild(0).Cast<Transform>().ToList();
+		if(Application.isPlaying) {
+			foreach(Transform child in children) {
+				Destroy(child.gameObject);
+			}
+		} else {
+			foreach(Transform child in children) {
+				DestroyImmediate(child.gameObject);
+			}
 		}
 
 		// Instantiate the tangent arrows
 		for(int i = 1; i < streamCurve.Length - 1; ++i) {
 			GameObject arrow = Instantiate(tangentArrow);
 			arrow.transform.parent = transform.GetChild(0);
-			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.05F, streamCurve[i].z);
+			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.15F, streamCurve[i].z);
 			arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
 		}
 	}
@@ -358,13 +390,12 @@ public class Stream : MonoBehaviour {
 	/// </summary>
 	private void GenerateMesh(bool generateTriangles) {
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
-        wavePrecision = (wavePrecision % 2 == 0) ? wavePrecision - 1 : wavePrecision; // Round down to the nearest odd number
+		wavePrecision = (wavePrecision % 2 == 0) ? wavePrecision - 1 : wavePrecision; // Round down to the nearest odd number
 
-        Vector3[] streamVertices = new Vector3[streamCurve.Length * wavePrecision];
-        Vector3[] streamNormals = new Vector3[streamVertices.Length];
-        Vector2[] streamUVs = new Vector2[streamVertices.Length];
-
-        colliderVertices = new Vector3[streamCurve.Length << 2];
+		Vector3[] streamVertices = new Vector3[streamCurve.Length * wavePrecision];
+		Vector3[] streamNormals = new Vector3[streamVertices.Length];
+		Vector2[] streamUVs = new Vector2[streamVertices.Length];
+		Vector3[] colliderVertices = new Vector3[streamCurve.Length << 2];
 
 		// Calculate vertices, UV coordinates and normals for both meshes
 		for(int i = 0; i < streamCurve.Length; ++i) {
@@ -376,21 +407,24 @@ public class Stream : MonoBehaviour {
 			// Vertices (without displacement) and UVs for the stream mesh
 			for(int j = 0, orientation = wavePrecision >> 1; j < wavePrecision; ++j, --orientation) {
 				streamVertices[iMultiplied + j] = streamCurve[i] + (orientation * spacing * rotatedTangent);
+				streamVertices[iMultiplied + j].y = streamVertices[iMultiplied + j].y + 0.01F;
 				streamUVs[iMultiplied + j] = new Vector2(streamVertices[iMultiplied + j].x, streamVertices[iMultiplied + j].z);
 			}
 
 			// Vertices for the collider mesh
-			colliderVertices[i4] = streamVertices[iMultiplied];
-			colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
-			colliderVertices[i4 + 2] = streamVertices[iMultiplied];
-			colliderVertices[i4 + 2].y += colliderHeight;
-			colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
-			colliderVertices[i4 + 3].y += colliderHeight;
+			if(Application.isPlaying) {
+				colliderVertices[i4] = streamVertices[iMultiplied];
+				colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
+				colliderVertices[i4 + 2] = streamVertices[iMultiplied];
+				colliderVertices[i4 + 2].y += colliderHeight;
+				colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
+				colliderVertices[i4 + 3].y += colliderHeight;
+			}
 
 			// Normals and y displacement for the stream mesh
-			if(waveController != null) {
+			if(waveController != null && Application.isPlaying) {
 				for(int j = 0; j < wavePrecision; ++j) {
-                    Vector3 worldVertex = transform.TransformPoint(streamVertices[iMultiplied + j]);
+					Vector3 worldVertex = transform.TransformPoint(streamVertices[iMultiplied + j]);
 					streamVertices[iMultiplied + j].y = waveController.GetOceanHeightAt(worldVertex.x, worldVertex.z) + 0.1F;
 					streamNormals[iMultiplied + j] = waveController.GetSurfaceNormalAt(worldVertex.x, worldVertex.z);
 				}
@@ -401,95 +435,93 @@ public class Stream : MonoBehaviour {
 			}
 		}
 
-        if (generateTriangles) {
-            // Calculate triangles for the stream mesh
-            streamTriangles = new int[(streamCurve.Length - 1) * (wavePrecision - 1) * 6];
+		if(generateTriangles) {
+			// Calculate triangles for the stream mesh
+			streamTriangles = new int[(streamCurve.Length - 1) * (wavePrecision - 1) * 6];
 
-            for (int i = 0; i < streamCurve.Length - 1; ++i)
-            {
-                int iMultiplied = i * wavePrecision;
-                int rowIndex = ((iMultiplied - i) * 6);
-                for (int j = 0; j < wavePrecision - 1; ++j)
-                {
-                    int j6 = j * 6;
-                    int currentIndex = rowIndex + j6;
-                    int baseVertex = iMultiplied + j;
-                    streamTriangles[currentIndex] = baseVertex;
-                    streamTriangles[currentIndex + 1] = baseVertex + wavePrecision;
-                    streamTriangles[currentIndex + 2] = baseVertex + 1;
-                    streamTriangles[currentIndex + 3] = baseVertex + 1;
-                    streamTriangles[currentIndex + 4] = baseVertex + wavePrecision;
-                    streamTriangles[currentIndex + 5] = baseVertex + 1 + wavePrecision;
-                }
-            }
+			for(int i = 0; i < streamCurve.Length - 1; ++i) {
+				int iMultiplied = i * wavePrecision;
+				int rowIndex = ((iMultiplied - i) * 6);
+				for(int j = 0; j < wavePrecision - 1; ++j) {
+					int j6 = j * 6;
+					int currentIndex = rowIndex + j6;
+					int baseVertex = iMultiplied + j;
+					streamTriangles[currentIndex] = baseVertex;
+					streamTriangles[currentIndex + 1] = baseVertex + wavePrecision;
+					streamTriangles[currentIndex + 2] = baseVertex + 1;
+					streamTriangles[currentIndex + 3] = baseVertex + 1;
+					streamTriangles[currentIndex + 4] = baseVertex + wavePrecision;
+					streamTriangles[currentIndex + 5] = baseVertex + 1 + wavePrecision;
+				}
+			}
 
-            #region Calculate triangles for the collider mesh
-            if (oscillate)
-            {
-                colliderTriangles = new int[((streamCurve.Length - 1) * 24) + 12];
+			#region Calculate triangles for the collider mesh
+			if(oscillate && Application.isPlaying) {
+				colliderTriangles = new int[((streamCurve.Length - 1) * 24) + 12];
 
-                // Front
-                colliderTriangles[0] = 0;
-                colliderTriangles[1] = 2;
-                colliderTriangles[2] = 1;
-                colliderTriangles[3] = 1;
-                colliderTriangles[4] = 2;
-                colliderTriangles[5] = 3;
-                // Back
-                colliderTriangles[colliderTriangles.Length - 6] = colliderVertices.Length - 3;
-                colliderTriangles[colliderTriangles.Length - 5] = colliderVertices.Length - 1;
-                colliderTriangles[colliderTriangles.Length - 4] = colliderVertices.Length - 4;
-                colliderTriangles[colliderTriangles.Length - 3] = colliderVertices.Length - 4;
-                colliderTriangles[colliderTriangles.Length - 2] = colliderVertices.Length - 1;
-                colliderTriangles[colliderTriangles.Length - 1] = colliderVertices.Length - 2;
-                for (int i = 0; i < streamCurve.Length - 1; ++i)
-                {
-                    int i4 = i << 2;
-                    int i24 = i * 24;
-                    // Bottom
-                    colliderTriangles[i24 + 6] = i4;
-                    colliderTriangles[i24 + 7] = i4 + 1;
-                    colliderTriangles[i24 + 8] = i4 + 4;
-                    colliderTriangles[i24 + 9] = i4 + 4;
-                    colliderTriangles[i24 + 10] = i4 + 1;
-                    colliderTriangles[i24 + 11] = i4 + 5;
-                    // Top
-                    colliderTriangles[i24 + 12] = i4 + 2;
-                    colliderTriangles[i24 + 13] = i4 + 6;
-                    colliderTriangles[i24 + 14] = i4 + 3;
-                    colliderTriangles[i24 + 15] = i4 + 3;
-                    colliderTriangles[i24 + 16] = i4 + 6;
-                    colliderTriangles[i24 + 17] = i4 + 7;
-                    // Left
-                    colliderTriangles[i24 + 18] = i4;
-                    colliderTriangles[i24 + 19] = i4 + 4;
-                    colliderTriangles[i24 + 20] = i4 + 2;
-                    colliderTriangles[i24 + 21] = i4 + 2;
-                    colliderTriangles[i24 + 22] = i4 + 4;
-                    colliderTriangles[i24 + 23] = i4 + 6;
-                    // Right
-                    colliderTriangles[i24 + 24] = i4 + 1;
-                    colliderTriangles[i24 + 25] = i4 + 3;
-                    colliderTriangles[i24 + 26] = i4 + 5;
-                    colliderTriangles[i24 + 27] = i4 + 5;
-                    colliderTriangles[i24 + 28] = i4 + 3;
-                    colliderTriangles[i24 + 29] = i4 + 7;
-                }
-            }
-            #endregion
-        }
+				// Front
+				colliderTriangles[0] = 0;
+				colliderTriangles[1] = 2;
+				colliderTriangles[2] = 1;
+				colliderTriangles[3] = 1;
+				colliderTriangles[4] = 2;
+				colliderTriangles[5] = 3;
+				// Back
+				colliderTriangles[colliderTriangles.Length - 6] = colliderVertices.Length - 3;
+				colliderTriangles[colliderTriangles.Length - 5] = colliderVertices.Length - 1;
+				colliderTriangles[colliderTriangles.Length - 4] = colliderVertices.Length - 4;
+				colliderTriangles[colliderTriangles.Length - 3] = colliderVertices.Length - 4;
+				colliderTriangles[colliderTriangles.Length - 2] = colliderVertices.Length - 1;
+				colliderTriangles[colliderTriangles.Length - 1] = colliderVertices.Length - 2;
+				for(int i = 0; i < streamCurve.Length - 1; ++i) {
+					int i4 = i << 2;
+					int i24 = i * 24;
+					// Bottom
+					colliderTriangles[i24 + 6] = i4;
+					colliderTriangles[i24 + 7] = i4 + 1;
+					colliderTriangles[i24 + 8] = i4 + 4;
+					colliderTriangles[i24 + 9] = i4 + 4;
+					colliderTriangles[i24 + 10] = i4 + 1;
+					colliderTriangles[i24 + 11] = i4 + 5;
+					// Top
+					colliderTriangles[i24 + 12] = i4 + 2;
+					colliderTriangles[i24 + 13] = i4 + 6;
+					colliderTriangles[i24 + 14] = i4 + 3;
+					colliderTriangles[i24 + 15] = i4 + 3;
+					colliderTriangles[i24 + 16] = i4 + 6;
+					colliderTriangles[i24 + 17] = i4 + 7;
+					// Left
+					colliderTriangles[i24 + 18] = i4;
+					colliderTriangles[i24 + 19] = i4 + 4;
+					colliderTriangles[i24 + 20] = i4 + 2;
+					colliderTriangles[i24 + 21] = i4 + 2;
+					colliderTriangles[i24 + 22] = i4 + 4;
+					colliderTriangles[i24 + 23] = i4 + 6;
+					// Right
+					colliderTriangles[i24 + 24] = i4 + 1;
+					colliderTriangles[i24 + 25] = i4 + 3;
+					colliderTriangles[i24 + 26] = i4 + 5;
+					colliderTriangles[i24 + 27] = i4 + 5;
+					colliderTriangles[i24 + 28] = i4 + 3;
+					colliderTriangles[i24 + 29] = i4 + 7;
+				}
+			}
+			#endregion
+		}
 
-        streamMesh.Clear();
-        streamMesh.vertices = streamVertices;
-        streamMesh.uv = streamUVs;
-        streamMesh.normals = streamNormals;
-        streamMesh.triangles = streamTriangles;
+		streamMesh.Clear();
+		streamMesh.vertices = streamVertices;
+		streamMesh.uv = streamUVs;
+		streamMesh.normals = streamNormals;
+		streamMesh.triangles = streamTriangles;
 
-        colliderMesh.Clear();
-        colliderMesh.vertices = colliderVertices;
-        colliderMesh.triangles = colliderTriangles;
-        meshCollider.sharedMesh = colliderMesh;
-    }
+		if(Application.isPlaying) {
+			colliderMesh.Clear();
+			colliderMesh.vertices = colliderVertices;
+			colliderMesh.triangles = colliderTriangles;
+			meshCollider.sharedMesh = colliderMesh;
+		}
+	}
 
 	/// <summary>
 	/// Get the closest curve point to a position in the world.
