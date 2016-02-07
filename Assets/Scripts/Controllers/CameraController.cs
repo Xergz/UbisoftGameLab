@@ -18,20 +18,26 @@ public class CameraController : InputReceiver {
 
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
-		if(inputEvent.inputAxis == EnumAxis.RightJoystickX) {
-			controllerInput.x = inputEvent.value;
-			if(Mathf.Abs(controllerInput.x) < 0.2) {
-				controllerInput.x = 0;
-			}
-		}
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickX) {
+            controllerInput.x = inputEvent.value;
+            if(Mathf.Abs(controllerInput.x) < 0.2) {
+                controllerInput.x = 0;
+            }
+        }
 
-		if(inputEvent.inputAxis == EnumAxis.RightJoystickY) {
-			controllerInput.y = inputEvent.value * -1;
-			if(Mathf.Abs(controllerInput.y) < 0.2) {
-				controllerInput.y = 0;
-			}
-		}
-	}
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickY) {
+            controllerInput.y = inputEvent.value*-1;
+            if(Mathf.Abs(controllerInput.y) < 0.2) {
+                controllerInput.y = 0;
+            }
+        }
+
+        if(inputEvent.inputAxis == EnumAxis.RightJoystickButton) {
+            if(inputEvent.value > 0) {
+                Reset();
+            }
+        }
+    }
 
 	void Start() {
 		distance = Mathf.Clamp(distance, distanceMin, distanceMax);
