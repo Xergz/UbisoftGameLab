@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections;
+using System.Linq;
 using SimplexNoise;
+using System.Collections.Generic;
 
 /// <summary>
 /// Describes a stream
 /// </summary>
+[ExecuteInEditMode]
 public class Stream : MonoBehaviour {
 
 	public bool MovesRandomly { get { return movesRandomly; } }
@@ -108,11 +109,8 @@ public class Stream : MonoBehaviour {
 	private Vector3[] streamCurve; // The bezier curve
 	private Vector3[] tangents; // The array containing the tangents for each point of the stream
 
-	[SerializeField]
-	private Vector3[] colliderVertices;
-	[SerializeField]
-	private int[] colliderTriangles;
-	private int[] streamTriangles;
+	private int[] colliderTriangles; // The triangles for the collider mesh
+	private int[] streamTriangles; // The triangles for the stream mesh
 
 	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
 
@@ -171,7 +169,6 @@ public class Stream : MonoBehaviour {
 		this.endTangentHandle = endTangentHandle;
 	}
 
-
 	private void Awake() {
 		curveGenerator = new BezierCurveGenerator();
 
@@ -210,12 +207,31 @@ public class Stream : MonoBehaviour {
 	}
 
 	private void Start() {
-		StreamController.Register(this, color); // We must wait for when the StreamController will be initialized
+		if(Application.isPlaying) {
+			StreamController.Register(this, color); // We must wait for when the StreamController will be initialized
+		}
 	}
 
 	private void Update() {
+		if(!Application.isPlaying) {
+			switch(color) {
+				case EnumStreamColor.GREEN:
+					GetComponent<MeshRenderer>().material = greenStreamMaterial;
+					break;
+				case EnumStreamColor.BLUE:
+					GetComponent<MeshRenderer>().material = blueStreamMaterial;
+					break;
+				case EnumStreamColor.YELLOW:
+					GetComponent<MeshRenderer>().material = yellowStreamMaterial;
+					break;
+				case EnumStreamColor.RED:
+					GetComponent<MeshRenderer>().material = redStreamMaterial;
+					break;
+			}
+		}
+
 		Vector3 startPosition, startTangent, endPosition, endTangent; // out parameters
-		if(oscillate) {
+		if(oscillate && Application.isPlaying) {
 			UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
 		} else {
 			startPosition = startPositionHandle;
@@ -250,6 +266,11 @@ public class Stream : MonoBehaviour {
 		}
 		#endregion
 	}
+
+	private void OnEnable() {
+		Awake();
+	}
+
 
 	/// <summary>
 	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise. 
@@ -350,15 +371,22 @@ public class Stream : MonoBehaviour {
 	/// </summary>
 	private void GenerateTangentArrows() {
 		// Clear the old arrows
-		foreach(Transform child in transform.GetChild(0)) {
-			GameObject.Destroy(child.gameObject);
+		List<Transform> children = transform.GetChild(0).Cast<Transform>().ToList();
+		if(Application.isPlaying) {
+			foreach(Transform child in children) {
+				Destroy(child.gameObject);
+			}
+		} else {
+			foreach(Transform child in children) {
+				DestroyImmediate(child.gameObject);
+			}
 		}
 
 		// Instantiate the tangent arrows
 		for(int i = 1; i < streamCurve.Length - 1; ++i) {
 			GameObject arrow = Instantiate(tangentArrow);
 			arrow.transform.parent = transform.GetChild(0);
-			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.05F, streamCurve[i].z);
+			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.15F, streamCurve[i].z);
 			arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
 		}
 	}
@@ -373,8 +401,7 @@ public class Stream : MonoBehaviour {
 		Vector3[] streamVertices = new Vector3[streamCurve.Length * wavePrecision];
 		Vector3[] streamNormals = new Vector3[streamVertices.Length];
 		Vector2[] streamUVs = new Vector2[streamVertices.Length];
-
-		colliderVertices = new Vector3[streamCurve.Length << 2];
+		Vector3[] colliderVertices = new Vector3[streamCurve.Length << 2];
 
 		// Calculate vertices, UV coordinates and normals for both meshes
 		for(int i = 0; i < streamCurve.Length; ++i) {
@@ -386,19 +413,22 @@ public class Stream : MonoBehaviour {
 			// Vertices (without displacement) and UVs for the stream mesh
 			for(int j = 0, orientation = wavePrecision >> 1; j < wavePrecision; ++j, --orientation) {
 				streamVertices[iMultiplied + j] = streamCurve[i] + (orientation * spacing * rotatedTangent);
+				streamVertices[iMultiplied + j].y = streamVertices[iMultiplied + j].y + 0.01F;
 				streamUVs[iMultiplied + j] = new Vector2(streamVertices[iMultiplied + j].x, streamVertices[iMultiplied + j].z);
 			}
 
 			// Vertices for the collider mesh
-			colliderVertices[i4] = streamVertices[iMultiplied];
-			colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
-			colliderVertices[i4 + 2] = streamVertices[iMultiplied];
-			colliderVertices[i4 + 2].y += colliderHeight;
-			colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
-			colliderVertices[i4 + 3].y += colliderHeight;
+			if(Application.isPlaying) {
+				colliderVertices[i4] = streamVertices[iMultiplied];
+				colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
+				colliderVertices[i4 + 2] = streamVertices[iMultiplied];
+				colliderVertices[i4 + 2].y += colliderHeight;
+				colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
+				colliderVertices[i4 + 3].y += colliderHeight;
+			}
 
 			// Normals and y displacement for the stream mesh
-			if(waveController != null) {
+			if(waveController != null && Application.isPlaying) {
 				for(int j = 0; j < wavePrecision; ++j) {
 					Vector3 worldVertex = transform.TransformPoint(streamVertices[iMultiplied + j]);
 					streamVertices[iMultiplied + j].y = waveController.GetOceanHeightAt(worldVertex.x, worldVertex.z) + 0.1F;
@@ -432,7 +462,7 @@ public class Stream : MonoBehaviour {
 			}
 
 			#region Calculate triangles for the collider mesh
-			if(oscillate) {
+			if(oscillate && Application.isPlaying) {
 				colliderTriangles = new int[((streamCurve.Length - 1) * 24) + 12];
 
 				// Front
@@ -491,10 +521,12 @@ public class Stream : MonoBehaviour {
 		streamMesh.normals = streamNormals;
 		streamMesh.triangles = streamTriangles;
 
-		colliderMesh.Clear();
-		colliderMesh.vertices = colliderVertices;
-		colliderMesh.triangles = colliderTriangles;
-		meshCollider.sharedMesh = colliderMesh;
+		if(Application.isPlaying) {
+			colliderMesh.Clear();
+			colliderMesh.vertices = colliderVertices;
+			colliderMesh.triangles = colliderTriangles;
+			meshCollider.sharedMesh = colliderMesh;
+		}
 	}
 
 	/// <summary>

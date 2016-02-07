@@ -36,6 +36,9 @@ public class CameraController : InputReceiver {
 	void Start() {
 		distance = Mathf.Clamp(distance, distanceMin, distanceMax);
 		distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
+		if(playerTransform == null) {
+			Debug.LogError("No transform is linked to the camera controller");
+		}
 	}
 
 	void LateUpdate() {
