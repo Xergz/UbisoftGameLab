@@ -67,7 +67,7 @@ public class PlayerController : InputReceiver {
 
 
 
-            Vector3 damp = Vector3.SmoothDamp(playerRigidbody.transform.forward, movement, ref currentVelocity, rotationSpeed);
+            Vector3 damp = Vector3.SmoothDamp(playerRigidbody.transform.forward, playerRigidbody.transform.forward+movement, ref currentVelocity, rotationSpeed);
             playerRigidbody.transform.forward = Vector3.Normalize(damp);
 
 			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
