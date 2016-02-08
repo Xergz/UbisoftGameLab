@@ -21,11 +21,17 @@ public class PlayerController : InputReceiver {
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
 			XSpeedMultiplier = inputEvent.Value;
-		}
+            if (Mathf.Abs(XSpeedMultiplier) < 0.2) {
+                XSpeedMultiplier = 0;
+            }
+        }
 
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
 			ZSpeedMultiplier = -inputEvent.Value;
-		}
+            if (Mathf.Abs(ZSpeedMultiplier) < 0.2) {
+                ZSpeedMultiplier = 0;
+            }
+        }
 	}
 
 	public static void AddFragment(Fragment fragment) {
@@ -58,10 +64,13 @@ public class PlayerController : InputReceiver {
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
 			currentVelocity = playerRigidbody.velocity;
-			Vector3 lookAt = Vector3.SmoothDamp(playerRigidbody.transform.forward, movement + playerRigidbody.transform.position, ref currentVelocity,
-												Vector3.Distance(playerRigidbody.transform.forward, movement) * rotationSpeed);
-			playerRigidbody.transform.LookAt(playerRigidbody.transform.forward + lookAt);
-			Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
-		}
+
+
+
+            Vector3 damp = Vector3.SmoothDamp(playerRigidbody.transform.forward, movement, ref currentVelocity, rotationSpeed);
+            playerRigidbody.transform.forward = Vector3.Normalize(damp);
+
+			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
+        }
 	}
 }
