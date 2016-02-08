@@ -29,6 +29,8 @@ public class FloatOnWave : MonoBehaviour {
 		pos.y = infos.Height + FloatingOffset;
 
 		this.transform.position = pos;
-		this.transform.up = infos.Normal;
+
+        Quaternion rotation = Quaternion.FromToRotation(this.transform.up, infos.Normal);
+        this.transform.Rotate(rotation.eulerAngles.x, 0, rotation.eulerAngles.z, Space.World);
 	}
 }

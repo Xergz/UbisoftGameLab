@@ -13,6 +13,7 @@ public class PlayerController : InputReceiver {
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
 
+    private float velo;
 	private Vector3 currentVelocity; // The current velocity of the player
 
 	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
@@ -66,9 +67,14 @@ public class PlayerController : InputReceiver {
 			currentVelocity = playerRigidbody.velocity;
 
 
+            Vector3 temp = playerRigidbody.transform.forward;
+            Vector3 temp2 = movement;
+            temp.y = 0;
+            temp2.y = 0;
 
-            Vector3 damp = Vector3.SmoothDamp(playerRigidbody.transform.forward, playerRigidbody.transform.forward+movement, ref currentVelocity, rotationSpeed);
-            playerRigidbody.transform.forward = Vector3.Normalize(damp);
+            float rotation = Vector3.Angle(temp, temp2);
+            rotation = Mathf.SmoothDampAngle(0, rotation, ref velo, rotationSpeed);
+            playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
 
 			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
         }
