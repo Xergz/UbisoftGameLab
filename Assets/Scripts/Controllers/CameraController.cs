@@ -48,7 +48,7 @@ public class CameraController : InputReceiver {
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
 	}
 	
-	void FixedUpdate() {
+	void LateUpdate() {
         if (playerTransform == null)
             return;
 
@@ -67,7 +67,7 @@ public class CameraController : InputReceiver {
         }
         else if (rotation.x < 360) {
             rotation.x += 360;
-         }
+        }
     }
 
     void CalculateCameraTarget() {

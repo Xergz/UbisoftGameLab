@@ -40,8 +40,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 0}
-  movementForce: 20
+  movementForce: 6
   rotationSpeed: 0.5
+  maximumVelocity: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
