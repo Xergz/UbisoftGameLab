@@ -8,15 +8,15 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431744}
+  - 114: {fileID: 11425998}
+  - 114: {fileID: 11474336}
   - 33: {fileID: 3310534}
   - 135: {fileID: 13542668}
   - 23: {fileID: 2305502}
   - 54: {fileID: 5406044}
-  - 114: {fileID: 11474336}
-  - 114: {fileID: 11425998}
   m_Layer: 0
   m_Name: Fragment
-  m_TagString: fragment
+  m_TagString: Fragment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1846129b458154c922fcac2dda9aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fragmentName: 
+  image: {fileID: 0}
 --- !u!114 &11474336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,7 +130,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: fragment
+      value: Fragment
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsTrigger

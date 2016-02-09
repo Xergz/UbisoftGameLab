@@ -8,14 +8,18 @@ public class PlayerController : InputReceiver {
 	public float movementForce;
 	[Tooltip("The time in seconds the player takes to rotate 1 unit")]
 	public float rotationSpeed;
+	[Tooltip("The maximum velocity the player can reach")]
+	public float maximumVelocity;
 
+
+	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
 
 	private float currentVelocity; // The current velocity of the player
 
-	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+	private Vector3 forceToApply;
 
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
@@ -34,8 +38,22 @@ public class PlayerController : InputReceiver {
         }
 	}
 
-	public static void AddFragment(Fragment fragment) {
+	public void AddForce(Vector3 force) {
+		forceToApply += force;
+	}
+
+	public void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
+		Debug.Log("Plus one life! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
+	}
+
+	public void DamagePlayer(int fragmentNb) {
+		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
+			int index = Random.Range(0, memoryFragments.Count - 1);
+			Fragment lostFragment = memoryFragments[index];
+			memoryFragments.RemoveAt(index);
+			Debug.Log("Ouch! You took damage... You lost the \"" + lostFragment.fragmentName + "\" memory fragment");
+		}
 	}
 
 	public List<Fragment> GetFragments() {
@@ -45,9 +63,12 @@ public class PlayerController : InputReceiver {
 
 	private void Awake() {
 		memoryFragments = new List<Fragment>();
+		forceToApply = new Vector3(0, 0, 0);
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
+		} else {
+			playerRigidbody.GetComponent<Player>().PlayerController = this;
 		}
 	}
 
@@ -58,7 +79,7 @@ public class PlayerController : InputReceiver {
 
 
 	private void MovePlayer() {
-		Vector3 movement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
+		Vector3 movement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier) + forceToApply;
 
 		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
@@ -68,13 +89,17 @@ public class PlayerController : InputReceiver {
 			lastForward.y = 0;
 
             float rotation = Vector3.Angle(lastForward, movement);
-			if(rotation > 180) {
-				rotation = -(360 - rotation);
+			if(Vector3.Dot(Vector3.up, Vector3.Cross(lastForward, movement)) < 0) {
+				rotation = -rotation;
 			}
             rotation = Mathf.SmoothDampAngle(0, rotation, ref currentVelocity, rotationSpeed);
             playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
-
-			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
         }
+
+		if(Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity) {
+			playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
+		}
+
+		forceToApply = new Vector3(0, 0, 0);
 	}
 }

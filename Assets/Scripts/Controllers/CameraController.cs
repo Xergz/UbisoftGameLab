@@ -67,7 +67,7 @@ public class CameraController : InputReceiver {
         }
         else if (rotation.x < 360) {
             rotation.x += 360;
-         }
+        }
     }
 
     void CalculateCameraTarget() {
