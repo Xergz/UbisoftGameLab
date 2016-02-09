@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameController : MonoBehaviour, GameRestorer {
 	private CheckpointController checkpoints;
@@ -41,7 +42,12 @@ public class GameController : MonoBehaviour, GameRestorer {
 		this.checkpoints = new CheckpointController (this);
         this.checkpoints.SaveFile = "patate";
 
+        try {
         this.checkpoints.LoadCheckpointsFromSaveFile ();
+        }
+        catch(Exception e) {
+            Debug.LogError (e.Message);
+        }
 	}
 
 	// Update is called once per frame

@@ -23,7 +23,7 @@ public class CheckpointZone : MonoBehaviour {
 			checkpoint.GUID = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes(GUID), 0);
 			checkpoint.SceneID = SceneID;
 
-			checkpoint.Position = new Vector2 (this.transform.position.x, this.transform.position.y);
+			checkpoint.Position = new Vector2 (this.transform.position.x, this.transform.position.z);
 			checkpoint.Orientation = (System.UInt16)this.transform.eulerAngles.y;
 
 			// Save the checkpoint or do nothing if already saved

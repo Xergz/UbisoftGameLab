@@ -59,8 +59,8 @@ public class CheckpointModel {
 		writer.Write (checkpoint.CurrentLife);
 
 		// Writing the position
-		writer.Write ((float)checkpoint.Position.x);
-		writer.Write ((float)checkpoint.Position.y);
+        writer.Write ((System.Single)checkpoint.Position.x);
+        writer.Write ((System.Single)checkpoint.Position.y);
 
 		// Writing the orientation
 		writer.Write(checkpoint.Orientation);
@@ -217,6 +217,9 @@ public class CheckpointModel {
 				checkpointOffsets [i] = reader.ReadUInt32 ();
 			}
 
+
+            //Stack<Checkpoint> reverseCheckpointsStack = new Stack<Checkpoint> ();
+
 			// Load every checkpoints and store them in the stack
 			for (int i = 0; i < checkpointOffsets.Length; i++) {
 				reader.BaseStream.Seek (checkpointOffsets[i], SeekOrigin.Begin);
@@ -225,8 +228,10 @@ public class CheckpointModel {
 
 				LoadCheckpointFrom (reader, ref loadedCheckpoint);
 
-				checkpoints.Push (loadedCheckpoint);
+                checkpoints.Push (loadedCheckpoint);
 			}
+
+            //this.checkpoints = new Stack<Checkpoint> (reverseCheckpointsStack);
 
 		}
 	}
