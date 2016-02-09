@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour, GameRestorer {
         this.checkpoints.SaveFile = "patate";
 
         try {
-        this.checkpoints.LoadCheckpointsFromSaveFile ();
+            this.checkpoints.LoadCheckpointsFromSaveFile ();
         }
         catch(Exception e) {
             Debug.LogError (e.Message);
