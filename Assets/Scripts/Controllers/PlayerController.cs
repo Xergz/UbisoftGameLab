@@ -13,8 +13,7 @@ public class PlayerController : InputReceiver {
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
 
-    private float velo;
-	private Vector3 currentVelocity; // The current velocity of the player
+	private float currentVelocity; // The current velocity of the player
 
 	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
 
@@ -64,16 +63,15 @@ public class PlayerController : InputReceiver {
 		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
-			currentVelocity = playerRigidbody.velocity;
 
+            Vector3 lastForward = playerRigidbody.transform.forward;
+			lastForward.y = 0;
 
-            Vector3 temp = playerRigidbody.transform.forward;
-            Vector3 temp2 = movement;
-            temp.y = 0;
-            temp2.y = 0;
-
-            float rotation = Vector3.Angle(temp, temp2);
-            rotation = Mathf.SmoothDampAngle(0, rotation, ref velo, rotationSpeed);
+            float rotation = Vector3.Angle(lastForward, movement);
+			if(rotation > 180) {
+				rotation = -(360 - rotation);
+			}
+            rotation = Mathf.SmoothDampAngle(0, rotation, ref currentVelocity, rotationSpeed);
             playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
 
 			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");

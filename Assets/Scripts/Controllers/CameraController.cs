@@ -48,7 +48,7 @@ public class CameraController : InputReceiver {
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
 	}
 	
-	void FixedUpdate() {
+	void LateUpdate() {
         if (playerTransform == null)
             return;
 
