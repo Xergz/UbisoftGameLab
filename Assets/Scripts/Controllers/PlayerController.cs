@@ -13,6 +13,7 @@ public class PlayerController : InputReceiver {
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
 
+    private float velo;
 	private Vector3 currentVelocity; // The current velocity of the player
 
 	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
@@ -21,11 +22,17 @@ public class PlayerController : InputReceiver {
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
 			XSpeedMultiplier = inputEvent.Value;
-		}
+            if (Mathf.Abs(XSpeedMultiplier) < 0.2) {
+                XSpeedMultiplier = 0;
+            }
+        }
 
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
 			ZSpeedMultiplier = -inputEvent.Value;
-		}
+            if (Mathf.Abs(ZSpeedMultiplier) < 0.2) {
+                ZSpeedMultiplier = 0;
+            }
+        }
 	}
 
 	public static void AddFragment(Fragment fragment) {
@@ -58,10 +65,18 @@ public class PlayerController : InputReceiver {
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
 			currentVelocity = playerRigidbody.velocity;
-			Vector3 lookAt = Vector3.SmoothDamp(playerRigidbody.transform.forward, movement + playerRigidbody.transform.position, ref currentVelocity,
-												Vector3.Distance(playerRigidbody.transform.forward, movement) * rotationSpeed);
-			playerRigidbody.transform.LookAt(playerRigidbody.transform.forward + lookAt);
-			Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
-		}
+
+
+            Vector3 temp = playerRigidbody.transform.forward;
+            Vector3 temp2 = movement;
+            temp.y = 0;
+            temp2.y = 0;
+
+            float rotation = Vector3.Angle(temp, temp2);
+            rotation = Mathf.SmoothDampAngle(0, rotation, ref velo, rotationSpeed);
+            playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
+
+			//Debug.Log("LookAt: X(" + lookAt.x + "), Y(" + lookAt.y + "), Z(" + lookAt.z + ")");
+        }
 	}
 }

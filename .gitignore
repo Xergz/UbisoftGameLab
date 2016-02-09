@@ -123,6 +123,7 @@ local.properties
 *.unityproj
 *.pidb.meta
 sysinfo.txt
+Assets/generated*
 Assets/Scenes/Gab/
 Assets/Scenes/Gab.meta
 Assets/Scenes/Emile/
@@ -135,3 +136,5 @@ Assets/Scenes/Nathan/
 Assets/Scenes/Nathan.meta
 Assets/Scenes/Clement/
 Assets/Scenes/Clement.meta
+Assets/generated/
+Assets/generated.meta

@@ -13,11 +13,11 @@ public class CameraController : InputReceiver {
     public Vector2 controllerSensitivity = new Vector2(2f, 2f);
 
     private Vector2 controllerInput = new Vector2(0f, 0f);
-    private Vector3 movementVelocity = Vector3.zero;
     private Vector3 positionTarget = Vector3.zero;
+    private Vector3 movementVelocity = Vector3.zero;
 
 
-	public override void ReceiveInputEvent(InputEvent inputEvent) {
+    public override void ReceiveInputEvent(InputEvent inputEvent) {
         if(inputEvent.InputAxis == EnumAxis.RightJoystickX) {
             controllerInput.x = inputEvent.Value;
             if(Mathf.Abs(controllerInput.x) < 0.2) {
@@ -48,7 +48,7 @@ public class CameraController : InputReceiver {
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
 	}
 	
-	void LateUpdate() {
+	void FixedUpdate() {
         if (playerTransform == null)
             return;
 
