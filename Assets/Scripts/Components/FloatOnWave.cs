@@ -15,6 +15,12 @@ public class FloatOnWave : MonoBehaviour {
 	[Tooltip("Specify the surface's width")]
 	public float SurfaceWidth = 1.0f;
 
+	private void Awake() {
+		if(waves == null) {
+			Debug.LogError("No WaveController is attached to the floating object");
+		}
+	}
+
 	// Update is called once per frame
 	void Update() {
 		Vector3 pos = this.transform.position;

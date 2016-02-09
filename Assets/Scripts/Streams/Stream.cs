@@ -164,6 +164,10 @@ public class Stream : MonoBehaviour {
 	}
 
 	private void Awake() {
+		if(waveController == null) {
+			Debug.Log("No WaveController is attached to the stream. Will not follow any waves.");
+		}
+
 		curveGenerator = new BezierCurveGenerator();
 
 		streamMesh = new Mesh();
@@ -202,7 +206,7 @@ public class Stream : MonoBehaviour {
 
 	private void Start() {
 		if(Application.isPlaying) {
-			StreamController.Register(this, color); // We must wait for when the StreamController will be initialized
+			StreamController.RegisterStream(this, color); // We must wait for when the StreamController will be initialized
 		}
 	}
 
