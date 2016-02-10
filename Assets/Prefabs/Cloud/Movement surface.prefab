@@ -26,7 +26,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 470990}
   - 33: {fileID: 3359940}
-  - 64: {fileID: 6431148}
   - 23: {fileID: 2332554}
   m_Layer: 0
   m_Name: Movement surface
@@ -123,18 +122,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199150}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6431148
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199150}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!198 &19876924
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -181,7 +168,7 @@ ParticleSystem:
   speed: 1
   randomSeed: 0
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
   scalingMode: 1
@@ -545,11 +532,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    cnt0: 30
+    cnt0: 1000
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    cntmax0: 30
+    cntmax0: 1000
     cntmax1: 30
     cntmax2: 30
     cntmax3: 30
@@ -1660,7 +1647,7 @@ ParticleSystem:
   speed: 1
   randomSeed: 0
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
   scalingMode: 1
@@ -1976,7 +1963,7 @@ ParticleSystem:
     boxY: 1
     boxZ: 1
     arc: 360
-    placementMode: 0
+    placementMode: 2
     m_Mesh: {fileID: 0}
     m_MeshRenderer: {fileID: 2332554}
     m_SkinnedMeshRenderer: {fileID: 0}
@@ -2014,11 +2001,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 0
       minMaxState: 0
-    cnt0: 30
+    cnt0: 2000
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    cntmax0: 30
+    cntmax0: 2000
     cntmax1: 30
     cntmax2: 30
     cntmax3: 30
