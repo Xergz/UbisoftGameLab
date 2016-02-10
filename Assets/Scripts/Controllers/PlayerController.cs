@@ -31,7 +31,7 @@ public class PlayerController : InputReceiver {
         }
 
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
-			ZSpeedMultiplier = -inputEvent.Value;
+			ZSpeedMultiplier = inputEvent.Value;
             if (Mathf.Abs(ZSpeedMultiplier) < 0.2) {
                 ZSpeedMultiplier = 0;
             }

@@ -28,7 +28,7 @@ GameObject:
   - 95: {fileID: 9569430}
   - 64: {fileID: 6409024}
   m_Layer: 0
-  m_Name: Boat
+  m_Name: boat
   m_TagString: Boat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

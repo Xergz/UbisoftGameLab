@@ -342,7 +342,7 @@ GameObject:
   - 95: {fileID: 9539506}
   - 136: {fileID: 13612694}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: rock
   m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
