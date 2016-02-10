@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour {
 	public InputReceiver cameraController;
 	public InputReceiver playerController;
 	public InputReceiver streamController;
+    public InputReceiver uiController;
+
 
 	private float LeftJoystickXStatus;
 	private float LeftJoystickYStatus;
@@ -18,7 +20,8 @@ public class InputManager : MonoBehaviour {
 		cameraController = GameObject.Find("CameraController").GetComponent<CameraController>();
 		streamController = GameObject.Find("StreamController").GetComponent<StreamController>();
 		playerController = GameObject.Find("PlayerController").GetComponent<PlayerController>();
-	}
+        uiController = GameObject.Find("UIManager").GetComponent<UIReceiver>();
+    }
 
 	void Start() {
 		LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
@@ -72,6 +75,7 @@ public class InputManager : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("SelectButton")) {
+            uiController.ReceiveInputEvent(new InputEvent(EnumAxis.SelectButton, 1));
 			Debug.Log("Select pressed");
 		}
 	}
