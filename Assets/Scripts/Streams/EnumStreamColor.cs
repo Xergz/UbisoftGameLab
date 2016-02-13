@@ -1,7 +1,8 @@
 ﻿
 public enum EnumStreamColor {
-    GREEN,
-    BLUE,
-    YELLOW,
-    RED
+	GREEN,
+	BLUE,
+	YELLOW,
+	RED,
+	NONE
 }

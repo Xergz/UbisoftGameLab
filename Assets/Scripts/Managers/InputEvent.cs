@@ -1,9 +1,9 @@
 ﻿public class InputEvent {
-    public EnumAxis inputAxis { get; set; }
-    public float value { get; set; }
+	public EnumAxis InputAxis { get; set; }
+	public float Value { get; set; }
 
-    public InputEvent(EnumAxis axis, float value){
-        inputAxis = axis;
-        this.value = value;
-    }
+	public InputEvent(EnumAxis axis, float value) {
+		InputAxis = axis;
+		Value = value;
+	}
 }
