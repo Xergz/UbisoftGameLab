@@ -11,6 +11,7 @@ public class Stream : MonoBehaviour {
 	public WaveController WaveController { get { return waveController; } set { waveController = value; } }
 
 
+	#region Constants
 	private const int MAX_SEGMENT_COUNT = 200; // Maximum number of segments in the bezier curve
 	private const int MIN_SEGMENT_COUNT = 10; // Minimum number of segments in the bezier curve
 	private const int MAX_WAVE_PRECISION = 15; // Maximum number of points used to simulate the waves
@@ -25,6 +26,10 @@ public class Stream : MonoBehaviour {
 	private const float MIN_TANGENT_AMPLITUDE = 5F; // The minimum amplitude for the tangent oscillation
 	private const float MAX_NOISE_OFFSET = 5F; // The maximum noise offset so that not all streams are the same
 	private const float MIN_NOISE_OFFSET = 0F; // The minimum noise offset so that not all streams are the same
+	private const float MAX_STRENGTH = 10F; // The maximum strength the stream can reach
+	private const float MIN_STRENGTH = 1F; // The minimum strength the stream can reach
+	#endregion
+
 
 	[Tooltip("The wave controller to synchronize with")]
 	[SerializeField]
@@ -36,9 +41,22 @@ public class Stream : MonoBehaviour {
 	private float width = 5F;
 	// To know when the width changes (needed since I can't do a function if I want to allow in editor modification) I'm open to suggestions
 	private float oldWidth;
-	[Tooltip("The strength of the stream")]
+	[Tooltip("The base strength of the stream")]
+	[Range(MIN_STRENGTH, MAX_STRENGTH)]
 	[SerializeField]
-	private float strength = 5F;
+	private float baseStrength = 5F;
+	[Tooltip("The current strength of the stream. For in-editor debugging only, do not change this")]
+	[SerializeField]
+	private float strength;
+	[Tooltip("The time before the stream will start gradually going back to its normal strength after the player has modified it (in seconds)")]
+	[SerializeField]
+	private float timeBeforeStrengthRestoration = 3F;
+	[Tooltip("The speed at which the strength will go back to normal (in unit/second)")]
+	[SerializeField]
+	private float strengthRestorationSpeed = 1F;
+	private float timeAtLastStrengthModification = 0F;
+
+	#region Oscillation
 	[Tooltip("The speed at which the stream will oscillate")]
 	[SerializeField]
 	private float oscillationSpeed = 0.25F;
@@ -50,6 +68,8 @@ public class Stream : MonoBehaviour {
 	[Range(MIN_TANGENT_AMPLITUDE, MAX_TANGENT_AMPLITUDE)]
 	[SerializeField]
 	private float tangentOscillationAmplitude = 15F;
+	#endregion
+
 	[Tooltip("The height of the mesh collider")]
 	[SerializeField]
 	private float colliderHeight = 4;
@@ -74,6 +94,7 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private bool oscillate = true;
 
+	#region Curve Parameters
 	[Tooltip("The number of segments in the bezier curve representing the stream")]
 	[SerializeField]
 	[Range(MIN_SEGMENT_COUNT, MAX_SEGMENT_COUNT)]
@@ -102,15 +123,22 @@ public class Stream : MonoBehaviour {
 
 	private Vector3[] streamCurve; // The bezier curve
 	private Vector3[] tangents; // The array containing the tangents for each point of the stream
-
-	private int[] colliderTriangles; // The triangles for the collider mesh
-	private int[] streamTriangles; // The triangles for the stream mesh
+#endregion
 
 	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
 
+	#region Meshes
+	private int[] colliderTriangles; // The triangles for the collider mesh
+	private int[] streamTriangles; // The triangles for the stream mesh
+
+	private Vector3[] streamVertices; // The vertices for the stream mesh
+
 	private Mesh streamMesh; // The curve's mesh. It follows the waves of the ocean
 	private Mesh colliderMesh; // The collider mesh. It is tall and does not move.
+	private MeshCollider meshCollider;
+	#endregion
 
+	#region Materials
 	[Tooltip("The material to apply to a green stream")]
 	[SerializeField]
 	private Material greenStreamMaterial;
@@ -123,23 +151,53 @@ public class Stream : MonoBehaviour {
 	[Tooltip("The material to apply to a red stream")]
 	[SerializeField]
 	private Material redStreamMaterial;
+	#endregion
 
 	[Tooltip("A prefab used to visually represent the direction of the tangents")]
 	[SerializeField]
 	private GameObject tangentArrow;
 
-	private MeshCollider meshCollider;
-
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
 
 	/// <summary>
-	/// Get the force to apply to an object within the stream (assumes the object is within the stream).
+	/// Get the force to apply to an object within the stream.
 	/// </summary>
 	/// <param name="position">The position of the object</param>
-	/// <returns>The force to apply to the object</returns>
+	/// <returns>The force to apply to the object. 0 if not in the stream (approximated)</returns>
 	public Vector3 GetForceAtPosition(Vector3 position) {
-		return tangents[GetClosestCurvePointIndex(position)] * strength * (int) direction;
+		float distanceToClosest;
+		float maxDistanceUpper = 0;
+		float maxDistanceLower = 0;
+		int closestPoint = GetClosestCurvePointIndex(position, out distanceToClosest);
+		// For both end of the curve, we can assume that it's always inside the curve since the collider is precise for this part of the curve.
+		Vector3 previousPoint;
+		Vector3 currentPoint;
+		Vector3 nextPoint;
+		if(closestPoint < streamCurve.Length - 1) { // Upper side
+			// First side of the stream
+			currentPoint = streamVertices[closestPoint * wavePrecision];
+			nextPoint = streamVertices[(closestPoint + 1) * wavePrecision];
+			maxDistanceUpper = Vector3.Distance((0.5F * (nextPoint - currentPoint)) + currentPoint, streamCurve[closestPoint]);
+			// Second side of the stream
+			currentPoint = streamVertices[((closestPoint + 1) * wavePrecision) - 1];
+			nextPoint = streamVertices[((closestPoint + 2) * wavePrecision) - 1];
+			maxDistanceUpper = Mathf.Max(maxDistanceUpper,
+										 Vector3.Distance((0.5F * (nextPoint - currentPoint)) + currentPoint, streamCurve[closestPoint]));
+		}
+		if(closestPoint > 0) { // Lower side
+			// First side of the stream
+			previousPoint = streamVertices[(closestPoint - 1) * wavePrecision];
+			currentPoint = streamVertices[closestPoint * wavePrecision];
+			maxDistanceLower = Vector3.Distance((0.5F * (currentPoint - previousPoint)) + previousPoint, streamCurve[closestPoint]);
+			// Second side of the stream
+			previousPoint = streamVertices[(closestPoint * wavePrecision) - 1];
+			currentPoint = streamVertices[((closestPoint + 1) * wavePrecision) - 1];
+			maxDistanceLower = Mathf.Max(maxDistanceLower,
+										 Vector3.Distance((0.5F * (currentPoint - previousPoint)) + previousPoint, streamCurve[closestPoint]));
+		}
+
+		return (distanceToClosest <= Mathf.Max(maxDistanceLower, maxDistanceUpper)) ? tangents[closestPoint] * strength * (int) direction : new Vector3(0, 0, 0);
 	}
 
 	/// <summary>
@@ -147,6 +205,26 @@ public class Stream : MonoBehaviour {
 	/// </summary>
 	public void SwitchDirection() {
 		direction = (EnumStreamDirection) (-((int) direction));
+	}
+
+	/// <summary>
+	/// Increase the strength of the stream
+	/// </summary>
+	/// <param name="increment">By how much the strength should increase</param>
+	public void IncreaseStrength(float increment) {
+		strength += increment;
+		strength = Mathf.Min(strength, MAX_STRENGTH);
+		timeAtLastStrengthModification = Time.time;
+	}
+
+	/// <summary>
+	/// Decrease the strength of the stream
+	/// </summary>
+	/// <param name="decrement">By how much the strength should decrease</param>
+	public void DecreaseStrength(float decrement) {
+		strength -= decrement;
+		strength = Mathf.Max(strength, MIN_STRENGTH);
+		timeAtLastStrengthModification = Time.time;
 	}
 
 	/// <summary>
@@ -162,6 +240,7 @@ public class Stream : MonoBehaviour {
 		this.endPositionHandle = endPositionHandle;
 		this.endTangentHandle = endTangentHandle;
 	}
+
 
 	private void Awake() {
 		if(waveController == null) {
@@ -194,6 +273,7 @@ public class Stream : MonoBehaviour {
 		oldSegmentCount = -1;
 		oldWavePrecision = -1;
 		oldDirection = (EnumStreamDirection) (-((int) direction));
+		strength = baseStrength;
 
 		randomizedNoiseOffset = Random.Range(MIN_NOISE_OFFSET, MAX_NOISE_OFFSET);
 
@@ -206,7 +286,7 @@ public class Stream : MonoBehaviour {
 
 	private void Start() {
 		if(Application.isPlaying) {
-			StreamController.RegisterStream(this, color); // We must wait for when the StreamController will be initialized
+			StreamController.RegisterStream(this, color); // We must wait for when the StreamController will be initialized so we use Start
 		}
 	}
 
@@ -228,6 +308,7 @@ public class Stream : MonoBehaviour {
 			}
 		}
 
+		// Update the curve
 		Vector3 startPosition, startTangent, endPosition, endTangent; // out parameters
 		if(oscillate && Application.isPlaying) {
 			UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
@@ -238,6 +319,15 @@ public class Stream : MonoBehaviour {
 			endTangent = endTangentHandle;
 		}
 		UpdateCurve(startPosition, startTangent, endPosition, endTangent);
+
+		// Restore strength
+		if(Time.time - timeAtLastStrengthModification >= timeBeforeStrengthRestoration) {
+			if(strength > baseStrength) {
+				strength = Mathf.Max(baseStrength, strength - (strengthRestorationSpeed * Time.deltaTime));
+			} else {
+				strength = Mathf.Min(baseStrength, strength + (strengthRestorationSpeed * Time.deltaTime));
+			}
+		}
 
 		#region DEBUG
 		if(debug) {
@@ -392,11 +482,12 @@ public class Stream : MonoBehaviour {
 	/// <summary>
 	/// Generate the stream's mesh (streamVertices, UV coordinates, normals and triangles).
 	/// </summary>
+	/// <param name="generateTriangles">Whether we should regenerate the triangles or not. This should only be true if the number of vertices changed.</param>
 	private void GenerateMesh(bool generateTriangles) {
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
 		wavePrecision = (wavePrecision % 2 == 0) ? wavePrecision - 1 : wavePrecision; // Round down to the nearest odd number
 
-		Vector3[] streamVertices = new Vector3[streamCurve.Length * wavePrecision];
+		streamVertices = new Vector3[streamCurve.Length * wavePrecision];
 		Vector3[] streamNormals = new Vector3[streamVertices.Length];
 		Vector2[] streamUVs = new Vector2[streamVertices.Length];
 		Vector3[] colliderVertices = new Vector3[streamCurve.Length << 2];
@@ -530,10 +621,12 @@ public class Stream : MonoBehaviour {
 	/// <summary>
 	/// Get the closest curve point to a position in the world.
 	/// </summary>
-	private int GetClosestCurvePointIndex(Vector3 position) {
+	/// <param name="position">The position to compare to the curve's points</param>
+	/// <returns>The index of the closest curve point</returns>
+	private int GetClosestCurvePointIndex(Vector3 position, out float smallestDistance) {
 		int closestPoint = 0;
 
-		float smallestDistance = Vector3.Distance(position, streamCurve[0]);
+		smallestDistance = Vector3.Distance(position, streamCurve[0]);
 
 		for(int i = 1; i < streamCurve.Length; ++i) {
 			float distance = Vector3.Distance(position, streamCurve[i]);

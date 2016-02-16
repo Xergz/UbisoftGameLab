@@ -12,7 +12,7 @@ public class UIReceiver : InputReceiver {
     }
 
     public override void ReceiveInputEvent(InputEvent inputEvent) {
-        if(inputEvent.InputAxis == EnumAxis.SelectButton && inputEvent.Value == 1) {
+        if(inputEvent.InputAxis == EnumAxis.StartButton && inputEvent.Value == 1) {
             if (pauseMenuScript != null) {
                 pauseMenuScript.Pause();
             }     

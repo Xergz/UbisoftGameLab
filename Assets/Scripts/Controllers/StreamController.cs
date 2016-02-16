@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class StreamController : InputReceiver {
 
+	[Tooltip("The speed at which the player can make the strength of a stream vary")]
+	[SerializeField]
+	private float strengthIncreaseSpeed = 1F;
+
 	private static List<Stream> greenStreams;
 	private static List<Stream> blueStreams;
 	private static List<Stream> yellowStreams;
@@ -21,28 +25,44 @@ public class StreamController : InputReceiver {
 	}
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
-		switch(inputEvent.InputAxis) {
-			case EnumAxis.AButton:
-				ChangeSelectedColor(EnumStreamColor.GREEN, inputEvent.Value);
-				break;
-			case EnumAxis.BButton:
-				ChangeSelectedColor(EnumStreamColor.RED, inputEvent.Value);
-				break;
-			case EnumAxis.XButton:
-				ChangeSelectedColor(EnumStreamColor.BLUE, inputEvent.Value);
-				break;
-			case EnumAxis.YButton:
-				ChangeSelectedColor(EnumStreamColor.YELLOW, inputEvent.Value);
-				break;
-			case EnumAxis.RightBumper:
-				if(selectedColor != EnumStreamColor.NONE) {
-					GetStreamList(selectedColor).ForEach((stream) => {
-						stream.SwitchDirection();
-					});
-				}
-				break;
-			default:
-				break;
+		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
+			if(selectedColor != EnumStreamColor.NONE) {
+				GetStreamList(selectedColor).ForEach((stream) => {
+					stream.IncreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
+				});
+			}
+		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger) {
+			if(selectedColor != EnumStreamColor.NONE) {
+				GetStreamList(selectedColor).ForEach((stream) => {
+					stream.DecreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
+				});
+			}
+		} else {
+			EnumButtonState state = (EnumButtonState) inputEvent.Value;
+			EnumStreamColor color = EnumStreamColor.NONE;
+
+			switch(inputEvent.InputAxis) {
+				case EnumAxis.AButton:
+					color = EnumStreamColor.GREEN;
+					break;
+				case EnumAxis.BButton:
+					color = EnumStreamColor.RED;
+					break;
+				case EnumAxis.XButton:
+					color = EnumStreamColor.BLUE;
+					break;
+				case EnumAxis.YButton:
+					color = EnumStreamColor.YELLOW;
+					break;
+				default:
+					break;
+			}
+
+			if(state == EnumButtonState.CLICKED) { // Player has simply pressed a button
+				SwitchDirectionForColor(color);
+			} else { // Player is either holding down a button or just released it after holding it down
+				ChangeSelectedColor(color, state);
+			}
 		}
 	}
 
@@ -62,11 +82,21 @@ public class StreamController : InputReceiver {
 		}
 	}
 
-	private void ChangeSelectedColor(EnumStreamColor color, float value) {
-		if(value > 0) {
-			selectedColor = color;
-		} else if(selectedColor == color) {
-			selectedColor = EnumStreamColor.NONE;
+	private void ChangeSelectedColor(EnumStreamColor color, EnumButtonState state) {
+		if(color != EnumStreamColor.NONE) {
+			if(state == EnumButtonState.HELD_DOWN) {
+				selectedColor = color;
+			} else if(selectedColor == color && state == EnumButtonState.RELEASED) {
+				selectedColor = EnumStreamColor.NONE;
+			}
+		}
+	}
+
+	private void SwitchDirectionForColor(EnumStreamColor color) {
+		if(color != EnumStreamColor.NONE) {
+			GetStreamList(color).ForEach((stream) => {
+				stream.SwitchDirection();
+			});
 		}
 	}
 

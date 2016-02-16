@@ -88,10 +88,12 @@ public class PlayerController : InputReceiver {
             Vector3 lastForward = playerRigidbody.transform.forward;
 			lastForward.y = 0;
 
+			// Check in what direction the boat should rotate
             float rotation = Vector3.Angle(lastForward, movement);
 			if(Vector3.Dot(Vector3.up, Vector3.Cross(lastForward, movement)) < 0) {
 				rotation = -rotation;
 			}
+
             rotation = Mathf.SmoothDampAngle(0, rotation, ref currentVelocity, rotationSpeed);
             playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
         }
