@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class GameController : MonoBehaviour, GameRestorer {
+public class GameManager : MonoBehaviour, GameRestorer {
 	private CheckpointController checkpoints;
 
 	/// <summary>
