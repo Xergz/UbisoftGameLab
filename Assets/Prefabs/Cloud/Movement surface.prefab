@@ -1963,7 +1963,7 @@ ParticleSystem:
     boxY: 1
     boxZ: 1
     arc: 360
-    placementMode: 2
+    placementMode: 0
     m_Mesh: {fileID: 0}
     m_MeshRenderer: {fileID: 2332554}
     m_SkinnedMeshRenderer: {fileID: 0}
