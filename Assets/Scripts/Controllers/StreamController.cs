@@ -10,6 +10,7 @@ public class StreamController : InputReceiver {
 	private static List<Stream> redStreams;
 
 	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
+    private PowerController powerController;
 
 	/// <summary>
 	/// Used to register a stream to the stream controller so that it can be manipulated.
@@ -36,9 +37,11 @@ public class StreamController : InputReceiver {
 				break;
 			case EnumAxis.RightBumper:
 				if(selectedColor != EnumStreamColor.NONE) {
-					GetStreamList(selectedColor).ForEach((stream) => {
-						stream.SwitchDirection();
-					});
+                    if (powerController.isPowerReady(enumPower.ChangeDirection))
+                    {
+                        powerController.activatePower(enumPower.ChangeDirection, GetStreamList(selectedColor));
+                    }
+                    
 				}
 				break;
 			default:
@@ -60,6 +63,10 @@ public class StreamController : InputReceiver {
 		if(redStreams == null) {
 			redStreams = new List<Stream>();
 		}
+        if(powerController== null)
+        {
+            powerController = new PowerController();
+        }
 	}
 
 	private void ChangeSelectedColor(EnumStreamColor color, float value) {
