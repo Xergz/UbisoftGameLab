@@ -8,7 +8,7 @@ public class CheckpointModel {
 	private Stack<Checkpoint> checkpoints = new Stack<Checkpoint>();
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69,  75};
-	private byte   VALID_HEADER_VERSION = 10;
+	private byte   VALID_HEADER_VERSION = 11;
 	private List<System.UInt32> guids = new List<System.UInt32>();
 
 	/// <summary>
@@ -54,9 +54,6 @@ public class CheckpointModel {
 
 		// Writing scene ID
 		writer.Write (checkpoint.SceneID);
-
-		// Writing current life
-		writer.Write (checkpoint.CurrentLife);
 
 		// Writing the position
         writer.Write ((System.Single)checkpoint.Position.x);
@@ -147,9 +144,6 @@ public class CheckpointModel {
 		// Reading scene ID
 		checkpoint.SceneID = reader.ReadUInt32 ();
 
-		// Reading current life
-		checkpoint.CurrentLife = reader.ReadUInt32 ();
-
 		// Reading the position
 		checkpoint.Position.x = reader.ReadSingle();
 		checkpoint.Position.y = reader.ReadSingle ();
@@ -187,16 +181,14 @@ public class CheckpointModel {
 				char magic = reader.ReadChar ();
 
 				if (magic != VALID_HEADER_MAGIC [i]) {
-					// TODO: Throw an exception
-					// The header magic number is invalid
+                    throw new InvalidFileFormatException();
 				}
 			}
 
 			byte version = reader.ReadByte ();
 
 			if (version != VALID_HEADER_VERSION) {
-				// TODO: Throw an exception
-				// Unsupported version
+                throw new InvalidVersionException (version, VALID_HEADER_VERSION);
 			}
 
 			// We move at the end of the file to read the checkpoints table offset
@@ -216,10 +208,7 @@ public class CheckpointModel {
 			for (int i = 0; i < checkpointsCount; i++) {
 				checkpointOffsets [i] = reader.ReadUInt32 ();
 			}
-
-
-            //Stack<Checkpoint> reverseCheckpointsStack = new Stack<Checkpoint> ();
-
+                
 			// Load every checkpoints and store them in the stack
 			for (int i = 0; i < checkpointOffsets.Length; i++) {
 				reader.BaseStream.Seek (checkpointOffsets[i], SeekOrigin.Begin);
@@ -230,9 +219,6 @@ public class CheckpointModel {
 
                 checkpoints.Push (loadedCheckpoint);
 			}
-
-            //this.checkpoints = new Stack<Checkpoint> (reverseCheckpointsStack);
-
 		}
 	}
 }
