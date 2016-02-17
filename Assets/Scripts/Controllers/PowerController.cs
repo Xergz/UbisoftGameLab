@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class PowerController : MonoBehaviour {
-	private static List<Power> powers = new List<Power>();
+	private static List<Power> powers;
 
 
 	/// <summary>
@@ -52,5 +52,10 @@ public class PowerController : MonoBehaviour {
 				break;
 			}
 		}
+	}
+
+
+	private void Awake() {
+		powers = new List<Power>();
 	}
 }

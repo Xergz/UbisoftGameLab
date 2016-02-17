@@ -9,6 +9,8 @@ public abstract class Power : MonoBehaviour {
 	[Tooltip("The cooldown time for this power")]
 	[SerializeField]
 	protected float cooldownTime = 3.0F;
+	[Tooltip("This should not be changed and is for debugging purposes only")]
+	[SerializeField]
 	protected float elapsedTime = 0; // The elapsed time since the power has been used
 
 	protected bool ready = true;

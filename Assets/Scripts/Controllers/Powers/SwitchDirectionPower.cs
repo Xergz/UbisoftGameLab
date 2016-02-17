@@ -4,7 +4,8 @@ public class SwitchDirectionPower : Power {
 	public List<Stream> streams { get; set; } // The streams on which the power should apply
 
 
-	private void Start() {
+	private void Awake() {
+		streams = new List<Stream>();
 		PowerType = EnumPower.SwitchDirection;
 	}
 
