@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
+
 	public Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]

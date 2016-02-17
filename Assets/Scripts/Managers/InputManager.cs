@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour {
 		if(uiManager == null) {
 			uiController = null;
 		} else {
-			uiController = uiManager.GetComponent<UIReceiver>();
+			uiController = uiManager.GetComponent<UIManager>();
 		}
     }
 

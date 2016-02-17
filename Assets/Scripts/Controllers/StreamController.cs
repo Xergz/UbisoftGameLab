@@ -15,6 +15,10 @@ public class StreamController : InputReceiver {
 
 	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
 
+	[Tooltip("The power controller to call when using a power")]
+	[SerializeField]
+	private PowerController powerController;
+
 	/// <summary>
 	/// Used to register a stream to the stream controller so that it can be manipulated.
 	/// </summary>
@@ -93,11 +97,8 @@ public class StreamController : InputReceiver {
 	}
 
 	private void SwitchDirectionForColor(EnumStreamColor color) {
-		if(color != EnumStreamColor.NONE) {
-			GetStreamList(color).ForEach((stream) => {
-				stream.SwitchDirection();
-			});
-		}
+		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).streams = GetStreamList(color);
+		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
 
 	private static List<Stream> GetStreamList(EnumStreamColor color) {
