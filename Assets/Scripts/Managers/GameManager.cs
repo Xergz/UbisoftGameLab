@@ -4,6 +4,7 @@ using System;
 
 public class GameManager : MonoBehaviour, GameRestorer {
 	private CheckpointController checkpoints;
+    public PlayerController PlayerController = null;
 
 	/// <summary>
 	/// The gameobject representing the player
@@ -26,8 +27,6 @@ public class GameManager : MonoBehaviour, GameRestorer {
 	/// <param name="checkpoint">Checkpoint.</param>
 	public void RestoreGameStateFrom(Checkpoint checkpoint) {
 		if (Player != null) {
-			// TODO: Restore player's state
-
             Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
             Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
 		}
@@ -46,7 +45,7 @@ public class GameManager : MonoBehaviour, GameRestorer {
             this.checkpoints.LoadCheckpointsFromSaveFile ();
         }
         catch(Exception e) {
-            Debug.LogError (e.Message);
+            Debug.Log (e.Message);
         }
 	}
 
