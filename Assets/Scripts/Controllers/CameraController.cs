@@ -14,7 +14,7 @@ public class CameraController : InputReceiver {
 
     private Vector2 controllerInput = new Vector2(0f, 0f);
     private Vector3 positionTarget = Vector3.zero;
-    private Vector3 movementVelocity = Vector3.zero;
+    private Vector3 oldPlayerPosition = Vector3.zero;
 
 
     public override void ReceiveInputEvent(InputEvent inputEvent) {
@@ -52,9 +52,14 @@ public class CameraController : InputReceiver {
         if (playerTransform == null)
             return;
 
+        if(Mathf.Abs(Vector3.Distance(oldPlayerPosition, playerTransform.position)) > 0.01)
+            oldPlayerPosition = playerTransform.position;
+
         CalculateMovement();
         CalculateCameraTarget();
         UpdatePosition();
+        
+
 	}
 
     void CalculateMovement() {
@@ -73,15 +78,11 @@ public class CameraController : InputReceiver {
     void CalculateCameraTarget() {
         Vector3 direction = new Vector3(0, 0, -distance);
         Quaternion rotate = Quaternion.Euler(rotation.y, rotation.x, 0);
-        positionTarget = playerTransform.position + rotate * direction;
+        positionTarget = oldPlayerPosition + rotate * direction;
     }
 
     void UpdatePosition() {
-        var posX = Mathf.SmoothDamp(transform.position.x, positionTarget.x, ref movementVelocity.x, movementSmooth.x);
-        var posY = Mathf.SmoothDamp(transform.position.y, positionTarget.y, ref movementVelocity.y, movementSmooth.y);
-        var posZ = Mathf.SmoothDamp(transform.position.z, positionTarget.z, ref movementVelocity.z, movementSmooth.z);
-
-        transform.position = new Vector3(posX, posY, posZ);
+        transform.position = positionTarget;
         transform.LookAt(playerTransform);
     }
 

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CheckpointZone : MonoBehaviour {
-	public GameController game;
+	public GameManager game;
 
 	/// <summary>
 	/// The current scene ID
