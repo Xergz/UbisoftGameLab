@@ -32,6 +32,25 @@ public class GameManager : MonoBehaviour, GameRestorer {
 		}
 	}
 
+    /// <summary>
+    /// Restores the game state from the last saved checkpoint.
+    /// </summary>
+    /// <returns><c>true</c>, if the restoration is possible, <c>false</c> otherwise.</returns>
+    public bool RestoreFromLastCheckpoint() {
+        return this.checkpoints.RestoreFromLastCheckpoint ();
+    }
+
+    /// <summary>
+    /// Discards the last saved checkpoint.
+    /// </summary>
+    public void DiscardLastCheckpoint() {
+        this.checkpoints.DiscardLastCheckpoint ();
+    }
+
+    public System.UInt32 CountSavedCheckpoints() {
+        return this.checkpoints.Count;
+    }
+
 	//
 	// UNITY CALLBACKS
 	//

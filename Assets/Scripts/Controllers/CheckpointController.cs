@@ -10,6 +10,12 @@ public class CheckpointController {
 	private GameRestorer restorer;
 	private CheckpointModel model;
 
+    public System.UInt32 Count {
+        get {
+            return model.Count;
+        }
+    }
+
 	/// <summary>
 	/// The save file's name
 	/// </summary>

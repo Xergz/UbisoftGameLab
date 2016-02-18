@@ -19,6 +19,16 @@ public class CheckpointModel {
 		public byte Version;
 	}
 
+    /// <summary>
+    /// The number of saved checkpoints
+    /// </summary>
+    /// <value>The number of checkpoints</value>
+    public System.UInt32 Count {
+        get {
+            return (System.UInt32)this.checkpoints.Count;
+        }
+    }
+
 	/// <summary>
 	/// Get the current checkpoint
 	/// </summary>
