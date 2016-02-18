@@ -70,6 +70,5 @@ public class GameManager : MonoBehaviour, GameRestorer {
 
 	// Update is called once per frame
 	void Update () {
-
 	}
 }

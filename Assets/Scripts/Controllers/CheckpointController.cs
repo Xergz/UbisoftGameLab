@@ -64,6 +64,7 @@ public class CheckpointController {
 	/// <remarks>The last checkpoint will be replaced by the one before it</remarks>
 	public void DiscardLastCheckpoint() {
 		this.model.Discard ();
+        this.model.SaveTo (SaveFile);
 	}
 
 	public bool SaveCheckpoint(Checkpoint newCheckpoint) {
