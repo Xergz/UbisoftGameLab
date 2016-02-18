@@ -13,26 +13,26 @@ NavMeshAreas:
     cost: 2
   - name: Ocean
     cost: 100
-  - name: StreamFastAgainst
-    cost: 190
-  - name: StreamFast
+  - name: Stream1
     cost: 10
-  - name: StreamSlowAgainst
-    cost: 130
-  - name: StreamSlow
-    cost: 70
-  - name: StreamMediumAgainst
-    cost: 160
-  - name: StreamMedium
-    cost: 40
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: Stream2
+    cost: 10
+  - name: Stream3
+    cost: 10
+  - name: Stream4
+    cost: 10
+  - name: Stream5
+    cost: 10
+  - name: Stream6
+    cost: 10
+  - name: Stream7
+    cost: 10
+  - name: Stream8
+    cost: 10
+  - name: Stream9
+    cost: 10
+  - name: Stream10
+    cost: 10
   - name: 
     cost: 1
   - name: 
