@@ -11,20 +11,20 @@ NavMeshAreas:
     cost: 1
   - name: Jump
     cost: 2
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: Ocean
+    cost: 100
+  - name: StreamFastAgainst
+    cost: 190
+  - name: StreamFast
+    cost: 10
+  - name: StreamSlowAgainst
+    cost: 130
+  - name: StreamSlow
+    cost: 70
+  - name: StreamMediumAgainst
+    cost: 160
+  - name: StreamMedium
+    cost: 40
   - name: 
     cost: 1
   - name: 
