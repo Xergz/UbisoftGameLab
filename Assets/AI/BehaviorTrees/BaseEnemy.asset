@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227330239, guid: 9fa2ecd1ff2ad394281dd3bf72c5b76e, type: 3}
+  m_Name: BaseEnemy
+  m_EditorClassIdentifier: 
+  _dataSerializer:
+    _serializedData: <scriptableobject version="1.3" type="RAIN.BehaviorTrees.BTAsset"><fields><field
+      value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;BaseEnemy&quot;
+      debugbreak=&quot;False&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot; succeed=&quot;all&quot;
+      repeatuntil=&quot;running&quot; name=&quot;root&quot; fail=&quot;any&quot; debugbreak=&quot;False&quot;&gt;&lt;sequencer
+      usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;Detect
+      Entity&quot; debugbreak=&quot;False&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Sight&amp;quot;&quot;
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;DetectEntityVisual&quot;
+      matchtype=&quot;best&quot; entityobjectvariable=&quot;detectedEntity&quot; debugbreak=&quot;False&quot;
+      consistent=&quot;True&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot;
+      aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;VisualNotAcquired&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;detectedEntity == null&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Hearing&amp;quot;&quot;
+      repeatuntil=&quot;&quot; name=&quot;DetectEntityAudio&quot; matchtype=&quot;best&quot;
+      entityobjectvariable=&quot;detectedEntity&quot; debugbreak=&quot;False&quot;
+      consistent=&quot;True&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot;
+      aspect=&quot;&amp;quot;EntityAudio&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;/sequencer&gt;&lt;selector
+      usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;Actions&quot;
+      debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot; priority=&quot;&quot;
+      name=&quot;Entity&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity
+      != null&quot;&gt;&lt;expression returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot;
+      name=&quot;NowSearching&quot; expression=&quot;isSearching = true&quot; debugbreak=&quot;False&quot;
+      /&gt;&lt;treebinding repeatuntil=&quot;&quot; name=&quot;Entity Detected&quot;
+      debugbreak=&quot;False&quot; binding=&quot;Entity Detected Tree&quot; /&gt;&lt;/constraint&gt;&lt;constraint
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;NoEntity_Searching&quot;
+      debugbreak=&quot;False&quot; constraint=&quot;detectedEntity == null &amp;amp;&amp;amp;
+      isSearching&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot; succeed=&quot;all&quot;
+      repeatuntil=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot; debugbreak=&quot;False&quot;&gt;&lt;treebinding
+      repeatuntil=&quot;&quot; name=&quot;SearchForEntity&quot; debugbreak=&quot;False&quot;
+      binding=&quot;Search Tree&quot; /&gt;&lt;sequencer usepriorities=&quot;False&quot;
+      repeatuntil=&quot;&quot; name=&quot;Timer&quot; debugbreak=&quot;False&quot;&gt;&lt;timer
+      waitforsec=&quot;10&quot; returnvalue=&quot;success&quot; priority=&quot;&quot;
+      name=&quot;SearchTime&quot; debugbreak=&quot;False&quot; /&gt;&lt;expression
+      returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
+      name=&quot;expression&quot; expression=&quot;isSearching = false&quot; debugbreak=&quot;False&quot;
+      /&gt;&lt;/sequencer&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;NoEntity_NotSearching&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;detectedEntity == null &amp;amp;&amp;amp; !isSearching&quot;&gt;&lt;treebinding
+      repeatuntil=&quot;&quot; name=&quot;Wander&quot; debugbreak=&quot;False&quot;
+      binding=&quot;Wander Tree&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/behaviortree&gt;"
+      type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
+      elementtype="System.String"><field value="Entity Detected Tree" type="System.String"
+      id="element0" /><field value="Search Tree" type="System.String" id="element1"
+      /><field value="Wander Tree" type="System.String" id="element2" /></field></fields><references
+      /></scriptableobject>
+    _serializedGameObjects: []
+    _serializedCustomData: []
