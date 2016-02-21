@@ -135,9 +135,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaterialPrefab: {fileID: 2100000, guid: 7f16aaa27226a4016aab4275eda79451, type: 2}
-  numberOfClouds: 5
+  numberOfClouds: 10
   rend: {fileID: 2332554}
-  scrollSpeed: 0.1
+  scrollSpeed: 0.2
   tilingRange: {x: 0.1, y: 1}
 --- !u!198 &19876924
 ParticleSystem:
