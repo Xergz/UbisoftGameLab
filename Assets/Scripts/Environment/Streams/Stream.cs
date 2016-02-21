@@ -485,6 +485,8 @@ public class Stream : MonoBehaviour {
 	/// <param name="generateTriangles">Whether we should regenerate the triangles or not. This should only be true if the number of vertices changed.</param>
 	private void GenerateMesh(bool generateTriangles) {
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
+		float halfColliderHeight = colliderHeight / 2;
+
 		wavePrecision = (wavePrecision % 2 == 0) ? wavePrecision - 1 : wavePrecision; // Round down to the nearest odd number
 
 		streamVertices = new Vector3[streamCurve.Length * wavePrecision];
@@ -509,11 +511,13 @@ public class Stream : MonoBehaviour {
 			// Vertices for the collider mesh
 			if(Application.isPlaying) {
 				colliderVertices[i4] = streamVertices[iMultiplied];
+				colliderVertices[i4].y -= halfColliderHeight;
 				colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
+				colliderVertices[i4 + 1].y -= halfColliderHeight;
 				colliderVertices[i4 + 2] = streamVertices[iMultiplied];
-				colliderVertices[i4 + 2].y += colliderHeight;
+				colliderVertices[i4 + 2].y += halfColliderHeight;
 				colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
-				colliderVertices[i4 + 3].y += colliderHeight;
+				colliderVertices[i4 + 3].y += halfColliderHeight;
 			}
 
 			// Normals and y displacement for the stream mesh
