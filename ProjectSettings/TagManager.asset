@@ -7,6 +7,10 @@ TagManager:
   - Fragment
   - Stream
   - Rock
+  - Shade
+  - Fist
+  - Hand
+  - Monster
   layers:
   - Default
   - TransparentFX
