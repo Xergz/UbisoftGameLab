@@ -34,10 +34,17 @@ MonoBehaviour:
       priority=&quot;&quot; name=&quot;Shade&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity.tag
       == &amp;quot;Shade&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Fist&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity.tag
-      == &amp;quot;Fist&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
-      priority=&quot;&quot; name=&quot;Hand&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity.tag
-      == &amp;quot;Hand&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
-      priority=&quot;&quot; name=&quot;Monster&quot; debugbreak=&quot;False&quot;
+      == &amp;quot;Fist&amp;quot;&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
+      repeatuntil=&quot;&quot; name=&quot;sequencer&quot; debugbreak=&quot;False&quot;&gt;&lt;action
+      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmFtbWluZ0VudGl0eQAiRmlzdCI=&quot;
+      parameters=&quot;YXR0YWNrZXJGb3JtAHRhZw==&quot; namespace=&quot;&quot; name=&quot;Detect
+      Fist&quot; debugbreak=&quot;False&quot; classname=&quot;DetectTagHearing&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;&quot;
+      parameters=&quot;&quot; namespace=&quot;&quot; name=&quot;Dodge&quot; debugbreak=&quot;False&quot;
+      classname=&quot;ActionTemplate_BOO&quot; /&gt;&lt;/sequencer&gt;&lt;/constraint&gt;&lt;constraint
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Hand&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;detectedEntity.tag == &amp;quot;Hand&amp;quot;&quot; /&gt;&lt;constraint
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Monster&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity.tag == &amp;quot;Monster&amp;quot;&quot; /&gt;&lt;/selector&gt;&lt;/behaviortree&gt;"
       type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
       elementtype="System.String" /></fields><references /></scriptableobject>
