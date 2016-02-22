@@ -9,21 +9,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1227330239, guid: 9fa2ecd1ff2ad394281dd3bf72c5b76e, type: 3}
-  m_Name: ChasingEnemy
+  m_Name: Chase
   m_EditorClassIdentifier: 
   _dataSerializer:
     _serializedData: <scriptableobject version="1.3" type="RAIN.BehaviorTrees.BTAsset"><fields><field
-      value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;ChasingEnemy&quot;
+      value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;Chase&quot;
       debugbreak=&quot;False&quot;&gt;&lt;selector usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; name=&quot;selector&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Player&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity.tag == &amp;quot;Player&amp;quot;&quot;&gt;&lt;sequencer
       usepriorities=&quot;False&quot; repeatuntil=&quot;&quot; name=&quot;sequencer&quot;
-      debugbreak=&quot;False&quot;&gt;&lt;move turnspeed=&quot;&quot; repeatuntil=&quot;&quot;
-      priority=&quot;&quot; name=&quot;Chase&quot; movetarget=&quot;detectedEntity.transform&quot;
-      movespeed=&quot;&quot; facetarget=&quot;&quot; debugbreak=&quot;False&quot;
-      closeenoughdistance=&quot;2&quot; closeenoughangle=&quot;&quot; /&gt;&lt;parallel
-      tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
+      debugbreak=&quot;False&quot;&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      parametervalues=&quot;AGRldGVjdGVkRW50aXR5LnRyYW5zZm9ybQAAAAAA&quot; parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
+      namespace=&quot;&quot; name=&quot;Chase&quot; debugbreak=&quot;False&quot; classname=&quot;MoveAcceleration&quot;
+      /&gt;&lt;parallel tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot; debugbreak=&quot;False&quot;&gt;&lt;action
       repeatuntil=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdHk=&quot; parameters=&quot;dGFyZ2V0VmFyaWFibGU=&quot;
       namespace=&quot;&quot; name=&quot;Attack&quot; debugbreak=&quot;False&quot;
@@ -42,13 +41,13 @@ MonoBehaviour:
       /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmFtbWluZ0VudGl0eQByYW5kb20oMC4xLCAzKQBzYWZlUG9zaXRpb25UYXJnZXQ=&quot;
       parameters=&quot;YXR0YWNrZXJGb3JtAGRvZGdlRGlzdGFuY2UAc2FmZVBvc2l0aW9u&quot;
       namespace=&quot;&quot; name=&quot;Dodge&quot; debugbreak=&quot;False&quot; classname=&quot;Dodge&quot;
-      /&gt;&lt;move turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;move&quot; movetarget=&quot;safePositionTarget&quot; movespeed=&quot;10&quot;
-      facetarget=&quot;&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
-      closeenoughangle=&quot;&quot; /&gt;&lt;/sequencer&gt;&lt;/constraint&gt;&lt;constraint
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Hand&quot; debugbreak=&quot;False&quot;
-      constraint=&quot;detectedEntity.tag == &amp;quot;Hand&amp;quot;&quot; /&gt;&lt;constraint
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Monster&quot; debugbreak=&quot;False&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;AHNhZmVQb3NpdGlvblRhcmdldAAAMTAAAAA=&quot;
+      parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
+      namespace=&quot;&quot; name=&quot;Move&quot; debugbreak=&quot;False&quot; classname=&quot;MoveAcceleration&quot;
+      /&gt;&lt;/sequencer&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;Hand&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity.tag
+      == &amp;quot;Hand&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;Monster&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity.tag == &amp;quot;Monster&amp;quot;&quot; /&gt;&lt;/selector&gt;&lt;/behaviortree&gt;"
       type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
       elementtype="System.String" /></fields><references /></scriptableobject>

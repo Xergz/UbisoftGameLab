@@ -48,7 +48,7 @@ MonoBehaviour:
       namespace=&quot;(global)&quot; name=&quot;ChooseSearchPosition&quot; debugbreak=&quot;False&quot;
       classname=&quot;ChooseSearchPosition&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
       priority=&quot;&quot; parametervalues=&quot;AG1vdmVUYXJnZXQAADQAAAA=&quot; parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
-      namespace=&quot;(global)&quot; name=&quot;MoveWithAcceleration&quot; debugbreak=&quot;False&quot;
+      namespace=&quot;(global)&quot; name=&quot;Move&quot; debugbreak=&quot;False&quot;
       classname=&quot;MoveAcceleration&quot; /&gt;&lt;timer waitforsec=&quot;random(0.5,
       1.5)&quot; returnvalue=&quot;success&quot; priority=&quot;&quot; name=&quot;Pause&quot;
       debugbreak=&quot;False&quot; /&gt;&lt;/sequencer&gt;&lt;sequencer usepriorities=&quot;False&quot;
