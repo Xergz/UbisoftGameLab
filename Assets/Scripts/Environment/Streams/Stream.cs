@@ -318,7 +318,7 @@ public class Stream : MonoBehaviour {
 			endPosition = endPositionHandle;
 			endTangent = endTangentHandle;
 		}
-		UpdateCurve(startPosition, startTangent, endPosition, endTangent);
+		UpdateCurve(startPosition, startTangent + startPosition, endPosition, endTangent + endPosition);
 
 		// Restore strength
 		if(Time.time - timeAtLastStrengthModification >= timeBeforeStrengthRestoration) {
@@ -371,13 +371,13 @@ public class Stream : MonoBehaviour {
 	/// <param name="endTangent">Out: The displaced ending tangent</param>
 	private void UpdateHandles(out Vector3 startPosition, out Vector3 startTangent, out Vector3 endPosition, out Vector3 endTangent) {
 		// Get the noise to modify handles' positions
-		float startNoise = Noise.Generate(1 + randomizedNoiseOffset, Time.time * oscillationSpeed); // Using 3 parameters since the function with 2 is buggy
-		float endNoise = Noise.Generate(segmentCount + 2 + randomizedNoiseOffset, Time.time * oscillationSpeed); // Using 3 parameters since the function with 2 is buggy
+		float startNoise = Noise.Generate(1 + randomizedNoiseOffset, Time.time * oscillationSpeed);
+		float endNoise = Noise.Generate(segmentCount + 2 + randomizedNoiseOffset, Time.time * oscillationSpeed);
 
 		// Calculate tangents related to original handles (without the oscillation) since the oscillation will be made according to this
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
-		Vector3 rotatedStartTangent = rotation * Vector3.Normalize(startTangentHandle - startPositionHandle);
-		Vector3 rotatedEndTangent = rotation * Vector3.Normalize(-(endTangentHandle - endPositionHandle));
+		Vector3 rotatedStartTangent = rotation * Vector3.Normalize(startPositionHandle);
+		Vector3 rotatedEndTangent = rotation * Vector3.Normalize(-endPositionHandle);
 
 		// Move the positions along a vector perpendicular to their tangent
 		startPosition = startPositionHandle + (rotatedStartTangent * startNoise * positionOscillationAmplitude);
@@ -387,10 +387,8 @@ public class Stream : MonoBehaviour {
 		// Therefore move them along with the positions then rotate them around the new positions
 		Quaternion startTangentRotation = Quaternion.AngleAxis(startNoise * tangentOscillationAmplitude, Vector3.up);
 		Quaternion endTangentRotation = Quaternion.AngleAxis(endNoise * tangentOscillationAmplitude, Vector3.up);
-		startTangent = (startTangentHandle + (startPositionHandle - startPosition)); // New start tangent position before rotation
-		startTangent = (startTangentRotation * (startTangent - startPosition)) + startPosition; // Start tangent rotated
-		endTangent = (endTangentHandle + (endPositionHandle - endPosition)); // New end tangent position before rotation
-		endTangent = (endTangentRotation * (endTangent - endPosition)) + endPosition; // End tangent rotated
+		startTangent = startTangentRotation * startTangentHandle; // Start tangent rotated
+		endTangent = endTangentRotation * endTangentHandle; // End tangent rotated
 	}
 
 	/// <summary>
