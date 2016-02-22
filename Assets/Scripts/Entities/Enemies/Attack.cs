@@ -17,10 +17,9 @@ public class Attack : RAINAction {
     public override ActionResult Execute(AI ai) {
 
         if (!targetVariable.IsVariable)
-            throw new Exception("The Attack node requires a valid Target Variable");
+            throw new Exception("The Attack node requires a valid target variable.");
 
-        if (targetVariable.IsValid)
-            targetEntity = targetVariable.Evaluate<Entity>(ai.DeltaTime, ai.WorkingMemory);
+        targetEntity = ai.WorkingMemory.GetItem<Entity>(targetVariable.VariableName);
 
         if (targetEntity == null)
             return ActionResult.FAILURE;
