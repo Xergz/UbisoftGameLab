@@ -39,9 +39,13 @@ MonoBehaviour:
       repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmFtbWluZ0VudGl0eQAiRmlzdCI=&quot;
       parameters=&quot;YXR0YWNrZXJGb3JtAHRhZw==&quot; namespace=&quot;&quot; name=&quot;Detect
       Fist&quot; debugbreak=&quot;False&quot; classname=&quot;DetectTagHearing&quot;
-      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;&quot;
-      parameters=&quot;&quot; namespace=&quot;&quot; name=&quot;Dodge&quot; debugbreak=&quot;False&quot;
-      classname=&quot;ActionTemplate_BOO&quot; /&gt;&lt;/sequencer&gt;&lt;/constraint&gt;&lt;constraint
+      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmFtbWluZ0VudGl0eQByYW5kb20oMC4xLCAzKQBzYWZlUG9zaXRpb25UYXJnZXQ=&quot;
+      parameters=&quot;YXR0YWNrZXJGb3JtAGRvZGdlRGlzdGFuY2UAc2FmZVBvc2l0aW9u&quot;
+      namespace=&quot;&quot; name=&quot;Dodge&quot; debugbreak=&quot;False&quot; classname=&quot;Dodge&quot;
+      /&gt;&lt;move turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
+      name=&quot;move&quot; movetarget=&quot;safePositionTarget&quot; movespeed=&quot;10&quot;
+      facetarget=&quot;&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
+      closeenoughangle=&quot;&quot; /&gt;&lt;/sequencer&gt;&lt;/constraint&gt;&lt;constraint
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Hand&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity.tag == &amp;quot;Hand&amp;quot;&quot; /&gt;&lt;constraint
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;Monster&quot; debugbreak=&quot;False&quot;
