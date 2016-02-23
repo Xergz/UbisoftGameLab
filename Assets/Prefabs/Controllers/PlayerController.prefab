@@ -42,7 +42,7 @@ MonoBehaviour:
   playerRigidbody: {fileID: 0}
   movementForce: 6
   rotationSpeed: 0.5
-  maximumVelocity: 10
+  maximumVelocity: 7.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
