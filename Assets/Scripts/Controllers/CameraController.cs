@@ -8,6 +8,8 @@ public class CameraController : InputReceiver {
     public float distanceDefault = 5f;
     public float distanceMin = 3f;
     public float distanceMax = 10f;
+    public float autoAdjustTime = 2.0f;
+
     public Vector3 movementSmooth = new Vector3(0.05f, 0.1f, 0.05f);
     public Vector2 rotation = new Vector2(0f, 40f);
     public Vector2 controllerSensitivity = new Vector2(2f, 2f);
@@ -15,13 +17,14 @@ public class CameraController : InputReceiver {
     private Vector2 controllerInput = new Vector2(0f, 0f);
     private Vector3 positionTarget = Vector3.zero;
     private Vector3 oldPlayerPosition = Vector3.zero;
-
+    private float lastTimeAdjusted = 0.0f;
 
     public override void ReceiveInputEvent(InputEvent inputEvent) {
         if(inputEvent.InputAxis == EnumAxis.RightJoystickX) {
             controllerInput.x = inputEvent.Value;
             if(Mathf.Abs(controllerInput.x) < 0.2) {
                 controllerInput.x = 0;
+                lastTimeAdjusted = 0.0f;
             }
         }
 
@@ -29,6 +32,7 @@ public class CameraController : InputReceiver {
             controllerInput.y = inputEvent.Value*-1;
             if(Mathf.Abs(controllerInput.y) < 0.2) {
                 controllerInput.y = 0;
+                lastTimeAdjusted = 0.0f;
             }
         }
 
@@ -39,16 +43,20 @@ public class CameraController : InputReceiver {
         }
     }
 
-	void Start() {
-        if (playerTransform == null) {
+    void Start()
+    {
+        if (playerTransform == null)
+        {
             Debug.LogError("No transform is linked to the camera controller");
         }
 
         distance = Mathf.Clamp(distance, distanceMin, distanceMax);
         distanceDefault = Mathf.Clamp(distanceDefault, distanceMin, distanceMax);
-	}
+    }
 	
 	void LateUpdate() {
+        lastTimeAdjusted += Time.deltaTime;
+
         if (playerTransform == null)
             return;
 
@@ -58,9 +66,7 @@ public class CameraController : InputReceiver {
         CalculateMovement();
         CalculateCameraTarget();
         UpdatePosition();
-        
-
-	}
+    }
 
     void CalculateMovement() {
         distance -= controllerInput.y * controllerSensitivity.y;
@@ -77,7 +83,20 @@ public class CameraController : InputReceiver {
 
     void CalculateCameraTarget() {
         Vector3 direction = new Vector3(0, 0, -distance);
-        Quaternion rotate = Quaternion.Euler(rotation.y, rotation.x, 0);
+
+        Quaternion rotate;
+        if (lastTimeAdjusted >= autoAdjustTime)
+        {
+            //Make a smooth transition towards where the player is pointing
+            float currentAngle = transform.eulerAngles.y;
+            rotation.x = Mathf.LerpAngle(currentAngle, playerTransform.eulerAngles.y, Time.deltaTime);
+            rotate = Quaternion.Euler(rotation.y, rotation.x, 0);
+        }
+        else
+        {
+            rotate = Quaternion.Euler(rotation.y, rotation.x, 0);
+        }
+        
         positionTarget = oldPlayerPosition + rotate * direction;
     }
 
