@@ -3,6 +3,9 @@ using System.Collections;
 using System;
 
 public class GameManager : MonoBehaviour, GameRestorer {
+    // TODO: Change this for something better
+    public GameObject FragmentsRoot;
+
 	private CheckpointController checkpoints;
     public PlayerController PlayerController = null;
 
@@ -30,6 +33,21 @@ public class GameManager : MonoBehaviour, GameRestorer {
             Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
             Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
 		}
+         
+        // Iterate over every fragment gameobject
+        foreach (Transform fragmentTransform in FragmentsRoot.transform) {
+            GameObject fragmentObject = fragmentTransform.gameObject;
+            Fragment fragment = fragmentObject.GetComponent<Fragment> ();
+
+            // Look if the player already picked it
+            System.UInt32 hashName = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes (fragment.fragmentName), 0);
+            if (checkpoint.Collectables.ContainsKey (hashName)) {
+                fragmentObject.SetActive (!checkpoint.Collectables[hashName]);
+            } else {
+                fragmentObject.SetActive (true);
+            }
+        }
+
 	}
 
     /// <summary>
