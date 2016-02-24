@@ -15,7 +15,7 @@ public class Dodge : RAINAction {
     public Expression dodgeDistance = new Expression();
     public Expression safePosition = new Expression();
 
-    private List<GameObject> listAttackers;
+    private GameObject attackerGameObject;
 
     private Transform attackerTransform;
 
@@ -31,22 +31,17 @@ public class Dodge : RAINAction {
         if (!attackerForm.IsVariable)
             throw new Exception("The Dodge node requires a valid attacker variable");
 
-        listAttackers = ai.WorkingMemory.GetItem<List<GameObject>>(attackerForm.VariableName);
+		attackerGameObject = ai.WorkingMemory.GetItem<GameObject>(attackerForm.VariableName);
 
         if (dodgeDistance.IsValid)
             dodgeLength = dodgeDistance.Evaluate<float>(ai.DeltaTime, ai.WorkingMemory);
 
         currentPosition = new Vector3(ai.Body.transform.position.x, 0, ai.Body.transform.position.z);
 
-        foreach(GameObject element in listAttackers) {
-            if(Vector3.Angle(element.transform.forward, currentPosition - element.transform.position) < 10) {
-                attackerTransform = element.transform;
-                    attackerTransform.position = new Vector3(attackerTransform.position.x, 0, attackerTransform.position.z);
-                    attackerTransform.forward = new Vector3(attackerTransform.forward.x, 0, attackerTransform.forward.z);
-                break;
-            }
-        }
-
+		attackerTransform = attackerGameObject.transform;
+        attackerTransform.position = new Vector3(attackerTransform.position.x, 0, attackerTransform.position.z);
+        attackerTransform.forward = new Vector3(attackerTransform.forward.x, 0, attackerTransform.forward.z);
+         
         if(attackerTransform == null) {
             return ActionResult.FAILURE;
         }
