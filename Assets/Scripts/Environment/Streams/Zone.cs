@@ -8,7 +8,7 @@ public class Zone : MonoBehaviour {
 	private int zone;
 
 	// Use this for initialization
-	void Awake () {
+	void Start() {
 		Stream[] streams = GetComponentsInChildren<Stream>();
 		List<int> areasSet = new List<int>();
 		foreach(Stream stream in streams) {
