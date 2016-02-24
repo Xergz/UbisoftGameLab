@@ -40,9 +40,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 496260}
+  - 114: {fileID: 11482188}
+  - 114: {fileID: 11484136}
+  - 54: {fileID: 5416126}
   - 65: {fileID: 6537768}
   - 195: {fileID: 19578820}
-  - 114: {fileID: 11484136}
   m_Layer: 0
   m_Name: RammingEnemy
   m_TagString: Fist
@@ -180,6 +182,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185062}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &5416126
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172208}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.75
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!65 &6537768
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -286,18 +303,19 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="7" id="_mind" childrenvisible="False" /><field type="UnityNavMeshMotor"
+      reference="7" id="_mind" childrenvisible="True" /><field type="RammingEnemyMotor"
       reference="9" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
-      reference="10" id="_animator" /><field type="RAIN.Navigation.BasicNavigator"
-      reference="11" id="_navigator" /><field type="RAIN.Perception.BasicSenses" reference="12"
-      id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
+      reference="10" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
+      reference="11" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
+      reference="12" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
       id="_customElements" elementtype="RAIN.Core.CustomAIElement" /></reference><reference
       type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field type="System.Collections.Generic.List"
       id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="2" id="element0" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="3" id="element1" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="4" id="element2" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
-      reference="5" id="element3" /></field></reference><reference type="RAIN.Memory.BasicMemory+MemoryItem"
+      reference="5" id="element3" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
+      reference="15" id="element4" /></field></reference><reference type="RAIN.Memory.BasicMemory+MemoryItem"
       refcount="1" id="2"><field value="maximumRange" type="System.String" id="Key"
       /><field value="System.Single" type="System.Type" id="ValueType" /><field value="15"
       type="System.Single" id="Value" /></reference><reference type="RAIN.Memory.BasicMemory+MemoryItem"
@@ -316,13 +334,15 @@ MonoBehaviour:
       type="RAIN.BehaviorTrees.BTAsset" id="_behaviorTreeAsset" gameobject="1" /><field
       type="System.Collections.Generic.List" id="_behaviorTreeBindings" elementtype="RAIN.BehaviorTrees.BTAssetBinding"><field
       type="RAIN.BehaviorTrees.BTAssetBinding" reference="6" id="element0" /><field
-      type="RAIN.BehaviorTrees.BTAssetBinding" reference="8" id="element1" /></field></reference><reference
+      type="RAIN.BehaviorTrees.BTAssetBinding" reference="8" id="element1" /><field
+      type="RAIN.BehaviorTrees.BTAssetBinding" reference="16" id="element2" /></field></reference><reference
       type="RAIN.BehaviorTrees.BTAssetBinding" refcount="1" id="8"><field value="Wander
       Tree" type="System.String" id="binding" /><field type="RAIN.BehaviorTrees.BTAsset"
-      id="behaviorTree" gameobject="2" /></reference><reference type="UnityNavMeshMotor"
+      id="behaviorTree" gameobject="2" /></reference><reference type="RammingEnemyMotor"
       refcount="1" id="9"><field value="0.1" type="System.Single" id="defaultCloseEnoughDistance"
       /><field value="3" type="System.Single" id="defaultSpeed" /><field value="3"
-      type="System.Single" id="defaultAcceleration" /></reference><reference type="RAIN.Animation.BasicAnimator"
+      type="System.Single" id="defaultAcceleration" /><field type="RAIN.Representation.Expression"
+      reference="16" id="isRammingVariable" /></reference><reference type="RAIN.Animation.BasicAnimator"
       refcount="1" id="10"><field type="System.Collections.Generic.List" id="_animationStates"
       elementtype="RAIN.Animation.BasicAnimator+BasicAnimatorState" /></reference><reference
       type="RAIN.Navigation.BasicNavigator" refcount="1" id="11"><field value="False"
@@ -345,7 +365,7 @@ MonoBehaviour:
       /><field value="15" type="System.Single" id="_range" /><field value="False"
       type="System.Boolean" id="_canDetectSelf" /><field value="90" type="System.Single"
       id="_horizontalAngle" /><field value="50" type="System.Single" id="_verticalAngle"
-      /><field value="True" type="System.Boolean" id="_lineOfSight" /><field value="-5"
+      /><field value="False" type="System.Boolean" id="_lineOfSight" /><field value="-5"
       type="UnityEngine.LayerMask" id="_lineOfSightMask" /></reference><reference
       type="RAIN.Perception.Sensors.AudioSensor" refcount="1" id="14"><field value="True"
       type="System.Boolean" id="_showVisual" /><field value="Hearing" type="System.String"
@@ -357,6 +377,12 @@ MonoBehaviour:
       id="_filters" elementtype="RAIN.Perception.Sensors.Filters.RAINSensorFilter"
       /><field value="5" type="System.Single" id="_range" /><field value="False" type="System.Boolean"
       id="_canDetectSelf" /><field value="0.1" type="System.Single" id="_volumeThreshold"
+      /></reference><reference type="RAIN.Memory.BasicMemory+MemoryItem" refcount="1"
+      id="15"><field value="isRamming" type="System.String" id="Key" /><field value="System.Boolean"
+      type="System.Type" id="ValueType" /><field value="False" type="System.Boolean"
+      id="Value" /></reference><reference type="RAIN.BehaviorTrees.BTAssetBinding"
+      refcount="1" id="16"><field value="Entity Detected Tree" type="System.String"
+      id="binding" /><field type="RAIN.BehaviorTrees.BTAsset" id="behaviorTree" gameobject="6"
       /></reference></references></component>
     _serializedGameObjects:
     - {fileID: 172208}
@@ -364,8 +390,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6f369a0142388a64c94d5831ac4bf7bb, type: 2}
     - {fileID: 429908}
     - {fileID: 429908}
+    - {fileID: 11400000, guid: ba51686c1f2543f4480fe4ed573e08ea, type: 2}
     - {fileID: 11400000, guid: 82b09c61c0e2cd24fa9c289bc0f0f916, type: 2}
-    _serializedCustomData: []
+    _serializedCustomData:
+    - _data: 
+      _stringData: DQo=
+    - _data: 
+      _stringData: aXNSYW1taW5nDQo=
 --- !u!114 &11467710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -396,7 +427,7 @@ MonoBehaviour:
       /><field value="0.1" type="System.Single" id="_visualSize" /><field type="UnityEngine.Transform"
       id="_mountPoint" gameobject="0" /><field value="0,0,0" type="UnityEngine.Vector3"
       id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset"
-      /><field type="UnityEngine.AudioSource" id="_audioSource" gameobject="-1" /></reference><reference
+      /><field type="UnityEngine.AudioSource" id="_audioSource" gameobject="3" /></reference><reference
       type="RAIN.Entities.Aspects.VisualAspect" refcount="1" id="2"><field value="True"
       type="System.Boolean" id="_showVisual" /><field value="EntityVisual" type="System.String"
       id="_aspectName" /><field value="True" type="System.Boolean" id="_isActive"
@@ -407,10 +438,24 @@ MonoBehaviour:
       /><field value="0,0,0" type="UnityEngine.Vector3" id="_positionOffset" /><field
       value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset" /></reference></references></component>
     _serializedGameObjects:
-    - {fileID: 496260}
+    - {fileID: 429908}
     - {fileID: 172208}
-    - {fileID: 496260}
+    - {fileID: 429908}
+    - {fileID: 8274918}
     _serializedCustomData: []
+--- !u!114 &11482188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0caa93132ac139a4dbee128d42b5502c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRamming: 0
+  life: 5
 --- !u!114 &11484136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,7 +485,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 0.75
   m_BaseOffset: 0
@@ -460,6 +505,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Fist
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
