@@ -2,7 +2,6 @@
 ###################
 *.com
 *.class
-*.dll
 *.exe
 *.o
 *.so
@@ -124,6 +123,7 @@ local.properties
 *.unityproj
 *.pidb.meta
 sysinfo.txt
+Assets/generated*
 Assets/Scenes/Gab/
 Assets/Scenes/Gab.meta
 Assets/Scenes/Emile/
@@ -136,3 +136,9 @@ Assets/Scenes/Nathan/
 Assets/Scenes/Nathan.meta
 Assets/Scenes/Clement/
 Assets/Scenes/Clement.meta
+Assets/generated/
+Assets/generated.meta
+Assets/AI/Cache/
+Assets/AI/Cache.meta
+Assets/Plugins/RAIN/Editor/RAINProjectState.asset
+Assets/Plugins/RAIN/Editor/RAINProjectState.asset.meta

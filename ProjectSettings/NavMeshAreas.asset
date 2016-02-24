@@ -11,28 +11,28 @@ NavMeshAreas:
     cost: 1
   - name: Jump
     cost: 2
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: Ocean
+    cost: 100
+  - name: Stream1
+    cost: 10
+  - name: Stream2
+    cost: 10
+  - name: Stream3
+    cost: 10
+  - name: Stream4
+    cost: 10
+  - name: Stream5
+    cost: 10
+  - name: Stream6
+    cost: 10
+  - name: Stream7
+    cost: 10
+  - name: Stream8
+    cost: 10
+  - name: Stream9
+    cost: 10
+  - name: Stream10
+    cost: 10
   - name: 
     cost: 1
   - name: 
