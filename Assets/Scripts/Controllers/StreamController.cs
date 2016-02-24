@@ -13,6 +13,8 @@ public class StreamController : InputReceiver {
 	private static List<Stream> yellowStreams;
 	private static List<Stream> redStreams;
 
+	private static List<Stream>[] streamLists;
+
 	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
 
 	[Tooltip("The power controller to call when using a power")]
@@ -70,6 +72,37 @@ public class StreamController : InputReceiver {
 		}
 	}
 
+	/// <summary>
+	/// Set the costs of all areas linked to a stream within the zone of an entity according to a vector from position to target
+	/// </summary>
+	/// <param name="zone">The zone the entity is in</param>
+	/// <param name="position">The position of the entity willing to set the costs</param>
+	/// <param name="target">The target position the entity wishes to reach</param>
+	public void SetAreaCosts(int zone, Vector3 position, Vector3 target) {
+		foreach(List<Stream> streams in streamLists) {
+			foreach(Stream stream in streams) {
+				if(stream.Zone == zone) {
+					stream.SetAreaCost(position, target);
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Set the costs of all areas linked to a stream within the zone of an entity to a constant cost
+	/// </summary>
+	/// <param name="zone">The zone the entity is in</param>
+	/// <param name="cost">The cost to give the areas</param>
+	public void SetAreaCosts(int zone, float cost) {
+		foreach(List<Stream> streams in streamLists) {
+			foreach(Stream stream in streams) {
+				if(stream.Zone == zone) {
+					stream.SetAreaCost(cost);
+				}
+			}
+		}
+	}
+
 	// Use this for initialization
 	private void Awake() {
 		if(greenStreams == null) {
@@ -84,8 +117,15 @@ public class StreamController : InputReceiver {
 		if(redStreams == null) {
 			redStreams = new List<Stream>();
 		}
+
+		streamLists = new List<Stream>[] { greenStreams, blueStreams, yellowStreams, redStreams };
 	}
 
+	/// <summary>
+	/// Change the currently selected color to the color of the button or to NONE if no button is pressed
+	/// </summary>
+	/// <param name="color">The new color or NONE</param>
+	/// <param name="state">The state of the button</param>
 	private void ChangeSelectedColor(EnumStreamColor color, EnumButtonState state) {
 		if(color != EnumStreamColor.NONE) {
 			if(state == EnumButtonState.HELD_DOWN) {
@@ -96,11 +136,20 @@ public class StreamController : InputReceiver {
 		}
 	}
 
+	/// <summary>
+	/// Switch the direction of all streams of a color.
+	/// </summary>
+	/// <param name="color">The color of the streams to switch</param>
 	private void SwitchDirectionForColor(EnumStreamColor color) {
 		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).streams = GetStreamList(color);
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
 
+	/// <summary>
+	/// Get the list of all streams of a color
+	/// </summary>
+	/// <param name="color">The color of the streams to get</param>
+	/// <returns>The list of streams</returns>
 	private static List<Stream> GetStreamList(EnumStreamColor color) {
 		switch(color) {
 			case EnumStreamColor.GREEN:

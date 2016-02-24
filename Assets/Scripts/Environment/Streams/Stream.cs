@@ -8,8 +8,16 @@ using System.Collections.Generic;
 /// </summary>
 [ExecuteInEditMode]
 public class Stream : MonoBehaviour {
-	public WaveController WaveController { get { return waveController; } set { waveController = value; } }
 
+	/// <summary>
+	/// The index of the area the stream is in for the NavMesh
+	/// </summary>
+	public int AreaIndex { get { return areaIndex; } private set { areaIndex = value; } }
+
+	/// <summary>
+	/// The zone in which this stream is physically
+	/// </summary>
+	public int Zone { get; set; }
 
 	#region Constants
 	private const int MAX_SEGMENT_COUNT = 200; // Maximum number of segments in the bezier curve
@@ -74,6 +82,12 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private float colliderHeight = 4;
 	private float randomizedNoiseOffset; // An offset so that not all streams have the same oscillation
+
+	[Tooltip("The exact name of the navigation area this stream is in")]
+	[SerializeField]
+	private string areaName;
+
+	private int areaIndex; // The index of the area the stream is in for the NavMesh
 
 
 	[Tooltip("The color of the stream")]
@@ -241,6 +255,23 @@ public class Stream : MonoBehaviour {
 		this.endTangentHandle = endTangentHandle;
 	}
 
+	/// <summary>
+	/// Set the cost of the area linked to this stream according to a vector from position to target
+	/// </summary>
+	/// <param name="position">The position of the entity willing to set the costs</param>
+	/// <param name="target">The target position the entity wishes to reach</param>
+	public void SetAreaCost(Vector3 position, Vector3 target) {
+
+	}
+
+	/// <summary>
+	/// Set the cost of the area linked to this stream to a constant cost
+	/// </summary>
+	/// <param name="cost">The new cost for the area</param>
+	public void SetAreaCost(float cost) {
+		NavMesh.SetAreaCost(AreaIndex, cost);
+	}
+
 
 	private void Awake() {
 		if(waveController == null) {
@@ -276,6 +307,8 @@ public class Stream : MonoBehaviour {
 		strength = baseStrength;
 
 		randomizedNoiseOffset = Random.Range(MIN_NOISE_OFFSET, MAX_NOISE_OFFSET);
+
+		AreaIndex = NavMesh.GetAreaFromName(areaName);
 
 		#region DEBUG
 		curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
