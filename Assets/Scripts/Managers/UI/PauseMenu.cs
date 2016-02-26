@@ -50,8 +50,9 @@ public class PauseMenu : MonoBehaviour {
         }
     }
 
-    public void LastCheckpoint() {
+    public void ReloadLastCheckpoint() {
         GameManager.RestoreFromLastCheckpoint();
+        Pause();
     }
 
     public void MainMenu() {

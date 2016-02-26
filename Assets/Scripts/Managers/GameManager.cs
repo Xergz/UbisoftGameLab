@@ -69,21 +69,22 @@ public class GameManager : MonoBehaviour, GameRestorer {
         return this.checkpoints.Count;
     }
 
-	//
-	// UNITY CALLBACKS
-	//
+    public void DeleteAllCheckPoints() { }
 
-	// Use this for initialization
-	void Start () {
+    public void SaveCheckpoint(Checkpoint checkpoint) { }
+
+	public bool LoadCheckpointFile() {
 		this.checkpoints = new CheckpointController (this);
-        this.checkpoints.SaveFile = "patate";
+        this.checkpoints.SaveFile = "SavedGame";
 
         try {
             this.checkpoints.LoadCheckpointsFromSaveFile ();
+            return true;
         }
         catch(Exception e) {
             Debug.Log (e.Message);
         }
+        return false;
 	}
 
 	// Update is called once per frame
