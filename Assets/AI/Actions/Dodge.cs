@@ -36,27 +36,15 @@ public class Dodge : RAINAction {
         if (dodgeDistance.IsValid)
             dodgeLength = dodgeDistance.Evaluate<float>(ai.DeltaTime, ai.WorkingMemory);
 
-        currentPosition = new Vector3(ai.Body.transform.position.x, 0, ai.Body.transform.position.z);
-
-		attackerTransform = attackerGameObject.transform;
-        attackerTransform.position = new Vector3(attackerTransform.position.x, 0, attackerTransform.position.z);
-        attackerTransform.forward = new Vector3(attackerTransform.forward.x, 0, attackerTransform.forward.z);
-         
-        if(attackerTransform == null) {
-            return ActionResult.FAILURE;
-        }
-
         float direction = 1;
-        if (Vector3.Dot(Vector3.up, Vector3.Cross(attackerTransform.forward, currentPosition - attackerTransform.position)) < 0) {
+		if (Vector3.Dot(Vector3.up, Vector3.Cross(ai.Body.transform.position - attackerGameObject.transform.position, attackerGameObject.transform.forward)) < 0) {
             direction = -direction;
         }
-
-        Vector3 distance = attackerTransform.position - currentPosition;
-
-        distance = Vector3.Normalize(new Vector3(-distance.z, 0, distance.x)) * dodgeLength * direction;
+			
+		Vector3 distance = Vector3.Normalize(Vector3.Cross(ai.Body.transform.position - attackerGameObject.transform.position, attackerGameObject.transform.up)) * direction * dodgeLength + ai.Body.transform.position;
 
         ai.WorkingMemory.SetItem<Vector3>(safePosition.VariableName, distance);
  
-        return ActionResult.FAILURE;
+		return ActionResult.SUCCESS;
     }
 }
