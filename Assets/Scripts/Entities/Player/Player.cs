@@ -8,17 +8,17 @@ public class Player : Entity {
         PlayerController.DamagePlayer(1);
     }
 
-    // This function will probably move partially to the parent class. Probably as a template method so that all entities are affected by streams.
-    // Will wait until one shade is done though since I am still not sure of the right implementation.
     private void OnTriggerEnter(Collider other) {
-		if(other.gameObject.CompareTag("Fragment")) {
+		if(other.CompareTag("Fragment")) {
 			other.gameObject.SetActive(false);
 			PlayerController.AddFragment(other.GetComponent<Fragment>());
+		} else if(other.CompareTag("Zone")) {
+			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
 		}
 	}
 
     protected override void OnTriggerStay(Collider other) {
-        if (other.gameObject.CompareTag("Stream")) {
+        if (other.CompareTag("Stream")) {
             PlayerController.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position));
         }
     }

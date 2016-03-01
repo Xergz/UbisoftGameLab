@@ -15,14 +15,14 @@ public class RammingEnemyMotor : UnityNavMeshMotor {
 		rammingEntity = AI.Body.GetComponent<RammingEntity>();
 	}
 
-	public override bool Move() {
-		// Set the area costs
+
+	protected override void SetAreaCosts(Vector3 position, Vector3 target) {
 		if(rammingEntity.IsRamming) {
 			// Set all costs to ocean cost
+			StreamController.SetAreaCosts(StreamController.OceanAreaCost);
 		} else {
 			// Set the costs according to target
+			base.SetAreaCosts(position, target);
 		}
-
-		return base.Move();
 	}
 }

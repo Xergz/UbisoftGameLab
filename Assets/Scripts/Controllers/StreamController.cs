@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 public class StreamController : InputReceiver {
 
-	[Tooltip("The speed at which the player can make the strength of a stream vary")]
-	[SerializeField]
-	private float strengthIncreaseSpeed = 1F;
+	public static float OceanAreaCost { get; private set; }
 
 	private static List<Stream> greenStreams;
 	private static List<Stream> blueStreams;
@@ -16,6 +14,10 @@ public class StreamController : InputReceiver {
 	private static List<Stream>[] streamLists;
 
 	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
+
+	[Tooltip("The speed at which the player can make the strength of a stream vary")]
+	[SerializeField]
+	private float strengthIncreaseSpeed = 1F;
 
 	[Tooltip("The power controller to call when using a power")]
 	[SerializeField]
@@ -75,13 +77,12 @@ public class StreamController : InputReceiver {
 	/// <summary>
 	/// Set the costs of all areas linked to a stream within the zone of an entity according to a vector from position to target
 	/// </summary>
-	/// <param name="zone">The zone the entity is in</param>
 	/// <param name="position">The position of the entity willing to set the costs</param>
 	/// <param name="target">The target position the entity wishes to reach</param>
-	public void SetAreaCosts(int zone, Vector3 position, Vector3 target) {
+	public static void SetAreaCosts(Vector3 position, Vector3 target) {
 		foreach(List<Stream> streams in streamLists) {
 			foreach(Stream stream in streams) {
-				if(stream.Zone == zone) {
+				if(stream.Zone == PlayerController.CurrentZone) {
 					stream.SetAreaCost(position, target);
 				}
 			}
@@ -91,17 +92,17 @@ public class StreamController : InputReceiver {
 	/// <summary>
 	/// Set the costs of all areas linked to a stream within the zone of an entity to a constant cost
 	/// </summary>
-	/// <param name="zone">The zone the entity is in</param>
 	/// <param name="cost">The cost to give the areas</param>
-	public void SetAreaCosts(int zone, float cost) {
+	public static void SetAreaCosts(float cost) {
 		foreach(List<Stream> streams in streamLists) {
 			foreach(Stream stream in streams) {
-				if(stream.Zone == zone) {
+				if(stream.Zone == PlayerController.CurrentZone) {
 					stream.SetAreaCost(cost);
 				}
 			}
 		}
 	}
+
 
 	// Use this for initialization
 	private void Awake() {
@@ -119,6 +120,7 @@ public class StreamController : InputReceiver {
 		}
 
 		streamLists = new List<Stream>[] { greenStreams, blueStreams, yellowStreams, redStreams };
+		OceanAreaCost = NavMesh.GetAreaCost(NavMesh.GetAreaFromName("Ocean"));
 	}
 
 	/// <summary>

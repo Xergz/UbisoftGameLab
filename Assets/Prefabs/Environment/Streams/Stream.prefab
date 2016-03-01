@@ -1403,12 +1403,14 @@ MonoBehaviour:
   width: 5
   baseStrength: 5
   strength: 5
+  areaCostModifier: 5
   timeBeforeStrengthRestoration: 3
   strengthRestorationSpeed: 1
   oscillationSpeed: 0.25
   positionOscillationAmplitude: 1
   tangentOscillationAmplitude: 15
   colliderHeight: 4
+  areaName: 
   color: 0
   direction: 1
   debug: 0
@@ -1560,6 +1562,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: areaCostModifier
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

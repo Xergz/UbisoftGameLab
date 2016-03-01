@@ -17,7 +17,7 @@ public class Stream : MonoBehaviour {
 	/// <summary>
 	/// The zone in which this stream is physically
 	/// </summary>
-	public int Zone { get; set; }
+	public EnumZone Zone { get; set; }
 
 	#region Constants
 	private const int MAX_SEGMENT_COUNT = 200; // Maximum number of segments in the bezier curve
@@ -56,6 +56,9 @@ public class Stream : MonoBehaviour {
 	[Tooltip("The current strength of the stream. For in-editor debugging only, do not change this")]
 	[SerializeField]
 	private float strength;
+	[Tooltip("The value that multiplies the strength when calculating an area's cost")]
+	[SerializeField]
+	private float areaCostModifier = 2;
 	[Tooltip("The time before the stream will start gradually going back to its normal strength after the player has modified it (in seconds)")]
 	[SerializeField]
 	private float timeBeforeStrengthRestoration = 3F;
@@ -137,6 +140,8 @@ public class Stream : MonoBehaviour {
 
 	private Vector3[] streamCurve; // The bezier curve
 	private Vector3[] tangents; // The array containing the tangents for each point of the stream
+
+	private Vector3 generalDirection; // The average of all the other tangents
 #endregion
 
 	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
@@ -211,7 +216,7 @@ public class Stream : MonoBehaviour {
 										 Vector3.Distance((0.5F * (currentPoint - previousPoint)) + previousPoint, streamCurve[closestPoint]));
 		}
 
-		return (distanceToClosest <= Mathf.Max(maxDistanceLower, maxDistanceUpper)) ? tangents[closestPoint] * strength * (int) direction : new Vector3(0, 0, 0);
+		return (distanceToClosest <= Mathf.Max(maxDistanceLower, maxDistanceUpper)) ? tangents[closestPoint] * strength * (int) direction : Vector3.zero;
 	}
 
 	/// <summary>
@@ -242,7 +247,7 @@ public class Stream : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Sets the handles of the bezier curve representing the stream (positions and tangents) Might be change to prevent modifiying some values.
+	/// Sets the handles of the bezier curve representing the stream (positions and tangents) Might be changed to prevent modifiying some values.
 	/// </summary>
 	/// <param name="startPositionHandle">Starting position of the bezier curve representing the stream</param>
 	/// <param name="startTangentHandle">Starting tangent of the bezier curve representing the stream</param>
@@ -261,7 +266,9 @@ public class Stream : MonoBehaviour {
 	/// <param name="position">The position of the entity willing to set the costs</param>
 	/// <param name="target">The target position the entity wishes to reach</param>
 	public void SetAreaCost(Vector3 position, Vector3 target) {
-
+		float angle = Vector3.Angle(target - position, generalDirection * (int) direction);
+		float delta = strength * areaCostModifier * Mathf.Cos(Mathf.Deg2Rad * angle);
+		NavMesh.SetAreaCost(AreaIndex, StreamController.OceanAreaCost - delta);
 	}
 
 	/// <summary>
@@ -476,13 +483,21 @@ public class Stream : MonoBehaviour {
 	/// <param name="endPosition">Ending position of the bezier curve representing the stream</param>
 	/// <param name="endTangent">Ending tangent of the bezier curve representing the stream</param>
 	private void GenerateTangents(Vector3 startPosition, Vector3 startTangent, Vector3 endPosition, Vector3 endTangent) {
+		generalDirection = Vector3.zero;
 		tangents = new Vector3[streamCurve.Length];
+
 		tangents[0] = Vector3.Normalize(startTangent - startPosition);
+		generalDirection += tangents[0];
+
 		tangents[streamCurve.Length - 1] = Vector3.Normalize(-(endTangent - endPosition));
+		generalDirection += tangents[streamCurve.Length - 1];
 
 		for(int i = 1; i < streamCurve.Length - 1; ++i) {
 			tangents[i] = Vector3.Normalize(streamCurve[i + 1] - streamCurve[i - 1]);
+			generalDirection += tangents[i];
 		}
+
+		generalDirection = Vector3.Normalize(generalDirection);
 	}
 
 	/// <summary>
