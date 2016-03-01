@@ -303,8 +303,8 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="7" id="_mind" childrenvisible="True" /><field type="RammingEnemyMotor"
-      reference="9" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
+      reference="7" id="_mind" childrenvisible="False" /><field type="RammingEnemyMotor"
+      reference="9" id="_motor" childrenvisible="True" /><field type="RAIN.Animation.BasicAnimator"
       reference="10" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
       reference="11" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
       reference="12" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
@@ -339,8 +339,8 @@ MonoBehaviour:
       type="RAIN.BehaviorTrees.BTAssetBinding" refcount="1" id="8"><field value="Wander
       Tree" type="System.String" id="binding" /><field type="RAIN.BehaviorTrees.BTAsset"
       id="behaviorTree" gameobject="2" /></reference><reference type="RammingEnemyMotor"
-      refcount="1" id="9"><field value="0.1" type="System.Single" id="defaultCloseEnoughDistance"
-      /><field value="3" type="System.Single" id="defaultSpeed" /><field value="3"
+      refcount="1" id="9"><field value="0.5" type="System.Single" id="defaultCloseEnoughDistance"
+      /><field value="7" type="System.Single" id="defaultSpeed" /><field value="7"
       type="System.Single" id="defaultAcceleration" /><field type="RAIN.Representation.Expression"
       reference="16" id="isRammingVariable" /></reference><reference type="RAIN.Animation.BasicAnimator"
       refcount="1" id="10"><field type="System.Collections.Generic.List" id="_animationStates"
@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0caa93132ac139a4dbee128d42b5502c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   isRamming: 0
   life: 5
 --- !u!114 &11484136
@@ -480,7 +481,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_Radius: 0.5
   m_Speed: 3
-  m_Acceleration: 3
+  m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0.1
@@ -508,6 +509,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: debug
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

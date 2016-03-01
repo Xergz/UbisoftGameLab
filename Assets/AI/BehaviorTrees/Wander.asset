@@ -21,7 +21,7 @@ MonoBehaviour:
       namespace=&quot;&quot; name=&quot;ChooseWanderPosition&quot; debugbreak=&quot;False&quot;
       classname=&quot;ChooseWanderPosition&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
       priority=&quot;&quot; parametervalues=&quot;AHdhbmRlclRhcmdldAAAAAAA&quot; parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
-      namespace=&quot;(global)&quot; name=&quot;MoveWithAcceleration&quot; debugbreak=&quot;False&quot;
+      namespace=&quot;(global)&quot; name=&quot;Wander&quot; debugbreak=&quot;False&quot;
       classname=&quot;MoveAcceleration&quot; /&gt;&lt;timer waitforsec=&quot;random(1,
       3)&quot; returnvalue=&quot;success&quot; priority=&quot;&quot; name=&quot;Pause&quot;
       debugbreak=&quot;False&quot; /&gt;&lt;/sequencer&gt;&lt;/behaviortree&gt;" type="System.String"
