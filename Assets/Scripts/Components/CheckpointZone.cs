@@ -18,7 +18,7 @@ public class CheckpointZone : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject == game.Player) {
+        if (other.gameObject == game.Player) {
 			Checkpoint checkpoint = new Checkpoint ();
 
             checkpoint.GUID = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes(GUID), SEED);
@@ -32,9 +32,8 @@ public class CheckpointZone : MonoBehaviour {
             foreach (Fragment frag in fragments) {
                 checkpoint.Collectables.Add(Backend.Core.Murmur3.Hash(System.Text.Encoding.ASCII.GetBytes(frag.fragmentName), SEED), true);
             }
-      
-			// Save the checkpoint or do nothing if already saved
-			game.Checkpoints.SaveCheckpoint (checkpoint);
+
+            game.SaveCheckpoint (checkpoint);
 		}
 	}
 }

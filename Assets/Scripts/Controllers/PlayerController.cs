@@ -24,6 +24,11 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
+    public GameObject Player {
+        get {
+            return playerRigidbody.gameObject;
+        }
+    }
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {

@@ -231,4 +231,14 @@ public class CheckpointModel {
 			}
 		}
 	}
+
+    public void Clear(string file) {
+        string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
+
+        if (File.Exists (saveFile)) {
+            File.Delete (saveFile);
+        }
+
+        this.checkpoints.Clear ();
+    }
 }

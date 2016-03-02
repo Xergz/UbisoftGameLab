@@ -3,16 +3,28 @@ using System.Collections;
 using System;
 
 public class GameManager : MonoBehaviour, GameRestorer {
-    // TODO: Change this for something better
+    private CheckpointController checkpoints;
+
+    /// <summary>
+    /// The gameobject parent to all fragments in the scene
+    /// </summary>
     public GameObject FragmentsRoot;
 
-	private CheckpointController checkpoints;
+    /// <summary>
+    /// The player controller
+    /// </summary>
     public PlayerController PlayerController = null;
 
-	/// <summary>
-	/// The gameobject representing the player
-	/// </summary>
-	public GameObject Player = null;
+
+    /// <summary>
+    /// Returns the player's game object
+    /// </summary>
+    /// <value>The player.</value>
+    public GameObject Player {
+        get {
+            return PlayerController.Player;
+        }
+    }
 
 	/// <summary>
 	/// Gets the checkpoints controller.
@@ -65,14 +77,33 @@ public class GameManager : MonoBehaviour, GameRestorer {
         this.checkpoints.DiscardLastCheckpoint ();
     }
 
+    /// <summary>
+    /// Counts the number of saved checkpoints.
+    /// </summary>
+    /// <returns>The saved checkpoints.</returns>
     public System.UInt32 CountSavedCheckpoints() {
         return this.checkpoints.Count;
     }
 
-    public void DeleteAllCheckPoints() { }
+    /// <summary>
+    /// Remove all saved checkpoints
+    /// </summary>
+    public void DeleteAllCheckPoints() { 
+        this.checkpoints.Clear ();
+    }
 
-    public void SaveCheckpoint(Checkpoint checkpoint) { }
+    /// <summary>
+    /// Save a checkpoint
+    /// </summary>
+    /// <param name="checkpoint">The checkpoint to save</param>
+    public void SaveCheckpoint(Checkpoint checkpoint) {
+        this.checkpoints.SaveCheckpoint (checkpoint);
+    }
 
+    /// <summary>
+    /// Loads the checkpoints from a file.
+    /// </summary>
+    /// <returns><c>true</c>, if checkpoint file was loaded, <c>false</c> otherwise.</returns>
 	public bool LoadCheckpointFile() {
 		this.checkpoints = new CheckpointController (this);
         this.checkpoints.SaveFile = "SavedGame";
@@ -87,7 +118,11 @@ public class GameManager : MonoBehaviour, GameRestorer {
         return false;
 	}
 
-	// Update is called once per frame
-	void Update () {
-	}
+    /// <summary>
+    /// The game manager will search for all it's required dependencies on the scene
+    /// </summary>
+    public void Initialize() {
+        this.FragmentsRoot = GameObject.Find ("Environment/Fragments");
+        this.PlayerController = GameObject.Find ("PlayerController").GetComponent<PlayerController>();
+    }
 }
