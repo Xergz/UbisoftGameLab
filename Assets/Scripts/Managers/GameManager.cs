@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour, GameRestorer {
 		if (Player != null) {
             Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
             Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
+            PlayerController.SetPlayerCurrentLife ((int)checkpoint.CurrentLife);
 		}
          
         // Iterate over every fragment gameobject

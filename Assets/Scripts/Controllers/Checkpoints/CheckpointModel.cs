@@ -8,7 +8,7 @@ public class CheckpointModel {
 	private Stack<Checkpoint> checkpoints = new Stack<Checkpoint>();
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69,  75};
-	private byte   VALID_HEADER_VERSION = 11;
+	private byte   VALID_HEADER_VERSION = 12;
 	private List<System.UInt32> guids = new List<System.UInt32>();
 
 	/// <summary>
@@ -71,6 +71,9 @@ public class CheckpointModel {
 
 		// Writing the orientation
 		writer.Write(checkpoint.Orientation);
+
+        // Writing the current life value of the player
+        writer.Write (checkpoint.CurrentLife);
 
 		// Writing collectables
 		writer.Write ((System.UInt32)checkpoint.Collectables.Count);
@@ -160,6 +163,8 @@ public class CheckpointModel {
 
 		// Reading the orientation
 		checkpoint.Orientation = reader.ReadUInt16 ();
+
+        checkpoint.CurrentLife = reader.ReadUInt32 ();
 
 		// Reading collectables
 		System.UInt32 collectableCount = reader.ReadUInt32();

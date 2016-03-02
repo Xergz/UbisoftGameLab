@@ -30,6 +30,17 @@ public class PlayerController : InputReceiver {
         }
     }
 
+    // TODO: Complete this method
+    public int GetPlayerCurrentLife() {
+        int currentLife = 0;
+
+        return currentLife;
+    }
+
+    // TODO: Complete this method
+    public void SetPlayerCurrentLife(int val) {
+    }
+
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
 			XSpeedMultiplier = inputEvent.Value;

@@ -27,11 +27,14 @@ public class CheckpointZone : MonoBehaviour {
 			checkpoint.Position = new Vector2 (this.transform.position.x, this.transform.position.z);
 			checkpoint.Orientation = (System.UInt16)this.transform.eulerAngles.y;
 
+            checkpoint.CurrentLife = (System.UInt32)game.PlayerController.GetPlayerCurrentLife ();
+
             // Save all the collected checkpoints
             System.Collections.Generic.List<Fragment> fragments = game.PlayerController.GetFragments ();
             foreach (Fragment frag in fragments) {
                 checkpoint.Collectables.Add(Backend.Core.Murmur3.Hash(System.Text.Encoding.ASCII.GetBytes(frag.fragmentName), SEED), true);
             }
+
 
             game.SaveCheckpoint (checkpoint);
 		}
