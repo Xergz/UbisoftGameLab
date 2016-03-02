@@ -28,10 +28,6 @@ public class RammingEntity : Entity {
 	private void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.GetComponent<Entity>() != null) {
 			collision.gameObject.GetComponent<Entity>().ReceiveHit();
-
-			if(collision.gameObject.CompareTag("Player")) {
-				Destroy(gameObject);
-			}
 		}
 	}
 
