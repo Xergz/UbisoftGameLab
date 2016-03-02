@@ -9,17 +9,23 @@ public class Player : Entity {
     }
 
     private void OnTriggerEnter(Collider other) {
-		if(other.CompareTag("Fragment")) {
+		if(other.CompareTag("Fragment")) { // Picked up a fragment
 			other.gameObject.SetActive(false);
 			PlayerController.AddFragment(other.GetComponent<Fragment>());
-		} else if(other.CompareTag("Zone")) {
+		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
 		}
 	}
 
     protected override void OnTriggerStay(Collider other) {
-        if (other.CompareTag("Stream")) {
+        if (other.CompareTag("Stream")) { // Is inside a stream
             PlayerController.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position));
         }
     }
+
+	private void OnTriggerExit(Collider other) {
+		if(other.CompareTag("Zone")) { // Left the zone to enter the open world
+			PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
+		}
+	}
 }
