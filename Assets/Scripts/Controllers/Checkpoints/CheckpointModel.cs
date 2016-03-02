@@ -208,8 +208,6 @@ public class CheckpointModel {
 
 			// We move at the end of the file to read the checkpoints table offset
 			reader.BaseStream.Seek (-4, SeekOrigin.End);
-
-			System.UInt32 endOfTable = (System.UInt32)reader.BaseStream.Position;
 			System.UInt32 tableOffset = reader.ReadUInt32 ();
 
 			// We move at the beginning of the checkpoints table
