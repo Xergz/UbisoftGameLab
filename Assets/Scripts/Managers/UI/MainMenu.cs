@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour {
     public int mainMenuScene = 0;
     public GameObject mainMenu;
     public GameObject eventSystem;
+    public GameManager GameManager;
 
     void Awake() {
 #if UNITY_EDITOR
@@ -20,14 +21,20 @@ public class MainMenu : MonoBehaviour {
         if (level == mainMenuScene) {
             mainMenu.SetActive(true);
             eventSystem.SetActive(true);
-            eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(mainMenu.transform.Find("Play").gameObject);
         } else {
             mainMenu.SetActive(false);
         }   
     }
 
-    public void Play () {
+    public void Continue() {
         SceneManager.LoadScene(sceneToLoad);
+        GameManager.RestoreFromLastCheckpoint();
+    }
+
+    public void NewGame () {
+        GameManager.DeleteAllCheckPoints();
+        SceneManager.LoadScene(sceneToLoad);
+        GameManager.SaveCheckpoint(new Checkpoint());
 	}
 	
 	public void Quit() {
