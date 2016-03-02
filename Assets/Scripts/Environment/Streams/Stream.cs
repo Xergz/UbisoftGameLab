@@ -24,10 +24,13 @@ public class Stream : MonoBehaviour {
 	private const int MIN_SEGMENT_COUNT = 10; // Minimum number of segments in the bezier curve
 	private const int MAX_WAVE_PRECISION = 15; // Maximum number of points used to simulate the waves
 	private const int MIN_WAVE_PRECISION = 3; // Minimum number of points used to simulate the waves
+	private const int MIN_AREA = 1; // Minimum area name
+	private const int MAX_AREA = 28; // Maximum area name
+
 
 	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
-	private const float MAX_WIDTH = 1F; // The maximum width for the stream
-	private const float MIN_WIDTH = 10F; // The minimum width for the stream 
+	private const float MAX_WIDTH = 10F; // The maximum width for the stream
+	private const float MIN_WIDTH = 1F; // The minimum width for the stream 
 	private const float MAX_POSITION_AMPLITUDE = 1.75F; // The maximum amplitude for the position oscillation
 	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation 
 	private const float MAX_TANGENT_AMPLITUDE = 25F; // The maximum amplitude for the tangent oscillation
@@ -86,9 +89,10 @@ public class Stream : MonoBehaviour {
 	private float colliderHeight = 4;
 	private float randomizedNoiseOffset; // An offset so that not all streams have the same oscillation
 
-	[Tooltip("The exact name of the navigation area this stream is in")]
+	[Tooltip("The index of the navigation area this stream is in")]
+	[Range(MIN_AREA, MAX_AREA)]
 	[SerializeField]
-	private string areaName;
+	private int areaName;
 
 	private int areaIndex; // The index of the area the stream is in for the NavMesh
 
@@ -315,7 +319,7 @@ public class Stream : MonoBehaviour {
 
 		randomizedNoiseOffset = Random.Range(MIN_NOISE_OFFSET, MAX_NOISE_OFFSET);
 
-		AreaIndex = NavMesh.GetAreaFromName(areaName);
+		AreaIndex = NavMesh.GetAreaFromName("Stream" + areaName);
 
 		#region DEBUG
 		curveLineRenderer = transform.GetChild(1).GetComponent<LineRenderer>();

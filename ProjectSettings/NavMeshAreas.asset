@@ -33,39 +33,39 @@ NavMeshAreas:
     cost: 10
   - name: Stream10
     cost: 10
-  - name: 
+  - name: Stream11
     cost: 1
-  - name: 
+  - name: Stream12
     cost: 1
-  - name: 
+  - name: Stream13
     cost: 1
-  - name: 
+  - name: Stream14
     cost: 1
-  - name: 
+  - name: Stream15
     cost: 1
-  - name: 
+  - name: Stream16
     cost: 1
-  - name: 
+  - name: Stream17
     cost: 1
-  - name: 
+  - name: Stream18
     cost: 1
-  - name: 
+  - name: Stream19
     cost: 1
-  - name: 
+  - name: Stream20
     cost: 1
-  - name: 
+  - name: Stream21
     cost: 1
-  - name: 
+  - name: Stream22
     cost: 1
-  - name: 
+  - name: Stream23
     cost: 1
-  - name: 
+  - name: Stream24
     cost: 1
-  - name: 
+  - name: Stream25
     cost: 1
-  - name: 
+  - name: Stream26
     cost: 1
-  - name: 
+  - name: Stream27
     cost: 1
-  - name: 
+  - name: Stream28
     cost: 1
