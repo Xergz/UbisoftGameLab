@@ -92,8 +92,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 434746}
-  - 114: {fileID: 11455260}
   - 114: {fileID: 11483540}
+  - 114: {fileID: 11455260}
   - 54: {fileID: 5444400}
   - 136: {fileID: 13683454}
   m_Layer: 0
@@ -312,7 +312,7 @@ Transform:
   m_Children:
   - {fileID: 496082}
   m_Father: {fileID: 434746}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &429582
 Transform:
   m_ObjectHideFlags: 1
@@ -336,8 +336,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480544}
-  - {fileID: 452180}
   - {fileID: 414300}
+  - {fileID: 452180}
   - {fileID: 407702}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -396,7 +396,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 434746}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &458584
 Transform:
   m_ObjectHideFlags: 1
@@ -830,8 +830,8 @@ MonoBehaviour:
       value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset" /></reference></references></component>
     _serializedGameObjects:
     - {fileID: 132074}
-    - {fileID: 434746}
-    - {fileID: 434746}
+    - {fileID: 441558}
+    - {fileID: 441558}
     - {fileID: 8201640}
     _serializedCustomData: []
 --- !u!114 &11455260
@@ -3967,6 +3967,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

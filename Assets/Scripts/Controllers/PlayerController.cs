@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
 
+	public static EnumZone CurrentZone { get; set; }
+
 	public Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
@@ -13,7 +15,7 @@ public class PlayerController : InputReceiver {
 	public float maximumVelocity;
 
 
-	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -65,6 +67,7 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
+		CurrentZone = EnumZone.OPEN_WORLD;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");

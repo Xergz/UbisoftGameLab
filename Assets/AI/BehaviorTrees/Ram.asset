@@ -16,16 +16,30 @@ MonoBehaviour:
       value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;Ram&quot;
       debugbreak=&quot;False&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; name=&quot;root&quot; debugbreak=&quot;False&quot;&gt;&lt;action
-      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;MTAAbW92ZVRhcmdldABzZWFyY2hQb3NpdGlvbg==&quot;
-      parameters=&quot;cmFtbWluZ0Rpc3RhbmNlAG1vdmVUYXJnZXRWYXJpYWJsZQByYW1Qb3NpdGlvblZhcmlhYmxl&quot;
-      namespace=&quot;(global)&quot; name=&quot;ChooseRamPosition&quot; debugbreak=&quot;False&quot;
-      classname=&quot;ChooseRamPosition&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
-      priority=&quot;&quot; parametervalues=&quot;OABtb3ZlVGFyZ2V0AAAxNQAAMgA=&quot;
+      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;dHJ1ZQ==&quot;
+      parameters=&quot;aXNSYW1taW5n&quot; namespace=&quot;(global)&quot; name=&quot;SetRammingTrue&quot;
+      debugbreak=&quot;False&quot; classname=&quot;SetRamming&quot; /&gt;&lt;action
+      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmFuZG9tKDEwLCAxNSkAcmVtYWluaW5nRGlzdGFuY2UAc2VhcmNoUG9zaXRpb24=&quot;
+      parameters=&quot;cmFtbWluZ0Rpc3RhbmNlAGRpc3RhbmNlVmFyaWFibGUAdGFyZ2V0UG9zaXRpb25WYXJpYWJsZQ==&quot;
+      namespace=&quot;(global)&quot; name=&quot;SetRemainingDistance&quot; debugbreak=&quot;False&quot;
+      classname=&quot;SetRemainingDistance&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
+      priority=&quot;&quot; parametervalues=&quot;MTAAc2VhcmNoUG9zaXRpb24AADE1AAAzAA==&quot;
       parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
       namespace=&quot;&quot; name=&quot;Ram&quot; debugbreak=&quot;False&quot; classname=&quot;MoveAcceleration&quot;
-      /&gt;&lt;timer waitforsec=&quot;random(2, 4)&quot; returnvalue=&quot;success&quot;
-      priority=&quot;&quot; name=&quot;Pause&quot; debugbreak=&quot;False&quot; /&gt;&lt;/sequencer&gt;&lt;/behaviortree&gt;"
-      type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
-      elementtype="System.String" /></fields><references /></scriptableobject>
+      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;cmVtYWluaW5nRGlzdGFuY2UAZW5kVGFyZ2V0&quot;
+      parameters=&quot;cmVtYWluaW5nRGlzdGFuY2VWYXJpYWJsZQBtb3ZlVGFyZ2V0VmFyaWFibGU=&quot;
+      namespace=&quot;(global)&quot; name=&quot;SetEndRamPosition&quot; debugbreak=&quot;False&quot;
+      classname=&quot;SetEndRamPosition&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
+      priority=&quot;&quot; parametervalues=&quot;MTAAZW5kVGFyZ2V0AAAxNQAAMwA=&quot;
+      parameters=&quot;YWNjZWxlcmF0aW9uAG1vdmVUYXJnZXRFeHByZXNzaW9uAGZhY2VUYXJnZXRFeHByZXNzaW9uAG1vdmVTcGVlZAB0dXJuU3BlZWQAY2xvc2VFbm91Z2hEaXN0YW5jZQBjbG9zZUVub3VnaEFuZ2xl&quot;
+      namespace=&quot;&quot; name=&quot;EndRam&quot; debugbreak=&quot;False&quot;
+      classname=&quot;MoveAcceleration&quot; /&gt;&lt;timer waitforsec=&quot;random(2,
+      4)&quot; returnvalue=&quot;success&quot; priority=&quot;&quot; name=&quot;Pause&quot;
+      debugbreak=&quot;False&quot; /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      parametervalues=&quot;ZmFsc2U=&quot; parameters=&quot;aXNSYW1taW5n&quot; namespace=&quot;(global)&quot;
+      name=&quot;SetRammingFalse&quot; debugbreak=&quot;False&quot; classname=&quot;SetRamming&quot;
+      /&gt;&lt;/sequencer&gt;&lt;/behaviortree&gt;" type="System.String" id="treeData"
+      /><field type="System.Array" id="treeBindings" elementtype="System.String" /></fields><references
+      /></scriptableobject>
     _serializedGameObjects: []
     _serializedCustomData: []

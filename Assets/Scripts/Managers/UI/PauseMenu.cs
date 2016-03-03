@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -8,6 +9,9 @@ public class PauseMenu : MonoBehaviour {
     public int mainMenuScene = 0;
     public GameObject pauseMenu;
     public GameObject eventSystem;
+
+    public Button checkpointButton;
+    public GameManager GameManager;
 
     private bool onPause = false;
 
@@ -33,12 +37,22 @@ public class PauseMenu : MonoBehaviour {
                 eventSystem.SetActive(true);
                 pauseMenu.SetActive(true);
                 Time.timeScale = 0;
+
+                if(GameManager.CountSavedCheckpoints() == 0) {
+                    checkpointButton.interactable = false;
+                }
+
             } else {
                 eventSystem.SetActive(false);
                 pauseMenu.SetActive(false);
                 Time.timeScale = 1;
             }
         }
+    }
+
+    public void ReloadLastCheckpoint() {
+        GameManager.RestoreFromLastCheckpoint();
+        Pause();
     }
 
     public void MainMenu() {
