@@ -5,6 +5,7 @@ public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
 
+	[Tooltip("The player's rigidbody")]
 	public Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
@@ -13,6 +14,8 @@ public class PlayerController : InputReceiver {
 	public float rotationSpeed;
 	[Tooltip("The maximum velocity the player can reach")]
 	public float maximumVelocity;
+	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
+	public float sightRange = 60F;
 
 
 	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.

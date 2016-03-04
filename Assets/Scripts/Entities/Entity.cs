@@ -28,8 +28,6 @@ public abstract class Entity : MonoBehaviour {
     protected abstract void OnTriggerStay(Collider other);
 
 	protected void SetupLineRenderer() {
-		//yield return new WaitForEndOfFrame();
-
 		NavMeshAgent agent = GetComponent<NavMeshAgent>();
 		if(agent != null) {
 			LineRenderer line = GetComponent<LineRenderer>();
