@@ -8,6 +8,11 @@ public class Player : Entity {
         PlayerController.DamagePlayer(1);
     }
 
+    public override void ReceiveStun() {
+        //Desactivate Player movement
+        Debug.Log("Player stuned!");
+    }
+
     private void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
 			other.gameObject.SetActive(false);

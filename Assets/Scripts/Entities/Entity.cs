@@ -12,6 +12,8 @@ public abstract class Entity : MonoBehaviour {
 
     public abstract void ReceiveHit();
 
+    public abstract void ReceiveStun();
+
 	public void DrawPath() {
 		if(debug) {
 			SetupLineRenderer();
