@@ -4,8 +4,9 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
+    public bool PlayerCanBeMoved { get; set; }
 
-	public Rigidbody playerRigidbody;
+    public Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
 	public float movementForce;
@@ -14,8 +15,7 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The maximum velocity the player can reach")]
 	public float maximumVelocity;
 
-
-	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+    private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -68,6 +68,7 @@ public class PlayerController : InputReceiver {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
+        PlayerCanBeMoved = true;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -77,7 +78,9 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
-		MovePlayer();
+        if (PlayerCanBeMoved) {
+            MovePlayer();
+        }    
 	}
 
 

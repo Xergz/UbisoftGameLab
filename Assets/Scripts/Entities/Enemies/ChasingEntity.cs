@@ -7,6 +7,7 @@ public class ChasingEntity : Entity {
 
     private Rigidbody rigidBody;
     private AIRig tRig;
+    private NavMeshAgent navAgent;
 
     [SerializeField]
     private int life = 5;
@@ -24,13 +25,15 @@ public class ChasingEntity : Entity {
     private void Start() {
         rigidBody = GetComponent<Rigidbody>();
         tRig = GetComponentInChildren<AIRig>();
+        navAgent = GetComponent<NavMeshAgent>();
         isDodging = false;
     }
 
-    private void update() {
+    private void Update() {
         if(isStuned && Time.time > beginStunTime + stunTime) {
             isStuned = false;
             tRig.AI.IsActive = true;
+            navAgent.Resume();
         }
     }
 
@@ -44,6 +47,7 @@ public class ChasingEntity : Entity {
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
+        navAgent.Stop();
     }
 
     protected override void OnTriggerStay(Collider other) {

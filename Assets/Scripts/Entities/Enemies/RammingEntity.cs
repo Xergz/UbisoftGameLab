@@ -7,6 +7,7 @@ public class RammingEntity : Entity {
 
     private Rigidbody rigidBody;
     private AIRig tRig;
+    private NavMeshAgent navAgent;
 
     [SerializeField]
 	private bool isRamming;
@@ -23,14 +24,16 @@ public class RammingEntity : Entity {
 
 	private void Start() {
 		rigidBody = GetComponent<Rigidbody>();
+        navAgent = GetComponent<NavMeshAgent>();
         tRig = GetComponentInChildren<AIRig>();
 		IsRamming = false;
 	}
 
-    private void update() {
+    private void Update() {
         if (isStuned && Time.time > beginStunTime + stunTime) {
             isStuned = false;
             tRig.AI.IsActive = true;
+            navAgent.Resume();
         }
     }
 
@@ -44,6 +47,7 @@ public class RammingEntity : Entity {
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
+        navAgent.Stop();
     }
 
     private void OnCollisionEnter(Collision collision) {
