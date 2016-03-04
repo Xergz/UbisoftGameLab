@@ -46,6 +46,8 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private WaveController waveController;
 
+	private PlayerController playerController;
+
 	[Tooltip("The width of the stream")]
 	[Range(MIN_WIDTH, MAX_WIDTH)]
 	[SerializeField]
@@ -288,6 +290,8 @@ public class Stream : MonoBehaviour {
 			Debug.Log("No WaveController is attached to the stream. Will not follow any waves.");
 		}
 
+		playerController = FindObjectOfType<PlayerController>();
+
 		curveGenerator = new BezierCurveGenerator();
 
 		streamMesh = new Mesh();
@@ -356,7 +360,11 @@ public class Stream : MonoBehaviour {
 		Vector3 startTangent = startTangentHandle;
 		Vector3 endPosition = endPositionHandle;
 		Vector3 endTangent = endTangentHandle;
-		if(streamCurve == null || Zone == PlayerController.CurrentZone) {
+		float distance = 0F;
+		if(Application.isPlaying) {
+			GetClosestCurvePointIndex(playerController.playerRigidbody.position, out distance);
+		}
+		if(streamCurve == null || distance < playerController.sightRange) {
 			// Update the curve
 			if(oscillate && Application.isPlaying) {
 				UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
