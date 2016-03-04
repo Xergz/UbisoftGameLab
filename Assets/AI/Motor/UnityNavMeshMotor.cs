@@ -6,10 +6,8 @@ using UnityEngine;
 public class UnityNavMeshMotor : RAINMotor {
 	[RAINSerializableField]
 	private float defaultCloseEnoughDistance = 0.1F;
-
 	[RAINSerializableField]
 	private float defaultSpeed = 3F;
-
 	[RAINSerializableField]
 	private float defaultAcceleration = 3F;
 
@@ -103,6 +101,7 @@ public class UnityNavMeshMotor : RAINMotor {
 		// We'll just update these constantly as our value can change when the MoveTarget changes
 		agent.stoppingDistance = Mathf.Max(DefaultCloseEnoughDistance, MoveTarget.CloseEnoughDistance);
 
+		SetAreaCosts(AI.Kinematic.Position, MoveTarget.Position);
 
 		// Have to make sure the target is still in the same place
 		Vector3 tEndMoved = lastPosition - MoveTarget.Position;
@@ -113,9 +112,13 @@ public class UnityNavMeshMotor : RAINMotor {
 			agent.destination = MoveTarget.Position;
 			lastPosition = MoveTarget.Position;
 
+			agent.GetComponent<Entity>().DrawPath();
+
 			// We can return at least if we are at our destination at this point
 			return IsAt(agent.destination);
 		}
+
+		agent.GetComponent<Entity>().DrawPath();
 
 		// Still making a path or our path is invalid
 		if(agent.pathPending || agent.pathStatus == NavMeshPathStatus.PathInvalid)
@@ -152,5 +155,10 @@ public class UnityNavMeshMotor : RAINMotor {
 
 	public override void Stop() {
 		agent.Stop();
+	}
+
+
+	protected virtual void SetAreaCosts(Vector3 position, Vector3 target) {
+		StreamController.SetAreaCosts(position, target);
 	}
 }

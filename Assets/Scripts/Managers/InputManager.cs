@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour {
 	public InputReceiver cameraController;
 	public InputReceiver playerController;
 	public InputReceiver streamController;
-    public InputReceiver uiController;
+	public InputReceiver uiController;
 
 	public float timeBeforeHeldDown = 0.15F;
 
@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour {
 		} else {
 			uiController = uiManager.GetComponent<UIManager>();
 		}
-    }
+	}
 
 	void Start() {
 		LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
@@ -100,33 +100,34 @@ public class InputManager : MonoBehaviour {
 
 		if(Input.GetButtonUp("AButton")) {
 			Debug.Log("A released or clicked");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ? 
-																				(float) EnumButtonState.RELEASED : 
+			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ?
+																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			AButtonHeldDown = false;
 		} else if(Input.GetButtonUp("BButton")) {
 			Debug.Log("B released or clicked");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (BButtonHeldDown) ? 
-																				(float) EnumButtonState.RELEASED : 
+			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (BButtonHeldDown) ?
+																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			BButtonHeldDown = false;
 		} else if(Input.GetButtonUp("XButton")) {
 			Debug.Log("X released or clicked");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (XButtonHeldDown) ? 
-																				(float) EnumButtonState.RELEASED : 
+			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (XButtonHeldDown) ?
+																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			XButtonHeldDown = false;
 		} else if(Input.GetButtonUp("YButton")) {
 			Debug.Log("Y released or clicked");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (YButtonHeldDown) ? 
-																				(float) EnumButtonState.RELEASED : 
+			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (YButtonHeldDown) ?
+																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			YButtonHeldDown = false;
 		}
 
 		if(Input.GetButtonDown("StartButton")) {
 			Debug.Log("Start pressed");
-			if(uiController != null) uiController.ReceiveInputEvent(new InputEvent(EnumAxis.StartButton, 1));
+			if(uiController != null)
+				uiController.ReceiveInputEvent(new InputEvent(EnumAxis.StartButton, 1));
 		}
 
 		if(Input.GetButtonDown("SelectButton")) {
@@ -138,7 +139,7 @@ public class InputManager : MonoBehaviour {
 		if(Input.GetJoystickNames().Length != 0 && Input.GetJoystickNames()[0] != "") {
 			if(Input.GetAxis("LeftJoystickX") != LeftJoystickXStatus) {
 				LeftJoystickXStatus = Input.GetAxis("LeftJoystickX");
-				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX, LeftJoystickXStatus));
 			}
 
 			if(Input.GetAxis("LeftJoystickY") != LeftJoystickYStatus) {
@@ -147,15 +148,11 @@ public class InputManager : MonoBehaviour {
 			}
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            if (Input.GetAxis("RightJoystickXMac") != RightJoystickXStatus) {
-                RightJoystickXStatus = Input.GetAxis("RightJoystickXMac");
-                cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
-            }
+            RightJoystickXStatus = Input.GetAxis("RightJoystickXMac");
+            cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
 #else
-			if(Input.GetAxis("RightJoystickX") != RightJoystickXStatus) {
-				RightJoystickXStatus = Input.GetAxis("RightJoystickX");
-				cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
-			}
+			RightJoystickXStatus = Input.GetAxis("RightJoystickX");
+			cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
 #endif
 
 
@@ -173,7 +170,7 @@ public class InputManager : MonoBehaviour {
 		} else {
 			if(Input.GetAxis("KeyboardAD") != LeftJoystickXStatus) {
 				LeftJoystickXStatus = Input.GetAxis("KeyboardAD");
-				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX,LeftJoystickXStatus));
+				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickX, LeftJoystickXStatus));
 			}
 
 			if(Input.GetAxis("KeyboardWS") != LeftJoystickYStatus) {
@@ -181,10 +178,8 @@ public class InputManager : MonoBehaviour {
 				playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftJoystickY, LeftJoystickYStatus));
 			}
 
-			if(Input.GetAxis("KeyboardLeftRight") != RightJoystickXStatus) {
-				RightJoystickXStatus = Input.GetAxis("KeyboardLeftRight");
-				cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
-			}
+			RightJoystickXStatus = Input.GetAxis("KeyboardLeftRight");
+			cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickX, RightJoystickXStatus));
 
 			if(Input.GetAxis("KeyboardUpDown") != RightJoystickYStatus) {
 				RightJoystickYStatus = Input.GetAxis("KeyboardUpDown");

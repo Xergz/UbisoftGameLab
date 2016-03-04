@@ -11,6 +11,8 @@ TagManager:
   - Fist
   - Hand
   - Monster
+  - Life
+  - Zone
   layers:
   - Default
   - TransparentFX
