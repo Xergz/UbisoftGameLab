@@ -36,6 +36,9 @@ public class Dodge : RAINAction {
         if (dodgeDistance.IsValid)
             dodgeLength = dodgeDistance.Evaluate<float>(ai.DeltaTime, ai.WorkingMemory);
 
+        if (dodgeLength < 0)
+            dodgeLength = 0;
+
         float direction = 1;
 		if (Vector3.Dot(Vector3.up, Vector3.Cross(ai.Body.transform.position - attackerGameObject.transform.position, attackerGameObject.transform.forward)) < 0) {
             direction = -direction;
