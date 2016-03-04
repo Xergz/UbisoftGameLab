@@ -10,14 +10,14 @@ using RAIN.Entities.Aspects;
 [RAINAction("Detect Tag (Hearing)")]
 public class DetectTagHearing : RAINAction {
 
-    public Expression attackerForm = new Expression();
+    public Expression gameObjectsList = new Expression();
     public Expression tag = new Expression();
 
     private string tagToVerify;
 
     public override ActionResult Execute(AI ai) {
 
-        if (!attackerForm.IsVariable)
+		if (!gameObjectsList.IsVariable)
             throw new Exception("The Detect Tag (Hearing) node requires a valid attacker variable");
 
         if (tag.IsValid)
@@ -38,11 +38,11 @@ public class DetectTagHearing : RAINAction {
             }
 
             if(entities.Count > 0) {
-                ai.WorkingMemory.SetItem<List<GameObject>>(attackerForm.VariableName, entities);
+				ai.WorkingMemory.SetItem<List<GameObject>>(gameObjectsList.VariableName, entities);
                 return ActionResult.SUCCESS;
             }
         }
 
-        return ActionResult.FAILURE;
+		return ActionResult.NONE;
     }
 }

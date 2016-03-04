@@ -43,6 +43,7 @@ MonoBehaviour:
   movementForce: 6
   rotationSpeed: 0.5
   maximumVelocity: 7.5
+  sightRange: 60
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
