@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour, GameRestorer {
 		}
 	}
 		
+
 	/// <summary>
 	/// Restores the game state from a checkpoint.
 	/// </summary>

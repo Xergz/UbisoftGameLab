@@ -178,6 +178,9 @@ public class Stream : MonoBehaviour {
 
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
+    [Tooltip("The stream arrow animation controller")]
+    [SerializeField]
+    private StreamArrow streamArrow = null;
 
 	/// <summary>
 	/// Get the force to apply to an object within the stream.
@@ -504,25 +507,22 @@ public class Stream : MonoBehaviour {
 	/// Generate new arrows to visualize the tangents.
 	/// </summary>
 	private void GenerateTangentArrows() {
-		// Clear the old arrows
-		List<Transform> children = transform.GetChild(0).Cast<Transform>().ToList();
-		if(Application.isPlaying) {
-			foreach(Transform child in children) {
-				Destroy(child.gameObject);
-			}
-		} else {
-			foreach(Transform child in children) {
-				DestroyImmediate(child.gameObject);
-			}
-		}
+        Vector2[] arrowPositions = new Vector2[streamCurve.Length - 1];
+        Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
 
-		// Instantiate the tangent arrows
-		for(int i = 1; i < streamCurve.Length - 1; ++i) {
-			GameObject arrow = Instantiate(tangentArrow);
-			arrow.transform.parent = transform.GetChild(0);
-			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.15F, streamCurve[i].z);
-			arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
-		}
+        for (int i = 0; i < arrowPositions.Length; ++i) {
+            arrowPositions [i] = new Vector2 (streamCurve[i + 1].x, streamCurve[i + 1].z);
+            arrowRotations [i] = Quaternion.LookRotation (tangents [i + 1] * (int)direction, Vector3.up);
+        }
+
+        if (direction == EnumStreamDirection.NEGATIVE) {
+            //arrowPositions = arrowPositions.Reverse ();
+            System.Array.Reverse(arrowPositions);
+        }
+
+        if (streamArrow) {
+            streamArrow.SetKeyFrames(arrowPositions, arrowRotations);
+        }
 	}
 
 	/// <summary>
