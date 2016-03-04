@@ -3,13 +3,19 @@ using System.Collections;
 
 public class ChasingEntity : Entity {
 
+    public bool IsDodging { get { return isDodging; } set { isDodging = value; } }
+
     private Rigidbody rigidBody;
 
     [SerializeField]
     private int life = 5;
 
+    [SerializeField]
+    private bool isDodging;
+
     private void Start() {
         rigidBody = GetComponent<Rigidbody>();
+        isDodging = false;
     }
 
     public override void ReceiveHit() {
