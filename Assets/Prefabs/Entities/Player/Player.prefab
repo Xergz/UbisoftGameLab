@@ -860,6 +860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2ee8f9097303a459e044f47f7e3d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  isStuned: 0
+  stunTime: 2
 --- !u!136 &13683454
 CapsuleCollider:
   m_ObjectHideFlags: 1

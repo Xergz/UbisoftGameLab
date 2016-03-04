@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
+    public bool PlayerCanBeMoved { get; set; }
 
 	[Tooltip("The player's rigidbody")]
 	public Rigidbody playerRigidbody;
@@ -17,8 +18,7 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
 	public float sightRange = 60F;
 
-
-	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+    private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -71,6 +71,7 @@ public class PlayerController : InputReceiver {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
+        PlayerCanBeMoved = true;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -80,7 +81,9 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
-		MovePlayer();
+        if (PlayerCanBeMoved) {
+            MovePlayer();
+        }    
 	}
 
 
