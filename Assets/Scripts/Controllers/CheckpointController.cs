@@ -10,6 +10,12 @@ public class CheckpointController {
 	private GameRestorer restorer;
 	private CheckpointModel model;
 
+    public System.UInt32 Count {
+        get {
+            return model.Count;
+        }
+    }
+
 	/// <summary>
 	/// The save file's name
 	/// </summary>
@@ -58,6 +64,7 @@ public class CheckpointController {
 	/// <remarks>The last checkpoint will be replaced by the one before it</remarks>
 	public void DiscardLastCheckpoint() {
 		this.model.Discard ();
+        this.model.SaveTo (SaveFile);
 	}
 
 	public bool SaveCheckpoint(Checkpoint newCheckpoint) {

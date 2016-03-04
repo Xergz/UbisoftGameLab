@@ -19,7 +19,7 @@ public class Attack : RAINAction {
         if (!targetVariable.IsVariable)
             throw new Exception("The Attack node requires a valid target variable.");
 
-        targetEntity = ai.WorkingMemory.GetItem<Entity>(targetVariable.VariableName);
+		targetEntity = ai.WorkingMemory.GetItem<GameObject>(targetVariable.VariableName).GetComponent<Entity>();
 
         if (targetEntity == null)
             return ActionResult.FAILURE;
