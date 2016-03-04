@@ -351,17 +351,23 @@ public class Stream : MonoBehaviour {
 			}
 		}
 
-		// Update the curve
-		Vector3 startPosition, startTangent, endPosition, endTangent; // out parameters
-		if(oscillate && Application.isPlaying) {
-			UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
-		} else {
-			startPosition = startPositionHandle;
-			startTangent = startTangentHandle;
-			endPosition = endPositionHandle;
-			endTangent = endTangentHandle;
+		// Out parameters
+		Vector3 startPosition = startPositionHandle;
+		Vector3 startTangent = startTangentHandle;
+		Vector3 endPosition = endPositionHandle;
+		Vector3 endTangent = endTangentHandle;
+		if(streamCurve == null || Zone == PlayerController.CurrentZone) {
+			// Update the curve
+			if(oscillate && Application.isPlaying) {
+				UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
+			} else {
+				startPosition = startPositionHandle;
+				startTangent = startTangentHandle;
+				endPosition = endPositionHandle;
+				endTangent = endTangentHandle;
+			}
+			UpdateCurve(startPosition, startTangent + startPosition, endPosition, endTangent + endPosition);
 		}
-		UpdateCurve(startPosition, startTangent + startPosition, endPosition, endTangent + endPosition);
 
 		// Restore strength
 		if(Time.time - timeAtLastStrengthModification >= timeBeforeStrengthRestoration) {
@@ -386,10 +392,10 @@ public class Stream : MonoBehaviour {
 			curveLineRenderer.SetPositions(positions);
 
 			startLineRenderer.SetVertexCount(2);
-			startLineRenderer.SetPositions(new Vector3[] { new Vector3(startPosition.x, startPosition.y + 0.075F, startPosition.z), new Vector3(startTangent.x, startTangent.y + 0.075F, startTangent.z) });
+			startLineRenderer.SetPositions(new Vector3[] { startPosition + new Vector3(0, 0.075F, 0), startTangent + startPosition + new Vector3(0, 0.075F, 0) });
 
 			endLineRenderer.SetVertexCount(2);
-			endLineRenderer.SetPositions(new Vector3[] { new Vector3(endPosition.x, endPosition.y + 0.075F, endPosition.z), new Vector3(endTangent.x, endTangent.y + 0.075F, endTangent.z) });
+			endLineRenderer.SetPositions(new Vector3[] { endPosition + new Vector3(0, 0.075F, 0), endTangent + endPosition + new Vector3(0, 0.075F, 0) });
 		} else {
 			curveLineRenderer.gameObject.SetActive(false);
 			startLineRenderer.gameObject.SetActive(false);
