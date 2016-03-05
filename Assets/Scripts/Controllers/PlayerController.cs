@@ -15,7 +15,6 @@ public class PlayerController : InputReceiver {
 	public float maximumVelocity;
 
 
-	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -83,7 +82,10 @@ public class PlayerController : InputReceiver {
 
 
 	private void MovePlayer() {
-		Vector3 movement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier) + forceToApply;
+        var cam = Camera.main;
+
+        Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
+        Vector3 movement = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
 		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
