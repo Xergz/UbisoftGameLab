@@ -15,7 +15,7 @@ public class Player : Entity {
     private void Update() {
         if (isStuned && Time.time > beginStunTime + stunTime) {
             isStuned = false;
-            //PlayerController.PlayerCanBeMoved = true;
+            PlayerController.PlayerCanBeMoved = true;
         }
     }
 
@@ -24,7 +24,7 @@ public class Player : Entity {
     }
 
     public override void ReceiveStun() {
-        //PlayerController.PlayerCanBeMoved = false;
+        PlayerController.PlayerCanBeMoved = false;
         isStuned = true;
         beginStunTime = Time.time;
     }

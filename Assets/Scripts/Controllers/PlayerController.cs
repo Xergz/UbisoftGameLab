@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
+    public bool PlayerCanBeMoved { get; set; }
 
 	[Tooltip("The player's rigidbody")]
 	public Rigidbody playerRigidbody;
@@ -70,6 +71,7 @@ public class PlayerController : InputReceiver {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
+        PlayerCanBeMoved = true;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -79,7 +81,9 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
-		MovePlayer();
+        if (PlayerCanBeMoved) {
+            MovePlayer();
+        }    
 	}
 
 
