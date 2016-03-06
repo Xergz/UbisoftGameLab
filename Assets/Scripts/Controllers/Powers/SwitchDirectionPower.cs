@@ -14,7 +14,7 @@ public class SwitchDirectionPower : Power {
 	/// </summary>
 	protected override void ExecuteAction() {
 		streams.ForEach((stream) => {
-			stream.SwitchDirection();
+			stream.SwitchDirection();   
 		});
 	}
 }

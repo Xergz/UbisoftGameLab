@@ -34,18 +34,15 @@ public class StreamController : InputReceiver {
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.IncreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
+            IncreaseStreamStrenght(inputEvent);
+
+
 		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.DecreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
-		} else {
+
+            DecreaseStreamStrenght(inputEvent);
+
+
+        } else {
 			EnumButtonState state = (EnumButtonState) inputEvent.Value;
 			EnumStreamColor color = EnumStreamColor.NONE;
 
@@ -147,12 +144,61 @@ public class StreamController : InputReceiver {
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
 
-	/// <summary>
-	/// Get the list of all streams of a color
-	/// </summary>
-	/// <param name="color">The color of the streams to get</param>
-	/// <returns>The list of streams</returns>
-	private static List<Stream> GetStreamList(EnumStreamColor color) {
+
+
+
+
+    private void IncreaseStreamStrenght(InputEvent inputEvent)
+    {
+        if (IsBoatOnStream())
+        {
+            (powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).value = inputEvent.Value;
+            (powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).stream = PlayerController.streamPlayer;
+            powerController.ActivatePower(EnumPower.IncreaseStrength);
+            
+        }
+        else
+        {
+
+        }
+    }
+
+    private void DecreaseStreamStrenght(InputEvent inputEvent)
+    {
+        if (IsBoatOnStream())
+        {
+            (powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).value = inputEvent.Value;
+            (powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).stream = PlayerController.streamPlayer;
+            powerController.ActivatePower(EnumPower.DecreaseStrength);
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+    private bool IsBoatOnStream()
+    {
+        if (PlayerController.isPlayerOnstream)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    /// <summary>
+    /// Get the list of all streams of a color
+    /// </summary>
+    /// <param name="color">The color of the streams to get</param>
+    /// <returns>The list of streams</returns>
+    private static List<Stream> GetStreamList(EnumStreamColor color) {
 		switch(color) {
 			case EnumStreamColor.GREEN:
 				return greenStreams;
