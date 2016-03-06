@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
 
-	public Rigidbody playerRigidbody;
+	public static Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
 	public float movementForce;
@@ -12,8 +13,16 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The maximum velocity the player can reach")]
 	public float maximumVelocity;
 
+    public GameObject Lifebar;
+    public float coeffDamage = 1;
 
-	private static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+    public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+
+    public Transform Fragments;
+    public static List<Transform> fragmentsList; //List of every fragments of the level
+    public static Transform nextFragment;
+    public int nextFragmentIndex;
+    public int numberOfFragments;
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -46,7 +55,11 @@ public class PlayerController : InputReceiver {
 	public void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
 		Debug.Log("Plus one life! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
-	}
+        coeffDamage -= 0.1F;
+
+        nextFragmentIndex++;
+        nextFragment = fragmentsList[nextFragmentIndex];
+    }
 
 	public void DamagePlayer(int fragmentNb) {
 		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
@@ -55,7 +68,9 @@ public class PlayerController : InputReceiver {
 			memoryFragments.RemoveAt(index);
 			Debug.Log("Ouch! You took damage... You lost the \"" + lostFragment.fragmentName + "\" memory fragment");
 		}
-	}
+
+       Lifebar.GetComponent<Scrollbar>().size -= coeffDamage*0.1F;
+    }
 
 	public List<Fragment> GetFragments() {
 		return memoryFragments;
@@ -63,10 +78,21 @@ public class PlayerController : InputReceiver {
 
 
 	private void Awake() {
-		memoryFragments = new List<Fragment>();
+        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+
+        memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 
-		if(playerRigidbody == null) {
+        fragmentsList = new List<Transform>();
+        numberOfFragments = Fragments.childCount; 
+        for(int i = 0; i < numberOfFragments; i++) {
+            fragmentsList.Add(Fragments.GetChild(i));
+        }
+        nextFragmentIndex = 0;
+        nextFragment = fragmentsList[nextFragmentIndex];
+
+
+        if (playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
 			playerRigidbody.GetComponent<Player>().PlayerController = this;
