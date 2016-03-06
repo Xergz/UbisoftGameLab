@@ -313,7 +313,7 @@ GameObject:
   - 114: {fileID: 11415974}
   - 33: {fileID: 3338642}
   - 23: {fileID: 2375782}
-  - 65: {fileID: 6562034}
+  - 64: {fileID: 6494878}
   m_Layer: 0
   m_Name: Stream
   m_TagString: Stream
@@ -1376,8 +1376,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 107926}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &6562034
-BoxCollider:
+--- !u!64 &6494878
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -1386,8 +1386,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0, y: 2, z: 0}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Convex: 1
+  m_Mesh: {fileID: 0}
 --- !u!114 &11415974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1409,7 +1409,8 @@ MonoBehaviour:
   oscillationSpeed: 0.25
   positionOscillationAmplitude: 1
   tangentOscillationAmplitude: 15
-  areaName: 1
+  colliderHeight: 4
+  areaName: 
   color: 0
   direction: 1
   debug: 0
@@ -1569,18 +1570,6 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: width
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Size.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Size.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Size.x
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

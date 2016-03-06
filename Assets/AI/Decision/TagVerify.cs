@@ -6,7 +6,7 @@ using RAIN.Action;
 using RAIN.Core;
 using RAIN.Representation;
 
-[RAINDecision]
+[RAINDecision("Tag Verify")]
 public class TagVerify : RAINDecision
 {
 	public Expression gameObjectForm = new Expression();
