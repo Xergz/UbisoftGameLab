@@ -524,11 +524,11 @@ public class Stream : MonoBehaviour {
 	/// Generate new arrows to visualize the tangents.
 	/// </summary>
 	private void GenerateTangentArrows() {
-        Vector2[] arrowPositions = new Vector2[streamCurve.Length - 1];
+        Vector3[] arrowPositions = new Vector3[streamCurve.Length - 1];
         Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
 
         for (int i = 0; i < arrowPositions.Length; ++i) {
-            arrowPositions [i] = new Vector2 (streamCurve[i + 1].x, streamCurve[i + 1].z);
+            arrowPositions [i] = new Vector3 (streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
             arrowRotations [i] = Quaternion.LookRotation (tangents [i + 1] * (int)direction, Vector3.up);
         }
 
