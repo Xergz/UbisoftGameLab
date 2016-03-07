@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
-    public bool PlayerCanBeMoved { get; set; }
+	public bool PlayerCanBeMoved { get; set; }
 
 	[Tooltip("The player's rigidbody")]
 	public Rigidbody playerRigidbody;
@@ -27,22 +27,22 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
-    public GameObject Player {
-        get {
-            return playerRigidbody.gameObject;
-        }
-    }
+	public GameObject Player {
+		get {
+			return playerRigidbody.gameObject;
+		}
+	}
 
-    // TODO: Complete this method
-    public int GetPlayerCurrentLife() {
-        int currentLife = 0;
+	// TODO: Complete this method
+	public int GetPlayerCurrentLife() {
+		int currentLife = 0;
 
-        return currentLife;
-    }
+		return currentLife;
+	}
 
-    // TODO: Complete this method
-    public void SetPlayerCurrentLife(int val) {
-    }
+	// TODO: Complete this method
+	public void SetPlayerCurrentLife(int val) {
+	}
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
@@ -87,7 +87,7 @@ public class PlayerController : InputReceiver {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
-        PlayerCanBeMoved = true;
+		PlayerCanBeMoved = true;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -97,21 +97,21 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
-        if (PlayerCanBeMoved) {
-            MovePlayer();
-        }    
+		if (PlayerCanBeMoved) {
+			MovePlayer();
+		}
 	}
 
-    private void MovePlayer()
-    {
-        var cam = Camera.main;
+	private void MovePlayer()
+	{
+		var cam = Camera.main;
 
-        Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
-        Vector3 movement = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
+		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
+		Vector3 movement = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
-        if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
-        {
-            playerRigidbody.AddForce(movement, ForceMode.Acceleration);
+		if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
+		{
+			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
 			Vector3 lastForward = playerRigidbody.transform.forward;
 			lastForward.y = 0;
@@ -126,11 +126,11 @@ public class PlayerController : InputReceiver {
 			playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
 		}
 
-        if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
-        {
-            playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
-        }
+		if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
+		{
+			playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
+		}
 
-        forceToApply = new Vector3(0, 0, 0);
-    }
+		forceToApply = new Vector3(0, 0, 0);
+	}
 }

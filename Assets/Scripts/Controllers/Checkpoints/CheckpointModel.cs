@@ -19,15 +19,15 @@ public class CheckpointModel {
 		public byte Version;
 	}
 
-    /// <summary>
-    /// The number of saved checkpoints
-    /// </summary>
-    /// <value>The number of checkpoints</value>
-    public System.UInt32 Count {
-        get {
-            return (System.UInt32)this.checkpoints.Count;
-        }
-    }
+	/// <summary>
+	/// The number of saved checkpoints
+	/// </summary>
+	/// <value>The number of checkpoints</value>
+	public System.UInt32 Count {
+		get {
+			return (System.UInt32)this.checkpoints.Count;
+		}
+	}
 
 	/// <summary>
 	/// Get the current checkpoint
@@ -66,14 +66,14 @@ public class CheckpointModel {
 		writer.Write (checkpoint.SceneID);
 
 		// Writing the position
-        writer.Write ((System.Single)checkpoint.Position.x);
-        writer.Write ((System.Single)checkpoint.Position.y);
+		writer.Write ((System.Single)checkpoint.Position.x);
+		writer.Write ((System.Single)checkpoint.Position.y);
 
 		// Writing the orientation
 		writer.Write(checkpoint.Orientation);
 
-        // Writing the current life value of the player
-        writer.Write (checkpoint.CurrentLife);
+		// Writing the current life value of the player
+		writer.Write (checkpoint.CurrentLife);
 
 		// Writing collectables
 		writer.Write ((System.UInt32)checkpoint.Collectables.Count);
@@ -96,7 +96,7 @@ public class CheckpointModel {
 	public void SaveTo(string file) {
 		// Create a temporary file where the data will be saved
 		// A temporary file is used to prevent save corruption,
-		// In a case where a corruption happened, the original file 
+		// In a case where a corruption happened, the original file
 		// will still be usable
 		string tempFile = Path.GetTempFileName();
 		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
@@ -147,7 +147,7 @@ public class CheckpointModel {
 		// On déplace le fichier temporaire à la place du fichier de sauvegarde
 		File.Move (tempFile, saveFile);
 	}
-		
+
 
 	private void LoadCheckpointFrom(BinaryReader reader, ref Checkpoint checkpoint) {
 		// Reading GUID
@@ -164,7 +164,7 @@ public class CheckpointModel {
 		// Reading the orientation
 		checkpoint.Orientation = reader.ReadUInt16 ();
 
-        checkpoint.CurrentLife = reader.ReadUInt32 ();
+		checkpoint.CurrentLife = reader.ReadUInt32 ();
 
 		// Reading collectables
 		System.UInt32 collectableCount = reader.ReadUInt32();
@@ -196,14 +196,14 @@ public class CheckpointModel {
 				char magic = reader.ReadChar ();
 
 				if (magic != VALID_HEADER_MAGIC [i]) {
-                    throw new InvalidFileFormatException();
+					throw new InvalidFileFormatException();
 				}
 			}
 
 			byte version = reader.ReadByte ();
 
 			if (version != VALID_HEADER_VERSION) {
-                throw new InvalidVersionException (version, VALID_HEADER_VERSION);
+				throw new InvalidVersionException (version, VALID_HEADER_VERSION);
 			}
 
 			// We move at the end of the file to read the checkpoints table offset
@@ -221,7 +221,7 @@ public class CheckpointModel {
 			for (int i = 0; i < checkpointsCount; i++) {
 				checkpointOffsets [i] = reader.ReadUInt32 ();
 			}
-                
+
 			// Load every checkpoints and store them in the stack
 			for (int i = 0; i < checkpointOffsets.Length; i++) {
 				reader.BaseStream.Seek (checkpointOffsets[i], SeekOrigin.Begin);
@@ -230,18 +230,18 @@ public class CheckpointModel {
 
 				LoadCheckpointFrom (reader, ref loadedCheckpoint);
 
-                checkpoints.Push (loadedCheckpoint);
+				checkpoints.Push (loadedCheckpoint);
 			}
 		}
 	}
 
-    public void Clear(string file) {
-        string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
+	public void Clear(string file) {
+		string saveFile =  Filesystem.GetSaveDirectory () + Path.GetFileNameWithoutExtension(file) + "." + FILE_EXTENSION;
 
-        if (File.Exists (saveFile)) {
-            File.Delete (saveFile);
-        }
+		if (File.Exists (saveFile)) {
+			File.Delete (saveFile);
+		}
 
-        this.checkpoints.Clear ();
-    }
+		this.checkpoints.Clear ();
+	}
 }
