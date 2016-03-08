@@ -30,9 +30,9 @@ public class Stream : MonoBehaviour {
 
 	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
 	private const float MAX_WIDTH = 10F; // The maximum width for the stream
-	private const float MIN_WIDTH = 1F; // The minimum width for the stream 
+	private const float MIN_WIDTH = 1F; // The minimum width for the stream
 	private const float MAX_POSITION_AMPLITUDE = 1.75F; // The maximum amplitude for the position oscillation
-	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation 
+	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation
 	private const float MAX_TANGENT_AMPLITUDE = 25F; // The maximum amplitude for the tangent oscillation
 	private const float MIN_TANGENT_AMPLITUDE = 5F; // The minimum amplitude for the tangent oscillation
 	private const float MAX_NOISE_OFFSET = 5F; // The maximum noise offset so that not all streams are the same
@@ -181,6 +181,9 @@ public class Stream : MonoBehaviour {
 
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
+	[Tooltip("The stream arrow animation controller")]
+	[SerializeField]
+	private StreamArrow streamArrow = null;
 
 	/// <summary>
 	/// Get the force to apply to an object within the stream.
@@ -418,7 +421,7 @@ public class Stream : MonoBehaviour {
 
 
 	/// <summary>
-	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise. 
+	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise.
 	/// Position handles oscillate on an axis perpendicular to their tangent.
 	/// Tangent handles oscillate on a circular axis around the position handles.
 	/// </summary>
@@ -449,9 +452,9 @@ public class Stream : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Update the stream's bezier curve. Will do nothing if the stream hasn't changed. 
+	/// Update the stream's bezier curve. Will do nothing if the stream hasn't changed.
 	/// Most of the time the stream has changed due to oscillation.
-	/// Can be safely called every frame without impact on performance. 
+	/// Can be safely called every frame without impact on performance.
 	/// Also makes sure the curve is smooth enough by calculated the required segment count.
 	/// </summary>
 	/// <param name="startPosition">Starting position of the bezier curve representing the stream</param>
@@ -521,24 +524,21 @@ public class Stream : MonoBehaviour {
 	/// Generate new arrows to visualize the tangents.
 	/// </summary>
 	private void GenerateTangentArrows() {
-		// Clear the old arrows
-		List<Transform> children = transform.GetChild(0).Cast<Transform>().ToList();
-		if(Application.isPlaying) {
-			foreach(Transform child in children) {
-				Destroy(child.gameObject);
-			}
-		} else {
-			foreach(Transform child in children) {
-				DestroyImmediate(child.gameObject);
-			}
+		Vector3[] arrowPositions = new Vector3[streamCurve.Length - 1];
+		Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
+
+		for (int i = 0; i < arrowPositions.Length; ++i) {
+			arrowPositions [i] = new Vector3 (streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
+			arrowRotations [i] = Quaternion.LookRotation (tangents [i + 1] * (int)direction, Vector3.up);
 		}
 
-		// Instantiate the tangent arrows
-		for(int i = 1; i < streamCurve.Length - 1; ++i) {
-			GameObject arrow = Instantiate(tangentArrow);
-			arrow.transform.parent = transform.GetChild(0);
-			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.15F, streamCurve[i].z);
-			arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
+		if (direction == EnumStreamDirection.NEGATIVE) {
+			//arrowPositions = arrowPositions.Reverse ();
+			System.Array.Reverse(arrowPositions);
+		}
+
+		if (streamArrow) {
+			streamArrow.SetKeyFrames(arrowPositions, arrowRotations);
 		}
 	}
 

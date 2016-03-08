@@ -89,4 +89,8 @@ public class CheckpointController {
 		this.model.LoadFrom (filename);
 		this.restorer.RestoreGameStateFrom (this.model.Current);
 	}
+
+    public void Clear() {
+        this.model.Clear (this.SaveFile);
+    }
 }
