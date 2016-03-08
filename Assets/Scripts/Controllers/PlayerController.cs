@@ -27,22 +27,42 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
+    private int currentLife;
+
 	public GameObject Player {
 		get {
 			return playerRigidbody.gameObject;
 		}
 	}
 
+    public int GetPlayerMaxLife() {
+        return 10;
+    }
+
 	// TODO: Complete this method
 	public int GetPlayerCurrentLife() {
-		int currentLife = 0;
-
-		return currentLife;
+        return currentLife;
 	}
-
-	// TODO: Complete this method
+        
 	public void SetPlayerCurrentLife(int val) {
+        int maxLife = GetPlayerMaxLife();
+
+        // Life cannot be negative
+        if (val < 0) {
+            currentLife = 0;
+        } 
+        // Life cannot be superior to the max value
+        else if (val > maxLife) {
+            currentLife = maxLife;
+        } 
+        else {
+            currentLife = val;
+        }
 	}
+
+    public void AddLife(int val) {
+        SetPlayerCurrentLife (currentLife + val);
+    }
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
