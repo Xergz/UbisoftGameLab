@@ -7,7 +7,7 @@ public abstract class Entity : MonoBehaviour {
 	[SerializeField]
 	protected bool debug = false;
 
-	private bool wasDebugging = false;
+	protected bool wasDebugging = false;
 
 
     public abstract void ReceiveHit();
@@ -29,7 +29,7 @@ public abstract class Entity : MonoBehaviour {
 
     protected abstract void OnTriggerStay(Collider other);
 
-	protected void SetupLineRenderer() {
+	protected virtual void SetupLineRenderer() {
 		NavMeshAgent agent = GetComponent<NavMeshAgent>();
 		if(agent != null) {
 			LineRenderer line = GetComponent<LineRenderer>();
