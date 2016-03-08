@@ -1422,7 +1422,8 @@ MonoBehaviour:
   endTangentHandle: {x: 10, y: 0, z: 0}
   greenStreamMaterial: {fileID: 2100000, guid: 3a876c20fccd2de4f99942ddb6872376, type: 2}
   blueStreamMaterial: {fileID: 2100000, guid: b9388ff86c1f5ee48a787081ab86f226, type: 2}
-  yellowStreamMaterial: {fileID: 2100000, guid: dae179e064986724495bc424413266db, type: 2}
+  yellowStreamMaterial: {fileID: 2100000, guid: e431bcd0fcb3e7a4b96ebaebeec8f385,
+    type: 2}
   redStreamMaterial: {fileID: 2100000, guid: a3c77753efd2920498dd134fb6e1fd0a, type: 2}
   tangentArrow: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
 --- !u!120 &12021838
@@ -1572,7 +1573,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: yellowStreamMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: dae179e064986724495bc424413266db, type: 2}
+      objectReference: {fileID: 2100000, guid: e431bcd0fcb3e7a4b96ebaebeec8f385, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 190500}
