@@ -5,7 +5,7 @@ public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
 
     public override void ReceiveHit() {
-        PlayerController.DamagePlayer(1);
+        PlayerController.DamagePlayer(1, 10);
     }
 
     // This function will probably move partially to the parent class. Probably as a template method so that all entities are affected by streams.

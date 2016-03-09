@@ -14,7 +14,8 @@ public class PlayerController : InputReceiver {
 	public float maximumVelocity;
 
     public GameObject Lifebar;
-    public float coeffDamage = 1;
+    public int maxLife;
+    public int currentLife;
 
     public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
 
@@ -55,13 +56,19 @@ public class PlayerController : InputReceiver {
 	public void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
 		Debug.Log("Plus one life! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
-        coeffDamage -= 0.1F;
+
+        maxLife += 20;
+        currentLife = maxLife;
+
+        Lifebar.GetComponent<RectTransform>().localScale = new Vector3 (maxLife/200.0F, 1, 1);
+        //Lifebar.GetComponent<Transform>().Translate(Vector3.left*100);
+        Lifebar.GetComponent<Scrollbar>().size = 1;
 
         nextFragmentIndex++;
         nextFragment = fragmentsList[nextFragmentIndex];
     }
 
-	public void DamagePlayer(int fragmentNb) {
+	public void DamagePlayer(int fragmentNb, int damage) {
 		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
 			int index = Random.Range(0, memoryFragments.Count - 1);
 			Fragment lostFragment = memoryFragments[index];
@@ -69,14 +76,15 @@ public class PlayerController : InputReceiver {
 			Debug.Log("Ouch! You took damage... You lost the \"" + lostFragment.fragmentName + "\" memory fragment");
 		}
 
-       Lifebar.GetComponent<Scrollbar>().size -= coeffDamage*0.1F;
+        currentLife -= damage;
+        Lifebar.GetComponent<Scrollbar>().size -= (float)damage/ (float)maxLife;
     }
 
 	public List<Fragment> GetFragments() {
 		return memoryFragments;
 	}
 
-
+    
 	private void Awake() {
         playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
@@ -91,18 +99,20 @@ public class PlayerController : InputReceiver {
         nextFragmentIndex = 0;
         nextFragment = fragmentsList[nextFragmentIndex];
 
+        maxLife = 200;
+        currentLife = 200;
+
 
         if (playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
 			playerRigidbody.GetComponent<Player>().PlayerController = this;
 		}
-	}
+    }
 
 	private void FixedUpdate() {
 		MovePlayer();
 	}
-
 
 
 	private void MovePlayer() {
