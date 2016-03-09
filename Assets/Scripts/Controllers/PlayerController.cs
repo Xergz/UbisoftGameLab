@@ -61,7 +61,6 @@ public class PlayerController : InputReceiver {
         currentLife = maxLife;
 
         Lifebar.GetComponent<RectTransform>().localScale = new Vector3 (maxLife/200.0F, 1, 1);
-        //Lifebar.GetComponent<Transform>().Translate(Vector3.left*100);
         Lifebar.GetComponent<Scrollbar>().size = 1;
 
         nextFragmentIndex++;

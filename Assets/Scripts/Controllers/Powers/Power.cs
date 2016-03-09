@@ -52,11 +52,11 @@ public abstract class Power : MonoBehaviour {
 		if(!ready) {
 			if(elapsedTime < cooldownTime) {
 				elapsedTime += Time.deltaTime;
-                CooldownBar.GetComponent<Scrollbar>().size -= elapsedTime / cooldownTime;
+                CooldownBar.GetComponent<Scrollbar>().size = (elapsedTime / cooldownTime);
             } else {
 				elapsedTime = 0F;
 				ready = true;
-                CooldownBar.GetComponent<Scrollbar>().size = 0;
+                CooldownBar.GetComponent<Scrollbar>().size = 1;
             }
         }
 	}
