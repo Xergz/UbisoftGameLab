@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ace1eebec7d19b7468f251c4c3fa027d
-timeCreated: 1457120719
+timeCreated: 1457487772
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -30,6 +30,7 @@ ModelImporter:
     100044: pasted__joint7
     100046: pasted__joint8
     100048: pasted__joint9
+    100050: Fist
     400000: //RootNode
     400002: pasted__base_obj2
     400004: pasted__joint10
@@ -55,7 +56,11 @@ ModelImporter:
     400044: pasted__joint7
     400046: pasted__joint8
     400048: pasted__joint9
+    400050: Fist
+    2300000: Fist
+    3300000: Fist
     4300000: pasted__base_obj2
+    4300002: Fist
     9500000: //RootNode
     13700000: pasted__base_obj2
   materials:

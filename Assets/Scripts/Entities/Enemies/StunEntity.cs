@@ -12,7 +12,8 @@ public class StunEntity : Entity {
 
 	private bool coolDown = false;
 
-    private void Start() {
+    protected override void Start() {
+		base.Start();
         rigidBody = GetComponent<Rigidbody>();
 		ai = GetComponentInChildren<AIRig>();
 
@@ -52,7 +53,7 @@ public class StunEntity : Entity {
     protected override void OnTriggerStay(Collider other) {
     }
 
-	protected void SetupLineRenderer()
+	protected override void SetupLineRenderer()
 	{
 		VisualSensor sight = ai.AI.Senses.GetSensor("Sight") as VisualSensor;
 		float x;

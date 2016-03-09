@@ -34,17 +34,9 @@ public class StreamController : InputReceiver {
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.IncreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
+			IncreaseStreamStrength(inputEvent);
 		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.DecreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
+			DecreaseStreamStrength(inputEvent);
 		} else {
 			EnumButtonState state = (EnumButtonState) inputEvent.Value;
 			EnumStreamColor color = EnumStreamColor.NONE;
@@ -146,6 +138,23 @@ public class StreamController : InputReceiver {
 		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).streams = GetStreamList(color);
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
+
+	private void IncreaseStreamStrength(InputEvent inputEvent) {
+		if(PlayerController.isPlayerOnstream) {
+			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
+			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).stream = PlayerController.streamPlayer;
+			powerController.ActivatePower(EnumPower.IncreaseStrength);
+		}
+	}
+
+	private void DecreaseStreamStrength(InputEvent inputEvent) {
+		if(PlayerController.isPlayerOnstream) {
+			(powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
+			(powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).stream = PlayerController.streamPlayer;
+			powerController.ActivatePower(EnumPower.DecreaseStrength);
+		}
+	}
+
 
 	/// <summary>
 	/// Get the list of all streams of a color
