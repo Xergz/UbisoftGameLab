@@ -2436,11 +2436,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 44e16e333df27bd4ea568ddd30d41757, type: 3}
   - {fileID: 8300000, guid: 70359fbcb4adb9d4dbd571283eb51e11, type: 3}
   clipsClose:
+  - {fileID: 8300000, guid: d0deb17cb62a60048946d09ddb9e9a47, type: 3}
+  - {fileID: 8300000, guid: c58b23a4001af6147b2076bf3a0898cd, type: 3}
   - {fileID: 8300000, guid: 5b954c069402fc2449123b4d2f1da7cb, type: 3}
   - {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
   - {fileID: 8300000, guid: a00d9d797fc87f24a81bc9c2d3c4e605, type: 3}
   - {fileID: 8300000, guid: 37f29d2b933bb464bb9effd7c6443fe7, type: 3}
-  - {fileID: 8300000, guid: d0deb17cb62a60048946d09ddb9e9a47, type: 3}
   source: {fileID: 8250720}
 --- !u!114 &11450898
 MonoBehaviour:
@@ -2740,6 +2741,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: clipsClose.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: _dataSerializer._serializedData
       value: <component version="1.3" type="RAIN.Core.AIRig"><fields><field value="OnWhenSelected"
         type="RAIN.Core.VisualModeEnum" id="_visualMode" /><field value="True" type="System.Boolean"
@@ -2828,6 +2833,46 @@ Prefab:
         /><field type="RAIN.BehaviorTrees.BTAsset" id="behaviorTree" gameobject="6"
         /></reference></references></component>
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsFar.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4889527592bea1c4ca816fac4b451ce5, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsFar.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: dc3dd048aba83d44e9ec7adc7ca34702, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsFar.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 61fb096de0646c54c83c35732ece0cf9, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsFar.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 44e16e333df27bd4ea568ddd30d41757, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsFar.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 70359fbcb4adb9d4dbd571283eb51e11, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d0deb17cb62a60048946d09ddb9e9a47, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: c58b23a4001af6147b2076bf3a0898cd, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b954c069402fc2449123b4d2f1da7cb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: a00d9d797fc87f24a81bc9c2d3c4e605, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134078}
