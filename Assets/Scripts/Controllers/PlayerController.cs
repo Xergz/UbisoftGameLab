@@ -28,11 +28,14 @@ public class PlayerController : InputReceiver {
 	private Vector3 forceToApply;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public static bool isPlayerOnstream { get; set; }
 
     public static Stream streamPlayer { get; set; }
 
 =======
+=======
+>>>>>>> dc65a4e66c2ba53c2023520f9b671576b9a62c85
     private int currentLife;
 
 	public GameObject Player {
@@ -69,7 +72,10 @@ public class PlayerController : InputReceiver {
     public void AddLife(int val) {
         SetPlayerCurrentLife (currentLife + val);
     }
+<<<<<<< HEAD
 >>>>>>> c7d9f0e535b44e6c17019951fffbe1626a7e2fda
+=======
+>>>>>>> dc65a4e66c2ba53c2023520f9b671576b9a62c85
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
