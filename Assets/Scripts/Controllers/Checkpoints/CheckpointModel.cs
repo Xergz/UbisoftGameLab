@@ -58,54 +58,54 @@ public class CheckpointModel {
 		return guids.Contains (guid);
 	}
 
-    private static System.UInt32 ZoneToUint(EnumZone zone) {
-        System.UInt32 id = 0;
+	private static System.UInt32 ZoneToUint(EnumZone zone) {
+		System.UInt32 id = 0;
 
-        switch (zone) {
-        case EnumZone.LEVEL_1:
-            id = 1;
-            break;
-        case EnumZone.LEVEL_2:
-            id = 2;
-            break;
-        case EnumZone.LEVEL_3:
-            id = 3;
-            break;
-        case EnumZone.LEVEL_4:
-            id = 4;
-            break;
-        }
+		switch (zone) {
+		case EnumZone.LEVEL_1:
+			id = 1;
+			break;
+		case EnumZone.LEVEL_2:
+			id = 2;
+			break;
+		case EnumZone.LEVEL_3:
+			id = 3;
+			break;
+		case EnumZone.LEVEL_4:
+			id = 4;
+			break;
+		}
 
-        return id;
-    }
+		return id;
+	}
 
-    private static EnumZone UintToZone(System.UInt32 zoneID) {
-        EnumZone zone = EnumZone.OPEN_WORLD;
+	private static EnumZone UintToZone(System.UInt32 zoneID) {
+		EnumZone zone = EnumZone.OPEN_WORLD;
 
-        switch (zoneID) {
-        case 1:
-            zone = EnumZone.LEVEL_1;
-            break;
-        case 2:
-            zone = EnumZone.LEVEL_2;
-            break;
-        case 3:
-            zone = EnumZone.LEVEL_3;
-            break;
-        case 4:
-            zone = EnumZone.LEVEL_4;
-            break;
-        }
+		switch (zoneID) {
+		case 1:
+			zone = EnumZone.LEVEL_1;
+			break;
+		case 2:
+			zone = EnumZone.LEVEL_2;
+			break;
+		case 3:
+			zone = EnumZone.LEVEL_3;
+			break;
+		case 4:
+			zone = EnumZone.LEVEL_4;
+			break;
+		}
 
-        return zone;
-    }
+		return zone;
+	}
 
 	private void saveCheckpointTo(BinaryWriter writer, Checkpoint checkpoint) {
 		// Writing guid
 		writer.Write (checkpoint.GUID);
 
 		// Writing scene ID
-        writer.Write (ZoneToUint(checkpoint.Zone));
+		writer.Write (ZoneToUint(checkpoint.Zone));
 
 		// Writing the position
 		writer.Write ((System.Single)checkpoint.Position.x);
@@ -197,7 +197,7 @@ public class CheckpointModel {
 		guids.Add (checkpoint.GUID);
 
 		// Reading scene ID
-        checkpoint.Zone = UintToZone(reader.ReadUInt32 ());
+		checkpoint.Zone = UintToZone(reader.ReadUInt32 ());
 
 		// Reading the position
 		checkpoint.Position.x = reader.ReadSingle();

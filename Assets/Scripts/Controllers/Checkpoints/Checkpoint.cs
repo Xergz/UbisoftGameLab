@@ -34,7 +34,7 @@ public class Checkpoint {
 	public Dictionary<System.UInt32, bool> Collectables;
 
 	public Checkpoint() {
-        this.Zone = EnumZone.OPEN_WORLD;
+		this.Zone = EnumZone.OPEN_WORLD;
 
 		this.Position = new Vector2 (0, 0);
 		this.Orientation = 0;
