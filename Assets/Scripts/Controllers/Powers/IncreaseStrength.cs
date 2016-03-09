@@ -11,6 +11,7 @@ public class IncreaseStrength : Power {
     private void Awake()
     {
         PowerType = EnumPower.IncreaseStrength;
+        value = 0f;
     }
 
     /// <summary>

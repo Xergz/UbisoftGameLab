@@ -34,6 +34,7 @@ public class StreamController : InputReceiver {
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
+            Debug.Log("increase");
             IncreaseStreamStrenght(inputEvent);
 
 
@@ -65,7 +66,7 @@ public class StreamController : InputReceiver {
 
 			if(state == EnumButtonState.CLICKED) { // Player has simply pressed a button
 				SwitchDirectionForColor(color);
-			} else { // Player is either holding down a button or just released it after holding it down
+            } else { // Player is either holding down a button or just released it after holding it down
 				ChangeSelectedColor(color, state);
 			}
 		}
@@ -173,7 +174,6 @@ public class StreamController : InputReceiver {
         }
         else
         {
-
         }
     }
 
