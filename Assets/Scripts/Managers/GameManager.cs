@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour, GameRestorer {
 			return checkpoints;
 		}
 	}
-        
+
 
 	/// <summary>
 	/// Restores the game state from a checkpoint.
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour, GameRestorer {
 			Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
 			PlayerController.SetPlayerCurrentLife ((int)checkpoint.CurrentLife);
 
-            PlayerController.CurrentZone = checkpoint.Zone;
+			PlayerController.CurrentZone = checkpoint.Zone;
 		}
 
 		// Iterate over every fragment gameobject
