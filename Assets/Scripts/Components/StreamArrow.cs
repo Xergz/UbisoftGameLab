@@ -135,6 +135,11 @@ public class StreamArrow : MonoBehaviour {
     //
 
     void Start() {
+        // If the root game object is not set, the first child is used
+        if (RootObject == null) {
+            RootObject = transform.GetChild (0).gameObject;
+        }
+
         clearArrows ();
        
         firstSet = true;

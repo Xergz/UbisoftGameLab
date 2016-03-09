@@ -10,7 +10,7 @@ public class Checkpoint {
 	/// <summary>
 	/// The scene where is located the checkpoint
 	/// </summary>
-	public System.UInt32 SceneID;
+	public EnumZone Zone;
 
 	/// <summary>
 	/// Position from the top where the player should start
@@ -34,7 +34,7 @@ public class Checkpoint {
 	public Dictionary<System.UInt32, bool> Collectables;
 
 	public Checkpoint() {
-		this.SceneID = 0;
+		this.Zone = EnumZone.OPEN_WORLD;
 
 		this.Position = new Vector2 (0, 0);
 		this.Orientation = 0;
@@ -43,8 +43,8 @@ public class Checkpoint {
 		this.CurrentLife = 0;
 	}
 
-	public Checkpoint(System.UInt32 scene, System.UInt32 life, Vector2 pos, System.UInt16 orientation) {
-		this.SceneID = scene;
+	public Checkpoint(EnumZone zone, System.UInt32 life, Vector2 pos, System.UInt16 orientation) {
+		this.Zone = zone;
 		this.CurrentLife = life;
 
 		this.Position = pos;

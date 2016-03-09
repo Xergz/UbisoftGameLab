@@ -8,7 +8,7 @@ public class CheckpointZone : MonoBehaviour {
 	/// <summary>
 	/// The current scene ID
 	/// </summary>
-	public System.UInt32 SceneID;
+	public EnumZone Zone;
 
 	/// <summary>
 	/// The global unique identifier of the checkpoint
@@ -22,7 +22,7 @@ public class CheckpointZone : MonoBehaviour {
 			Checkpoint checkpoint = new Checkpoint ();
 
 			checkpoint.GUID = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes(GUID), SEED);
-			checkpoint.SceneID = SceneID;
+			checkpoint.Zone = this.Zone;
 
 			checkpoint.Position = new Vector2 (this.transform.position.x, this.transform.position.z);
 			checkpoint.Orientation = (System.UInt16)this.transform.eulerAngles.y;
