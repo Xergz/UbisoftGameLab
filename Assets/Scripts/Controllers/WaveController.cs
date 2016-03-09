@@ -22,12 +22,6 @@ public class WaveController : MonoBehaviour {
 
 	private const float NORMAL_PRECISION = 1.0f;
 
-	[Tooltip("Specify the position in the world")]
-	public Transform worldTransform;
-
-	[Tooltip("Specify the surface to deform")]
-	public MeshFilter surfaceMeshFilter;
-
 	[Tooltip("Specify the wave's max/min height")]
 	public float waveIntensity = 0.33f;
 
@@ -36,8 +30,6 @@ public class WaveController : MonoBehaviour {
 
 	[Tooltip("Specify the speed of waves")]
 	public float waveSpeed = 0.33f;
-
-	private Mesh surfaceMesh;
 
 	/// <summary>
 	/// Gets the ocean height at a specific location.
@@ -106,26 +98,5 @@ public class WaveController : MonoBehaviour {
 
 	public SurfaceInfo GetSurfaceAt(float x, float z, float width = NORMAL_PRECISION, float length = NORMAL_PRECISION) {
 		return new SurfaceInfo(GetSurfaceNormalAt(x, z, width, length), GetOceanHeightAt(x, z));
-	}
-
-	//
-	// UNITY CALLBACKS
-	//
-
-	void Start() {
-		surfaceMesh = surfaceMeshFilter.mesh;
-	}
-
-	void Update() {
-		Vector3[] vertices = surfaceMesh.vertices;
-		Vector3 worldPos;
-
-		for(int i = 0; i < vertices.Length; i++) {
-			worldPos = worldTransform.TransformPoint(vertices[i]);
-
-			vertices[i].y = GetOceanHeightAt(worldPos.x, worldPos.z);
-		}
-
-		surfaceMesh.vertices = vertices;
 	}
 }

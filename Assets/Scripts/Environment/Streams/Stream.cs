@@ -30,9 +30,9 @@ public class Stream : MonoBehaviour {
 
 	private const float MAX_CURVE_POINTS_SPACING = 2F; // Maximum distance between 2 points of the curve
 	private const float MAX_WIDTH = 10F; // The maximum width for the stream
-	private const float MIN_WIDTH = 1F; // The minimum width for the stream 
+	private const float MIN_WIDTH = 1F; // The minimum width for the stream
 	private const float MAX_POSITION_AMPLITUDE = 1.75F; // The maximum amplitude for the position oscillation
-	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation 
+	private const float MIN_POSITION_AMPLITUDE = 0.25F; // The minimum amplitude for the position oscillation
 	private const float MAX_TANGENT_AMPLITUDE = 25F; // The maximum amplitude for the tangent oscillation
 	private const float MIN_TANGENT_AMPLITUDE = 5F; // The minimum amplitude for the tangent oscillation
 	private const float MAX_NOISE_OFFSET = 5F; // The maximum noise offset so that not all streams are the same
@@ -45,6 +45,8 @@ public class Stream : MonoBehaviour {
 	[Tooltip("The wave controller to synchronize with")]
 	[SerializeField]
 	private WaveController waveController;
+
+	private PlayerController playerController;
 
 	[Tooltip("The width of the stream")]
 	[Range(MIN_WIDTH, MAX_WIDTH)]
@@ -84,15 +86,12 @@ public class Stream : MonoBehaviour {
 	private float tangentOscillationAmplitude = 15F;
 	#endregion
 
-	[Tooltip("The height of the mesh collider")]
-	[SerializeField]
-	private float colliderHeight = 4;
 	private float randomizedNoiseOffset; // An offset so that not all streams have the same oscillation
 
 	[Tooltip("The index of the navigation area this stream is in")]
 	[Range(MIN_AREA, MAX_AREA)]
 	[SerializeField]
-	private int areaName;
+	private int areaName = MIN_AREA;
 
 	private int areaIndex; // The index of the area the stream is in for the NavMesh
 
@@ -151,15 +150,15 @@ public class Stream : MonoBehaviour {
 	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
 
 	#region Meshes
-	private int[] colliderTriangles; // The triangles for the collider mesh
 	private int[] streamTriangles; // The triangles for the stream mesh
 
 	private Vector3[] streamVertices; // The vertices for the stream mesh
 
 	private Mesh streamMesh; // The curve's mesh. It follows the waves of the ocean
-	private Mesh colliderMesh; // The collider mesh. It is tall and does not move.
-	private MeshCollider meshCollider;
 	#endregion
+
+	private BoxCollider boxCollider; // The stream's collider
+	private Renderer meshRenderer; // The stream's renderer
 
 	#region Materials
 	[Tooltip("The material to apply to a green stream")]
@@ -182,6 +181,9 @@ public class Stream : MonoBehaviour {
 
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
+	[Tooltip("The stream arrow animation controller")]
+	[SerializeField]
+	private StreamArrow streamArrow = null;
 
 	/// <summary>
 	/// Get the force to apply to an object within the stream.
@@ -193,7 +195,9 @@ public class Stream : MonoBehaviour {
 		float maxDistanceUpper = 0;
 		float maxDistanceLower = 0;
 		int closestPoint = GetClosestCurvePointIndex(position, out distanceToClosest);
-		// For both end of the curve, we can assume that it's always inside the curve since the collider is precise for this part of the curve.
+		if(closestPoint == -1 || closestPoint == 0 || closestPoint == streamCurve.Length - 1) { // If the closest point is the border of the stream, you're not close enough
+			return Vector3.zero;
+		}
 		Vector3 previousPoint;
 		Vector3 currentPoint;
 		Vector3 nextPoint;
@@ -289,25 +293,27 @@ public class Stream : MonoBehaviour {
 			Debug.Log("No WaveController is attached to the stream. Will not follow any waves.");
 		}
 
+		playerController = FindObjectOfType<PlayerController>();
+
 		curveGenerator = new BezierCurveGenerator();
 
 		streamMesh = new Mesh();
-		colliderMesh = new Mesh();
 		GetComponent<MeshFilter>().mesh = streamMesh;
-		meshCollider = GetComponent<MeshCollider>();
+		boxCollider = GetComponent<BoxCollider>();
+		meshRenderer = GetComponent<Renderer>();
 
 		switch(color) {
 			case EnumStreamColor.GREEN:
-				GetComponent<MeshRenderer>().material = greenStreamMaterial;
+				meshRenderer.material = greenStreamMaterial;
 				break;
 			case EnumStreamColor.BLUE:
-				GetComponent<MeshRenderer>().material = blueStreamMaterial;
+				meshRenderer.material = blueStreamMaterial;
 				break;
 			case EnumStreamColor.YELLOW:
-				GetComponent<MeshRenderer>().material = yellowStreamMaterial;
+				meshRenderer.material = yellowStreamMaterial;
 				break;
 			case EnumStreamColor.RED:
-				GetComponent<MeshRenderer>().material = redStreamMaterial;
+				meshRenderer.material = redStreamMaterial;
 				break;
 		}
 
@@ -338,31 +344,41 @@ public class Stream : MonoBehaviour {
 		if(!Application.isPlaying) {
 			switch(color) {
 				case EnumStreamColor.GREEN:
-					GetComponent<MeshRenderer>().material = greenStreamMaterial;
+					meshRenderer.material = greenStreamMaterial;
 					break;
 				case EnumStreamColor.BLUE:
-					GetComponent<MeshRenderer>().material = blueStreamMaterial;
+					meshRenderer.material = blueStreamMaterial;
 					break;
 				case EnumStreamColor.YELLOW:
-					GetComponent<MeshRenderer>().material = yellowStreamMaterial;
+					meshRenderer.material = yellowStreamMaterial;
 					break;
 				case EnumStreamColor.RED:
-					GetComponent<MeshRenderer>().material = redStreamMaterial;
+					meshRenderer.material = redStreamMaterial;
 					break;
 			}
 		}
 
-		// Update the curve
-		Vector3 startPosition, startTangent, endPosition, endTangent; // out parameters
-		if(oscillate && Application.isPlaying) {
-			UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
-		} else {
-			startPosition = startPositionHandle;
-			startTangent = startTangentHandle;
-			endPosition = endPositionHandle;
-			endTangent = endTangentHandle;
+		// Out parameters
+		Vector3 startPosition = startPositionHandle;
+		Vector3 startTangent = startTangentHandle;
+		Vector3 endPosition = endPositionHandle;
+		Vector3 endTangent = endTangentHandle;
+		float distance = 0F;
+		if(Application.isPlaying) {
+			GetClosestCurvePointIndex(playerController.playerRigidbody.position, out distance);
 		}
-		UpdateCurve(startPosition, startTangent + startPosition, endPosition, endTangent + endPosition);
+		if(streamCurve == null || distance < playerController.sightRange) {
+			// Update the curve
+			if(oscillate && Application.isPlaying) {
+				UpdateHandles(out startPosition, out startTangent, out endPosition, out endTangent);
+			} else {
+				startPosition = startPositionHandle;
+				startTangent = startTangentHandle;
+				endPosition = endPositionHandle;
+				endTangent = endTangentHandle;
+			}
+			UpdateCurve(startPosition, startTangent + startPosition, endPosition, endTangent + endPosition);
+		}
 
 		// Restore strength
 		if(Time.time - timeAtLastStrengthModification >= timeBeforeStrengthRestoration) {
@@ -375,9 +391,9 @@ public class Stream : MonoBehaviour {
 
 		#region DEBUG
 		if(debug) {
-			transform.GetChild(1).gameObject.SetActive(true);
-			transform.GetChild(2).gameObject.SetActive(true);
-			transform.GetChild(3).gameObject.SetActive(true);
+			curveLineRenderer.gameObject.SetActive(true);
+			startLineRenderer.gameObject.SetActive(true);
+			endLineRenderer.gameObject.SetActive(true);
 
 			curveLineRenderer.SetVertexCount(streamCurve.Length);
 			Vector3[] positions = streamCurve.Clone() as Vector3[];
@@ -387,14 +403,14 @@ public class Stream : MonoBehaviour {
 			curveLineRenderer.SetPositions(positions);
 
 			startLineRenderer.SetVertexCount(2);
-			startLineRenderer.SetPositions(new Vector3[] { new Vector3(startPosition.x, startPosition.y + 0.075F, startPosition.z), new Vector3(startTangent.x, startTangent.y + 0.075F, startTangent.z) });
+			startLineRenderer.SetPositions(new Vector3[] { startPosition + new Vector3(0, 0.075F, 0), startTangent + startPosition + new Vector3(0, 0.075F, 0) });
 
 			endLineRenderer.SetVertexCount(2);
-			endLineRenderer.SetPositions(new Vector3[] { new Vector3(endPosition.x, endPosition.y + 0.075F, endPosition.z), new Vector3(endTangent.x, endTangent.y + 0.075F, endTangent.z) });
+			endLineRenderer.SetPositions(new Vector3[] { endPosition + new Vector3(0, 0.075F, 0), endTangent + endPosition + new Vector3(0, 0.075F, 0) });
 		} else {
-			transform.GetChild(1).gameObject.SetActive(false);
-			transform.GetChild(2).gameObject.SetActive(false);
-			transform.GetChild(3).gameObject.SetActive(false);
+			curveLineRenderer.gameObject.SetActive(false);
+			startLineRenderer.gameObject.SetActive(false);
+			endLineRenderer.gameObject.SetActive(false);
 		}
 		#endregion
 	}
@@ -405,7 +421,7 @@ public class Stream : MonoBehaviour {
 
 
 	/// <summary>
-	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise. 
+	/// Update the handles of the curve in order to make them oscillate according to a Perlin noise.
 	/// Position handles oscillate on an axis perpendicular to their tangent.
 	/// Tangent handles oscillate on a circular axis around the position handles.
 	/// </summary>
@@ -436,9 +452,9 @@ public class Stream : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Update the stream's bezier curve. Will do nothing if the stream hasn't changed. 
+	/// Update the stream's bezier curve. Will do nothing if the stream hasn't changed.
 	/// Most of the time the stream has changed due to oscillation.
-	/// Can be safely called every frame without impact on performance. 
+	/// Can be safely called every frame without impact on performance.
 	/// Also makes sure the curve is smooth enough by calculated the required segment count.
 	/// </summary>
 	/// <param name="startPosition">Starting position of the bezier curve representing the stream</param>
@@ -508,24 +524,21 @@ public class Stream : MonoBehaviour {
 	/// Generate new arrows to visualize the tangents.
 	/// </summary>
 	private void GenerateTangentArrows() {
-		// Clear the old arrows
-		List<Transform> children = transform.GetChild(0).Cast<Transform>().ToList();
-		if(Application.isPlaying) {
-			foreach(Transform child in children) {
-				Destroy(child.gameObject);
-			}
-		} else {
-			foreach(Transform child in children) {
-				DestroyImmediate(child.gameObject);
-			}
+		Vector3[] arrowPositions = new Vector3[streamCurve.Length - 1];
+		Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
+
+		for (int i = 0; i < arrowPositions.Length; ++i) {
+			arrowPositions [i] = new Vector3 (streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
+			arrowRotations [i] = Quaternion.LookRotation (tangents [i + 1] * (int)direction, Vector3.up);
 		}
 
-		// Instantiate the tangent arrows
-		for(int i = 1; i < streamCurve.Length - 1; ++i) {
-			GameObject arrow = Instantiate(tangentArrow);
-			arrow.transform.parent = transform.GetChild(0);
-			arrow.transform.position = new Vector3(streamCurve[i].x, streamCurve[i].y + 0.15F, streamCurve[i].z);
-			arrow.transform.rotation = Quaternion.LookRotation(tangents[i] * (int) direction, Vector3.up) * arrow.transform.rotation;
+		if (direction == EnumStreamDirection.NEGATIVE) {
+			//arrowPositions = arrowPositions.Reverse ();
+			System.Array.Reverse(arrowPositions);
+		}
+
+		if (streamArrow) {
+			streamArrow.SetKeyFrames(arrowPositions, arrowRotations);
 		}
 	}
 
@@ -535,19 +548,16 @@ public class Stream : MonoBehaviour {
 	/// <param name="generateTriangles">Whether we should regenerate the triangles or not. This should only be true if the number of vertices changed.</param>
 	private void GenerateMesh(bool generateTriangles) {
 		Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.up);
-		float halfColliderHeight = colliderHeight / 2;
 
 		wavePrecision = (wavePrecision % 2 == 0) ? wavePrecision - 1 : wavePrecision; // Round down to the nearest odd number
 
 		streamVertices = new Vector3[streamCurve.Length * wavePrecision];
 		Vector3[] streamNormals = new Vector3[streamVertices.Length];
 		Vector2[] streamUVs = new Vector2[streamVertices.Length];
-		Vector3[] colliderVertices = new Vector3[streamCurve.Length << 2];
 
 		// Calculate vertices, UV coordinates and normals for both meshes
 		for(int i = 0; i < streamCurve.Length; ++i) {
 			int iMultiplied = i * wavePrecision;
-			int i4 = i << 2;
 			float spacing = width / (wavePrecision - 1);
 			Vector3 rotatedTangent = rotation * tangents[i];
 
@@ -556,18 +566,6 @@ public class Stream : MonoBehaviour {
 				streamVertices[iMultiplied + j] = streamCurve[i] + (orientation * spacing * rotatedTangent);
 				streamVertices[iMultiplied + j].y = streamVertices[iMultiplied + j].y + 0.01F;
 				streamUVs[iMultiplied + j] = new Vector2(streamVertices[iMultiplied + j].x, streamVertices[iMultiplied + j].z);
-			}
-
-			// Vertices for the collider mesh
-			if(Application.isPlaying) {
-				colliderVertices[i4] = streamVertices[iMultiplied];
-				colliderVertices[i4].y -= halfColliderHeight;
-				colliderVertices[i4 + 1] = streamVertices[iMultiplied + wavePrecision - 1];
-				colliderVertices[i4 + 1].y -= halfColliderHeight;
-				colliderVertices[i4 + 2] = streamVertices[iMultiplied];
-				colliderVertices[i4 + 2].y += halfColliderHeight;
-				colliderVertices[i4 + 3] = streamVertices[iMultiplied + wavePrecision - 1];
-				colliderVertices[i4 + 3].y += halfColliderHeight;
 			}
 
 			// Normals and y displacement for the stream mesh
@@ -603,59 +601,6 @@ public class Stream : MonoBehaviour {
 					streamTriangles[currentIndex + 5] = baseVertex + 1 + wavePrecision;
 				}
 			}
-
-			#region Calculate triangles for the collider mesh
-			if(oscillate && Application.isPlaying) {
-				colliderTriangles = new int[((streamCurve.Length - 1) * 24) + 12];
-
-				// Front
-				colliderTriangles[0] = 0;
-				colliderTriangles[1] = 2;
-				colliderTriangles[2] = 1;
-				colliderTriangles[3] = 1;
-				colliderTriangles[4] = 2;
-				colliderTriangles[5] = 3;
-				// Back
-				colliderTriangles[colliderTriangles.Length - 6] = colliderVertices.Length - 3;
-				colliderTriangles[colliderTriangles.Length - 5] = colliderVertices.Length - 1;
-				colliderTriangles[colliderTriangles.Length - 4] = colliderVertices.Length - 4;
-				colliderTriangles[colliderTriangles.Length - 3] = colliderVertices.Length - 4;
-				colliderTriangles[colliderTriangles.Length - 2] = colliderVertices.Length - 1;
-				colliderTriangles[colliderTriangles.Length - 1] = colliderVertices.Length - 2;
-				for(int i = 0; i < streamCurve.Length - 1; ++i) {
-					int i4 = i << 2;
-					int i24 = i * 24;
-					// Bottom
-					colliderTriangles[i24 + 6] = i4;
-					colliderTriangles[i24 + 7] = i4 + 1;
-					colliderTriangles[i24 + 8] = i4 + 4;
-					colliderTriangles[i24 + 9] = i4 + 4;
-					colliderTriangles[i24 + 10] = i4 + 1;
-					colliderTriangles[i24 + 11] = i4 + 5;
-					// Top
-					colliderTriangles[i24 + 12] = i4 + 2;
-					colliderTriangles[i24 + 13] = i4 + 6;
-					colliderTriangles[i24 + 14] = i4 + 3;
-					colliderTriangles[i24 + 15] = i4 + 3;
-					colliderTriangles[i24 + 16] = i4 + 6;
-					colliderTriangles[i24 + 17] = i4 + 7;
-					// Left
-					colliderTriangles[i24 + 18] = i4;
-					colliderTriangles[i24 + 19] = i4 + 4;
-					colliderTriangles[i24 + 20] = i4 + 2;
-					colliderTriangles[i24 + 21] = i4 + 2;
-					colliderTriangles[i24 + 22] = i4 + 4;
-					colliderTriangles[i24 + 23] = i4 + 6;
-					// Right
-					colliderTriangles[i24 + 24] = i4 + 1;
-					colliderTriangles[i24 + 25] = i4 + 3;
-					colliderTriangles[i24 + 26] = i4 + 5;
-					colliderTriangles[i24 + 27] = i4 + 5;
-					colliderTriangles[i24 + 28] = i4 + 3;
-					colliderTriangles[i24 + 29] = i4 + 7;
-				}
-			}
-			#endregion
 		}
 
 		streamMesh.Clear();
@@ -663,34 +608,37 @@ public class Stream : MonoBehaviour {
 		streamMesh.uv = streamUVs;
 		streamMesh.normals = streamNormals;
 		streamMesh.triangles = streamTriangles;
+		streamMesh.RecalculateBounds();
 
-		if(Application.isPlaying) {
-			colliderMesh.Clear();
-			colliderMesh.vertices = colliderVertices;
-			colliderMesh.triangles = colliderTriangles;
-			meshCollider.sharedMesh = colliderMesh;
-		}
+		boxCollider.center = new Vector3(streamMesh.bounds.center.x, boxCollider.center.y, streamMesh.bounds.center.z);
+		boxCollider.size = new Vector3(streamMesh.bounds.size.x, boxCollider.size.y, streamMesh.bounds.size.z);
 	}
 
 	/// <summary>
 	/// Get the closest curve point to a position in the world.
 	/// </summary>
-	/// <param name="position">The position to compare to the curve's points</param>
+	/// <param name="position">The position to compare to the curve's points. </param>
+	/// <param name="smallestDistance">Out: The distance between position and the closest to position</param>
 	/// <returns>The index of the closest curve point</returns>
 	private int GetClosestCurvePointIndex(Vector3 position, out float smallestDistance) {
-		int closestPoint = 0;
+		if(streamCurve != null) {
+			int closestPoint = 0;
 
-		smallestDistance = Vector3.Distance(position, streamCurve[0]);
+			smallestDistance = Vector3.Distance(position, streamCurve[0]);
 
-		for(int i = 1; i < streamCurve.Length; ++i) {
-			float distance = Vector3.Distance(position, streamCurve[i]);
+			for(int i = 1; i < streamCurve.Length; ++i) {
+				float distance = Vector3.Distance(position, streamCurve[i]);
 
-			if(distance < smallestDistance) {
-				smallestDistance = distance;
-				closestPoint = i;
+				if(distance < smallestDistance) {
+					smallestDistance = distance;
+					closestPoint = i;
+				}
 			}
-		}
 
-		return closestPoint;
+			return closestPoint;
+		} else {
+			smallestDistance = 0;
+			return -1;
+		}
 	}
 }

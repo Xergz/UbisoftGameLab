@@ -23,6 +23,11 @@ public class Checkpoint {
 	public System.UInt16 Orientation;
 
 	/// <summary>
+	/// The current life value of the player
+	/// </summary>
+	public System.UInt32 CurrentLife;
+
+	/// <summary>
 	/// Enumerates every collectable the player may obtains
 	/// </summary>
 	/// <remarks>Must contains every collectables, even the ones the player didn't find</remarks>
@@ -35,14 +40,17 @@ public class Checkpoint {
 		this.Orientation = 0;
 
 		this.Collectables = new Dictionary<System.UInt32, bool> ();
+		this.CurrentLife = 0;
 	}
 
 	public Checkpoint(System.UInt32 scene, System.UInt32 life, Vector2 pos, System.UInt16 orientation) {
 		this.SceneID = scene;
+		this.CurrentLife = life;
 
 		this.Position = pos;
 		this.Orientation = orientation;
 
 		this.Collectables = new Dictionary<System.UInt32, bool> ();
 	}
+
 }
