@@ -3,6 +3,14 @@ using System.Collections;
 
 public abstract class Entity : MonoBehaviour {
 
+	public float Distance { get; protected set; }
+
+	public GameObject player { get; set; }
+
+	[Tooltip("The time between each check for the distance between the player and the entity (in seconds)")]
+	[SerializeField]
+	private float timeBetweenDistanceChecks = 1F;
+
 	[Tooltip("Displays the path of the entity if the pathfinder found one")]
 	[SerializeField]
 	protected bool debug = false;
@@ -27,6 +35,12 @@ public abstract class Entity : MonoBehaviour {
 	}
 
 
+	protected virtual void Start() {
+		player = FindObjectOfType<PlayerController>().Player;
+
+		StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
+	}
+
     protected abstract void OnTriggerStay(Collider other);
 
 	protected virtual void SetupLineRenderer() {
@@ -46,6 +60,14 @@ public abstract class Entity : MonoBehaviour {
 				line.SetVertexCount(path.corners.Length);
 				line.SetPositions(path.corners);
 			}
+		}
+	}
+
+	protected virtual IEnumerator CheckDistanceToPlayer(float time) {
+		while(true) {
+			Distance = Vector3.Distance(player.transform.position, transform.position);
+
+			yield return new WaitForSeconds(time);
 		}
 	}
 }

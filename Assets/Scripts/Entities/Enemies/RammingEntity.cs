@@ -22,7 +22,8 @@ public class RammingEntity : Entity {
     [SerializeField]
 	private int life = 5;
 
-	private void Start() {
+	protected override void Start() {
+		base.Start();
 		rigidBody = GetComponent<Rigidbody>();
         navAgent = GetComponent<NavMeshAgent>();
         tRig = GetComponentInChildren<AIRig>();
