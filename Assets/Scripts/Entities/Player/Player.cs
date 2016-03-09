@@ -40,7 +40,8 @@ public class Player : Entity {
 
     protected override void OnTriggerStay(Collider other) {
         if (other.CompareTag("Stream")) { // Is inside a stream
-            PlayerController.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position));
+            PlayerController.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position), other.GetComponent<Stream>());
+
         }
     }
 

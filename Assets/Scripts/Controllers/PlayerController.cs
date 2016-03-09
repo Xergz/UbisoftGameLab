@@ -27,6 +27,10 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
+    public static bool isPlayerOnstream { get; set; }
+
+    public static Stream streamPlayer { get; set; }
+
     private int currentLife;
 
 	public GameObject Player {
@@ -80,8 +84,19 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-	public void AddForce(Vector3 force) {
+	public void AddForce(Vector3 force, Stream stream) {
 		forceToApply += force;
+        if (force == Vector3.zero)
+        {
+            isPlayerOnstream = false;
+            streamPlayer = null;
+        }
+        else
+        {
+            isPlayerOnstream = true;
+            streamPlayer = stream;
+        }
+
 	}
 
 	public void AddFragment(Fragment fragment) {
