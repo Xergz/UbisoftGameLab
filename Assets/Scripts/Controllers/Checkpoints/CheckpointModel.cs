@@ -8,7 +8,7 @@ public class CheckpointModel {
 	private Stack<Checkpoint> checkpoints = new Stack<Checkpoint>();
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69,  75};
-	private byte   VALID_HEADER_VERSION = 12;
+	private byte   VALID_HEADER_VERSION = 13;
 	private List<System.UInt32> guids = new List<System.UInt32>();
 
 	/// <summary>
@@ -58,12 +58,54 @@ public class CheckpointModel {
 		return guids.Contains (guid);
 	}
 
+	private static System.UInt32 ZoneToUint(EnumZone zone) {
+		System.UInt32 id = 0;
+
+		switch (zone) {
+		case EnumZone.LEVEL_1:
+			id = 1;
+			break;
+		case EnumZone.LEVEL_2:
+			id = 2;
+			break;
+		case EnumZone.LEVEL_3:
+			id = 3;
+			break;
+		case EnumZone.LEVEL_4:
+			id = 4;
+			break;
+		}
+
+		return id;
+	}
+
+	private static EnumZone UintToZone(System.UInt32 zoneID) {
+		EnumZone zone = EnumZone.OPEN_WORLD;
+
+		switch (zoneID) {
+		case 1:
+			zone = EnumZone.LEVEL_1;
+			break;
+		case 2:
+			zone = EnumZone.LEVEL_2;
+			break;
+		case 3:
+			zone = EnumZone.LEVEL_3;
+			break;
+		case 4:
+			zone = EnumZone.LEVEL_4;
+			break;
+		}
+
+		return zone;
+	}
+
 	private void saveCheckpointTo(BinaryWriter writer, Checkpoint checkpoint) {
 		// Writing guid
 		writer.Write (checkpoint.GUID);
 
 		// Writing scene ID
-		writer.Write (checkpoint.SceneID);
+		writer.Write (ZoneToUint(checkpoint.Zone));
 
 		// Writing the position
 		writer.Write ((System.Single)checkpoint.Position.x);
@@ -155,7 +197,7 @@ public class CheckpointModel {
 		guids.Add (checkpoint.GUID);
 
 		// Reading scene ID
-		checkpoint.SceneID = reader.ReadUInt32 ();
+		checkpoint.Zone = UintToZone(reader.ReadUInt32 ());
 
 		// Reading the position
 		checkpoint.Position.x = reader.ReadSingle();

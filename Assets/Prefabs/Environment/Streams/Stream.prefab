@@ -314,6 +314,7 @@ GameObject:
   - 33: {fileID: 3338642}
   - 23: {fileID: 2375782}
   - 65: {fileID: 6562034}
+  - 114: {fileID: 11407504}
   m_Layer: 0
   m_Name: Stream
   m_TagString: Stream
@@ -1388,6 +1389,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0, y: 2, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11407504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79539e70d897f4e329aab52b18339539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArrowCount: 19
+  Prefab: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
+  TravelTime: 15
+  RootObject: {fileID: 0}
 --- !u!114 &11415974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1426,6 +1442,7 @@ MonoBehaviour:
     type: 2}
   redStreamMaterial: {fileID: 2100000, guid: a3c77753efd2920498dd134fb6e1fd0a, type: 2}
   tangentArrow: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
+  streamArrow: {fileID: 11407504}
 --- !u!120 &12021838
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1574,6 +1591,22 @@ Prefab:
       propertyPath: yellowStreamMaterial
       value: 
       objectReference: {fileID: 2100000, guid: e431bcd0fcb3e7a4b96ebaebeec8f385, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ArrowCount
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: TravelTime
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Prefab
+      value: 
+      objectReference: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
+    - target: {fileID: 0}
+      propertyPath: streamArrow
+      value: 
+      objectReference: {fileID: 11407504}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 190500}
