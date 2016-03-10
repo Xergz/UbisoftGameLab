@@ -6,7 +6,7 @@ using RAIN.Action;
 using RAIN.Core;
 using RAIN.Representation;
 
-[RAINDecision]
+[RAINDecision("Tag Verify")]
 public class TagVerify : RAINDecision
 {
 	public Expression gameObjectForm = new Expression();
@@ -35,7 +35,7 @@ public class TagVerify : RAINDecision
 
 		gameObjectToverify = ai.WorkingMemory.GetItem<GameObject>(gameObjectForm.VariableName);
 
-		if(tagToVerify != gameObjectToverify.tag)
+		if(gameObjectToverify == null || tagToVerify != gameObjectToverify.tag)
 			return ActionResult.FAILURE;
 
         for (; _lastRunning < _children.Count; _lastRunning++)

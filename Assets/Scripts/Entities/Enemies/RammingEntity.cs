@@ -5,33 +5,55 @@ public class RammingEntity : Entity {
 
 	public bool IsRamming { get { return isRamming; } set { isRamming = value; } }
 
+    private Rigidbody rigidBody;
+    private AIRig tRig;
+    private NavMeshAgent navAgent;
 
-	[SerializeField]
+    [SerializeField]
 	private bool isRamming;
 
-	private Rigidbody rigidBody;
+    [SerializeField]
+    private bool isStuned;
 
-	[SerializeField]
+    [SerializeField]
+    private float stunTime = 2f;
+    private float beginStunTime;
+
+    [SerializeField]
 	private int life = 5;
 
-	private void Start() {
+	protected override void Start() {
+		base.Start();
 		rigidBody = GetComponent<Rigidbody>();
+        navAgent = GetComponent<NavMeshAgent>();
+        tRig = GetComponentInChildren<AIRig>();
 		IsRamming = false;
 	}
 
-	public override void ReceiveHit() {
+    private void Update() {
+        if (isStuned && Time.time > beginStunTime + stunTime) {
+            isStuned = false;
+            tRig.AI.IsActive = true;
+            navAgent.Resume();
+        }
+    }
+
+    public override void ReceiveHit() {
 		life -= 1;
 		if(life <= 0)
 			Destroy(gameObject);
 	}
 
-	private void OnCollisionEnter(Collision collision) {
+    public override void ReceiveStun() {
+        isStuned = true;
+        beginStunTime = Time.time;
+        tRig.AI.IsActive = false;
+        navAgent.Stop();
+    }
+
+    private void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.GetComponent<Entity>() != null) {
 			collision.gameObject.GetComponent<Entity>().ReceiveHit();
-
-			if(collision.gameObject.CompareTag("Player")) {
-				Destroy(gameObject);
-			}
 		}
 	}
 

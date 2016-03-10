@@ -10,7 +10,9 @@ TagManager:
   - Shade
   - Fist
   - Hand
-  - Monster
+  - Whale
+  - Life
+  - Zone
   layers:
   - Default
   - TransparentFX

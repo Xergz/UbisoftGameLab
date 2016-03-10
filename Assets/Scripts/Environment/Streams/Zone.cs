@@ -5,7 +5,9 @@ public class Zone : MonoBehaviour {
 
 	[Tooltip("The zone index that will be transmited to all children streams")]
 	[SerializeField]
-	private int zone;
+	private EnumZone zone;
+
+	public EnumZone ZoneIndex { get { return zone; } }
 
 	// Use this for initialization
 	void Start() {
