@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Power : MonoBehaviour {
 
@@ -6,9 +7,13 @@ public abstract class Power : MonoBehaviour {
 
 	public EnumPower PowerType { get; protected set; }
 
-	[Tooltip("The cooldown time for this power")]
+    public GameObject CooldownBar;
+
+    public int nbFragments;
+
+    [Tooltip("The cooldown time for this power")]
 	[SerializeField]
-	protected float cooldownTime = 3.0F;
+	protected float cooldownTime = 3.0F ;
 	[Tooltip("This should not be changed and is for debugging purposes only")]
 	[SerializeField]
 	protected float elapsedTime = 0; // The elapsed time since the power has been used
@@ -47,23 +52,27 @@ public abstract class Power : MonoBehaviour {
 		if(!ready) {
 			if(elapsedTime < cooldownTime) {
 				elapsedTime += Time.deltaTime;
-			} else {
+                CooldownBar.GetComponent<Scrollbar>().size = (elapsedTime / cooldownTime);
+            } else {
 				elapsedTime = 0F;
 				ready = true;
-			}
-		}
+                CooldownBar.GetComponent<Scrollbar>().size = 1;
+            }
+        }
 	}
 
 
 	private void Start() {
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
-		}
-	}
+            nbFragments = PlayerController.memoryFragments.Count;
+}
+    }
 
-	private void Update() {
+private void Update() {
 		UpdateCooldown();
-	}
+        cooldownTime = 3.0F - nbFragments * 0.1F;
+    }
 }
 
 
