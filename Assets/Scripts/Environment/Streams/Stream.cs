@@ -365,7 +365,7 @@ public class Stream : MonoBehaviour {
 		Vector3 endTangent = endTangentHandle;
 		float distance = 0F;
 		if(Application.isPlaying) {
-			GetClosestCurvePointIndex(playerController.playerRigidbody.position, out distance);
+			GetClosestCurvePointIndex(PlayerController.playerRigidbody.position, out distance);
 		}
 		if(streamCurve == null || distance < playerController.sightRange) {
 			// Update the curve

@@ -30,13 +30,20 @@ public class Player : Entity {
     }
 
     private void OnTriggerEnter(Collider other) {
-		if(other.CompareTag("Fragment")) { // Picked up a fragment
-			other.gameObject.SetActive(false);
-			PlayerController.AddFragment(other.GetComponent<Fragment>());
-		} else if(other.CompareTag("Zone")) { // Entered a zone
-			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
-		}
-	}
+        if (other.CompareTag("Fragment"))
+        { // Picked up a fragment
+            other.gameObject.SetActive(false);
+            PlayerController.AddFragment(other.GetComponent<Fragment>());
+        }
+        else if (other.CompareTag("Zone"))
+        { // Entered a zone
+            PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
+        }
+        else if (other.CompareTag("Life")){
+            PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
+            other.gameObject.SetActive(false);
+        }
+    }
 
     protected override void OnTriggerStay(Collider other) {
         if (other.CompareTag("Stream")) { // Is inside a stream

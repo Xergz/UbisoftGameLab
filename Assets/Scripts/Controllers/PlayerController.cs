@@ -19,7 +19,6 @@ public class PlayerController : InputReceiver {
 
     public GameObject Lifebar;
     public int maxLife;
-    public int currentLife;
 
     public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
 
@@ -40,7 +39,7 @@ public class PlayerController : InputReceiver {
 
     public static Stream streamPlayer { get; set; }
 
-    private int currentLife;
+    private static int currentLife;
 
 	public GameObject Player {
 		get {
@@ -48,7 +47,7 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-    public int GetPlayerMaxLife() {
+    public static int GetPlayerMaxLife() {
         return 10;
     }
 
@@ -57,7 +56,7 @@ public class PlayerController : InputReceiver {
         return currentLife;
 	}
         
-	public void SetPlayerCurrentLife(int val) {
+	public static void SetPlayerCurrentLife(int val) {
         int maxLife = GetPlayerMaxLife();
 
         // Life cannot be negative
@@ -73,7 +72,7 @@ public class PlayerController : InputReceiver {
         }
 	}
 
-    public void AddLife(int val) {
+    public static void AddLife(int val) {
         SetPlayerCurrentLife (currentLife + val);
     }
 

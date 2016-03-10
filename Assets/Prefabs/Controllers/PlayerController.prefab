@@ -42,13 +42,12 @@ MonoBehaviour:
   movementForce: 6
   rotationSpeed: 0.5
   maximumVelocity: 7.5
+  sightRange: 60
   Lifebar: {fileID: 0}
   maxLife: 0
-  currentLife: 0
   Fragments: {fileID: 0}
   nextFragmentIndex: 0
   numberOfFragments: 0
-  sightRange: 60
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

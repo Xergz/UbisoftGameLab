@@ -29,7 +29,7 @@ public class CompassScript : MonoBehaviour {
 
     void Update() {
         nextFragmentPosition = PlayerController.nextFragment.position;
-        if (nextFragmentPosition != null){
+        if (PlayerController.nextFragment != null){
             CalculateVector();
             RotateDirection(CalculateAngle() - lastAngle);
             lastAngle = currentAngle;
