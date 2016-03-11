@@ -331,8 +331,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132074}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.37554115, z: 0, w: 0.9268058}
+  m_LocalPosition: {x: -185.19064, y: 0, z: -118.626465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480544}
@@ -693,7 +693,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: db1471092e49b7445bfbd374a17ea61a, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
@@ -860,6 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2ee8f9097303a459e044f47f7e3d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenDistanceChecks: 1
   debug: 0
   isStuned: 0
   stunTime: 2
@@ -872,7 +873,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
+  m_Radius: 0.3
   m_Height: 1.6
   m_Direction: 2
   m_Center: {x: 0, y: 0.25, z: -0.08}
