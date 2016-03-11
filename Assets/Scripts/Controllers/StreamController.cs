@@ -58,10 +58,8 @@ public class StreamController : InputReceiver {
 					break;
 			}
 
-			if(state == EnumButtonState.CLICKED) { // Player has simply pressed a button
+			if(state == EnumButtonState.PRESSED) { // Player has simply pressed a button
 				SwitchDirectionForColor(color);
-			} else { // Player is either holding down a button or just released it after holding it down
-				ChangeSelectedColor(color, state);
 			}
 		}
 	}
@@ -113,21 +111,6 @@ public class StreamController : InputReceiver {
 
 		streamLists = new List<Stream>[] { greenStreams, blueStreams, yellowStreams, redStreams };
 		OceanAreaCost = NavMesh.GetAreaCost(NavMesh.GetAreaFromName("Ocean"));
-	}
-
-	/// <summary>
-	/// Change the currently selected color to the color of the button or to NONE if no button is pressed
-	/// </summary>
-	/// <param name="color">The new color or NONE</param>
-	/// <param name="state">The state of the button</param>
-	private void ChangeSelectedColor(EnumStreamColor color, EnumButtonState state) {
-		if(color != EnumStreamColor.NONE) {
-			if(state == EnumButtonState.HELD_DOWN) {
-				selectedColor = color;
-			} else if(selectedColor == color && state == EnumButtonState.RELEASED) {
-				selectedColor = EnumStreamColor.NONE;
-			}
-		}
 	}
 
 	/// <summary>
