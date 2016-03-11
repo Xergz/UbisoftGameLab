@@ -134,15 +134,17 @@ public class PlayerController : InputReceiver {
 	private void FixedUpdate() {
 		if (PlayerCanBeMoved) {
 			MovePlayer();
+		} else {
+			playerRigidbody.velocity = Vector3.zero;
 		}
 	}
 
 	private void MovePlayer()
 	{
-		var cam = Camera.main;
+		//var cam = Camera.main;
 
 		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
-		Vector3 movement = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
+		Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
 		if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
 		{
