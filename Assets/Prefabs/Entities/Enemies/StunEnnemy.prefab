@@ -610,8 +610,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133578}
-  m_LocalRotation: {x: 0, y: -0.24792911, z: 0, w: 0.9687782}
-  m_LocalPosition: {x: -0.064, y: 5.456, z: -4.381}
+  m_LocalRotation: {x: 0.32508484, y: 0.20927152, z: 0.027798876, w: -0.9218203}
+  m_LocalPosition: {x: 0.5, y: 2.2, z: -6.4}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 488020}
@@ -846,14 +846,14 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: db1471092e49b7445bfbd374a17ea61a, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 100
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -882,7 +882,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: 0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1005,11 +1005,11 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="3" id="_mind" childrenvisible="False" /><field type="UnityNavMeshMotor"
+      reference="3" id="_mind" childrenvisible="True" /><field type="UnityNavMeshMotor"
       reference="4" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
       reference="5" id="_animator" /><field type="RAIN.Navigation.BasicNavigator"
       reference="6" id="_navigator" /><field type="RAIN.Perception.BasicSenses" reference="7"
-      id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
+      id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
       id="_customElements" elementtype="RAIN.Core.CustomAIElement" /></reference><reference
       type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field type="System.Collections.Generic.List"
       id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field type="RAIN.Memory.BasicMemory+MemoryItem"
@@ -1078,10 +1078,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Height: 2
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.2}
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &13753264
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1225,6 +1225,14 @@ Prefab:
         id="visibleTags" elementtype="System.String"><field value="Player" type="System.String"
         id="element0" /><field value="Fist" type="System.String" id="element1" /><field
         value="Shade" type="System.String" id="element2" /></field></reference></references></component>
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Priority
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

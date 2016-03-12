@@ -886,7 +886,7 @@ AudioSource:
   Loop: 1
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 100
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -915,7 +915,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: 0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1125,6 +1125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 0
+  speedAgainstStream: 8
+  normalSpeed: 4
   isRamming: 0
   isStuned: 0
   stunTime: 2
@@ -1274,6 +1276,14 @@ Prefab:
         /><field value="5" type="System.Single" id="_range" /><field value="False"
         type="System.Boolean" id="_canDetectSelf" /><field value="0.1" type="System.Single"
         id="_volumeThreshold" /></reference></references></component>
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Priority
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -5,7 +5,13 @@ public class RammingEntity : Entity {
 
 	public bool IsRamming { get { return isRamming; } set { isRamming = value; } }
 
-    private Rigidbody rigidBody;
+
+	[Tooltip("Speed to give the fist when moving against a stream. This is to prevent the fist from jamming")]
+	public float speedAgainstStream = 8F;
+	public float normalSpeed = 4F;
+
+
+	private Rigidbody rigidBody;
     private AIRig tRig;
     private NavMeshAgent navAgent;
 
@@ -19,7 +25,7 @@ public class RammingEntity : Entity {
     private float stunTime = 2f;
     private float beginStunTime;
 
-    [SerializeField]
+	[SerializeField]
 	private int life = 5;
 
 	protected override void Start() {
@@ -49,7 +55,8 @@ public class RammingEntity : Entity {
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
         navAgent.Stop();
-    }
+		rigidBody.velocity = Vector3.zero;
+	}
 
     private void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.GetComponent<Entity>() != null) {
@@ -58,9 +65,17 @@ public class RammingEntity : Entity {
 	}
 
 	protected override void OnTriggerStay(Collider other) {
-		if(!IsRamming) {
+		if(!IsRamming && !isStuned) {
 			if(other.gameObject.CompareTag("Stream")) {
-				rigidBody.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position));
+				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+				if(Vector3.Angle(force, transform.forward) > 90) {
+					(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = speedAgainstStream;
+				} else {
+					(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
+				}
+				rigidBody.AddForce(force);
+			} else {
+				(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
 			}
 		}
 	}
