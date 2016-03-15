@@ -34,17 +34,9 @@ public class StreamController : InputReceiver {
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.IncreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
+			IncreaseStreamStrength(inputEvent);
 		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger) {
-			if(selectedColor != EnumStreamColor.NONE) {
-				GetStreamList(selectedColor).ForEach((stream) => {
-					stream.DecreaseStrength(inputEvent.Value * strengthIncreaseSpeed);
-				});
-			}
+			DecreaseStreamStrength(inputEvent);
 		} else {
 			EnumButtonState state = (EnumButtonState) inputEvent.Value;
 			EnumStreamColor color = EnumStreamColor.NONE;
@@ -66,10 +58,8 @@ public class StreamController : InputReceiver {
 					break;
 			}
 
-			if(state == EnumButtonState.CLICKED) { // Player has simply pressed a button
+			if(state == EnumButtonState.PRESSED) { // Player has simply pressed a button
 				SwitchDirectionForColor(color);
-			} else { // Player is either holding down a button or just released it after holding it down
-				ChangeSelectedColor(color, state);
 			}
 		}
 	}
@@ -124,21 +114,6 @@ public class StreamController : InputReceiver {
 	}
 
 	/// <summary>
-	/// Change the currently selected color to the color of the button or to NONE if no button is pressed
-	/// </summary>
-	/// <param name="color">The new color or NONE</param>
-	/// <param name="state">The state of the button</param>
-	private void ChangeSelectedColor(EnumStreamColor color, EnumButtonState state) {
-		if(color != EnumStreamColor.NONE) {
-			if(state == EnumButtonState.HELD_DOWN) {
-				selectedColor = color;
-			} else if(selectedColor == color && state == EnumButtonState.RELEASED) {
-				selectedColor = EnumStreamColor.NONE;
-			}
-		}
-	}
-
-	/// <summary>
 	/// Switch the direction of all streams of a color.
 	/// </summary>
 	/// <param name="color">The color of the streams to switch</param>
@@ -146,6 +121,23 @@ public class StreamController : InputReceiver {
 		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).streams = GetStreamList(color);
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
+
+	private void IncreaseStreamStrength(InputEvent inputEvent) {
+		if(PlayerController.isPlayerOnstream) {
+			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
+			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).stream = PlayerController.streamPlayer;
+			powerController.ActivatePower(EnumPower.IncreaseStrength);
+		}
+	}
+
+	private void DecreaseStreamStrength(InputEvent inputEvent) {
+		if(PlayerController.isPlayerOnstream) {
+			(powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
+			(powerController.GetPower(EnumPower.DecreaseStrength) as DecreaseStrength).stream = PlayerController.streamPlayer;
+			powerController.ActivatePower(EnumPower.DecreaseStrength);
+		}
+	}
+
 
 	/// <summary>
 	/// Get the list of all streams of a color

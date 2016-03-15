@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ace1eebec7d19b7468f251c4c3fa027d
-timeCreated: 1457120719
+timeCreated: 1457487772
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -30,6 +30,7 @@ ModelImporter:
     100044: pasted__joint7
     100046: pasted__joint8
     100048: pasted__joint9
+    100050: Fist
     400000: //RootNode
     400002: pasted__base_obj2
     400004: pasted__joint10
@@ -55,7 +56,13 @@ ModelImporter:
     400044: pasted__joint7
     400046: pasted__joint8
     400048: pasted__joint9
+    400050: Fist
+    2300000: Fist
+    3300000: Fist
     4300000: pasted__base_obj2
+    4300002: Fist
+    7400000: FistIdle
+    7400002: FistCharge
     9500000: //RootNode
     13700000: pasted__base_obj2
   materials:
@@ -78,7 +85,163 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: FistIdle
+      takeName: FistIdle
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: pasted__base_obj2
+        weight: 1
+      - path: pasted__joint2
+        weight: 1
+      - path: pasted__joint2/pasted__joint3
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6/pasted__joint7
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6/pasted__joint7/pasted__joint8
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10/pasted__joint11
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10/pasted__joint11/pasted__joint12
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15/pasted__joint16
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15/pasted__joint16/pasted__joint17
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19/pasted__joint20
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19/pasted__joint20/pasted__joint21
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23/pasted__joint24
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23/pasted__joint24/pasted__joint25
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: FistCharge
+      takeName: FistIdle
+      firstFrame: 60
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: pasted__base_obj2
+        weight: 1
+      - path: pasted__joint2
+        weight: 1
+      - path: pasted__joint2/pasted__joint3
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6/pasted__joint7
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint5/pasted__joint6/pasted__joint7/pasted__joint8
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10/pasted__joint11
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint9/pasted__joint10/pasted__joint11/pasted__joint12
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15/pasted__joint16
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint14/pasted__joint15/pasted__joint16/pasted__joint17
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19/pasted__joint20
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint18/pasted__joint19/pasted__joint20/pasted__joint21
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23/pasted__joint24
+        weight: 1
+      - path: pasted__joint2/pasted__joint3/pasted__joint4/pasted__joint22/pasted__joint23/pasted__joint24/pasted__joint25
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

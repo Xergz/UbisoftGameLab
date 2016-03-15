@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static EnumZone CurrentZone { get; set; }
-    public bool PlayerCanBeMoved { get; set; }
+	public bool PlayerCanBeMoved { get; set; }
 
 	[Tooltip("The player's rigidbody")]
 	public Rigidbody playerRigidbody;
@@ -27,6 +27,46 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
+    public static bool isPlayerOnstream { get; set; }
+
+    public static Stream streamPlayer { get; set; }
+
+    private int currentLife;
+
+	public GameObject Player {
+		get {
+			return playerRigidbody.gameObject;
+		}
+	}
+
+    public int GetPlayerMaxLife() {
+        return 10;
+    }
+
+	// TODO: Complete this method
+	public int GetPlayerCurrentLife() {
+        return currentLife;
+	}
+        
+	public void SetPlayerCurrentLife(int val) {
+        int maxLife = GetPlayerMaxLife();
+
+        // Life cannot be negative
+        if (val < 0) {
+            currentLife = 0;
+        } 
+        // Life cannot be superior to the max value
+        else if (val > maxLife) {
+            currentLife = maxLife;
+        } 
+        else {
+            currentLife = val;
+        }
+	}
+
+    public void AddLife(int val) {
+        SetPlayerCurrentLife (currentLife + val);
+    }
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
@@ -44,8 +84,19 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-	public void AddForce(Vector3 force) {
+	public void AddForce(Vector3 force, Stream stream) {
 		forceToApply += force;
+        if (force == Vector3.zero)
+        {
+            isPlayerOnstream = false;
+            streamPlayer = null;
+        }
+        else
+        {
+            isPlayerOnstream = true;
+            streamPlayer = stream;
+        }
+
 	}
 
 	public void AddFragment(Fragment fragment) {
@@ -71,7 +122,7 @@ public class PlayerController : InputReceiver {
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
-        PlayerCanBeMoved = true;
+		PlayerCanBeMoved = true;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -81,21 +132,23 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
-        if (PlayerCanBeMoved) {
-            MovePlayer();
-        }    
+		if (PlayerCanBeMoved) {
+			MovePlayer();
+		} else {
+			playerRigidbody.velocity = Vector3.zero;
+		}
 	}
 
-    private void MovePlayer()
-    {
-        var cam = Camera.main;
+	private void MovePlayer()
+	{
+		//var cam = Camera.main;
 
-        Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
-        Vector3 movement = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
+		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
+		Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
-        if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
-        {
-            playerRigidbody.AddForce(movement, ForceMode.Acceleration);
+		if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
+		{
+			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
 			Vector3 lastForward = playerRigidbody.transform.forward;
 			lastForward.y = 0;
@@ -110,11 +163,11 @@ public class PlayerController : InputReceiver {
 			playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
 		}
 
-        if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
-        {
-            playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
-        }
+		if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
+		{
+			playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
+		}
 
-        forceToApply = new Vector3(0, 0, 0);
-    }
+		forceToApply = new Vector3(0, 0, 0);
+	}
 }

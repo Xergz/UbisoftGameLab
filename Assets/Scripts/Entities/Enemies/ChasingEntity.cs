@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using RAIN.Core;
+using System.Collections;
 
 public class ChasingEntity : Entity {
 
     public bool IsDodging { get { return isDodging; } set { isDodging = value; } }
+
+	public float minTimeBetweenAudio = 10F;
+	public float maxTimeBetweenAudio = 20F;
+	public float distanceForCloseAudio = 20F;
+	public float distanceForFarAudio = 40F;
+	[Tooltip("Speed to give the shade when moving against a stream. This is to prevent the shade from jamming")]
+	public float speedAgainstStream = 8F;
+	public float normalSpeed = 4F;
+
+	public AudioController audioController;
 
     private Rigidbody rigidBody;
     private AIRig tRig;
@@ -22,12 +33,29 @@ public class ChasingEntity : Entity {
     [SerializeField]
     private bool isDodging;
 
-    private void Start() {
+    protected override void Start() {
+		base.Start();
         rigidBody = GetComponent<Rigidbody>();
         tRig = GetComponentInChildren<AIRig>();
         navAgent = GetComponent<NavMeshAgent>();
         isDodging = false;
+
+		StartCoroutine(PlayAudio());
     }
+
+	private IEnumerator PlayAudio() {
+		yield return new WaitForSeconds(Random.Range(5F, maxTimeBetweenAudio));
+
+		while(true) {
+			if(Distance < distanceForCloseAudio) {
+				audioController.PlayAudioClose();
+			} else if(Distance < distanceForFarAudio) {
+				audioController.PlayAudioFar();
+			}
+
+			yield return new WaitForSeconds(Random.Range(minTimeBetweenAudio, maxTimeBetweenAudio));
+		}
+	}
 
     private void Update() {
         if(isStuned && Time.time > beginStunTime + stunTime) {
@@ -48,10 +76,28 @@ public class ChasingEntity : Entity {
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
         navAgent.Stop();
+		rigidBody.velocity = Vector3.zero;
     }
 
-    protected override void OnTriggerStay(Collider other) {
-        if (other.gameObject.CompareTag("Stream"))
-            rigidBody.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position));
+	protected override void OnTriggerStay(Collider other) {
+		if(!isStuned) {
+			if(other.gameObject.CompareTag("Stream")) {
+				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+				if(!Mathf.Approximately(force.magnitude, 0F)) {
+					if(Vector3.Angle(force, transform.forward) > 90) {
+						(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = speedAgainstStream;
+					} else {
+						(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
+					}
+					rigidBody.AddForce(force);
+				}
+			}
+		}
     }
+
+	private void OnTriggerExit(Collider other) {
+		if(other.gameObject.CompareTag("Stream")) {
+			(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
+		}
+	}
 }
