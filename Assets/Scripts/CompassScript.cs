@@ -20,7 +20,7 @@ public class CompassScript : MonoBehaviour {
     void Start() {
         imageCenter = imageDirectionCenter.transform.position;
         playerPosition = PlayerController.playerRigidbody.position;
-        nextFragmentPosition = PlayerController.nextFragment.position;
+        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
 
         CalculateVector();
 
@@ -28,8 +28,8 @@ public class CompassScript : MonoBehaviour {
     }
 
     void Update() {
-        nextFragmentPosition = PlayerController.nextFragment.position;
-        if (PlayerController.nextFragment != null){
+        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+        if (PlayerController.nextFragmentIndex < PlayerController.fragmentsList.Count){
             CalculateVector();
             RotateDirection(CalculateAngle() - lastAngle);
             lastAngle = currentAngle;
@@ -47,14 +47,14 @@ public class CompassScript : MonoBehaviour {
     }
 
     public void CalculateVector(){
-        playerForwardVector = Player.GetComponent<Transform>().forward;
+        playerForwardVector = Vector3.forward;
         playerForwardVector.y = 0;
         playerFragmentVector = new Vector3(nextFragmentPosition.x - playerPosition.x, 0, nextFragmentPosition.z - playerPosition.z);
     }
 
     public float CalculateAngle() {
-        currentAngle = Vector3.Angle(playerForwardVector, playerFragmentVector) - 10.0F;
-        if(Vector3.Cross(playerForwardVector, playerFragmentVector).y > 0) {
+       currentAngle = Vector3.Angle(playerForwardVector, playerFragmentVector) - 10.0F;
+       if(Vector3.Cross(playerForwardVector, playerFragmentVector).y > 0) {
             currentAngle = -currentAngle;
         }
         return currentAngle;

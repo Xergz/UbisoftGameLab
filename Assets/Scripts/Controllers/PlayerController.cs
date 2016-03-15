@@ -22,11 +22,12 @@ public class PlayerController : InputReceiver {
 
     public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
 
-    public Transform Fragments;
+    //public Transform Fragments;
     public static List<Transform> fragmentsList; //List of every fragments of the level
-    public static Transform nextFragment;
-    public int nextFragmentIndex;
-    public int numberOfFragments;
+
+    //public static Transform nextFragment;
+    public static int nextFragmentIndex;
+    public static int numberOfFragments;
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -118,10 +119,20 @@ public class PlayerController : InputReceiver {
         Lifebar.GetComponent<Scrollbar>().size = 1;
 
         nextFragmentIndex++;
-        nextFragment = fragmentsList[nextFragmentIndex];
     }
 
-	public void DamagePlayer(int fragmentNb, int damage) {
+    public static void RegisterFragment(Fragment fragment)
+    {
+        fragmentsList.Add(null);
+        fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
+        UpdateNumberOfFragments();
+    }
+
+    public static void UpdateNumberOfFragments(){
+        numberOfFragments = fragmentsList.Count;
+    }
+
+    public void DamagePlayer(int fragmentNb, int damage) {
 		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
 			int index = Random.Range(0, memoryFragments.Count - 1);
 			Fragment lostFragment = memoryFragments[index];
@@ -147,12 +158,8 @@ public class PlayerController : InputReceiver {
 		PlayerCanBeMoved = true;
 
         fragmentsList = new List<Transform>();
-        numberOfFragments = Fragments.childCount; 
-        for(int i = 0; i < numberOfFragments; i++) {
-            fragmentsList.Add(Fragments.GetChild(i));
-        }
+        numberOfFragments = fragmentsList.Count;
         nextFragmentIndex = 0;
-        nextFragment = fragmentsList[nextFragmentIndex];
 
         maxLife = 200;
         currentLife = 200;
@@ -163,6 +170,7 @@ public class PlayerController : InputReceiver {
 		} else {
 			playerRigidbody.GetComponent<Player>().PlayerController = this;
 		}
+        
     }
 
 	private void FixedUpdate() {
