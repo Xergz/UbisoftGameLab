@@ -386,7 +386,7 @@ GameObject:
   - 114: {fileID: 11450898}
   m_Layer: 0
   m_Name: Entity
-  m_TagString: Untagged
+  m_TagString: Shade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &134080
 GameObject:
   m_ObjectHideFlags: 1
@@ -528,7 +528,7 @@ GameObject:
   - 82: {fileID: 8250720}
   m_Layer: 0
   m_Name: Sound
-  m_TagString: Untagged
+  m_TagString: Shade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -770,7 +770,7 @@ GameObject:
   - 114: {fileID: 11488360}
   m_Layer: 0
   m_Name: AI
-  m_TagString: Untagged
+  m_TagString: Shade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2123,7 +2123,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -200, y: 0, z: -100}
+  m_LocalPosition: {x: -201.71, y: 0, z: -170.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471238}
@@ -2293,32 +2293,32 @@ AudioSource:
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
-    - time: 0.024793386
+    - time: 0
       value: 1
       inSlope: 0.13778396
       outSlope: 0.13778396
       tangentMode: 0
-    - time: 0.23194887
-      value: 0.80148375
-      inSlope: -1.3937176
-      outSlope: -1.3937176
+    - time: 0.25674227
+      value: 0.9503788
+      inSlope: -0.29153988
+      outSlope: -0.29153988
       tangentMode: 0
-    - time: 0.37760264
-      value: 0.5951221
+    - time: 0.40032992
+      value: 0.8017519
       inSlope: -1.8160038
       outSlope: -1.8160038
       tangentMode: 0
-    - time: 0.4884209
-      value: 0.3798008
+    - time: 0.48428866
+      value: 0.5621212
       inSlope: -2.5450578
       outSlope: -2.5450578
       tangentMode: 0
-    - time: 0.58942896
-      value: 0.17416953
-      inSlope: -1.3192688
-      outSlope: -1.3192688
+    - time: 0.59769344
+      value: 0.22886565
+      inSlope: -1.9949654
+      outSlope: -1.9949654
       tangentMode: 0
-    - time: 0.763606
+    - time: 0.7346804
       value: 0.05542141
       inSlope: -0.36372623
       outSlope: -0.36372623
@@ -2509,14 +2509,14 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="6" id="_mind" childrenvisible="False" /><field type="ChaseEnemyMotor"
-      reference="10" id="_motor" childrenvisible="True" /><field type="RAIN.Animation.BasicAnimator"
-      reference="11" id="_animator" /><field type="RAIN.Navigation.BasicNavigator"
-      reference="12" id="_navigator" /><field type="RAIN.Perception.BasicSenses" reference="13"
-      id="_senses" /><field type="System.Collections.Generic.List" id="_customElements"
-      elementtype="RAIN.Core.CustomAIElement" /></reference><reference type="RAIN.Memory.BasicMemory"
-      refcount="1" id="1"><field type="System.Collections.Generic.List" id="_memoryItems"
-      elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field type="RAIN.Memory.BasicMemory+MemoryItem"
+      reference="6" id="_mind" childrenvisible="True" /><field type="ChaseEnemyMotor"
+      reference="10" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
+      reference="11" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
+      reference="12" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
+      reference="13" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
+      id="_customElements" elementtype="RAIN.Core.CustomAIElement" /></reference><reference
+      type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field type="System.Collections.Generic.List"
+      id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="2" id="element0" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="3" id="element1" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
       reference="4" id="element2" /><field type="RAIN.Memory.BasicMemory+MemoryItem"
@@ -2566,7 +2566,7 @@ MonoBehaviour:
       /><field value="Sight" type="System.String" id="_sensorName" /><field value="True"
       type="System.Boolean" id="_isActive" /><field value="0.6,0.5529412,0.009411765,1"
       type="UnityEngine.Color" id="_sensorColor" /><field type="UnityEngine.Transform"
-      id="_mountPoint" gameobject="-1" /><field value="0,0.5,0" type="UnityEngine.Vector3"
+      id="_mountPoint" gameobject="6" /><field value="0,0.5,0" type="UnityEngine.Vector3"
       id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset"
       /><field type="System.Collections.Generic.List" id="_filters" elementtype="RAIN.Perception.Sensors.Filters.RAINSensorFilter"
       /><field value="15" type="System.Single" id="_range" /><field value="False"
@@ -2578,7 +2578,7 @@ MonoBehaviour:
       type="System.Boolean" id="_showVisual" /><field value="Hearing" type="System.String"
       id="_sensorName" /><field value="True" type="System.Boolean" id="_isActive"
       /><field value="0.6,0.6,0.6,1" type="UnityEngine.Color" id="_sensorColor" /><field
-      type="UnityEngine.Transform" id="_mountPoint" gameobject="-1" /><field value="0,0.5,0"
+      type="UnityEngine.Transform" id="_mountPoint" gameobject="5" /><field value="0,0.5,0"
       type="UnityEngine.Vector3" id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3"
       id="_angleOffset" /><field type="System.Collections.Generic.List" id="_filters"
       elementtype="RAIN.Perception.Sensors.Filters.RAINSensorFilter" /><field value="5"
@@ -2591,6 +2591,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ba51686c1f2543f4480fe4ed573e08ea, type: 2}
     - {fileID: 11400000, guid: 6f369a0142388a64c94d5831ac4bf7bb, type: 2}
     - {fileID: 11400000, guid: 2599166ddbcd1ff4a9001d5ceca3f4c7, type: 2}
+    - {fileID: 489004}
+    - {fileID: 489004}
     _serializedCustomData: []
 --- !u!136 &13630998
 CapsuleCollider:
@@ -2753,10 +2755,10 @@ Prefab:
         /><field type="RAIN.Memory.BasicMemory" reference="1" id="_workingMemory"
         childrenvisible="False" /><field type="RAIN.Minds.BasicMind" reference="6"
         id="_mind" childrenvisible="False" /><field type="ChaseEnemyMotor" reference="10"
-        id="_motor" childrenvisible="True" /><field type="RAIN.Animation.BasicAnimator"
+        id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
         reference="11" id="_animator" /><field type="RAIN.Navigation.BasicNavigator"
         reference="12" id="_navigator" /><field type="RAIN.Perception.BasicSenses"
-        reference="13" id="_senses" /><field type="System.Collections.Generic.List"
+        reference="13" id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
         id="_customElements" elementtype="RAIN.Core.CustomAIElement" /></reference><reference
         type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field type="System.Collections.Generic.List"
         id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field
@@ -2831,80 +2833,8 @@ Prefab:
         id="_volumeThreshold" /></reference></references></component>
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: Priority
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
-      value: 0.23194887
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
-      value: 0.80148375
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].time
-      value: 0.37760264
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].value
-      value: 0.5951221
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[3].time
-      value: 0.4884209
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[3].value
-      value: 0.3798008
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[4].time
-      value: 0.58942896
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[5].time
-      value: 0.763606
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].time
-      value: 0.024793386
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: MinDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].inSlope
-      value: -1.3937176
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outSlope
-      value: -1.3937176
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[4].value
-      value: 0.17416953
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[4].inSlope
-      value: -1.3192688
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rolloffCustomCurve.m_Curve.Array.data[4].outSlope
-      value: -1.3192688
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

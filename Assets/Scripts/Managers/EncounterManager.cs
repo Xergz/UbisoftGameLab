@@ -10,6 +10,7 @@ public class EncounterManager : MonoBehaviour {
     Encounter[] possibleEncounters;
 
     List<Entity> spawnedEntities = new List<Entity>();
+	List<Entity> toDestroy = new List<Entity>();
     public float distanceToDespawn = 100f;
 
     private EncounterManager() { }
@@ -45,9 +46,16 @@ public class EncounterManager : MonoBehaviour {
                 if(ent.Distance > distanceToDespawn)
                 {
                     Debug.Log("Despawning entity" + ent.name);
-                    DestroyObject(ent.gameObject);
+                    toDestroy.Add(ent);
                 }
             }
+
+			foreach(Entity ent in toDestroy) {
+				spawnedEntities.Remove(ent);
+				Destroy(ent.gameObject);
+			}
+
+			toDestroy.Clear();
         }
     }
 
