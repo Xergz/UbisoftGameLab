@@ -80,7 +80,7 @@ public class ChasingEntity : Entity {
     }
 
 	protected override void OnTriggerStay(Collider other) {
-		if(!isStuned) {
+		if(!isStuned && !isDodging) {
 			if(other.gameObject.CompareTag("Stream")) {
 				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
 				if(!Mathf.Approximately(force.magnitude, 0F)) {
