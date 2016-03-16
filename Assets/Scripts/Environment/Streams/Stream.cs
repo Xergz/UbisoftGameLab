@@ -227,6 +227,21 @@ public class Stream : MonoBehaviour {
 		return (distanceToClosest <= Mathf.Max(maxDistanceLower, maxDistanceUpper)) ? tangents[closestPoint] * strength * (int) direction : Vector3.zero;
 	}
 
+	public float GetBaseStrength() {
+		return baseStrength;
+	}
+
+	public float GetStrength() {
+		return strength;
+	}
+	public float GetMaxStrength() {
+		return MAX_STRENGTH;
+	}
+
+	public float GetMinStrength() {
+		return MIN_STRENGTH;
+	}
+
 	/// <summary>
 	/// Switch the direction of the stream (POSITIVE -> NEGATIVE or NEGATIVE -> POSITIVE).
 	/// </summary>
@@ -538,7 +553,7 @@ public class Stream : MonoBehaviour {
 		}
 
 		if (streamArrow) {
-			streamArrow.SetKeyFrames(arrowPositions, arrowRotations);
+			streamArrow.SetKeyFrames(this, arrowPositions, arrowRotations);
 		}
 	}
 

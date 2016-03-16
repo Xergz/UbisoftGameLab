@@ -117,7 +117,7 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
-		fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
+		//fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
 		UpdateNumberOfFragments();
 	}
 
