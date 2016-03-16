@@ -68,14 +68,16 @@ public class RammingEntity : Entity {
 		if(!IsRamming && !isStuned) {
 			if(other.gameObject.CompareTag("Stream")) {
 				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
-				if(Vector3.Angle(force, transform.forward) > 90) {
-					(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = speedAgainstStream;
+				if(!Mathf.Approximately(force.magnitude, 0F)) {
+					if(Vector3.Angle(force, transform.forward) > 90) {
+						(tRig.AI.Motor as UnityNavMeshMotor).Speed = speedAgainstStream;
+					} else {
+						(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
+					}
+					rigidBody.AddForce(force);
 				} else {
-					(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
+					(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
 				}
-				rigidBody.AddForce(force);
-			} else {
-				(tRig.AI.Motor as UnityNavMeshMotor).DefaultSpeed = normalSpeed;
 			}
 		}
 	}

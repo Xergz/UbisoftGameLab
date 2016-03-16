@@ -572,8 +572,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 177984}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0438, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.15353721, z: 0, w: 0.9881429}
+  m_LocalPosition: {x: -0.0467, y: 0, z: 0.0084}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 464014}
@@ -861,8 +861,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189316}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.21643963, z: 0, w: 0.976296}
+  m_LocalPosition: {x: 40.97, y: 0.22, z: 55.190002}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 440182}
@@ -1224,10 +1224,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.0175
-  m_Height: 0.04
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.016
+  m_Height: 0.25
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.001}
 --- !u!136 &13646716
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1237,9 +1237,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.02
-  m_Height: 0.03
-  m_Direction: 0
+  m_Radius: 0.014
+  m_Height: 0.25
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &13656004
 CapsuleCollider:
@@ -1250,9 +1250,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.015
-  m_Height: 0
-  m_Direction: 0
+  m_Radius: 0.009
+  m_Height: 0.25
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &13664300
 CapsuleCollider:
@@ -1263,10 +1263,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.065
-  m_Height: 0.15
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.057
+  m_Height: 0.13
+  m_Direction: 0
+  m_Center: {x: -0.0025, y: 0, z: -0.005}
 --- !u!136 &13672428
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1276,10 +1276,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.02
-  m_Height: 0
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.013
+  m_Height: 0.25
+  m_Direction: 1
+  m_Center: {x: -0.001, y: 0, z: -0.001}
 --- !u!198 &19820634
 ParticleSystem:
   m_ObjectHideFlags: 1

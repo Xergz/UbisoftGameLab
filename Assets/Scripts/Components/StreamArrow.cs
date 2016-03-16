@@ -82,6 +82,8 @@ public class StreamArrow : MonoBehaviour {
 
     private Arrow[] arrows;
 
+	private Stream stream;
+
     private bool firstSet;
 
     /// <summary>
@@ -93,7 +95,9 @@ public class StreamArrow : MonoBehaviour {
     private Vector3[] keyPositions;
     private Quaternion[] keyRotations;
 
-    public void SetKeyFrames(Vector3[] keyTransforms, Quaternion[] keyRotations) {
+	public void SetKeyFrames(Stream attachedStream, Vector3[] keyTransforms, Quaternion[] keyRotations) {
+		stream = attachedStream;
+
         this.keyPositions = keyTransforms;
         this.keyRotations = keyRotations;
 
@@ -153,7 +157,9 @@ public class StreamArrow : MonoBehaviour {
         float currentTime = Time.time;
         float dtTime = currentTime - lastTime;
 
-        float stepTime = TravelTime / keyPositions.Length;
+		float speed = ((TravelTime / stream.GetBaseStrength()) * (stream.GetMaxStrength() - stream.GetStrength())) + 1;
+
+        float stepTime = speed / keyPositions.Length;
 
         // Interpolate positions of every arrows
         foreach(Arrow arrow in arrows) {
@@ -188,18 +194,22 @@ public class StreamArrow : MonoBehaviour {
     }
 
     private void InterpolatePosition(Arrow arrow, float stepTime) {
-        // Get start and end positions
-        Vector3 startPoint = keyPositions [arrow.KeyIndex];
-        Vector3 endPoint = keyPositions [arrow.KeyIndex + 1];
+		// Get start and end positions
+		if(arrow.KeyIndex < keyPositions.Length - 1) {
+			Vector3 startPoint = keyPositions[arrow.KeyIndex];
+			Vector3 endPoint = keyPositions[arrow.KeyIndex + 1];
 
-        arrow.InterpolatePosition (stepTime, startPoint, endPoint);
+			arrow.InterpolatePosition(stepTime, startPoint, endPoint);
+		}
     }
 
     private void InterpolateRotation(Arrow arrow, float stepTime) {
-        Quaternion startRotation = keyRotations [arrow.KeyIndex];
-        Quaternion endRotation = keyRotations [arrow.KeyIndex + 1];
+		if(arrow.KeyIndex < keyRotations.Length - 1) {
+			Quaternion startRotation = keyRotations [arrow.KeyIndex];
+			Quaternion endRotation = keyRotations [arrow.KeyIndex + 1];
 
-        arrow.InterpolateRotation (stepTime, startRotation, endRotation);
+			arrow.InterpolateRotation (stepTime, startRotation, endRotation);
+		}
     }
 
     private void InterpolateAlphaFading(Arrow arrow, float stepTime) {

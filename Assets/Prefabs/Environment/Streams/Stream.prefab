@@ -1402,7 +1402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrowCount: 19
   Prefab: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
-  TravelTime: 15
+  TravelTime: 10
   RootObject: {fileID: 0}
 --- !u!114 &11415974
 MonoBehaviour:
@@ -1597,7 +1597,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: TravelTime
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Prefab

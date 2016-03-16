@@ -7,18 +7,19 @@ public abstract class Power : MonoBehaviour {
 
 	public EnumPower PowerType { get; protected set; }
 
-    public GameObject CooldownBar;
-
-    public int nbFragments;
+    public Image CooldownBar;
 
     [Tooltip("The cooldown time for this power")]
 	[SerializeField]
-	protected float cooldownTime = 3.0F ;
+	protected float cooldownTime = 3.0F;
 	[Tooltip("This should not be changed and is for debugging purposes only")]
 	[SerializeField]
 	protected float elapsedTime = 0; // The elapsed time since the power has been used
+	protected float cooldownMultiplier = 1F; // The multiplier for the cooldown time
 
 	protected bool ready = true;
+
+	protected Color cooldownColor = Color.white;
 
 	/// <summary>
 	/// Activates the power
@@ -35,7 +36,11 @@ public abstract class Power : MonoBehaviour {
 	/// </summary>
 	/// <returns></returns>
 	public float GetTimeLeftToCooldown() {
-		return cooldownTime - elapsedTime;
+		return (cooldownTime * cooldownMultiplier) - elapsedTime;
+	}
+
+	public void SetCooldownMultiplier(float multiplier) {
+		cooldownMultiplier = multiplier;
 	}
 
 
@@ -50,25 +55,29 @@ public abstract class Power : MonoBehaviour {
 	/// </summary>
 	private void UpdateCooldown() {
 		if(!ready) {
-			if(elapsedTime < cooldownTime) {
+			float timeLeft = GetTimeLeftToCooldown();
+			if(timeLeft > 0.01) {
 				elapsedTime += Time.deltaTime;
-                CooldownBar.GetComponent<Scrollbar>().size = (elapsedTime / cooldownTime);
+				CooldownBar.color = cooldownColor;
+				CooldownBar.fillAmount = (timeLeft / (cooldownTime * cooldownMultiplier));			
             } else {
 				elapsedTime = 0F;
 				ready = true;
-                CooldownBar.GetComponent<Scrollbar>().size = 1;
+                CooldownBar.fillAmount = 0;
+				CooldownBar.color = Color.white;
             }
         }
 	}
 
-
 	private void Start() {
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
-            nbFragments = PlayerController.memoryFragments.Count;
-}
+			CooldownBar.fillAmount = 0;
+			CooldownBar.color = Color.white;
+		}
     }
 
+<<<<<<< HEAD
 private void Update() {
 		UpdateCooldown();
         cooldownTime = 3.0F - nbFragments * 0.1F;
@@ -81,6 +90,13 @@ private void Update() {
     }
 
 }
+=======
+	private void Update() {
+			UpdateCooldown();
+		}
+	}
+
+>>>>>>> origin/master
 
 
 

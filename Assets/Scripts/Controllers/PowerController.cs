@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PowerController : MonoBehaviour {
 	private static List<Power> powers;
@@ -59,6 +60,7 @@ public class PowerController : MonoBehaviour {
 		powers = new List<Power>();
 	}
 
+<<<<<<< HEAD
     public void resetTimer(EnumPower type)
     {
         foreach (Power power in powers)
@@ -69,4 +71,11 @@ public class PowerController : MonoBehaviour {
             }
         }
     }
+=======
+	public void SetCooldownMultipliers(float multiplier) {
+		foreach(Power power in powers) {
+			power.SetCooldownMultiplier(multiplier);
+		}
+	}
+>>>>>>> origin/master
 }
