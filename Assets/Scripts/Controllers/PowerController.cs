@@ -58,4 +58,15 @@ public class PowerController : MonoBehaviour {
 	private void Awake() {
 		powers = new List<Power>();
 	}
+
+    public void resetTimer(EnumPower type)
+    {
+        foreach (Power power in powers)
+        {
+            if (power.PowerType == type)
+            {
+                power.resetTimer();
+            }
+        }
+    }
 }

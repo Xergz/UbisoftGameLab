@@ -23,7 +23,7 @@ public abstract class Power : MonoBehaviour {
 	/// <summary>
 	/// Activates the power
 	/// </summary>
-	public void Activate() {
+	 public virtual void Activate() {
 		if(ready) {
 			ExecuteAction();
 			ready = false;
@@ -73,6 +73,13 @@ private void Update() {
 		UpdateCooldown();
         cooldownTime = 3.0F - nbFragments * 0.1F;
     }
+
+    public void resetTimer()
+    {
+        ready = false;
+        elapsedTime = 0;
+    }
+
 }
 
 

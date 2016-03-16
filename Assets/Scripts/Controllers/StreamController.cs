@@ -14,8 +14,10 @@ public class StreamController : InputReceiver {
 	private static List<Stream>[] streamLists;
 
 	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
+    private bool pressedIncreasedTrigger = false;
+    private bool pressedDecreaseTrigger = false;
 
-	[Tooltip("The speed at which the player can make the strength of a stream vary")]
+    [Tooltip("The speed at which the player can make the strength of a stream vary")]
 	[SerializeField]
 	private float strengthIncreaseSpeed = 1F;
 
@@ -34,9 +36,32 @@ public class StreamController : InputReceiver {
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.RightTrigger) {
-			IncreaseStreamStrength(inputEvent);
-		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger) {
-			DecreaseStreamStrength(inputEvent);
+            if (pressedIncreasedTrigger && inputEvent.Value == 0)
+            {
+                Debug.Log("right trigger reset");
+                pressedIncreasedTrigger = false;
+                resetTimerIncrease();
+            }
+            else {
+                Debug.Log("right trigger pressed");
+                pressedIncreasedTrigger = true;
+                IncreaseStreamStrength(inputEvent);
+            }
+
+		} else if(inputEvent.InputAxis == EnumAxis.LeftTrigger)
+        {
+            if (pressedDecreaseTrigger && inputEvent.Value == 0)
+            {
+                Debug.Log("left trigger reset");
+                pressedDecreaseTrigger = false;
+                resetTimerDecrease();
+            }
+            else {
+                Debug.Log("left trigger pressed");
+                pressedDecreaseTrigger = true;
+                DecreaseStreamStrength(inputEvent);
+            }
+
 		} else {
 			EnumButtonState state = (EnumButtonState) inputEvent.Value;
 			EnumStreamColor color = EnumStreamColor.NONE;
@@ -124,7 +149,9 @@ public class StreamController : InputReceiver {
 
 	private void IncreaseStreamStrength(InputEvent inputEvent) {
 		if(PlayerController.isPlayerOnstream) {
-			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
+
+            Debug.Log("player on stream");
+            (powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).value = inputEvent.Value * strengthIncreaseSpeed;
 			(powerController.GetPower(EnumPower.IncreaseStrength) as IncreaseStrength).stream = PlayerController.streamPlayer;
 			powerController.ActivatePower(EnumPower.IncreaseStrength);
 		}
@@ -139,12 +166,24 @@ public class StreamController : InputReceiver {
 	}
 
 
-	/// <summary>
-	/// Get the list of all streams of a color
-	/// </summary>
-	/// <param name="color">The color of the streams to get</param>
-	/// <returns>The list of streams</returns>
-	private static List<Stream> GetStreamList(EnumStreamColor color) {
+
+    public void resetTimerDecrease()
+    {
+        powerController.resetTimer(EnumPower.DecreaseStrength);
+    }
+
+    public void resetTimerIncrease()
+    {
+        powerController.resetTimer(EnumPower.IncreaseStrength);
+    }
+
+
+    /// <summary>
+    /// Get the list of all streams of a color
+    /// </summary>
+    /// <param name="color">The color of the streams to get</param>
+    /// <returns>The list of streams</returns>
+    private static List<Stream> GetStreamList(EnumStreamColor color) {
 		switch(color) {
 			case EnumStreamColor.GREEN:
 				return greenStreams;

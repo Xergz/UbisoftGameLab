@@ -8,6 +8,14 @@ public class IncreaseStrength : Power {
     private float strengthIncreaseSpeed = 1F;
     public float value;
 
+    public override void Activate()
+    {
+        if (ready)
+        {
+            ExecuteAction();
+        }
+    }
+
     private void Awake()
     {
         PowerType = EnumPower.IncreaseStrength;
@@ -19,7 +27,8 @@ public class IncreaseStrength : Power {
     /// </summary>
     protected override void ExecuteAction()
     {
-         stream.IncreaseStrength(value * strengthIncreaseSpeed);
-        
+        Debug.Log("increase strenght");
+        stream.IncreaseStrength(value * strengthIncreaseSpeed);
+
     }
 }
