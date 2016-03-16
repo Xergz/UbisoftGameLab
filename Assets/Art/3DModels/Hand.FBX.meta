@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: ace1eebec7d19b7468f251c4c3fa027d
-timeCreated: 1457487772
+guid: f4a00b4767fa0e242b27813a153c7ea6
+timeCreated: 1457825088
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -30,7 +30,6 @@ ModelImporter:
     100044: pasted__joint7
     100046: pasted__joint8
     100048: pasted__joint9
-    100050: Fist
     400000: //RootNode
     400002: pasted__base_obj2
     400004: pasted__joint10
@@ -56,17 +55,13 @@ ModelImporter:
     400044: pasted__joint7
     400046: pasted__joint8
     400048: pasted__joint9
-    400050: Fist
-    2300000: Fist
-    3300000: Fist
     4300000: pasted__base_obj2
-    4300002: Fist
-    7400000: FistIdle
-    7400002: FistCharge
+    7400000: HandGrab
+    7400002: HandIdle
     9500000: //RootNode
     13700000: pasted__base_obj2
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -87,17 +82,17 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: FistIdle
-      takeName: FistIdle
+      name: HandGrab
+      takeName: HandGrab
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -165,17 +160,17 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FistCharge
-      takeName: FistIdle
-      firstFrame: 60
-      lastFrame: 70
+      name: HandIdle
+      takeName: HandGrab
+      firstFrame: 70
+      lastFrame: 110
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
