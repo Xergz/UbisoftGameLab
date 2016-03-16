@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PowerController : MonoBehaviour {
 	private static List<Power> powers;
@@ -57,5 +58,11 @@ public class PowerController : MonoBehaviour {
 
 	private void Awake() {
 		powers = new List<Power>();
+	}
+
+	public void SetCooldownMultipliers(float multiplier) {
+		foreach(Power power in powers) {
+			power.SetCooldownMultiplier(multiplier);
+		}
 	}
 }

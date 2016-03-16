@@ -20,7 +20,7 @@ public class Player : Entity {
     }
 
     public override void ReceiveHit() {
-        PlayerController.DamagePlayer(1, 10);
+        PlayerController.DamagePlayer(5);
     }
 
     public override void ReceiveStun() {

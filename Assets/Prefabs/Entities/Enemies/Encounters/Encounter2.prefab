@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4553564, y: -22.388203, z: 34.841377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,15 +40,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entities:
-  - entity: {fileID: 134078, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+  - entity: {fileID: 0}
     spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 172208, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+  - entity: {fileID: 0}
     spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 158182, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+  - entity: {fileID: 0}
     spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 158182, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+  - entity: {fileID: 0}
     spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 158182, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+  - entity: {fileID: 0}
     spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
