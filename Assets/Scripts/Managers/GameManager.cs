@@ -10,11 +10,6 @@ public class GameManager : MonoBehaviour, GameRestorer {
 	/// </summary>
 	public GameObject FragmentsRoot;
 
-	/// <summary>
-	/// The player controller
-	/// </summary>
-	public PlayerController PlayerController = null;
-
 
 	/// <summary>
 	/// Returns the player's game object
@@ -42,6 +37,21 @@ public class GameManager : MonoBehaviour, GameRestorer {
 	/// </summary>
 	/// <param name="checkpoint">Checkpoint.</param>
 	public void RestoreGameStateFrom(Checkpoint checkpoint) {
+		// Iterate over every fragment gameobject
+		foreach(Transform fragmentTransform in FragmentsRoot.transform) {
+			GameObject fragmentObject = fragmentTransform.gameObject;
+			Fragment fragment = fragmentObject.GetComponent<Fragment>();
+
+			// Look if the player already picked it
+			System.UInt32 hashName = Backend.Core.Murmur3.Hash(System.Text.Encoding.ASCII.GetBytes(fragment.fragmentName), 0);
+			if(checkpoint.Collectables.ContainsKey(hashName)) {
+				fragmentObject.SetActive(!checkpoint.Collectables[hashName]);
+				// Add fragment to player?
+			} else {
+				fragmentObject.SetActive(true);
+			}
+		}
+
 		if (Player != null) {
 			Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
 			Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
@@ -49,21 +59,6 @@ public class GameManager : MonoBehaviour, GameRestorer {
 
 			PlayerController.CurrentZone = checkpoint.Zone;
 		}
-
-		// Iterate over every fragment gameobject
-		foreach (Transform fragmentTransform in FragmentsRoot.transform) {
-			GameObject fragmentObject = fragmentTransform.gameObject;
-			Fragment fragment = fragmentObject.GetComponent<Fragment> ();
-
-			// Look if the player already picked it
-			System.UInt32 hashName = Backend.Core.Murmur3.Hash (System.Text.Encoding.ASCII.GetBytes (fragment.fragmentName), 0);
-			if (checkpoint.Collectables.ContainsKey (hashName)) {
-				fragmentObject.SetActive (!checkpoint.Collectables[hashName]);
-			} else {
-				fragmentObject.SetActive (true);
-			}
-		}
-
 	}
 
 	/// <summary>
@@ -127,6 +122,5 @@ public class GameManager : MonoBehaviour, GameRestorer {
 	/// </summary>
 	public void Initialize() {
 		this.FragmentsRoot = GameObject.Find ("Environment/Fragments");
-		this.PlayerController = GameObject.Find ("PlayerController").GetComponent<PlayerController>();
 	}
 }
