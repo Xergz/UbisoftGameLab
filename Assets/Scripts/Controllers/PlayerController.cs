@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
 
+    public static Rigidbody playerRigidbody;
 	public static EnumZone CurrentZone { get; set; }
 	public bool PlayerCanBeMoved { get; set; }
-
-	[Tooltip("The player's rigidbody")]
-	public Rigidbody playerRigidbody;
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
 	public float movementForce;
@@ -18,7 +17,17 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
  	public float sightRange = 60F;
 
-	private List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+    public GameObject Lifebar;
+    public int maxLife;
+
+    public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+
+    //public Transform Fragments;
+    public static List<Transform> fragmentsList; //List of every fragments of the level
+
+    //public static Transform nextFragment;
+    public static int nextFragmentIndex;
+    public static int numberOfFragments;
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -31,7 +40,7 @@ public class PlayerController : InputReceiver {
 
     public static Stream streamPlayer { get; set; }
 
-    private int currentLife;
+    private static int currentLife;
 
 	public GameObject Player {
 		get {
@@ -39,7 +48,7 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-    public int GetPlayerMaxLife() {
+    public static int GetPlayerMaxLife() {
         return 10;
     }
 
@@ -48,7 +57,7 @@ public class PlayerController : InputReceiver {
         return currentLife;
 	}
         
-	public void SetPlayerCurrentLife(int val) {
+	public static void SetPlayerCurrentLife(int val) {
         int maxLife = GetPlayerMaxLife();
 
         // Life cannot be negative
@@ -64,7 +73,7 @@ public class PlayerController : InputReceiver {
         }
 	}
 
-    public void AddLife(int val) {
+    public static void AddLife(int val) {
         SetPlayerCurrentLife (currentLife + val);
     }
 
@@ -102,34 +111,67 @@ public class PlayerController : InputReceiver {
 	public void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
 		Debug.Log("Plus one life! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
-	}
 
-	public void DamagePlayer(int fragmentNb) {
+        maxLife += 20;
+        currentLife = maxLife;
+
+        Lifebar.GetComponent<RectTransform>().localScale = new Vector3 (maxLife/200.0F, 1, 1);
+        Lifebar.GetComponent<Scrollbar>().size = 1;
+
+        nextFragmentIndex++;
+    }
+
+    public static void RegisterFragment(Fragment fragment)
+    {
+        fragmentsList.Add(null);
+        fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
+        UpdateNumberOfFragments();
+    }
+
+    public static void UpdateNumberOfFragments(){
+        numberOfFragments = fragmentsList.Count;
+    }
+
+    public void DamagePlayer(int fragmentNb, int damage) {
 		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
 			int index = Random.Range(0, memoryFragments.Count - 1);
 			Fragment lostFragment = memoryFragments[index];
 			memoryFragments.RemoveAt(index);
 			Debug.Log("Ouch! You took damage... You lost the \"" + lostFragment.fragmentName + "\" memory fragment");
 		}
-	}
+
+        currentLife -= damage;
+        Lifebar.GetComponent<Scrollbar>().size -= (float)damage/ (float)maxLife;
+    }
 
 	public List<Fragment> GetFragments() {
 		return memoryFragments;
 	}
 
-
+    
 	private void Awake() {
-		memoryFragments = new List<Fragment>();
+        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+
+        memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
-		if(playerRigidbody == null) {
+        fragmentsList = new List<Transform>();
+        numberOfFragments = fragmentsList.Count;
+        nextFragmentIndex = 0;
+
+        maxLife = 200;
+        currentLife = 200;
+
+
+        if (playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
 			playerRigidbody.GetComponent<Player>().PlayerController = this;
 		}
-	}
+        
+    }
 
 	private void FixedUpdate() {
 		if (PlayerCanBeMoved) {
@@ -148,6 +190,7 @@ public class PlayerController : InputReceiver {
 
 		if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
 		{
+
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
 			Vector3 lastForward = playerRigidbody.transform.forward;
