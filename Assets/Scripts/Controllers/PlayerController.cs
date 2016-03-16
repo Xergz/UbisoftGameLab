@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
 
-    public static Rigidbody playerRigidbody;
+	public static Rigidbody playerRigidbody;
 	public static EnumZone CurrentZone { get; set; }
 	public bool PlayerCanBeMoved { get; set; }
 
@@ -15,19 +15,26 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The maximum velocity the player can reach")]
 	public float maximumVelocity;
 	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
- 	public float sightRange = 60F;
+	public float sightRange = 60F;
 
-    public GameObject Lifebar;
-    public int maxLife;
+	public Image LifeBarFill;
+	public Image LifeBarRim;
 
-    public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession. Also the number of life he has.
+	public PowerController powerController;
 
-    //public Transform Fragments;
-    public static List<Transform> fragmentsList; //List of every fragments of the level
+	public static int baseLife = 100;
 
-    //public static Transform nextFragment;
-    public static int nextFragmentIndex;
-    public static int numberOfFragments;
+	private float maxFill;
+	private int maxLife;
+
+	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+
+	//public Transform Fragments;
+	public static List<Transform> fragmentsList; //List of every fragments
+
+	//public static Transform nextFragment;
+	public static int nextFragmentIndex;
+	public static int numberOfFragments;
 
 	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
 	private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -36,46 +43,35 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
-    public static bool isPlayerOnstream { get; set; }
+	public static bool isPlayerOnstream { get; set; }
 
-    public static Stream streamPlayer { get; set; }
+	public static Stream streamPlayer { get; set; }
 
-    private static int currentLife;
+	private static int currentLife;
 
-	public GameObject Player {
+	public static GameObject Player {
 		get {
 			return playerRigidbody.gameObject;
 		}
 	}
 
-    public static int GetPlayerMaxLife() {
-        return 10;
-    }
-
-	// TODO: Complete this method
-	public int GetPlayerCurrentLife() {
-        return currentLife;
+	public static List<Fragment> GetCollectedFragments() {
+		return memoryFragments;
 	}
-        
+
+	public static int GetPlayerCurrentLife() {
+		return currentLife;
+	}
+
 	public static void SetPlayerCurrentLife(int val) {
-        int maxLife = GetPlayerMaxLife();
+		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * 0.2F);
 
-        // Life cannot be negative
-        if (val < 0) {
-            currentLife = 0;
-        } 
-        // Life cannot be superior to the max value
-        else if (val > maxLife) {
-            currentLife = maxLife;
-        } 
-        else {
-            currentLife = val;
-        }
+		currentLife = Mathf.Clamp(val, 0, maxLife);
 	}
 
-    public static void AddLife(int val) {
-        SetPlayerCurrentLife (currentLife + val);
-    }
+	public void AddLife(int val) {
+		currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
+	}
 
 	public override void ReceiveInputEvent(InputEvent inputEvent) {
 		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
@@ -95,101 +91,90 @@ public class PlayerController : InputReceiver {
 
 	public void AddForce(Vector3 force, Stream stream) {
 		forceToApply += force;
-        if (force == Vector3.zero)
-        {
-            isPlayerOnstream = false;
-            streamPlayer = null;
-        }
-        else
-        {
-            isPlayerOnstream = true;
-            streamPlayer = stream;
-        }
-
+		if(force == Vector3.zero) {
+			isPlayerOnstream = false;
+			streamPlayer = null;
+		} else {
+			isPlayerOnstream = true;
+			streamPlayer = stream;
+		}
 	}
 
 	public void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
-		Debug.Log("Plus one life! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
+		Debug.Log("Plus one fragment! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
 
-        maxLife += 20;
-        currentLife = maxLife;
+		maxFill = (memoryFragments.Count + 1) * 0.2F;
+		maxLife =  (int) (baseLife * maxFill);
+		currentLife = maxLife;
 
-        Lifebar.GetComponent<RectTransform>().localScale = new Vector3 (maxLife/200.0F, 1, 1);
-        Lifebar.GetComponent<Scrollbar>().size = 1;
+		LifeBarRim.fillAmount = maxFill;
+		LifeBarFill.fillAmount = maxFill;
 
-        nextFragmentIndex++;
-    }
+		powerController.SetCooldownMultipliers(maxFill);
 
-    public static void RegisterFragment(Fragment fragment)
-    {
-        fragmentsList.Add(null);
-        fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
-        UpdateNumberOfFragments();
-    }
+		nextFragmentIndex++;
+	}
 
-    public static void UpdateNumberOfFragments(){
-        numberOfFragments = fragmentsList.Count;
-    }
+	public static void RegisterFragment(Fragment fragment) {
+		fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
+		UpdateNumberOfFragments();
+	}
 
-    public void DamagePlayer(int fragmentNb, int damage) {
-		for(int i = 0; i < fragmentNb && memoryFragments.Count > 0; ++i) {
-			int index = Random.Range(0, memoryFragments.Count - 1);
-			Fragment lostFragment = memoryFragments[index];
-			memoryFragments.RemoveAt(index);
-			Debug.Log("Ouch! You took damage... You lost the \"" + lostFragment.fragmentName + "\" memory fragment");
-		}
+	public static void UpdateNumberOfFragments() {
+		numberOfFragments = fragmentsList.Count;
+	}
 
-        currentLife -= damage;
-        Lifebar.GetComponent<Scrollbar>().size -= (float)damage/ (float)maxLife;
-    }
+	public void DamagePlayer(int damage) {
+		currentLife -= damage;
+		float percent = (currentLife / maxLife);
+		LifeBarFill.color = (percent > 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percent - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percent * 2);
+		LifeBarFill.fillAmount = percent * maxFill;
+	}
 
 	public List<Fragment> GetFragments() {
 		return memoryFragments;
 	}
 
-    
-	private void Awake() {
-        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-        memoryFragments = new List<Fragment>();
+	private void Awake() {
+		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+
+		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
-        fragmentsList = new List<Transform>();
-        numberOfFragments = fragmentsList.Count;
-        nextFragmentIndex = 0;
+		fragmentsList = new List<Transform>();
+		numberOfFragments = fragmentsList.Count;
+		nextFragmentIndex = 0;
 
-        maxLife = 200;
-        currentLife = 200;
+		maxFill = (1 + memoryFragments.Count) * 0.2F;
+		maxLife = baseLife;
+		currentLife = baseLife;
 
-
-        if (playerRigidbody == null) {
+		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
 			playerRigidbody.GetComponent<Player>().PlayerController = this;
 		}
-        
-    }
+	}
 
 	private void FixedUpdate() {
-		if (PlayerCanBeMoved) {
+		if(PlayerCanBeMoved) {
 			MovePlayer();
 		} else {
 			playerRigidbody.velocity = Vector3.zero;
 		}
 	}
 
-	private void MovePlayer()
-	{
+	private void MovePlayer() {
 		//var cam = Camera.main;
 
 		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
 		Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
-		if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
-		{
+		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
 
 			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
@@ -206,8 +191,7 @@ public class PlayerController : InputReceiver {
 			playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
 		}
 
-		if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
-		{
+		if(Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity) {
 			playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
 		}
 

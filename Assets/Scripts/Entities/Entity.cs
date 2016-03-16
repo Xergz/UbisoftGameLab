@@ -5,8 +5,6 @@ public abstract class Entity : MonoBehaviour {
 
 	public float Distance { get; protected set; }
 
-	public GameObject player { get; set; }
-
 	[Tooltip("The time between each check for the distance between the player and the entity (in seconds)")]
 	[SerializeField]
 	private float timeBetweenDistanceChecks = 1F;
@@ -36,8 +34,6 @@ public abstract class Entity : MonoBehaviour {
 
 
 	protected virtual void Start() {
-		player = FindObjectOfType<PlayerController>().Player;
-
 		StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
 	}
 
@@ -65,7 +61,7 @@ public abstract class Entity : MonoBehaviour {
 
 	protected virtual IEnumerator CheckDistanceToPlayer(float time) {
 		while(true) {
-			Distance = Vector3.Distance(player.transform.position, transform.position);
+			Distance = Vector3.Distance(PlayerController.Player.transform.position, transform.position);
 
 			yield return new WaitForSeconds(time);
 		}
