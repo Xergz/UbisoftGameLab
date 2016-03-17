@@ -145,7 +145,7 @@ public class Stream : MonoBehaviour {
 	private Vector3[] tangents; // The array containing the tangents for each point of the stream
 
 	private Vector3 generalDirection; // The average of all the other tangents
-#endregion
+	#endregion
 
 	private LineRenderer startLineRenderer, endLineRenderer, curveLineRenderer; // Debug LineRenderers
 
@@ -202,7 +202,7 @@ public class Stream : MonoBehaviour {
 		Vector3 currentPoint;
 		Vector3 nextPoint;
 		if(closestPoint < streamCurve.Length - 1) { // Upper side
-			// First side of the stream
+													// First side of the stream
 			currentPoint = streamVertices[closestPoint * wavePrecision];
 			nextPoint = streamVertices[(closestPoint + 1) * wavePrecision];
 			maxDistanceUpper = Vector3.Distance((0.5F * (nextPoint - currentPoint)) + currentPoint, streamCurve[closestPoint]);
@@ -213,7 +213,7 @@ public class Stream : MonoBehaviour {
 										 Vector3.Distance((0.5F * (nextPoint - currentPoint)) + currentPoint, streamCurve[closestPoint]));
 		}
 		if(closestPoint > 0) { // Lower side
-			// First side of the stream
+							   // First side of the stream
 			previousPoint = streamVertices[(closestPoint - 1) * wavePrecision];
 			currentPoint = streamVertices[closestPoint * wavePrecision];
 			maxDistanceLower = Vector3.Distance((0.5F * (currentPoint - previousPoint)) + previousPoint, streamCurve[closestPoint]);
@@ -542,17 +542,17 @@ public class Stream : MonoBehaviour {
 		Vector3[] arrowPositions = new Vector3[streamCurve.Length - 1];
 		Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
 
-		for (int i = 0; i < arrowPositions.Length; ++i) {
-			arrowPositions [i] = new Vector3 (streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
-			arrowRotations [i] = Quaternion.LookRotation (tangents [i + 1] * (int)direction, Vector3.up);
+		for(int i = 0; i < arrowPositions.Length; ++i) {
+			arrowPositions[i] = new Vector3(streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
+			arrowRotations[i] = Quaternion.LookRotation(tangents[i + 1] * (int) direction, Vector3.up);
 		}
 
-		if (direction == EnumStreamDirection.NEGATIVE) {
-			//arrowPositions = arrowPositions.Reverse ();
+		if(direction == EnumStreamDirection.NEGATIVE) {
 			System.Array.Reverse(arrowPositions);
+			System.Array.Reverse(arrowRotations);
 		}
 
-		if (streamArrow) {
+		if(streamArrow) {
 			streamArrow.SetKeyFrames(this, arrowPositions, arrowRotations);
 		}
 	}
