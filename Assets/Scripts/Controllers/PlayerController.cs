@@ -20,7 +20,7 @@ public class PlayerController : InputReceiver {
 	public Image LifeBarFill;
 	public Image LifeBarRim;
 
-	public PowerController powerController;
+	//public PowerController powerController;
 
 	public static int baseLife = 100;
 
@@ -111,7 +111,7 @@ public class PlayerController : InputReceiver {
 		LifeBarRim.fillAmount = maxFill;
 		LifeBarFill.fillAmount = maxFill;
 
-		powerController.SetCooldownMultipliers(maxFill);
+		//powerController.SetCooldownMultipliers(maxFill);
 
 		nextFragmentIndex++;
 	}

@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public abstract class Power : MonoBehaviour {
 
-	public bool IsReady { get { return ready; } }
+	//public bool IsReady { get { return ready; } }
 
 	public EnumPower PowerType { get; protected set; }
-
+	/*
     public Image CooldownBar;
 
     [Tooltip("The cooldown time for this power")]
@@ -19,29 +19,29 @@ public abstract class Power : MonoBehaviour {
 
 	protected bool ready = true;
 
-	protected Color cooldownColor = Color.white;
+	protected Color cooldownColor = Color.white;*/
 
 	/// <summary>
 	/// Activates the power
 	/// </summary>
 	public void Activate() {
-		if(ready) {
-			ExecuteAction();
-			ready = false;
-		}
+		//if(ready) {
+		ExecuteAction();
+		//ready = false;
+		//}
 	}
 
 	/// <summary>
 	/// Get the time left to the cooldown
 	/// </summary>
 	/// <returns></returns>
-	public float GetTimeLeftToCooldown() {
+	/*public float GetTimeLeftToCooldown() {
 		return (cooldownTime * cooldownMultiplier) - elapsedTime;
 	}
 
 	public void SetCooldownMultiplier(float multiplier) {
 		cooldownMultiplier = multiplier;
-	}
+	}*/
 
 
 	/// <summary>
@@ -53,7 +53,7 @@ public abstract class Power : MonoBehaviour {
 	/// <summary>
 	/// Update the elapsed time until it reaches the cooldown time
 	/// </summary>
-	private void UpdateCooldown() {
+	/*private void UpdateCooldown() {
 		if(!ready) {
 			float timeLeft = GetTimeLeftToCooldown();
 			if(timeLeft > 0.01) {
@@ -67,21 +67,21 @@ public abstract class Power : MonoBehaviour {
 				CooldownBar.color = Color.white;
             }
         }
-	}
+	}*/
 
 	private void Start() {
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
-			CooldownBar.fillAmount = 0;
-			CooldownBar.color = Color.white;
-		}
-    }
-
-	private void Update() {
-			UpdateCooldown();
+												 //CooldownBar.fillAmount = 0;
+												 //CooldownBar.color = Color.white;
 		}
 	}
 
+	/*private void Update() {
+			UpdateCooldown();
+		}
+	}*/
+}
 
 
 
