@@ -1402,7 +1402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrowCount: 19
   Prefab: {fileID: 184594, guid: 2b91b7010ec773e499f3354e3b020c91, type: 2}
-  TravelTime: 15
+  TravelTime: 10
   RootObject: {fileID: 0}
 --- !u!114 &11415974
 MonoBehaviour:
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   waveController: {fileID: 0}
   width: 5
   baseStrength: 5
-  strength: 5
+  strength: 6
   areaCostModifier: 5
   timeBeforeStrengthRestoration: 3
   strengthRestorationSpeed: 1
@@ -1597,7 +1597,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: TravelTime
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Prefab
@@ -1607,6 +1607,10 @@ Prefab:
       propertyPath: streamArrow
       value: 
       objectReference: {fileID: 11407504}
+    - target: {fileID: 0}
+      propertyPath: strength
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 190500}

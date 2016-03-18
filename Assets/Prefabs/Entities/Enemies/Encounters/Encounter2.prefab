@@ -64,15 +64,31 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].entity
       value: 
-      objectReference: {fileID: 134078, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[1].entity
       value: 
-      objectReference: {fileID: 172208, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[2].entity
       value: 
-      objectReference: {fileID: 158182, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[0].spawnPoint.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 138012}

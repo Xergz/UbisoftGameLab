@@ -12,7 +12,6 @@ public class DecreaseStrength : Power {
     {
         PowerType = EnumPower.DecreaseStrength;
         value = 0f;
-        stream = new Stream();
     }
 
     /// <summary>
