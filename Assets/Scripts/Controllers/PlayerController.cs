@@ -5,7 +5,22 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static Rigidbody playerRigidbody;
-	public static EnumZone CurrentZone { get; set; }
+    public static MusicController Music;
+
+    private static EnumZone c_currentZone;
+	public static EnumZone CurrentZone { 
+        get {
+            return c_currentZone;
+        }
+        set {
+            c_currentZone = value;
+
+            if (Music != null) {
+                Music.OnZoneChanged (c_currentZone);
+            }
+        }
+    }
+
 	public bool PlayerCanBeMoved { get; set; }
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
@@ -144,6 +159,7 @@ public class PlayerController : InputReceiver {
 
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+        Music = GameObject.Find ("MusicController").GetComponent<MusicController> ();
 
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
