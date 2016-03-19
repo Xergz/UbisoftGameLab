@@ -118,14 +118,6 @@ public class MusicController : MonoBehaviour {
 	}
 
 	void Update() {
-		// TODO: Remove these
-		if (Input.GetKeyDown ("p")) {
-			NewEnnemyStartedChasing ();
-		}
-		if (Input.GetKeyDown ("l")) {
-			EnnemyStoppedChasing ();
-		}
-
 		// Fade musics
 		if (m_Fade) {
 			SwapTrackSource.volume = Mathf.Lerp (0, 1, m_FadeAcc / FadeDuration);
