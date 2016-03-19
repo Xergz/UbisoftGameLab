@@ -8,7 +8,9 @@ public class MusicController : MonoBehaviour {
 	public AudioMixerSnapshot ChasedOutSnapshot;
 
 	public AudioClip[] OpenWorldClips;
-	public AudioClip[] LevelClips;
+	public AudioClip[] Level1Clips;
+	public AudioClip[] Level2Clips;
+	public AudioClip[] Level3Clips;
 
 	public AudioClip[] Stings;
 	public AudioSource StingSource;
@@ -56,16 +58,13 @@ public class MusicController : MonoBehaviour {
 			TargetClip (OpenWorldClips[Random.Range(0, OpenWorldClips.Length)]);
 			break;
 		case EnumZone.LEVEL_1:
-			if(LevelClips.Length > 0) TargetClip(LevelClips[0]);
+			if(Level1Clips.Length > 0) TargetClip(Level1Clips[Random.Range(0, Level1Clips.Length)]);
 			break;
 		case EnumZone.LEVEL_2:
-			if(LevelClips.Length > 1) TargetClip(LevelClips[1]);
+			if(Level2Clips.Length > 0) TargetClip(Level2Clips[Random.Range(0, Level2Clips.Length)]);
 			break;
 		case EnumZone.LEVEL_3:
-			if(LevelClips.Length > 2) TargetClip(LevelClips[2]);
-			break;
-		case EnumZone.LEVEL_4:
-			if(LevelClips.Length > 3) TargetClip(LevelClips[3]);
+			if(Level3Clips.Length > 0) TargetClip(Level3Clips[Random.Range(0, Level3Clips.Length)]);
 			break;
 		default:
 			break;
