@@ -10,9 +10,9 @@ public class ChasingEntity : Entity {
 	public float maxTimeBetweenAudio = 20F;
 	public float distanceForCloseAudio = 20F;
 	public float distanceForFarAudio = 40F;
-	[Tooltip("Speed to give the shade when moving against a stream. This is to prevent the shade from jamming")]
-	public float speedAgainstStream = 8F;
-	public float normalSpeed = 4F;
+	//[Tooltip("Speed to give the shade when moving against a stream. This is to prevent the shade from jamming")]
+	//public float speedAgainstStream = 8F;
+	//public float normalSpeed = 4F;
 
 	public AudioController audioController;
 
@@ -80,18 +80,11 @@ public class ChasingEntity : Entity {
     }
 
 	protected override void OnTriggerStay(Collider other) {
-		if(!isStuned) {
+		if(!isStuned && !isDodging) {
 			if(other.gameObject.CompareTag("Stream")) {
 				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
 				if(!Mathf.Approximately(force.magnitude, 0F)) {
-					if(Vector3.Angle(force, transform.forward) > 90) {
-						(tRig.AI.Motor as UnityNavMeshMotor).Speed = speedAgainstStream;
-					} else {
-						(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
-					}
 					rigidBody.AddForce(force);
-				} else {
-					(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
 				}
 			}
 		}

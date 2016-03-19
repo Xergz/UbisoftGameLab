@@ -3,40 +3,45 @@ using UnityEngine.UI;
 
 public abstract class Power : MonoBehaviour {
 
-	public bool IsReady { get { return ready; } }
+	//public bool IsReady { get { return ready; } }
 
 	public EnumPower PowerType { get; protected set; }
-
-    public GameObject CooldownBar;
-
-    public int nbFragments;
+	/*
+    public Image CooldownBar;
 
     [Tooltip("The cooldown time for this power")]
 	[SerializeField]
-	protected float cooldownTime = 3.0F ;
+	protected float cooldownTime = 3.0F;
 	[Tooltip("This should not be changed and is for debugging purposes only")]
 	[SerializeField]
 	protected float elapsedTime = 0; // The elapsed time since the power has been used
+	protected float cooldownMultiplier = 1F; // The multiplier for the cooldown time
 
 	protected bool ready = true;
+
+	protected Color cooldownColor = Color.white;*/
 
 	/// <summary>
 	/// Activates the power
 	/// </summary>
 	public void Activate() {
-		if(ready) {
-			ExecuteAction();
-			ready = false;
-		}
+		//if(ready) {
+		ExecuteAction();
+		//ready = false;
+		//}
 	}
 
 	/// <summary>
 	/// Get the time left to the cooldown
 	/// </summary>
 	/// <returns></returns>
-	public float GetTimeLeftToCooldown() {
-		return cooldownTime - elapsedTime;
+	/*public float GetTimeLeftToCooldown() {
+		return (cooldownTime * cooldownMultiplier) - elapsedTime;
 	}
+
+	public void SetCooldownMultiplier(float multiplier) {
+		cooldownMultiplier = multiplier;
+	}*/
 
 
 	/// <summary>
@@ -48,31 +53,34 @@ public abstract class Power : MonoBehaviour {
 	/// <summary>
 	/// Update the elapsed time until it reaches the cooldown time
 	/// </summary>
-	private void UpdateCooldown() {
+	/*private void UpdateCooldown() {
 		if(!ready) {
-			if(elapsedTime < cooldownTime) {
+			float timeLeft = GetTimeLeftToCooldown();
+			if(timeLeft > 0.01) {
 				elapsedTime += Time.deltaTime;
-                CooldownBar.GetComponent<Scrollbar>().size = (elapsedTime / cooldownTime);
+				CooldownBar.color = cooldownColor;
+				CooldownBar.fillAmount = (timeLeft / (cooldownTime * cooldownMultiplier));			
             } else {
 				elapsedTime = 0F;
 				ready = true;
-                CooldownBar.GetComponent<Scrollbar>().size = 1;
+                CooldownBar.fillAmount = 0;
+				CooldownBar.color = Color.white;
             }
         }
-	}
-
+	}*/
 
 	private void Start() {
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
-            nbFragments = PlayerController.memoryFragments.Count;
-}
-    }
+												 //CooldownBar.fillAmount = 0;
+												 //CooldownBar.color = Color.white;
+		}
+	}
 
-private void Update() {
-		UpdateCooldown();
-        cooldownTime = 3.0F - nbFragments * 0.1F;
-    }
+	/*private void Update() {
+			UpdateCooldown();
+		}
+	}*/
 }
 
 

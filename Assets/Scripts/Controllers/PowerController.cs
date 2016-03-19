@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PowerController : MonoBehaviour {
 	private static List<Power> powers;
@@ -18,14 +19,14 @@ public class PowerController : MonoBehaviour {
 	/// </summary>
 	/// <param name="type">The type of the power</param>
 	/// <returns>Whether the power is ready or not</returns>
-	public bool IsPowerReady(EnumPower type) {
+	/*public bool IsPowerReady(EnumPower type) {
 		foreach(Power power in powers) {
 			if(power.PowerType == type) {
 				return power.IsReady;
 			}
 		}
 		return false;
-	}
+	}*/
 
 	/// <summary>
 	/// Get the power to set it up before activation
@@ -58,4 +59,10 @@ public class PowerController : MonoBehaviour {
 	private void Awake() {
 		powers = new List<Power>();
 	}
+
+	/*public void SetCooldownMultipliers(float multiplier) {
+		foreach(Power power in powers) {
+			power.SetCooldownMultiplier(multiplier);
+		}
+	}*/
 }
