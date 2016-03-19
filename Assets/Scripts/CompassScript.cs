@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class CompassScript : MonoBehaviour {
-
-    public GameObject Player;
+    
     public GameObject imageDirectionCenter;
 
     public GameObject compassDirection;
@@ -20,7 +19,7 @@ public class CompassScript : MonoBehaviour {
     void Start() {
         imageCenter = imageDirectionCenter.transform.position;
         playerPosition = PlayerController.playerRigidbody.position;
-        //nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
 
         CalculateVector();
 
@@ -28,26 +27,38 @@ public class CompassScript : MonoBehaviour {
     }
 
     void Update() {
-        //nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+        Debug.Log("index : " + PlayerController.nextFragmentIndex);
+        Debug.Log("number of fragment : " + PlayerController.numberOfFragments);
+        for (int i = 0; i < PlayerController.fragmentsList.Count; i++)
+        {
+            if (PlayerController.fragmentsList[i] != null && PlayerController.fragmentsList[i].position == PlayerController.playerRigidbody.position)
+                Debug.Log("Position[" + i + "] : " + PlayerController.fragmentsList[i].position + " = player Position");
+            else if (PlayerController.fragmentsList[i] != null)
+                Debug.Log("Position[" + i + "] : " + PlayerController.fragmentsList[i].position);
+            else
+                Debug.Log("Position[" + i + "] : null");
+        }
+        
+        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
         if (PlayerController.nextFragmentIndex < PlayerController.numberOfFragments){
             CalculateVector();
             RotateDirection(CalculateAngle() - lastAngle);
             lastAngle = currentAngle;
 
             playerPosition = PlayerController.playerRigidbody.position;
-        }
-        else {
+       }
+       else {
             RotateDirection(-lastAngle);
             lastAngle = 0.0F;
         }
     }
 
     void RotateDirection(float angle){
-        compassDirection.GetComponent<RectTransform>().RotateAround( imageCenter, Vector3.forward, angle);
+        compassDirection.GetComponent<RectTransform>().RotateAround(imageCenter, Vector3.forward, angle);
     }
 
     public void CalculateVector(){
-        playerForwardVector = Vector3.forward;
+        playerForwardVector = -Vector3.forward;
         playerForwardVector.y = 0;
         playerFragmentVector = new Vector3(nextFragmentPosition.x - playerPosition.x, 0, nextFragmentPosition.z - playerPosition.z);
     }

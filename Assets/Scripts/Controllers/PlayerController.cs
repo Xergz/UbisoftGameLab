@@ -117,12 +117,12 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
-		//fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
-		UpdateNumberOfFragments();
-	}
-
-	public static void UpdateNumberOfFragments() {
-		numberOfFragments = fragmentsList.Count;
+        for(int i = fragmentsList.Count; i <= fragment.index; i++)
+        {
+            fragmentsList.Add(null);
+        }
+        fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
+        numberOfFragments++;
 	}
 
 	public void DamagePlayer(int damage) {
@@ -145,7 +145,7 @@ public class PlayerController : InputReceiver {
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
-		fragmentsList = new List<Transform>();
+		fragmentsList = new List<Transform>(20);
 		numberOfFragments = fragmentsList.Count;
 		nextFragmentIndex = 0;
 
