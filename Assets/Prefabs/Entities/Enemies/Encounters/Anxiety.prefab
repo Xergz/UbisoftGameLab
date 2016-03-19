@@ -49,7 +49,7 @@ MonoBehaviour:
   - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
     spawnPoint: {x: -52.7, y: 0, z: -4.7}
   - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
-    spawnPoint: {x: -52.3, y: 0, z: -42}
+    spawnPoint: {x: -48.3, y: 0, z: -47.5}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -127,11 +127,11 @@ Prefab:
         type: 2}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[4].spawnPoint.x
-      value: -52.3
+      value: -48.3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[4].spawnPoint.z
-      value: -42
+      value: -47.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[5].entity
