@@ -740,7 +740,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!82 &8254562
 AudioSource:
@@ -940,16 +940,16 @@ MonoBehaviour:
       reference="1" id="element0" /><field type="RAIN.Entities.Aspects.VisualAspect"
       reference="2" id="element1" /></field></reference><reference type="RAIN.Entities.Aspects.AudioAspect"
       refcount="1" id="1"><field value="True" type="System.Boolean" id="_showVisual"
-      /><field value="Aspect0" type="System.String" id="_aspectName" /><field value="True"
-      type="System.Boolean" id="_isActive" /><field value="0.6,0.6,0.6,1" type="UnityEngine.Color"
-      id="_aspectColor" /><field value="-0.5" type="System.Single" id="_outlineColorOffset"
-      /><field value="0.4" type="System.Single" id="_selectionColorOffset" /><field
-      value="0.1" type="System.Single" id="_visualSize" /><field type="UnityEngine.Transform"
+      /><field value="EntityAudio" type="System.String" id="_aspectName" /><field
+      value="True" type="System.Boolean" id="_isActive" /><field value="0.6,0.6,0.6,1"
+      type="UnityEngine.Color" id="_aspectColor" /><field value="-0.5" type="System.Single"
+      id="_outlineColorOffset" /><field value="0.4" type="System.Single" id="_selectionColorOffset"
+      /><field value="0.1" type="System.Single" id="_visualSize" /><field type="UnityEngine.Transform"
       id="_mountPoint" gameobject="1" /><field value="0,0,0" type="UnityEngine.Vector3"
       id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset"
       /><field type="UnityEngine.AudioSource" id="_audioSource" gameobject="3" /></reference><reference
       type="RAIN.Entities.Aspects.VisualAspect" refcount="1" id="2"><field value="True"
-      type="System.Boolean" id="_showVisual" /><field value="Aspect1" type="System.String"
+      type="System.Boolean" id="_showVisual" /><field value="EntityVisual" type="System.String"
       id="_aspectName" /><field value="True" type="System.Boolean" id="_isActive"
       /><field value="0.6,0.6,0.6,1" type="UnityEngine.Color" id="_aspectColor" /><field
       value="-0.5" type="System.Single" id="_outlineColorOffset" /><field value="0.4"
@@ -4113,6 +4113,10 @@ Prefab:
         id="_mountPoint" gameobject="2" /><field value="0,0,0" type="UnityEngine.Vector3"
         id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset"
         /></reference></references></component>
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
