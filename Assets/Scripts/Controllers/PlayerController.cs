@@ -137,7 +137,7 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
-        for(int i = fragmentsList.Count; i <= fragment.index; i++)
+        for(int i = 0; i <= fragment.index; i++)
         {
             fragmentsList.Add(null);
         }
