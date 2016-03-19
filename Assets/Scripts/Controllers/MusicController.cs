@@ -6,8 +6,12 @@ using System.Collections.Generic;
 public class MusicController : MonoBehaviour {
 	public AudioMixerSnapshot ChasedInSnapshot;
 	public AudioMixerSnapshot ChasedOutSnapshot;
+
 	public AudioClip[] OpenWorldClips;
-	public AudioClip LevelClip;
+	public AudioClip[] LevelClips;
+
+	public AudioClip[] Stings;
+	public AudioSource StingSource;
 
 	public AudioSource MainTrackSource;
 	public AudioSource SwapTrackSource;
@@ -28,6 +32,7 @@ public class MusicController : MonoBehaviour {
 
 		if (m_ChasingEnnemiesCount > 0) {
 			ChasedInSnapshot.TransitionTo (m_TransitionIn);
+			PlaySting();
 		}
 	}
 
@@ -51,19 +56,28 @@ public class MusicController : MonoBehaviour {
 			TargetClip (OpenWorldClips[Random.Range(0, OpenWorldClips.Length)]);
 			break;
 		case EnumZone.LEVEL_1:
-			TargetClip (LevelClip);
+			if(LevelClips.Length > 0) TargetClip(LevelClips[0]);
 			break;
 		case EnumZone.LEVEL_2:
-			TargetClip (LevelClip);
+			if(LevelClips.Length > 1) TargetClip(LevelClips[1]);
 			break;
 		case EnumZone.LEVEL_3:
-			TargetClip (LevelClip);
+			if(LevelClips.Length > 2) TargetClip(LevelClips[2]);
 			break;
 		case EnumZone.LEVEL_4:
-			TargetClip (LevelClip);
+			if(LevelClips.Length > 3) TargetClip(LevelClips[3]);
 			break;
 		default:
 			break;
+		}
+	}
+
+	private void PlaySting()
+	{
+		if (StingSource && Stings.Length > 0) {
+			int randClip = Random.Range (0, Stings.Length);
+			StingSource.clip = Stings [randClip];
+			StingSource.Play ();
 		}
 	}
 
