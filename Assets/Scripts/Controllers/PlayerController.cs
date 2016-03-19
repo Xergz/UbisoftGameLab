@@ -116,6 +116,11 @@ public class PlayerController : InputReceiver {
 		nextFragmentIndex++;
 	}
 
+	public void ClearFragments() {
+		memoryFragments.Clear ();
+		nextFragmentIndex = 0;
+	}
+
 	public static void RegisterFragment(Fragment fragment) {
 		//fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
 		UpdateNumberOfFragments();

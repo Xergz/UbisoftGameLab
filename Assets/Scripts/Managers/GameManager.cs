@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour, GameRestorer {
 		}
 	}
 
+	public PlayerController PlayerController;
+
 
 	/// <summary>
 	/// Restores the game state from a checkpoint.
@@ -45,8 +47,13 @@ public class GameManager : MonoBehaviour, GameRestorer {
 			// Look if the player already picked it
 			System.UInt32 hashName = Backend.Core.Murmur3.Hash(System.Text.Encoding.ASCII.GetBytes(fragment.fragmentName), 0);
 			if(checkpoint.Collectables.ContainsKey(hashName)) {
-				fragmentObject.SetActive(!checkpoint.Collectables[hashName]);
+				bool hasFragment = !checkpoint.Collectables [hashName];
+				fragmentObject.SetActive(hasFragment);
+
 				// Add fragment to player?
+				if (hasFragment) {
+					this.PlayerController.AddFragment(fragment);
+}
 			} else {
 				fragmentObject.SetActive(true);
 			}
