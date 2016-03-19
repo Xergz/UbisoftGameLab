@@ -6,14 +6,14 @@ using System.Collections.Generic;
 public class MusicController : MonoBehaviour {
 	public AudioMixerSnapshot ChasedInSnapshot;
 	public AudioMixerSnapshot ChasedOutSnapshot;
-	public AudioClip OpenWorldClip;
+	public AudioClip[] OpenWorldClips;
 	public AudioClip LevelClip;
-
 
 	public AudioSource MainTrackSource;
 	public AudioSource SwapTrackSource;
 
 	public float bpm = 128;
+	public float FadeDuration = 5.0f;
 
 	private float m_TransitionIn;
 	private float m_TransitionOut;
@@ -21,6 +21,7 @@ public class MusicController : MonoBehaviour {
 	private int m_ChasingEnnemiesCount;
 	private bool m_Fade;
 	private float m_FadeAcc;
+	private AudioClip m_NextClip;
 
 	public void NewEnnemyStartedChasing() {
 		m_ChasingEnnemiesCount++;
@@ -47,7 +48,7 @@ public class MusicController : MonoBehaviour {
 	public void OnZoneChanged(EnumZone newZone) {
 		switch (newZone) {
 		case EnumZone.OPEN_WORLD:
-			TargetClip (OpenWorldClip);
+			TargetClip (OpenWorldClips[Random.Range(0, OpenWorldClips.Length)]);
 			break;
 		case EnumZone.LEVEL_1:
 			TargetClip (LevelClip);
@@ -67,14 +68,19 @@ public class MusicController : MonoBehaviour {
 	}
 
 	private void TargetClip(AudioClip target) {
-		SwapTrackSource.volume = 0;
-		SwapTrackSource.clip = target;
-		SwapTrackSource.Play ();
 
-		MainTrackSource.volume = 1;
-		m_Fade = true;
+		if (!m_Fade) {
+			SwapTrackSource.volume = 0;
+			SwapTrackSource.clip = target;
+			SwapTrackSource.Play ();
 
-		m_FadeAcc = 0;
+			MainTrackSource.volume = 1;
+			m_Fade = true;
+
+			m_FadeAcc = 0;
+		} else {
+			m_NextClip = target;
+		}
 	}
 
 	private void SwapTracks() {
@@ -107,8 +113,6 @@ public class MusicController : MonoBehaviour {
 			EnnemyStoppedChasing ();
 		}
 
-		float FadeDuration = 10.0f;
-
 		// Fade musics
 		if (m_Fade) {
 			SwapTrackSource.volume = Mathf.Lerp (0, 1, m_FadeAcc / FadeDuration);
@@ -119,6 +123,9 @@ public class MusicController : MonoBehaviour {
 			}
 
 			m_FadeAcc += Time.deltaTime;
+		} else if (!m_Fade && m_NextClip != null) {
+			TargetClip (m_NextClip);
+			m_NextClip = null;
 		}
 	}
 }
