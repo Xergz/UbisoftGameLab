@@ -12,6 +12,10 @@ public class Player : Entity {
 	private float beginStunTime;
 
 
+	[SerializeField]
+	private ParticleSystem collisionSystem;
+
+
 	private void Update() {
 		if(isStuned && Time.time > beginStunTime + stunTime) {
 			isStuned = false;
@@ -27,6 +31,12 @@ public class Player : Entity {
 		PlayerController.PlayerCanBeMoved = false;
 		isStuned = true;
 		beginStunTime = Time.time;
+	}
+
+	private void OnCollisionEnter(Collision collision) {
+		if(collision.gameObject.CompareTag("Environment")) {
+			collisionSystem.Emit(Random.Range(30, 50));
+		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
