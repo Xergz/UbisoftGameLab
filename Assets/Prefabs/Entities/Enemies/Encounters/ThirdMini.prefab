@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 417204}
   - 114: {fileID: 11480890}
   m_Layer: 0
-  m_Name: Encounter1
+  m_Name: ThirdMini
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,20 +40,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entities:
-  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
-    spawnPoint: {x: -21, y: 0, z: -27}
   - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
-    spawnPoint: {x: -9, y: 0, z: -50}
-  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
-    spawnPoint: {x: -11, y: 0, z: -12}
-  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
-    spawnPoint: {x: -22, y: 0, z: -70}
-  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
-    spawnPoint: {x: 3, y: 0, z: -13}
-  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
-    spawnPoint: {x: -45.4, y: 0, z: -29.8}
-  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
-    spawnPoint: {x: -34.2, y: 0, z: -64.2}
+    spawnPoint: {x: 1, y: 0, z: -55}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -63,23 +51,21 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: entities.Array.size
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].entity
       value: 
-      objectReference: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98,
+      objectReference: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a,
         type: 2}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[1].entity
       value: 
-      objectReference: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[2].entity
       value: 
-      objectReference: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -94,11 +80,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].spawnPoint.x
-      value: -21
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].spawnPoint.z
-      value: -27
+      value: -55
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[2].spawnPoint.x
@@ -127,8 +113,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: entities.Array.data[4].entity
       value: 
-      objectReference: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[4].spawnPoint.x
       value: 3
@@ -140,13 +125,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: entities.Array.data[5].entity
       value: 
-      objectReference: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[6].entity
       value: 
-      objectReference: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[5].spawnPoint.x
       value: -45.4
@@ -162,6 +145,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: entities.Array.data[6].spawnPoint.z
       value: -64.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[3].entity
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -144,7 +144,7 @@ public class StreamController : InputReceiver {
 	/// <param name="color">The color of the streams to switch</param>
 	private void SwitchDirectionForColor(EnumStreamColor color) {
 		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).Streams = GetStreamList(color);
-		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).StreamColor = color;
+		//(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).StreamColor = color;
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
 

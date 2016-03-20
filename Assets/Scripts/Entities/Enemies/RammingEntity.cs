@@ -6,9 +6,9 @@ public class RammingEntity : Entity {
 	public bool IsRamming { get { return isRamming; } set { isRamming = value; } }
 
 
-	[Tooltip("Speed to give the fist when moving against a stream. This is to prevent the fist from jamming")]
-	public float speedAgainstStream = 8F;
-	public float normalSpeed = 4F;
+	//[Tooltip("Speed to give the fist when moving against a stream. This is to prevent the fist from jamming")]
+	//public float speedAgainstStream = 8F;
+	//public float normalSpeed = 4F;
 
 
 	private Rigidbody rigidBody;
@@ -69,14 +69,7 @@ public class RammingEntity : Entity {
 			if(other.gameObject.CompareTag("Stream")) {
 				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
 				if(!Mathf.Approximately(force.magnitude, 0F)) {
-					if(Vector3.Angle(force, transform.forward) > 90) {
-						(tRig.AI.Motor as UnityNavMeshMotor).Speed = speedAgainstStream;
-					} else {
-						(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
-					}
 					rigidBody.AddForce(force);
-				} else {
-					(tRig.AI.Motor as UnityNavMeshMotor).Speed = normalSpeed;
 				}
 			}
 		}

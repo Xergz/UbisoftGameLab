@@ -16,6 +16,7 @@ public class PowerController : MonoBehaviour
         powers.Add(power);
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// If the power is ready to be used
     /// </summary>
@@ -32,6 +33,21 @@ public class PowerController : MonoBehaviour
         }
         return false;
     }
+=======
+	/// <summary>
+	/// If the power is ready to be used
+	/// </summary>
+	/// <param name="type">The type of the power</param>
+	/// <returns>Whether the power is ready or not</returns>
+	/*public bool IsPowerReady(EnumPower type) {
+		foreach(Power power in powers) {
+			if(power.PowerType == type) {
+				return power.IsReady;
+			}
+		}
+		return false;
+	}*/
+>>>>>>> origin/master
 
     /// <summary>
     /// Get the power to set it up before activation
@@ -72,6 +88,7 @@ public class PowerController : MonoBehaviour
         powers = new List<Power>();
     }
 
+<<<<<<< HEAD
     public void resetTimer(EnumPower type)
     {
         foreach (Power power in powers)
@@ -89,4 +106,11 @@ public class PowerController : MonoBehaviour
             power.SetCooldownMultiplier(multiplier);
         }
     }
+=======
+	/*public void SetCooldownMultipliers(float multiplier) {
+		foreach(Power power in powers) {
+			power.SetCooldownMultiplier(multiplier);
+		}
+	}*/
+>>>>>>> origin/master
 }

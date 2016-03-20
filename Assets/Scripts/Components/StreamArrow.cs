@@ -102,10 +102,7 @@ public class StreamArrow : MonoBehaviour {
         this.keyRotations = keyRotations;
 
         if (firstSet) {
-
-            if (ArrowCount > keyPositions.Length - 1) {
-                ArrowCount = keyPositions.Length - 1;
-            }
+            ArrowCount = keyPositions.Length - 1;
 
             int arrowIndexStep = keyPositions.Length / ArrowCount;
 
