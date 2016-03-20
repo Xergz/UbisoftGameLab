@@ -1,32 +1,31 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
-
+﻿
 public class UIManager : InputReceiver {
 
-    public MainMenu mainMenuScript;
-    public PauseMenu pauseMenuScript;
-    public GameManager GameManager;
+	public static UIManager instance = null;
 
-    void Awake() {
-        mainMenuScript = gameObject.GetComponent<MainMenu>();
-        pauseMenuScript = gameObject.GetComponent<PauseMenu>();
-        if (GameManager.LoadCheckpointFile()) {
-            mainMenuScript.transform.GetChild(0).gameObject.SetActive(true);
-            mainMenuScript.eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(mainMenuScript.transform.GetChild(0).gameObject);
-        }
-        else {
-            mainMenuScript.transform.GetChild(0).gameObject.SetActive(false);
-            mainMenuScript.eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(mainMenuScript.transform.GetChild(1).gameObject);
-        }
-    }
+	public MainMenu mainMenuScript;
+	public PauseMenu pauseMenuScript;
 
-    public override void ReceiveInputEvent(InputEvent inputEvent) {
-        if(inputEvent.InputAxis == EnumAxis.StartButton && inputEvent.Value == 1) {
-            if (pauseMenuScript != null) {
-                pauseMenuScript.Pause();
-            }     
-        }
+	void Awake() {
+		if(instance == null) {
+			instance = this;
+		} else if(instance != this) {
+			Destroy(gameObject);
+		}
 
-    }
+		GameManager.LoadCheckpointFile(false);
+	}
+
+	public override void ReceiveInputEvent(InputEvent inputEvent) {
+		if(inputEvent.InputAxis == EnumAxis.StartButton && inputEvent.Value == 1) {
+			pauseMenuScript.Pause();
+		}
+	}
+
+#if UNITY_EDITOR
+	public void CallOnLevelWasLoaded(int level) {
+		mainMenuScript.OnLevelWasLoaded(level);
+		pauseMenuScript.OnLevelWasLoaded(level);
+	}
+#endif
 }
