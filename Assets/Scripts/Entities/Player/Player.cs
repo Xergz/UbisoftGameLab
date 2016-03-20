@@ -4,6 +4,8 @@ using System.Collections;
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
 
+    public GameObject stunStars;
+
 	[SerializeField]
 	private bool isStuned;
 
@@ -15,7 +17,8 @@ public class Player : Entity {
 	private void Update() {
 		if(isStuned && Time.time > beginStunTime + stunTime) {
 			isStuned = false;
-			PlayerController.PlayerCanBeMoved = true;
+            stunStars.SetActive(false);
+            PlayerController.PlayerCanBeMoved = true;
 		}
 	}
 
@@ -26,6 +29,7 @@ public class Player : Entity {
 	public override void ReceiveStun() {
 		PlayerController.PlayerCanBeMoved = false;
 		isStuned = true;
+        stunStars.SetActive(true);
 		beginStunTime = Time.time;
 	}
 
