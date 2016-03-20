@@ -98,19 +98,20 @@ public class PlayerController : InputReceiver {
 			if(Mathf.Abs(XSpeedMultiplier) < 0.2) {
 				XSpeedMultiplier = 0;
 			}
-		}
+        }
 
-		if(inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
+        if (inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger)
+        {
+            boostPower();
+        }
+
+        if (inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
 			ZSpeedMultiplier = inputEvent.Value;
 			if(Mathf.Abs(ZSpeedMultiplier) < 0.2) {
 				ZSpeedMultiplier = 0;
 			}
-		}
-
-        if (inputEvent.InputAxis == EnumAxis.RightTrigger|| inputEvent.InputAxis == EnumAxis.LeftTrigger)
-        {
-            boostPower();
         }
+
 
     }
 
@@ -132,7 +133,6 @@ public class PlayerController : InputReceiver {
             powerboost = true;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 5f;
-            Debug.Log("BOOOOST");
 
         }
     }
