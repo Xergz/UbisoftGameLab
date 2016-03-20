@@ -13,8 +13,6 @@ public class StreamController : InputReceiver {
 
 	private static List<Stream>[] streamLists;
 
-	private EnumStreamColor selectedColor = EnumStreamColor.NONE;
-
 	[Tooltip("The speed at which the player can make the strength of a stream vary")]
 	[SerializeField]
 	private float strengthIncreaseSpeed = 1F;

@@ -11,7 +11,7 @@ GameObject:
   - 136: {fileID: 13672428}
   m_Layer: 0
   m_Name: SmallRockCollider4
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -27,7 +27,7 @@ GameObject:
   - 136: {fileID: 13612890}
   m_Layer: 0
   m_Name: SmallRockCollider2
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -291,7 +291,7 @@ GameObject:
   - 136: {fileID: 13646716}
   m_Layer: 0
   m_Name: SmallRockCollider1
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -339,7 +339,7 @@ GameObject:
   - 136: {fileID: 13664300}
   m_Layer: 0
   m_Name: BigRockCollider
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -421,7 +421,7 @@ GameObject:
   - 95: {fileID: 9539506}
   m_Layer: 0
   m_Name: Rock
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -529,7 +529,7 @@ GameObject:
   - 136: {fileID: 13656004}
   m_Layer: 0
   m_Name: SmallRockCollider3
-  m_TagString: Rock
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -9009,7 +9009,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Rock
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_StaticEditorFlags
