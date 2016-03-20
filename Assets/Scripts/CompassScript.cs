@@ -19,9 +19,9 @@ public class CompassScript : MonoBehaviour {
     void Start() {
         imageCenter = imageDirectionCenter.transform.position;
         playerPosition = PlayerController.playerRigidbody.position;
-        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+        //nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
 
-        CalculateVector();
+        //CalculateVector();
 
         lastAngle = 0.0F;
     }
@@ -29,11 +29,8 @@ public class CompassScript : MonoBehaviour {
     void Update() {
         Debug.Log("index : " + PlayerController.nextFragmentIndex);
         Debug.Log("number of fragment : " + PlayerController.numberOfFragments);
-        for (int i = 0; i < PlayerController.fragmentsList.Count; i++)
-        {
-            if (PlayerController.fragmentsList[i] != null && PlayerController.fragmentsList[i].position == PlayerController.playerRigidbody.position)
-                Debug.Log("Position[" + i + "] : " + PlayerController.fragmentsList[i].position + " = player Position");
-            else if (PlayerController.fragmentsList[i] != null)
+        for (int i = 0; i < PlayerController.numberOfFragments; i++){
+            if (PlayerController.fragmentsList[i] != null)
                 Debug.Log("Position[" + i + "] : " + PlayerController.fragmentsList[i].position);
             else
                 Debug.Log("Position[" + i + "] : null");

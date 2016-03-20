@@ -137,12 +137,12 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
-        for(int i = 0; i <= fragment.index; i++)
-        {
-            fragmentsList.Add(null);
-        }
-        fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
-        numberOfFragments++;
+         for(int i = fragmentsList.Count; i <= fragment.index; i++)
+         {
+             fragmentsList.Add(null);
+         }
+         fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
+         numberOfFragments++;
 	}
 
 	public void DamagePlayer(int damage) {
@@ -156,9 +156,12 @@ public class PlayerController : InputReceiver {
 		return memoryFragments;
 	}
 
-
 	private void Awake() {
-		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+        fragmentsList = new List<Transform>(20);
+        numberOfFragments = fragmentsList.Count;
+        nextFragmentIndex = 0;
+
+        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
         Music = GameObject.Find ("MusicController").GetComponent<MusicController> ();
 
 		memoryFragments = new List<Fragment>();
@@ -166,9 +169,6 @@ public class PlayerController : InputReceiver {
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
-		fragmentsList = new List<Transform>(20);
-		numberOfFragments = fragmentsList.Count;
-		nextFragmentIndex = 0;
 
 		maxFill = (1 + memoryFragments.Count) * 0.2F;
 		maxLife = baseLife;
