@@ -3,25 +3,31 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class PlayerController : InputReceiver {
-
 	public static Rigidbody playerRigidbody;
+
 	public static MusicController Music;
 
 	private static EnumZone c_currentZone;
-	public static EnumZone CurrentZone { 
+	public static EnumZone CurrentZone {
 		get {
 			return c_currentZone;
 		}
 		set {
 			c_currentZone = value;
 
-			if (Music != null) {
-				Music.OnZoneChanged (c_currentZone);
+			if(Music != null) {
+				Music.OnZoneChanged(c_currentZone);
 			}
 		}
 	}
 
 	public bool PlayerCanBeMoved { get; set; }
+
+	public static bool IsDead { get; private set; }
+	public static bool HasWon { get; private set; }
+	public static bool isPlayerOnstream { get; set; }
+
+	public static Stream streamPlayer { get; set; }
 
 	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
 	public float movementForce;
@@ -32,15 +38,18 @@ public class PlayerController : InputReceiver {
 	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
 	public float sightRange = 60F;
 
-	public Image LifeBarFill;
-	public Image LifeBarRim;
+	public Image lifeBarFill;
+	public Image lifeBarRim;
+
+	private static Image lifeBarFillStatic;
+	private static Image lifeBarRimStatic;
 
 	//public PowerController powerController;
 
 	public static int baseLife = 100;
 
-	private float maxFill;
-	private int maxLife;
+	private static float maxFill;
+	private static int maxLife;
 
 	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
@@ -59,9 +68,11 @@ public class PlayerController : InputReceiver {
 
 	private Vector3 forceToApply;
 
-	public static bool isPlayerOnstream { get; set; }
 
-	public static Stream streamPlayer { get; set; }
+
+	[Tooltip("The current life of the player")]
+	[SerializeField]
+	private int life;
 
 	private static int currentLife;
 
@@ -70,7 +81,10 @@ public class PlayerController : InputReceiver {
 
 	public static GameObject Player {
 		get {
-			return playerRigidbody.gameObject;
+			if(playerRigidbody != null) {
+				return playerRigidbody.gameObject;
+			}
+			return null;
 		}
 	}
 
@@ -126,10 +140,8 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-    private void boostPower()
-    {
-        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/)
-        {
+    private void boostPower() {
+        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/) {
             powerboost = true;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 5f;
@@ -137,25 +149,24 @@ public class PlayerController : InputReceiver {
         }
     }
 
-    private void unBoostPower()
-    {
-        if (powerboost)
-        {
+    private void unBoostPower() {
+        if (powerboost) {
             powerboost = false;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 1f;
         }
     }
-	public void AddFragment(Fragment fragment) {
+
+	public static void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
-		Debug.Log("Plus one fragment! Congratulations! You gained the \"" + fragment.fragmentName + "\" memory fragment");
 
 		maxFill = (memoryFragments.Count + 1) * 0.2F;
-		maxLife =  (int) (baseLife * maxFill);
+		maxLife = (int) (baseLife * maxFill);
 		currentLife = maxLife;
 
-		LifeBarRim.fillAmount = maxFill;
-		LifeBarFill.fillAmount = maxFill;
+		lifeBarRimStatic.fillAmount = maxFill;
+		lifeBarFillStatic.fillAmount = maxFill;
+		lifeBarFillStatic.color = Color.green;
 
 		//powerController.SetCooldownMultipliers(maxFill);
 
@@ -163,7 +174,7 @@ public class PlayerController : InputReceiver {
 	}
 
 	public void ClearFragments() {
-		memoryFragments.Clear ();
+		memoryFragments.Clear();
 		nextFragmentIndex = 0;
 	}
 
@@ -179,8 +190,8 @@ public class PlayerController : InputReceiver {
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
 		float percent = (currentLife / maxLife);
-		LifeBarFill.color = (percent > 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percent - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percent * 2);
-		LifeBarFill.fillAmount = percent * maxFill;
+		lifeBarFillStatic.color = (percent > 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percent - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percent * 2);
+		lifeBarFillStatic.fillAmount = percent * maxFill;
 	}
 
 	public List<Fragment> GetFragments() {
@@ -191,9 +202,9 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-		GameObject musicControllerObject = GameObject.Find ("MusicController");
-		if (musicControllerObject != null) {
-			Music = musicControllerObject.GetComponent<MusicController> ();
+		GameObject musicControllerObject = GameObject.Find("MusicController");
+		if(musicControllerObject != null) {
+			Music = musicControllerObject.GetComponent<MusicController>();
 		}
 
 		memoryFragments = new List<Fragment>();
@@ -206,8 +217,15 @@ public class PlayerController : InputReceiver {
 		nextFragmentIndex = 0;
 
 		maxFill = (1 + memoryFragments.Count) * 0.2F;
-		maxLife = baseLife;
+		maxLife = (int) (baseLife * maxFill);
 		currentLife = baseLife;
+
+		lifeBarFillStatic = lifeBarFill;
+		lifeBarRimStatic = lifeBarRim;
+
+		lifeBarRimStatic.fillAmount = maxFill;
+		lifeBarFillStatic.fillAmount = maxFill;
+		lifeBarFillStatic.color = Color.green;
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -217,6 +235,7 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void FixedUpdate() {
+		life = currentLife;
 		if(PlayerCanBeMoved) {
 			MovePlayer();
 		} else {

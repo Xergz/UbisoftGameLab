@@ -11,10 +11,10 @@ GameObject:
   - 33: {fileID: 3327718}
   - 23: {fileID: 2380192}
   - 95: {fileID: 9565404}
-  - 64: {fileID: 6488846}
+  - 135: {fileID: 13523944}
   m_Layer: 0
   m_Name: CrystalGroup1
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,6 @@ GameObject:
   - 4: {fileID: 411104}
   - 33: {fileID: 3342700}
   - 23: {fileID: 2334836}
-  - 64: {fileID: 6435930}
   m_Layer: 0
   m_Name: Emerald
   m_TagString: Untagged
@@ -47,7 +46,6 @@ GameObject:
   - 4: {fileID: 485906}
   - 33: {fileID: 3352488}
   - 23: {fileID: 2371448}
-  - 64: {fileID: 6418388}
   m_Layer: 0
   m_Name: Amethyst
   m_TagString: Untagged
@@ -65,7 +63,6 @@ GameObject:
   - 4: {fileID: 443316}
   - 33: {fileID: 3374406}
   - 23: {fileID: 2371034}
-  - 64: {fileID: 6405004}
   m_Layer: 0
   m_Name: Onyx
   m_TagString: Untagged
@@ -83,7 +80,6 @@ GameObject:
   - 4: {fileID: 434994}
   - 33: {fileID: 3338140}
   - 23: {fileID: 2363492}
-  - 64: {fileID: 6472048}
   m_Layer: 0
   m_Name: Crystal
   m_TagString: Untagged
@@ -122,7 +118,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108634}
   m_LocalRotation: {x: -0.43759307, y: -0.479574, z: 0.51267505, w: 0.56185895}
-  m_LocalPosition: {x: 69.07992, y: -0.62, z: 58.42717}
+  m_LocalPosition: {x: 3.9869318, y: 1.275568, z: 133.92354}
   m_LocalScale: {x: 80, y: 80, z: 80}
   m_Children:
   - {fileID: 443316}
@@ -320,66 +316,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 155662}
   m_Mesh: {fileID: 4300000, guid: a5c525ad971b70e44b1f347ffc1b5afb, type: 3}
---- !u!64 &6405004
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155662}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: a5c525ad971b70e44b1f347ffc1b5afb, type: 3}
---- !u!64 &6418388
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121628}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: a5c525ad971b70e44b1f347ffc1b5afb, type: 3}
---- !u!64 &6435930
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116546}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: a5c525ad971b70e44b1f347ffc1b5afb, type: 3}
---- !u!64 &6472048
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: a5c525ad971b70e44b1f347ffc1b5afb, type: 3}
---- !u!64 &6488846
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108634}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: bd5c81563e8e3bd44a7d241cf274e591, type: 3}
 --- !u!95 &9565404
 Animator:
   serializedVersion: 3
@@ -397,13 +333,29 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!135 &13523944
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.02
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108634}

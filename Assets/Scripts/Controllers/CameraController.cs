@@ -62,6 +62,12 @@ public class CameraController : InputReceiver {
 		}*/
 	}
 
+	public void SetCameraPosition(Vector3 playerPosition) {
+		oldPlayerPosition = playerPosition;
+
+		transform.position = oldPlayerPosition + offset;
+	}
+
 	void Start() {
 		if(playerTransform == null) {
 			Debug.LogError("No transform is linked to the camera controller");
