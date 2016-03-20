@@ -190,7 +190,8 @@ public class Stream : MonoBehaviour {
 		float distanceToClosest;
 		float maxDistanceUpper = 0;
 		float maxDistanceLower = 0;
-		int closestPoint = GetClosestCurvePointIndex(position, out distanceToClosest);
+
+		int closestPoint = GetClosestCurvePointIndex(transform.InverseTransformPoint(position), out distanceToClosest);
 		if(closestPoint == -1 || closestPoint == 0 || closestPoint == streamCurve.Length - 1) { // If the closest point is the border of the stream, you're not close enough
 			return Vector3.zero;
 		}
@@ -312,6 +313,8 @@ public class Stream : MonoBehaviour {
 		GetComponent<MeshFilter>().mesh = streamMesh;
 		boxCollider = GetComponent<BoxCollider>();
 		meshRenderer = GetComponent<Renderer>();
+
+		Zone = EnumZone.OPEN_WORLD;
 
 		switch(color) {
 			case EnumStreamColor.GREEN:
