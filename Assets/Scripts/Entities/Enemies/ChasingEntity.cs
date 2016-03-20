@@ -16,6 +16,8 @@ public class ChasingEntity : Entity {
 
 	public AudioController audioController;
 
+    public GameObject stunStars;
+
     private Rigidbody rigidBody;
     private AIRig tRig;
     private NavMeshAgent navAgent;
@@ -61,6 +63,7 @@ public class ChasingEntity : Entity {
         if(isStuned && Time.time > beginStunTime + stunTime) {
             isStuned = false;
             tRig.AI.IsActive = true;
+            stunStars.SetActive(false);
             navAgent.Resume();
         }
     }
@@ -75,6 +78,8 @@ public class ChasingEntity : Entity {
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
+        stunStars.SetActive(true);
+
         navAgent.Stop();
 		rigidBody.velocity = Vector3.zero;
     }
