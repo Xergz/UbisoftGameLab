@@ -6,6 +6,7 @@ public class PowerController : MonoBehaviour {
 	private static List<Power> powers;
 
 
+
 	/// <summary>
 	/// Register a power to this power controller
 	/// </summary>
@@ -59,6 +60,31 @@ public class PowerController : MonoBehaviour {
 	private void Awake() {
 		powers = new List<Power>();
 	}
+
+    public void stopPower(EnumPower type)
+    {
+        foreach (Power power in powers)
+        {
+            if (power.PowerType == type)
+            {
+                power.stopPower();
+                break;
+            }
+        }
+    }
+
+    public void checkPowerTime(EnumPower type)
+    {
+
+        foreach (Power power in powers)
+        {
+            if (power.PowerType == type)
+            {
+                power.checkPowerTIme();
+                break;
+            }
+        }
+    }
 
 	/*public void SetCooldownMultipliers(float multiplier) {
 		foreach(Power power in powers) {

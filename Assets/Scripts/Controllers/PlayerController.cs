@@ -60,10 +60,11 @@ public class PlayerController : InputReceiver {
 	public static int nextFragmentIndex;
 	public static int numberOfFragments;
 
-	private float ZSpeedMultiplier = 0; // The current Z speed multiplier
-	private float XSpeedMultiplier = 0; // The current X speed multiplier
+    private float ZSpeedMultiplier = 0; // The current Z speed multiplier
+    private float XSpeedMultiplier = 0; // The current X speed multiplier
+    private float speedMultiplierBoost = 1; // The current Z speed multiplier
 
-	private float currentVelocity; // The current velocity of the player
+    private float currentVelocity; // The current velocity of the player
 
 	private Vector3 forceToApply;
 
@@ -74,6 +75,9 @@ public class PlayerController : InputReceiver {
 	private int life;
 
 	private static int currentLife;
+
+    private float timeSinceLastBoost = 0.0f;
+    private bool powerboost=false;
 
 	public static GameObject Player {
 		get {
@@ -108,15 +112,22 @@ public class PlayerController : InputReceiver {
 			if(Mathf.Abs(XSpeedMultiplier) < 0.2) {
 				XSpeedMultiplier = 0;
 			}
-		}
+        }
 
-		if(inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
+        if (inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger)
+        {
+            boostPower();
+        }
+
+        if (inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
 			ZSpeedMultiplier = inputEvent.Value;
 			if(Mathf.Abs(ZSpeedMultiplier) < 0.2) {
 				ZSpeedMultiplier = 0;
 			}
-		}
-	}
+        }
+
+
+    }
 
 	public void AddForce(Vector3 force, Stream stream) {
 		forceToApply += force;
@@ -128,6 +139,23 @@ public class PlayerController : InputReceiver {
 			streamPlayer = stream;
 		}
 	}
+
+    private void boostPower() {
+        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/) {
+            powerboost = true;
+            timeSinceLastBoost = Time.time;
+            speedMultiplierBoost = 5f;
+
+        }
+    }
+
+    private void unBoostPower() {
+        if (powerboost) {
+            powerboost = false;
+            timeSinceLastBoost = Time.time;
+            speedMultiplierBoost = 1f;
+        }
+    }
 
 	public static void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
@@ -218,7 +246,7 @@ public class PlayerController : InputReceiver {
 	private void MovePlayer() {
 		//var cam = Camera.main;
 
-		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier, 0, movementForce * ZSpeedMultiplier);
+		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier* speedMultiplierBoost, 0, movementForce * ZSpeedMultiplier* speedMultiplierBoost);
 		Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
 		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
@@ -243,5 +271,10 @@ public class PlayerController : InputReceiver {
 		}
 
 		forceToApply = new Vector3(0, 0, 0);
+        if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
+        {
+            unBoostPower();
+            Debug.Log("ripboost");
+        }
 	}
 }

@@ -49,11 +49,19 @@ public abstract class Power : MonoBehaviour {
 	/// </summary>
 	protected abstract void ExecuteAction();
 
+    public virtual void stopPower()
+    {
+        //to be redeclared in powers that need a stop
+    }
+    public virtual void checkPowerTIme()
+    {
+        //to be redeclared in powers that need a timer
+    }
 
-	/// <summary>
-	/// Update the elapsed time until it reaches the cooldown time
-	/// </summary>
-	/*private void UpdateCooldown() {
+    /// <summary>
+    /// Update the elapsed time until it reaches the cooldown time
+    /// </summary>
+    /*private void UpdateCooldown() {
 		if(!ready) {
 			float timeLeft = GetTimeLeftToCooldown();
 			if(timeLeft > 0.01) {
@@ -69,7 +77,8 @@ public abstract class Power : MonoBehaviour {
         }
 	}*/
 
-	private void Start() {
+    private void Start() {
+        Debug.Log("hello");
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
 												 //CooldownBar.fillAmount = 0;
