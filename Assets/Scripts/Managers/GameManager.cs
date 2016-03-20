@@ -84,6 +84,8 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="checkpoint">The checkpoint to save</param>
 	public static void SaveCheckpoint(Checkpoint checkpoint) {
+		CheckpointController.SaveFile = "SavedGame";
+
 		CheckpointController.SaveCheckpoint(checkpoint);
 	}
 
@@ -101,5 +103,9 @@ public class GameManager : MonoBehaviour {
 			Debug.Log(e.Message);
 		}
 		return false;
+	}
+
+	void Start() {
+		LoadCheckpointFile (true);
 	}
 }

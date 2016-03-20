@@ -11,23 +11,23 @@ public class MainMenu : MonoBehaviour {
 
 	public string mainSceneName;
 
-    public EventSystem eventSystem;
+	public EventSystem eventSystem;
 
 	public Button continueButton;
 	public Button newGameButton;
 	public Button quitButton;
 
 
-    void Start() {
+	void Start() {
 #if UNITY_EDITOR
-        OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 #endif
-    }
+	}
 
-    public void OnLevelWasLoaded(int level) {
-        if (level == SceneManager.GetSceneByName("mainMenu").buildIndex) {
+	public void OnLevelWasLoaded(int level) {
+		if (level == SceneManager.GetSceneByName("mainMenu").buildIndex) {
 			gameObject.SetActive(true);
-            eventSystem.gameObject.SetActive(true);
+			eventSystem.gameObject.SetActive(true);
 
 			if(GameManager.CountSavedCheckpoints() != 0) {
 				eventSystem.firstSelectedGameObject = continueButton.gameObject;
@@ -55,29 +55,28 @@ public class MainMenu : MonoBehaviour {
 				quitButton.navigation = newNav;
 			}
 		} else {
-            gameObject.SetActive(false);
+			gameObject.SetActive(false);
 			eventSystem.gameObject.SetActive(false);
-		}   
-    }
+		}
+	}
 
-    public void Continue() {
+	public void Continue() {
 		// Transition out of main menu
 		// Fade to black
-        SceneManager.LoadScene(mainSceneName);
+		SceneManager.LoadScene(mainSceneName);
 
 #if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
 
-		GameManager.RestoreFromLastCheckpoint();
 		// Fade to game
-    }
+	}
 
-    public void NewGame () {
-        GameManager.DeleteAllCheckPoints();
+	public void NewGame () {
+		GameManager.DeleteAllCheckPoints();
 		// Transition out of main menu
 		// Fade to black
-        SceneManager.LoadScene(mainSceneName);
+		SceneManager.LoadScene(mainSceneName);
 
 #if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
@@ -89,11 +88,11 @@ public class MainMenu : MonoBehaviour {
 	
 	public void Quit() {
 #if UNITY_STANDALONE
-        Application.Quit();
+		Application.Quit();
 #endif
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+		UnityEditor.EditorApplication.isPlaying = false;
 #endif
-    }
+	}
 }

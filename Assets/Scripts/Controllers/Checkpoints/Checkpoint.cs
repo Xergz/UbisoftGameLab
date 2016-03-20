@@ -51,10 +51,16 @@ public class Checkpoint {
 		GUID = Murmur3.Hash(Encoding.ASCII.GetBytes(sGUID), SEED);
 		Zone = PlayerController.CurrentZone;
 
-		Transform playerTransform = PlayerController.Player.transform;
+		Vector2 playerPos = new Vector2 ();
+		ushort playerOrientation = 0;
+		if (PlayerController.Player) {
+			Transform playerTransform = PlayerController.Player.transform;
+			playerPos = new Vector2(playerTransform.position.x, playerTransform.position.z);
+			playerOrientation = (ushort) playerTransform.eulerAngles.y;
+		}
 
-		Position = new Vector2(playerTransform.position.x, playerTransform.position.z);
-		Orientation = (ushort) playerTransform.eulerAngles.y;
+		Position = playerPos;
+		Orientation = (ushort) playerOrientation;
 
 		CurrentLife = (ushort) PlayerController.GetPlayerCurrentLife();
 
