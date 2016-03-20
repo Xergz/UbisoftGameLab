@@ -1,63 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Text;
+using Backend.Core;
 
-public class GameManager : MonoBehaviour, GameRestorer {
-	private CheckpointController checkpoints;
+public class GameManager : MonoBehaviour {
 
-	/// <summary>
-	/// The gameobject parent to all fragments in the scene
-	/// </summary>
-	public GameObject FragmentsRoot;
-
-
-	/// <summary>
-	/// Returns the player's game object
-	/// </summary>
-	/// <value>The player.</value>
-	public GameObject Player {
-		get {
-			return PlayerController.Player;
-		}
-	}
-
-	/// <summary>
-	/// Gets the checkpoints controller.
-	/// </summary>
-	/// <value>The checkpoints controller.</value>
-	public CheckpointController Checkpoints {
-		get {
-			return checkpoints;
-		}
-	}
-
+	private static CameraController cameraController;
 
 	/// <summary>
 	/// Restores the game state from a checkpoint.
 	/// </summary>
-	/// <param name="checkpoint">Checkpoint.</param>
-	public void RestoreGameStateFrom(Checkpoint checkpoint) {
+	/// <param name="checkpoint">The checkpoint to restore the game's state from</param>
+	/// <remarks>Should throw an exception on failure</remarks>
+	public static void RestoreGameStateFrom(Checkpoint checkpoint) {
 		// Iterate over every fragment gameobject
-		foreach(Transform fragmentTransform in FragmentsRoot.transform) {
+		foreach(Transform fragmentTransform in PlayerController.fragmentsList) {
 			GameObject fragmentObject = fragmentTransform.gameObject;
 			Fragment fragment = fragmentObject.GetComponent<Fragment>();
 
 			// Look if the player already picked it
-			System.UInt32 hashName = Backend.Core.Murmur3.Hash(System.Text.Encoding.ASCII.GetBytes(fragment.fragmentName), 0);
+			uint hashName = Murmur3.Hash(Encoding.ASCII.GetBytes(fragment.fragmentName), 0);
 			if(checkpoint.Collectables.ContainsKey(hashName)) {
-				fragmentObject.SetActive(!checkpoint.Collectables[hashName]);
-				// Add fragment to player?
+				bool obtained = checkpoint.Collectables[hashName];
+				fragmentObject.SetActive(!obtained);
+				if(obtained) {
+					PlayerController.AddFragment(fragment);
+				}
 			} else {
 				fragmentObject.SetActive(true);
 			}
 		}
 
-		if (Player != null) {
-			Player.transform.position = new Vector3 (checkpoint.Position.x, 0, checkpoint.Position.y);
-			Player.transform.Rotate (0, (float)checkpoint.Orientation, 0);
-			PlayerController.SetPlayerCurrentLife ((int)checkpoint.CurrentLife);
+		if(PlayerController.Player != null) {
+			PlayerController.Player.transform.position = new Vector3(checkpoint.Position.x, 0, checkpoint.Position.y);
+			PlayerController.Player.transform.Rotate(0, checkpoint.Orientation, 0);
+			PlayerController.SetPlayerCurrentLife((int) checkpoint.CurrentLife);
 
 			PlayerController.CurrentZone = checkpoint.Zone;
+
+			if(cameraController == null) { // Try to find it
+				cameraController = FindObjectOfType<CameraController>();
+			}
+
+			if(cameraController != null) { // It exists
+				cameraController.SetCameraPosition(PlayerController.Player.transform.position);
+			}
 		}
 	}
 
@@ -65,62 +53,53 @@ public class GameManager : MonoBehaviour, GameRestorer {
 	/// Restores the game state from the last saved checkpoint.
 	/// </summary>
 	/// <returns><c>true</c>, if the restoration is possible, <c>false</c> otherwise.</returns>
-	public bool RestoreFromLastCheckpoint() {
-		return this.checkpoints.RestoreFromLastCheckpoint ();
+	public static bool RestoreFromLastCheckpoint() {
+		return CheckpointController.RestoreFromLastCheckpoint();
 	}
 
 	/// <summary>
 	/// Discards the last saved checkpoint.
 	/// </summary>
-	public void DiscardLastCheckpoint() {
-		this.checkpoints.DiscardLastCheckpoint ();
+	public static void DiscardLastCheckpoint() {
+		CheckpointController.DiscardLastCheckpoint();
 	}
 
 	/// <summary>
 	/// Counts the number of saved checkpoints.
 	/// </summary>
 	/// <returns>The saved checkpoints.</returns>
-	public System.UInt32 CountSavedCheckpoints() {
-		return this.checkpoints.Count;
+	public static uint CountSavedCheckpoints() {
+		return CheckpointController.Count;
 	}
 
 	/// <summary>
 	/// Remove all saved checkpoints
 	/// </summary>
-	public void DeleteAllCheckPoints() {
-		this.checkpoints.Clear ();
+	public static void DeleteAllCheckPoints() {
+		CheckpointController.Clear();
 	}
 
 	/// <summary>
 	/// Save a checkpoint
 	/// </summary>
 	/// <param name="checkpoint">The checkpoint to save</param>
-	public void SaveCheckpoint(Checkpoint checkpoint) {
-		this.checkpoints.SaveCheckpoint (checkpoint);
+	public static void SaveCheckpoint(Checkpoint checkpoint) {
+		CheckpointController.SaveCheckpoint(checkpoint);
 	}
 
 	/// <summary>
 	/// Loads the checkpoints from a file.
 	/// </summary>
 	/// <returns><c>true</c>, if checkpoint file was loaded, <c>false</c> otherwise.</returns>
-	public bool LoadCheckpointFile() {
-		this.checkpoints = new CheckpointController (this);
-		this.checkpoints.SaveFile = "SavedGame";
+	public static bool LoadCheckpointFile(bool restoreFromLastCheckpoint) {
+		CheckpointController.SaveFile = "SavedGame";
 
 		try {
-			this.checkpoints.LoadCheckpointsFromSaveFile ();
+			CheckpointController.LoadCheckpointsFromSaveFile(restoreFromLastCheckpoint);
 			return true;
-		}
-		catch(Exception e) {
-			Debug.Log (e.Message);
+		} catch(Exception e) {
+			Debug.Log(e.Message);
 		}
 		return false;
-	}
-
-	/// <summary>
-	/// The game manager will search for all it's required dependencies on the scene
-	/// </summary>
-	public void Initialize() {
-		this.FragmentsRoot = GameObject.Find ("Environment/Fragments");
 	}
 }

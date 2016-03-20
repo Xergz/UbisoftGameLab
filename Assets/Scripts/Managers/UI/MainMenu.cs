@@ -2,39 +2,89 @@
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
+using Backend.Core;
+using System.Text;
+using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour {
 
-    public int sceneToLoad = 0;
-    public int mainMenuScene = 0;
-    public GameObject mainMenu;
-    public GameObject eventSystem;
-    public GameManager GameManager;
+	public string mainSceneName;
 
-    void Awake() {
+    public EventSystem eventSystem;
+
+	public Button continueButton;
+	public Button newGameButton;
+	public Button quitButton;
+
+
+    void Start() {
 #if UNITY_EDITOR
         OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 #endif
     }
 
-    void OnLevelWasLoaded(int level) {
-        if (level == mainMenuScene) {
-            mainMenu.SetActive(true);
-            eventSystem.SetActive(true);
-        } else {
-            mainMenu.SetActive(false);
-        }   
+    public void OnLevelWasLoaded(int level) {
+        if (level == SceneManager.GetSceneByName("mainMenu").buildIndex) {
+			gameObject.SetActive(true);
+            eventSystem.gameObject.SetActive(true);
+
+			if(GameManager.CountSavedCheckpoints() != 0) {
+				eventSystem.firstSelectedGameObject = continueButton.gameObject;
+				eventSystem.SetSelectedGameObject(continueButton.gameObject);
+				continueButton.interactable = true;
+
+				Navigation newNav = newGameButton.navigation;
+				newNav.selectOnDown = continueButton;
+				newGameButton.navigation = newNav;
+
+				newNav = quitButton.navigation;
+				newNav.selectOnUp = continueButton;
+				quitButton.navigation = newNav;
+			} else {
+				eventSystem.firstSelectedGameObject = newGameButton.gameObject;
+				eventSystem.SetSelectedGameObject(newGameButton.gameObject);
+				continueButton.interactable = false;
+
+				Navigation newNav = newGameButton.navigation;
+				newNav.selectOnDown = quitButton;
+				newGameButton.navigation = newNav;
+
+				newNav = quitButton.navigation;
+				newNav.selectOnUp = newGameButton;
+				quitButton.navigation = newNav;
+			}
+		} else {
+            gameObject.SetActive(false);
+			eventSystem.gameObject.SetActive(false);
+		}   
     }
 
     public void Continue() {
-        SceneManager.LoadScene(sceneToLoad);
-        GameManager.RestoreFromLastCheckpoint();
+		// Transition out of main menu
+		// Fade to black
+        SceneManager.LoadScene(mainSceneName);
+
+#if UNITY_EDITOR
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+#endif
+
+		GameManager.RestoreFromLastCheckpoint();
+		// Fade to game
     }
 
     public void NewGame () {
         GameManager.DeleteAllCheckPoints();
-        SceneManager.LoadScene(sceneToLoad);
-        GameManager.SaveCheckpoint(new Checkpoint());
+		// Transition out of main menu
+		// Fade to black
+        SceneManager.LoadScene(mainSceneName);
+
+#if UNITY_EDITOR
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+#endif
+
+		GameManager.SaveCheckpoint(new Checkpoint("Start"));
+		// Fade to game
 	}
 	
 	public void Quit() {

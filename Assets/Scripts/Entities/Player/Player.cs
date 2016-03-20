@@ -33,6 +33,7 @@ public class Player : Entity {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
 			other.gameObject.SetActive(false);
 			PlayerController.AddFragment(other.GetComponent<Fragment>());
+			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
 		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
 		} else if(other.CompareTag("Life")) {
