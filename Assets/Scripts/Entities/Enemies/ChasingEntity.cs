@@ -14,8 +14,6 @@ public class ChasingEntity : Entity {
 	//public float speedAgainstStream = 8F;
 	//public float normalSpeed = 4F;
 
-	public AudioController audioController;
-
     private Rigidbody rigidBody;
     private AIRig tRig;
     private NavMeshAgent navAgent;
@@ -48,10 +46,10 @@ public class ChasingEntity : Entity {
 
 		while(true) {
 			if(Distance < distanceForCloseAudio) {
-				audioController.PlayAudioClose();
-			} else if(Distance < distanceForFarAudio) {
-				audioController.PlayAudioFar();
-			}
+				audioController.PlayAudio(AudioController.soundType.close);
+            } else if(Distance < distanceForFarAudio) {
+				audioController.PlayAudio(AudioController.soundType.far);
+            }
 
 			yield return new WaitForSeconds(Random.Range(minTimeBetweenAudio, maxTimeBetweenAudio));
 		}
@@ -67,11 +65,13 @@ public class ChasingEntity : Entity {
 
     public override void ReceiveHit() {
         life -= 1;
+        audioController.PlayAudio(AudioController.soundType.receiveHit);
         if (life <= 0)
             Destroy(gameObject);
     }
 
     public override void ReceiveStun() {
+        audioController.PlayAudio(AudioController.soundType.receiveStun);
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
