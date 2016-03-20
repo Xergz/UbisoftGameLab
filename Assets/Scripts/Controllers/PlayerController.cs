@@ -5,21 +5,21 @@ using System.Collections.Generic;
 public class PlayerController : InputReceiver {
 
 	public static Rigidbody playerRigidbody;
-    public static MusicController Music;
+	public static MusicController Music;
 
-    private static EnumZone c_currentZone;
+	private static EnumZone c_currentZone;
 	public static EnumZone CurrentZone { 
-        get {
-            return c_currentZone;
-        }
-        set {
-            c_currentZone = value;
+		get {
+			return c_currentZone;
+		}
+		set {
+			c_currentZone = value;
 
-            if (Music != null) {
-                Music.OnZoneChanged (c_currentZone);
-            }
-        }
-    }
+			if (Music != null) {
+				Music.OnZoneChanged (c_currentZone);
+			}
+		}
+	}
 
 	public bool PlayerCanBeMoved { get; set; }
 
@@ -159,7 +159,11 @@ public class PlayerController : InputReceiver {
 
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
-        Music = GameObject.Find ("MusicController").GetComponent<MusicController> ();
+
+		GameObject musicControllerObject = GameObject.Find ("MusicController");
+		if (musicControllerObject != null) {
+			Music = musicControllerObject.GetComponent<MusicController> ();
+		}
 
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
