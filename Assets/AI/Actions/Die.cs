@@ -7,7 +7,13 @@ public class Die : RAINAction {
 
     public override ActionResult Execute(AI ai) {
 
-        MonoBehaviour.Destroy(ai.Body);
+		ChasingEntity chasingEntity = ai.Body.GetComponent<ChasingEntity>();
+
+		if(chasingEntity != null) {
+			chasingEntity.SetDying();
+		} else {
+			MonoBehaviour.Destroy(ai.Body);
+		}
 
         return ActionResult.SUCCESS;
     }

@@ -16,6 +16,10 @@ public class ChasingEntity : Entity {
 
     public GameObject stunStars;
 
+	public GameObject meshObject;
+
+	public ParticleSystem dieParticles;
+
 
     private Rigidbody rigidBody;
     private AIRig tRig;
@@ -70,8 +74,9 @@ public class ChasingEntity : Entity {
     public override void ReceiveHit() {
         life -= 1;
         audioController.PlayAudio(AudioController.soundType.receiveHit);
-        if (life <= 0)
-            Destroy(gameObject);
+        if (life <= 0) {
+			SetDying();
+		}
     }
 
     public override void ReceiveStun() {
@@ -94,5 +99,17 @@ public class ChasingEntity : Entity {
 				}
 			}
 		}
+	}
+
+	public void SetDying() {
+		meshObject.SetActive(false);
+		dieParticles.Emit(150);
+		StartCoroutine(DestroyInXSeconds(2));
+	}
+
+	private IEnumerator DestroyInXSeconds(int seconds) {
+		yield return new WaitForSeconds(seconds);
+
+		Destroy(gameObject);
 	}
 }
