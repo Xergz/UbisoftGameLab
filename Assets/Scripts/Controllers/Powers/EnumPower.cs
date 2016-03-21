@@ -1,4 +1,4 @@
 ﻿
 public enum EnumPower {
-	SwitchDirection, IncreaseStrength, DecreaseStrength
+	SwitchDirection, IncreaseStrength, DecreaseStrength, boost
 };
