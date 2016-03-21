@@ -16,7 +16,6 @@ public class ChasingEntity : Entity {
 
     public GameObject stunStars;
 
-    public GameObject stunStars;
 
     private Rigidbody rigidBody;
     private AIRig tRig;
