@@ -32,8 +32,8 @@ public class FadeInOut : MonoBehaviour {
     }
 
     private IEnumerator FadeInCoroutine() {
-        while (canvasGroup.alpha < 255) {
-            canvasGroup.alpha -= Time.deltaTime / fadeInTime;
+        while (canvasGroup.alpha < 1) {
+            canvasGroup.alpha += Time.deltaTime / fadeInTime;
             yield return null;
         }
     }
