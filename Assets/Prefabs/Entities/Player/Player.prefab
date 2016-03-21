@@ -261,6 +261,7 @@ GameObject:
   - 114: {fileID: 11483540}
   - 54: {fileID: 5444400}
   - 136: {fileID: 13683454}
+  - 114: {fileID: 11468408}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2387,6 +2388,33 @@ MonoBehaviour:
   FloatingOffset: 0.1
   SurfaceLength: 1
   SurfaceWidth: 1
+--- !u!114 &11468408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d9164f3c969cf4a8f839818c0a7c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipsFar: []
+  clipsClose: []
+  clipsReceiveStun:
+  - {fileID: 8300000, guid: 61c28f6b8e873604c82f739381bf6b5c, type: 3}
+  - {fileID: 8300000, guid: a184539927a40ab4db2a21c5aa21cf7d, type: 3}
+  - {fileID: 8300000, guid: 204047d9e68ab51488652094153a85eb, type: 3}
+  clipsReceiveHit:
+  - {fileID: 8300000, guid: 0281fec5047a7d14a9fc4c895dee8ecf, type: 3}
+  - {fileID: 8300000, guid: f504a4c4a5032a7489a1f3df70305a7b, type: 3}
+  - {fileID: 8300000, guid: 795a6cd4f4f98f14c9ccde6dfb30a990, type: 3}
+  clipsEnterOpenWorld:
+  - {fileID: 8300000, guid: 69c47461e2c1d134dae1da445610fcad, type: 3}
+  - {fileID: 8300000, guid: 4a743e72299565248ad57766203fd34e, type: 3}
+  - {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
+  clipsCollectFragments: []
+  source: {fileID: 0}
 --- !u!114 &11476120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2446,6 +2474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 0
+  audioController: {fileID: 11468408}
   stunStars: {fileID: 189394}
   isStuned: 0
   stunTime: 2
@@ -7379,6 +7408,18 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsEnterOpenWorld.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: _dataSerializer._serializedGameObjects.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -7438,6 +7479,46 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: audioController
+      value: 
+      objectReference: {fileID: 11468408}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0281fec5047a7d14a9fc4c895dee8ecf, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: f504a4c4a5032a7489a1f3df70305a7b, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 795a6cd4f4f98f14c9ccde6dfb30a990, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 61c28f6b8e873604c82f739381bf6b5c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: a184539927a40ab4db2a21c5aa21cf7d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 204047d9e68ab51488652094153a85eb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsEnterOpenWorld.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 69c47461e2c1d134dae1da445610fcad, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsEnterOpenWorld.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a743e72299565248ad57766203fd34e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsEnterOpenWorld.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132074}
