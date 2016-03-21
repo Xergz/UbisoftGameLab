@@ -5,6 +5,7 @@ public class UIManager : InputReceiver {
 
 	public MainMenu mainMenuScript;
 	public PauseMenu pauseMenuScript;
+    public EnterLevel enterLevelScript;
 
 	void Awake() {
 		if(instance == null) {
@@ -21,6 +22,10 @@ public class UIManager : InputReceiver {
 			pauseMenuScript.Pause();
 		}
 	}
+
+    public void EnterLevel(string levelName) {
+        enterLevelScript.DisplayLevel(levelName);
+    }
 
 #if UNITY_EDITOR
 	public void CallOnLevelWasLoaded(int level) {
