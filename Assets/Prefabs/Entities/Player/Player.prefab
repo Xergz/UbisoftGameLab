@@ -261,6 +261,7 @@ GameObject:
   - 114: {fileID: 11483540}
   - 54: {fileID: 5444400}
   - 136: {fileID: 13683454}
+  - 114: {fileID: 11468408}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2387,6 +2388,24 @@ MonoBehaviour:
   FloatingOffset: 0.1
   SurfaceLength: 1
   SurfaceWidth: 1
+--- !u!114 &11468408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d9164f3c969cf4a8f839818c0a7c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipsFar: []
+  clipsClose: []
+  clipsReceiveStun: []
+  clipsReceiveHit: []
+  clipsEnterOpenWorld: []
+  clipsCollectFragments: []
+  source: {fileID: 0}
 --- !u!114 &11476120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2446,6 +2465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 0
+  audioController: {fileID: 11468408}
   stunStars: {fileID: 189394}
   isStuned: 0
   stunTime: 2
@@ -7438,6 +7458,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: audioController
+      value: 
+      objectReference: {fileID: 11468408}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132074}
