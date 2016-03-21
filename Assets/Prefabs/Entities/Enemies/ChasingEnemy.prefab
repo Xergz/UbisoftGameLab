@@ -2690,11 +2690,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 1
+  audioController: {fileID: 11449704}
   minTimeBetweenAudio: 10
   maxTimeBetweenAudio: 20
   distanceForCloseAudio: 20
   distanceForFarAudio: 40
-  audioController: {fileID: 11449704}
   stunStars: {fileID: 180898}
   life: 5
   isStuned: 0
@@ -2749,8 +2749,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c58b23a4001af6147b2076bf3a0898cd, type: 3}
   - {fileID: 8300000, guid: 5b954c069402fc2449123b4d2f1da7cb, type: 3}
   - {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
+  clipsReceiveStun:
   - {fileID: 8300000, guid: a00d9d797fc87f24a81bc9c2d3c4e605, type: 3}
   - {fileID: 8300000, guid: 37f29d2b933bb464bb9effd7c6443fe7, type: 3}
+  clipsReceiveHit:
+  - {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
+  clipsEnterOpenWorld: []
+  clipsCollectFragments: []
   source: {fileID: 8250720}
 --- !u!114 &11450898
 MonoBehaviour:
@@ -3076,6 +3081,18 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: clipsClose.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: _dataSerializer._serializedData
       value: <component version="1.3" type="RAIN.Core.AIRig"><fields><field value="OnWhenSelected"
         type="RAIN.Core.VisualModeEnum" id="_visualMode" /><field value="True" type="System.Boolean"
@@ -3162,6 +3179,26 @@ Prefab:
         type="System.Boolean" id="_canDetectSelf" /><field value="0.1" type="System.Single"
         id="_volumeThreshold" /></reference></references></component>
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a00d9d797fc87f24a81bc9c2d3c4e605, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveStun.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 37f29d2b933bb464bb9effd7c6443fe7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[5]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsClose.Array.data[4]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReceiveHit.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134078}
