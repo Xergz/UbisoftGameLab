@@ -97,15 +97,16 @@ MonoBehaviour:
   distanceMin: 15
   distanceMax: 15
   autoAdjustTime: 1
-  speed: 5
+  minSpeed: 3
   minPlayerVelocity: 0.05
   movementSmooth: {x: 0.05, y: 0.1, z: 0.05}
-  rotation: {x: 0, y: 55}
+  rotation: {x: 180, y: 55}
   controllerSensitivity: {x: 1, y: 0.1}
   oldPlayerPosition: {x: 0, y: 0, z: 0}
   timeAtPlayerMoved: 0
   playerMoving: 0
   cameraMoving: 0
+  speed: 5
 --- !u!124 &12441870
 Behaviour:
   m_ObjectHideFlags: 1

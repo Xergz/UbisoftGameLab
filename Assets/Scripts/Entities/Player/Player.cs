@@ -4,6 +4,8 @@ using System.Collections;
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
 
+    public GameObject stunStars;
+
 	[SerializeField]
 	private bool isStuned;
 
@@ -12,10 +14,15 @@ public class Player : Entity {
 	private float beginStunTime;
 
 
+	[SerializeField]
+	private ParticleSystem collisionSystem;
+
+
 	private void Update() {
 		if(isStuned && Time.time > beginStunTime + stunTime) {
 			isStuned = false;
-			PlayerController.PlayerCanBeMoved = true;
+            stunStars.SetActive(false);
+            PlayerController.PlayerCanBeMoved = true;
 		}
 	}
 
@@ -28,13 +35,21 @@ public class Player : Entity {
         audioController.PlayAudio(AudioController.soundType.receiveStun);
         PlayerController.PlayerCanBeMoved = false;
 		isStuned = true;
+        stunStars.SetActive(true);
 		beginStunTime = Time.time;
+	}
+
+	private void OnCollisionEnter(Collision collision) {
+		if(collision.gameObject.CompareTag("Environment")) {
+			collisionSystem.Emit(Random.Range(30, 50));
+		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
 			other.gameObject.SetActive(false);
 			PlayerController.AddFragment(other.GetComponent<Fragment>());
+			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
 		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
 		} else if(other.CompareTag("Life")) {
@@ -45,8 +60,8 @@ public class Player : Entity {
 
 	protected override void OnTriggerStay(Collider other) {
 		if(other.CompareTag("Stream")) { // Is inside a stream
-			PlayerController.AddForce(other.GetComponent<Stream>().GetForceAtPosition(transform.position), other.GetComponent<Stream>());
-
+			Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+			PlayerController.AddForce(force, other.GetComponent<Stream>());
 		}
 	}
 

@@ -35,7 +35,9 @@ public abstract class Entity : MonoBehaviour {
 
 
 	protected virtual void Start() {
-		StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
+		if(!CompareTag("Player")) {
+			StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
+		}
 	}
 
     protected abstract void OnTriggerStay(Collider other);

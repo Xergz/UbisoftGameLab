@@ -7,90 +7,73 @@ using System.IO;
 /// Handles checkpoints
 /// </summary>
 public class CheckpointController {
-	private GameRestorer restorer;
-	private CheckpointModel model;
+	private static CheckpointModel model;
 
-    public System.UInt32 Count {
-        get {
-            return model.Count;
-        }
-    }
+	static CheckpointController() {
+		model = new CheckpointModel();
+	}
+
+	public static uint Count {
+		get {
+			return model.Count;
+		}
+	}
 
 	/// <summary>
 	/// The save file's name
 	/// </summary>
 	/// <value>The save file.</value>
-	public string SaveFile {
-		get;
-		set;
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="CheckpointController"/> class.
-	/// </summary>
-	/// <param name="restorer">The assigned game restorer.</param>
-	public CheckpointController(GameRestorer restorer) {
-		this.restorer = restorer;
-		this.model = new CheckpointModel ();
-	}
+	public static string SaveFile { get; set; }
 
 	/// <summary>
 	/// Restore the game from a checkpoint
 	/// </summary>
 	/// <returns><c>true</c>, if the game was restored, <c>false</c> otherwise.</returns>
 	/// <param name="checkpoint">The checkpoint to restore from.</param>
-	public bool RestoreFromLastCheckpoint() {
-		bool restored = false;
-
+	public static bool RestoreFromLastCheckpoint() {
 		try {
-			Checkpoint checkpoint = this.model.Current;
+			GameManager.RestoreGameStateFrom(model.Current);
 
-			this.restorer.RestoreGameStateFrom(checkpoint);
-
-			restored = true;
-		}
-		catch(Exception e) {
+			return true;
+		} catch(Exception e) {
 			// Restoration failed
 			// TODO: Determine what to do in case of failure
 			Debug.LogError(e.Message);
 		}
 
-		return restored;
+		return false;
 	}
 
 	/// <summary>
 	/// Discards the last checkpoint.
 	/// </summary>
 	/// <remarks>The last checkpoint will be replaced by the one before it</remarks>
-	public void DiscardLastCheckpoint() {
-		this.model.Discard ();
-        this.model.SaveTo (SaveFile);
+	public static void DiscardLastCheckpoint() {
+		model.Discard();
+		model.SaveTo(SaveFile);
 	}
 
-	public bool SaveCheckpoint(Checkpoint newCheckpoint) {
-		bool added = false;
+	public static bool SaveCheckpoint(Checkpoint newCheckpoint) {
+		if(!model.ContainsGUID(newCheckpoint.GUID)) {
+			model.Update(newCheckpoint);
+			model.SaveTo(SaveFile);
 
-		if (!this.model.ContainsGUID (newCheckpoint.GUID)) {
-			this.model.Update (newCheckpoint);
-
-			this.model.SaveTo (SaveFile);
-
-			added = true;
+			return true;
 		}
 
-		return added;
+		return false;
 	}
 
-	public void LoadCheckpointsFromSaveFile() {
-		LoadCheckpointsFrom (SaveFile);
+	public static void LoadCheckpointsFromSaveFile(bool restoreFromLastCheckpoint) {
+		LoadCheckpointsFrom(SaveFile, restoreFromLastCheckpoint);
 	}
 
-	public void LoadCheckpointsFrom(string filename) {
-		this.model.LoadFrom (filename);
-		this.restorer.RestoreGameStateFrom (this.model.Current);
+	public static void LoadCheckpointsFrom(string filename, bool restoreFromLastCheckpoint) {
+		model.LoadFrom(filename);
+		if(restoreFromLastCheckpoint) GameManager.RestoreGameStateFrom(model.Current);
 	}
 
-    public void Clear() {
-        this.model.Clear (this.SaveFile);
-    }
+	public static void Clear() {
+		model.Clear(SaveFile);
+	}
 }

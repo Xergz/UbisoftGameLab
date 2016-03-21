@@ -209,12 +209,12 @@ public class InputManager : MonoBehaviour {
 	private void CheckTriggers() {
 		if(Input.GetAxis("LeftTrigger") != LeftTriggerStatus) {
 			LeftTriggerStatus = Input.GetAxis("LeftTrigger");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
+			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
 		}
 
 		if(Input.GetAxis("RightTrigger") != RightTriggerStatus) {
 			RightTriggerStatus = Input.GetAxis("RightTrigger");
-			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
+			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
 		}
 	}
 
