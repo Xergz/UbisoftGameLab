@@ -10,12 +10,6 @@ public class Encounter : MonoBehaviour
 
     NavMeshHit hit;
 
-    public void SpawnEntities(EncounterManager manager, WaveController waveController) 
-    {
-
-        SpawnEntities(Vector3.zero, manager, waveController);
-    }
-
     [System.Serializable]
     public class SpawnEntity
     {
@@ -29,23 +23,20 @@ public class Encounter : MonoBehaviour
         }
     }
 
-    public void SpawnEntities(Vector3 localPosition, EncounterManager manager, WaveController waveController)
+    public void SpawnEntities(Transform root, Vector3 localPosition, EncounterManager manager, WaveController waveController)
     {
         foreach (SpawnEntity entity in entities)
         {
-            var spawnAt = entity.spawnPoint;
-            var rotation = entity.spawnPoint;
-
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(localPosition, out hit, 10.0f, NavMesh.AllAreas))
+			if (NavMesh.SamplePosition(root.TransformPoint(localPosition + entity.spawnPoint), out hit, 10.0f, NavMesh.AllAreas))
             {
-                var spawned = Instantiate(entity.entity, hit.position + entity.spawnPoint, Quaternion.identity) as Entity;
+                var spawned = Instantiate(entity.entity, hit.position, Quaternion.identity) as Entity;
                 var wave = spawned.GetComponent<FloatOnWave>();
                 
                 wave.waves = waveController;
                 manager.addEntity(spawned);
+				spawned.transform.parent = root;
                 spawned.gameObject.SetActive(true);
-                Debug.Log("Spawn at " + (hit.position + entity.spawnPoint).x + "," + (hit.position + entity.spawnPoint).y +","+ (hit.position + entity.spawnPoint).z);
+                Debug.Log("Spawn at " + hit.position.x + "," + hit.position.y +","+ hit.position.z);
             }           
         }
     }

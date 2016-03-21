@@ -31,11 +31,13 @@ public class Player : Entity {
 	}
 
 	public override void ReceiveHit() {
+        audioController.PlayAudio(AudioController.soundType.receiveHit);
 		PlayerController.DamagePlayer(5);
 	}
 
 	public override void ReceiveStun() {
-		PlayerController.PlayerCanBeMoved = false;
+        audioController.PlayAudio(AudioController.soundType.receiveStun);
+        PlayerController.PlayerCanBeMoved = false;
 		isStuned = true;
         stunStars.SetActive(true);
 		beginStunTime = Time.time;
@@ -62,16 +64,21 @@ public class Player : Entity {
 	}
 
 	protected override void OnTriggerStay(Collider other) {
-		if(other.CompareTag("Stream")) { // Is inside a stream
-			Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
-			PlayerController.AddForce(force, other.GetComponent<Stream>());
+		if(!isStuned) {
+			if(other.CompareTag("Stream")) { // Is inside a stream
+				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+				PlayerController.AddForce(force, other.GetComponent<Stream>());
+			}
 		}
 	}
 
 	private void OnTriggerExit(Collider other) {
 		if(other.CompareTag("Zone")) { // Left the zone to enter the open world
-			PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
-            ui.EnterLevel("Open World");
-        }
+            if (Random.Range(0.0f, 1.0f) > 0.5f)
+                audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
+
+            PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
+			ui.EnterLevel("Open World");
+		}
 	}
 }

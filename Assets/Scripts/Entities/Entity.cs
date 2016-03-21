@@ -15,6 +15,7 @@ public abstract class Entity : MonoBehaviour {
 
 	protected bool wasDebugging = false;
 
+    public AudioController audioController;
 
     public abstract void ReceiveHit();
 
