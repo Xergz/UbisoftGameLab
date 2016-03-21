@@ -18,7 +18,7 @@ public class CameraController : InputReceiver {
 	public Vector2 rotation = new Vector2(0f, 40f);
 	public Vector2 controllerSensitivity = new Vector2(2f, 2f);
 
-	private Vector2 controllerInput = new Vector2(0f, 0f);
+	//private Vector2 controllerInput = new Vector2(0f, 0f);
 	private Vector3 positionTarget = Vector3.zero;
 	[SerializeField]
 	private Vector3 oldPlayerPosition = Vector3.zero;
@@ -60,6 +60,12 @@ public class CameraController : InputReceiver {
 				Reset();
 			}
 		}*/
+	}
+
+	public void SetCameraPosition(Vector3 playerPosition) {
+		oldPlayerPosition = playerPosition;
+
+		transform.position = oldPlayerPosition + offset;
 	}
 
 	void Start() {

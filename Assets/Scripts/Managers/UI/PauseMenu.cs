@@ -5,68 +5,88 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
+	public string mainMenuSceneName;
 
-    public int mainMenuScene = 0;
-    public GameObject pauseMenu;
-    public GameObject eventSystem;
+	public EventSystem eventSystem;
 
-    public Button checkpointButton;
-    public GameManager GameManager;
+	public Button resumeButton;
+	public Button checkpointButton;
+	public Button mainMenuButton;
 
-    private bool onPause = false;
 
-    void Awake() {
+	private bool onPause = false;
+
+	void Start() {
 #if UNITY_EDITOR
-        OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 #endif
-    }
+	}
 
-    void OnLevelWasLoaded(int level) {
-        pauseMenu.SetActive(false);
-        if (level != mainMenuScene) {
-            eventSystem.SetActive(false);
-            eventSystem.GetComponent<EventSystem>().firstSelectedGameObject = pauseMenu.transform.Find("Resume").gameObject;
-        }
-    }
+	public void OnLevelWasLoaded(int level) {
+		gameObject.SetActive(false);
+	}
 
-    public void Pause() {
-        if(SceneManager.GetActiveScene().buildIndex != mainMenuScene) {
-            onPause = !onPause;
+	public void Pause() {
+		if(SceneManager.GetActiveScene().name != "mainMenu") {
+			onPause = !onPause;
 
-            if (onPause) {
-                eventSystem.SetActive(true);
-                pauseMenu.SetActive(true);
-                Time.timeScale = 0;
+			if(onPause) {
+				gameObject.SetActive(true);
+				eventSystem.gameObject.SetActive(true);
+				eventSystem.firstSelectedGameObject = resumeButton.gameObject;
+				eventSystem.SetSelectedGameObject(resumeButton.gameObject);
+				Time.timeScale = 0;
 
-                if(GameManager.CountSavedCheckpoints() == 0) {
-                    checkpointButton.interactable = false;
-                }
+				if(GameManager.CountSavedCheckpoints() != 0) {
+					checkpointButton.interactable = true;
 
-            } else {
-                eventSystem.SetActive(false);
-                pauseMenu.SetActive(false);
-                Time.timeScale = 1;
-            }
-        }
-    }
+					Navigation newNav = resumeButton.navigation;
+					newNav.selectOnUp = checkpointButton;
+					resumeButton.navigation = newNav;
 
-    public void ReloadLastCheckpoint() {
-        GameManager.RestoreFromLastCheckpoint();
-        Pause();
-    }
+					newNav = mainMenuButton.navigation;
+					newNav.selectOnDown = checkpointButton;
+					mainMenuButton.navigation = newNav;
+				} else {
+					checkpointButton.interactable = false;
 
-    public void MainMenu() {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(mainMenuScene);
-    }
+					Navigation newNav = resumeButton.navigation;
+					newNav.selectOnUp = mainMenuButton;
+					resumeButton.navigation = newNav;
 
-    public void Quit() {
+					newNav = mainMenuButton.navigation;
+					newNav.selectOnDown = resumeButton;
+					mainMenuButton.navigation = newNav;
+				}
+			} else {
+				eventSystem.gameObject.SetActive(false);
+				gameObject.SetActive(false);
+				Time.timeScale = 1;
+			}
+		}
+	}
+
+	public void ReloadLastCheckpoint() {
+		GameManager.RestoreFromLastCheckpoint();
+		Pause();
+	}
+
+	public void MainMenu() {
+		Time.timeScale = 1;
+		SceneManager.LoadScene(mainMenuSceneName);
+
+#if UNITY_EDITOR
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
+#endif
+	}
+
+	public void Quit() {
 #if UNITY_STANDALONE
-            Application.Quit();
+		Application.Quit();
 #endif
 
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+		UnityEditor.EditorApplication.isPlaying = false;
 #endif
-    }
+	}
 }

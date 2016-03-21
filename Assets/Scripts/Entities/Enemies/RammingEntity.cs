@@ -6,12 +6,13 @@ public class RammingEntity : Entity {
 	public bool IsRamming { get { return isRamming; } set { isRamming = value; } }
 
 
-	//[Tooltip("Speed to give the fist when moving against a stream. This is to prevent the fist from jamming")]
-	//public float speedAgainstStream = 8F;
-	//public float normalSpeed = 4F;
+    //[Tooltip("Speed to give the fist when moving against a stream. This is to prevent the fist from jamming")]
+    //public float speedAgainstStream = 8F;
+    //public float normalSpeed = 4F;
 
+    public GameObject stunStars;
 
-	private Rigidbody rigidBody;
+    private Rigidbody rigidBody;
     private AIRig tRig;
     private NavMeshAgent navAgent;
 
@@ -40,6 +41,7 @@ public class RammingEntity : Entity {
         if (isStuned && Time.time > beginStunTime + stunTime) {
             isStuned = false;
             tRig.AI.IsActive = true;
+            stunStars.SetActive(false);
             navAgent.Resume();
         }
     }
@@ -54,6 +56,7 @@ public class RammingEntity : Entity {
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
+        stunStars.SetActive(true);
         navAgent.Stop();
 		rigidBody.velocity = Vector3.zero;
 	}

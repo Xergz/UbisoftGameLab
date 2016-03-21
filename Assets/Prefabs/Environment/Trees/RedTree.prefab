@@ -14,7 +14,7 @@ GameObject:
   m_Name: GeoSphere002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &174636
@@ -28,7 +28,7 @@ GameObject:
   - 65: {fileID: 6580760}
   m_Layer: 0
   m_Name: RedTree
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -47,7 +47,7 @@ GameObject:
   m_Name: Box001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &477602
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174636}
   m_LocalRotation: {x: 0, y: -0.34857577, z: 0, w: 0.9372806}
-  m_LocalPosition: {x: -136.4373, y: 31.329575, z: -204.03134}
+  m_LocalPosition: {x: 35.7789, y: 83.74448, z: 67.70713}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 477602}
@@ -176,6 +176,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

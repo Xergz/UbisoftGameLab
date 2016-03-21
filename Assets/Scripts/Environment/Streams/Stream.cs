@@ -175,10 +175,6 @@ public class Stream : MonoBehaviour {
 	private Material redStreamMaterial;
 	#endregion
 
-	[Tooltip("A prefab used to visually represent the direction of the tangents")]
-	[SerializeField]
-	private GameObject tangentArrow;
-
 	private BezierCurveGenerator curveGenerator; // A bezier curve generator
 
 	[Tooltip("The stream arrow animation controller")]
@@ -194,7 +190,8 @@ public class Stream : MonoBehaviour {
 		float distanceToClosest;
 		float maxDistanceUpper = 0;
 		float maxDistanceLower = 0;
-		int closestPoint = GetClosestCurvePointIndex(position, out distanceToClosest);
+
+		int closestPoint = GetClosestCurvePointIndex(transform.InverseTransformPoint(position), out distanceToClosest);
 		if(closestPoint == -1 || closestPoint == 0 || closestPoint == streamCurve.Length - 1) { // If the closest point is the border of the stream, you're not close enough
 			return Vector3.zero;
 		}
@@ -317,6 +314,8 @@ public class Stream : MonoBehaviour {
 		boxCollider = GetComponent<BoxCollider>();
 		meshRenderer = GetComponent<Renderer>();
 
+		Zone = EnumZone.OPEN_WORLD;
+
 		switch(color) {
 			case EnumStreamColor.GREEN:
 				meshRenderer.material = greenStreamMaterial;
@@ -380,7 +379,7 @@ public class Stream : MonoBehaviour {
 		Vector3 endTangent = endTangentHandle;
 		float distance = 0F;
 		if(Application.isPlaying) {
-			GetClosestCurvePointIndex(PlayerController.playerRigidbody.position, out distance);
+			GetClosestCurvePointIndex(transform.InverseTransformPoint(PlayerController.playerRigidbody.position), out distance);
 		}
 		if(streamCurve == null || distance < playerController.sightRange) {
 			// Update the curve
@@ -580,7 +579,7 @@ public class Stream : MonoBehaviour {
 			for(int j = 0, orientation = wavePrecision >> 1; j < wavePrecision; ++j, --orientation) {
 				streamVertices[iMultiplied + j] = streamCurve[i] + (orientation * spacing * rotatedTangent);
 				streamVertices[iMultiplied + j].y = streamVertices[iMultiplied + j].y + 0.01F;
-				streamUVs[iMultiplied + j] = new Vector2(streamVertices[iMultiplied + j].x, streamVertices[iMultiplied + j].z);
+				streamUVs[iMultiplied + j] = new Vector2((float) j / (float) (wavePrecision - 1), (float) i / (float) (streamCurve.Length - 1));
 			}
 
 			// Normals and y displacement for the stream mesh

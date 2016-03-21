@@ -35,7 +35,23 @@ MonoBehaviour:
       constraint=&quot;coolDown&quot;&gt;&lt;timer waitforsec=&quot;6&quot; returnvalue=&quot;success&quot;
       name=&quot;WaitBeforeNextStun&quot; debugbreak=&quot;False&quot; /&gt;&lt;expression
       returnvalue=&quot;success&quot; repeatuntil=&quot;&quot; name=&quot;CoolDownFalse&quot;
-      expression=&quot;coolDown = false&quot; debugbreak=&quot;False&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/behaviortree&gt;"
+      expression=&quot;coolDown = false&quot; debugbreak=&quot;False&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;detect
+      sensor=&quot;&amp;quot;SightAnimation&amp;quot;&quot; repeatuntil=&quot;running&quot;
+      name=&quot;Detect Away Entity&quot; matchtype=&quot;best&quot; entityobjectvariable=&quot;animationEntity&quot;
+      debugbreak=&quot;False&quot; consistent=&quot;True&quot; aspectvariable=&quot;&quot;
+      aspectobjectvariable=&quot;&quot; aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot;
+      /&gt;&lt;selector usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot;
+      name=&quot;rotation&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;Entity Inner Ring&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;detectedEntity != null&quot;&gt;&lt;move turnspeed=&quot;90&quot;
+      repeatuntil=&quot;&quot; name=&quot;Turn&quot; movetarget=&quot;&quot; movespeed=&quot;&quot;
+      facetarget=&quot;detectedEntity&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
+      closeenoughangle=&quot;&quot; /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;Entity Outter Ring&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;animationEntity != null&quot;&gt;&lt;move turnspeed=&quot;40&quot;
+      repeatuntil=&quot;&quot; name=&quot;Turn&quot; movetarget=&quot;&quot; movespeed=&quot;&quot;
+      facetarget=&quot;animationEntity&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
+      closeenoughangle=&quot;&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/behaviortree&gt;"
       type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
       elementtype="System.String" /></fields><references /></scriptableobject>
     _serializedGameObjects: []

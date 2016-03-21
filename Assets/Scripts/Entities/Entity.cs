@@ -15,6 +15,7 @@ public abstract class Entity : MonoBehaviour {
 
 	protected bool wasDebugging = false;
 
+    public AudioController audioController;
 
     public abstract void ReceiveHit();
 
@@ -34,7 +35,9 @@ public abstract class Entity : MonoBehaviour {
 
 
 	protected virtual void Start() {
-		StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
+		if(!CompareTag("Player")) {
+			StartCoroutine(CheckDistanceToPlayer(timeBetweenDistanceChecks));
+		}
 	}
 
     protected abstract void OnTriggerStay(Collider other);
