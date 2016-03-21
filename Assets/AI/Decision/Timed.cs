@@ -31,8 +31,11 @@ public class Timed : RAINDecision
         if (initialTime < 0)
             initialTime = Time.time;
 
-        if (Time.time - initialTime >= _time)
+        if (Time.time - initialTime >= _time) {
+            initialTime = -1f;
             return ActionResult.FAILURE;
+        }
+            
 
         for (; _lastRunning < _children.Count; _lastRunning++)
         {
