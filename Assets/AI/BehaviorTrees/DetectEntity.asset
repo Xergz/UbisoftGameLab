@@ -17,7 +17,7 @@ MonoBehaviour:
       debugbreak=&quot;False&quot;&gt;&lt;selector usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; name=&quot;Detect Entity&quot; debugbreak=&quot;False&quot;&gt;&lt;detect
       sensor=&quot;&amp;quot;Sight&amp;quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;DetectEntityVisual&quot; matchtype=&quot;best&quot; entityobjectvariable=&quot;detectedEntity&quot;
+      name=&quot;DetectEntityVisual&quot; matchtype=&quot;any&quot; entityobjectvariable=&quot;detectedEntity&quot;
       debugbreak=&quot;False&quot; consistent=&quot;True&quot; aspectvariable=&quot;&quot;
       aspectobjectvariable=&quot;&quot; aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot;
       /&gt;&lt;constraint repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;VisualNotAcquired&quot;
