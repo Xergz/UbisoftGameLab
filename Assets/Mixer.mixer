@@ -21,6 +21,7 @@ AudioMixerController:
     - 4c70d5742ece745d391fc945e3b0caa6
     - b5c0f25429a844e699afed35802bdc2d
     - f059ca0e8476846bcbee6f2e0f348a63
+    - 74a406805658141af8f45cae62d4bdf0
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24510354}
@@ -36,6 +37,7 @@ AudioMixerGroupController:
   - {fileID: 24312666}
   - {fileID: 24396910}
   - {fileID: 24334782}
+  - {fileID: 24380898}
   m_Volume: dca5461606fef443fb52a9003dcedad5
   m_Pitch: 594d4bdea095046e095c97ca4ba7d574
   m_Effects:
@@ -75,6 +77,23 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 24438268}
   - {fileID: 24406514}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &24380898
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sanya
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 74a406805658141af8f45cae62d4bdf0
+  m_Children: []
+  m_Volume: 75b23f3c456404579a3ed6a3f6b52398
+  m_Pitch: 2279266993a8b42baa696e6eea0a0a99
+  m_Effects:
+  - {fileID: 24415540}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -141,6 +160,19 @@ AudioMixerEffectController:
   m_EffectID: 35c6f9e92d47a4d3ca29e6706c3c9b9e
   m_EffectName: Attenuation
   m_MixLevel: 6590e079794c442228ddf6077a82afd1
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &24415540
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 64cbbe1b2970d40aa8d8301b6ebb223b
+  m_EffectName: Attenuation
+  m_MixLevel: b48b4209691fa42449866a8525695e82
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
