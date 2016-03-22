@@ -1,21 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
     public UIManager ui{ get; set; }
-    
+
+    public List<GameObject> objectsForBlink;
 
     public GameObject stunStars;
 
 	[SerializeField]
-	private bool isStuned;
+	private bool isStuned = false;
 
-	[SerializeField]
+    [SerializeField]
+    private bool isInvincible = false;
+
+    [SerializeField]
 	private float stunTime = 2f;
+    [SerializeField]
+    private float invincibleTime = 1f;
     [SerializeField]
     private float delayBeforeCollisionSFX = 2f;
     private float beginStunTime;
+    private float beginInvincibleTime;
 
     private float lastTimeCollisionSFX = 0.0f;
 
@@ -32,11 +40,21 @@ public class Player : Entity {
             stunStars.SetActive(false);
             PlayerController.PlayerCanBeMoved = true;
 		}
+
+        if(isInvincible && Time.time > beginInvincibleTime + invincibleTime) {
+            isInvincible = false;
+        }
+        
 	}
 
 	public override void ReceiveHit() {
-        audioController.PlayAudio(AudioController.soundType.receiveHit);
-		PlayerController.DamagePlayer(5);
+        if(!isInvincible) {
+            audioController.PlayAudio(AudioController.soundType.receiveHit);
+            PlayerController.DamagePlayer(10);
+            isInvincible = true;
+            beginInvincibleTime = Time.time;
+            StartCoroutine(DoBlinks(invincibleTime, 0.2f));
+        }
 	}
 
 	public override void ReceiveStun() {
@@ -95,4 +113,17 @@ public class Player : Entity {
 			ui.EnterLevel("Open World");
 		}
 	}
+
+    IEnumerator DoBlinks(float duration, float blinkTime) {
+        float beginTime = Time.time;
+        while (Time.time - beginTime < duration) {
+            foreach (GameObject element in objectsForBlink)
+                element.SetActive(!element.activeSelf);
+
+            yield return new WaitForSeconds(blinkTime);
+        }
+
+        foreach (GameObject element in objectsForBlink)
+            element.SetActive(true);
+    }
 }
