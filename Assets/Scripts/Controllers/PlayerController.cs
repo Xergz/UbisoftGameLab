@@ -70,6 +70,7 @@ public class PlayerController : InputReceiver {
 	//public static Transform nextFragment;
 	public static int nextFragmentIndex;
 	public static int numberOfFragments;
+	public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -108,7 +109,7 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void SetPlayerCurrentLife(int val) {
-		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * 0.2F);
+		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * (1 / nbHearts));
 
 		currentLife = Mathf.Clamp(val, 0, maxLife);
 	}
@@ -274,12 +275,11 @@ public class PlayerController : InputReceiver {
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
-            Debug.Log("ripboost");
         }
 	}
 
 	private static void RestoreAllLife() {
-		maxFill = (memoryFragments.Count + 1) * 0.2F;
+		maxFill = (memoryFragments.Count + 1) * (1 / nbHearts);
 		maxLife = (int) (baseLife * maxFill);
 		currentLife = maxLife;
 
