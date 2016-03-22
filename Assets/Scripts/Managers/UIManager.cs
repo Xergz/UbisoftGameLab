@@ -6,6 +6,8 @@ public class UIManager : InputReceiver {
 	public MainMenu mainMenuScript;
 	public PauseMenu pauseMenuScript;
     public EnterLevel enterLevelScript;
+    public GameOver gameOverScript;
+    public Win winScript;
 
 	void Awake() {
 		if(instance == null) {
@@ -31,6 +33,8 @@ public class UIManager : InputReceiver {
 	public void CallOnLevelWasLoaded(int level) {
 		mainMenuScript.OnLevelWasLoaded(level);
 		pauseMenuScript.OnLevelWasLoaded(level);
+        winScript.OnLevelWasLoaded(level);
+        gameOverScript.OnLevelWasLoaded(level);
 	}
 #endif
 }

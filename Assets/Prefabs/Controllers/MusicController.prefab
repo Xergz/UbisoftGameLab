@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &135780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434672}
+  - 114: {fileID: 11423266}
+  m_Layer: 0
+  m_Name: MusicController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434672
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.470619, y: -22.425201, z: -81.80063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11423266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be80309cdcff64d33a59742b2e6ad5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChasedInSnapshot: {fileID: 24500003, guid: 64a7c85ba984d4ea6a8eca66cf23362b, type: 2}
+  ChasedOutSnapshot: {fileID: 24510354, guid: 64a7c85ba984d4ea6a8eca66cf23362b, type: 2}
+  OpenWorldClips:
+  - {fileID: 8300000, guid: 05a6e0e106d9b474085f503d620765b0, type: 3}
+  - {fileID: 8300000, guid: 1d537629f4b6adb46b5e8414e2811263, type: 3}
+  - {fileID: 8300000, guid: ef1352790a52ec3429323f086def6050, type: 3}
+  Level1Clips:
+  - {fileID: 8300000, guid: 40b32f2c91f4153488efe1a9806c5cf0, type: 3}
+  Level2Clips:
+  - {fileID: 8300000, guid: 07b95981e76fd2c499ed9b89033984cc, type: 3}
+  Level3Clips:
+  - {fileID: 8300000, guid: 718d5f9ce3e225f448298b0c7f095fc4, type: 3}
+  - {fileID: 8300000, guid: 2cb704457ddf1c049a720e2b06b37c2a, type: 3}
+  Stings: []
+  StingSource: {fileID: 0}
+  MainTrackSource: {fileID: 0}
+  SwapTrackSource: {fileID: 0}
+  bpm: 32
+  FadeDuration: 10
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 135780}
+  m_IsPrefabParent: 1

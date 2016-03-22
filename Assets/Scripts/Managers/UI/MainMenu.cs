@@ -54,10 +54,12 @@ public class MainMenu : MonoBehaviour {
 				newNav.selectOnUp = newGameButton;
 				quitButton.navigation = newNav;
 			}
-		} else {
+		} else if (level == SceneManager.GetSceneByName("Extended").buildIndex) {
 			gameObject.SetActive(false);
 			eventSystem.gameObject.SetActive(false);
-		}
+		} else {
+            gameObject.SetActive(false);
+        }
 	}
 
 	public void Continue() {

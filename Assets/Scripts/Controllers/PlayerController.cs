@@ -8,6 +8,8 @@ public class PlayerController : InputReceiver {
 
 	public static MusicController Music;
 
+    public static LevelLoading loader;
+
 	private static EnumZone c_currentZone;
 	public static EnumZone CurrentZone {
 		get {
@@ -61,8 +63,6 @@ public class PlayerController : InputReceiver {
 	private static ParticleSystem switchParticlesStatic;
 
 	//public PowerController powerController;
-
-	public static int baseLife = 100;
 
 	private static float maxFill;
 	private static int maxLife;
@@ -142,9 +142,9 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void SetPlayerCurrentLife(int val) {
-		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * (1 / nbHearts));
+		int maxLife = (memoryFragments.Count + 1) * 30;
 
-		currentLife = Mathf.Clamp(val, 0, maxLife);
+        currentLife = Mathf.Clamp(val, 0, maxLife);
 	}
 
 	public void AddLife(int val) {
@@ -228,8 +228,7 @@ public class PlayerController : InputReceiver {
 
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
-		float percentFilled = ((float) currentLife / (float) maxLife);
-		lifeBarFillStatic.fillAmount = percentFilled * maxFill;
+		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
 	}
 
 	public List<Fragment> GetFragments() {
@@ -239,7 +238,9 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-		GameObject musicControllerObject = GameObject.Find("MusicController");
+        loader = GameObject.Find("SceneTransitionManager").GetComponent<LevelLoading>();
+
+        GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
 		if(musicControllerObject != null) {
 			Music = musicControllerObject.GetComponent<MusicController>();
 		}
@@ -270,6 +271,12 @@ public class PlayerController : InputReceiver {
 
 	private void FixedUpdate() {
 		life = currentLife;
+        if (life <= 0) {
+            loader.LoadEndLevel("gameOver");
+        }  else if(memoryFragments.Count >= fragmentsList.Count) {
+            loader.LoadEndLevel("win");
+        }
+
 		if(PlayerCanBeMoved) {
 			MovePlayer();
 		} else {
@@ -312,9 +319,9 @@ public class PlayerController : InputReceiver {
 	}
 
 	private static void RestoreAllLife() {
-		maxFill = (memoryFragments.Count + 1) * (1 / nbHearts);
-		maxLife = (int) (baseLife * maxFill);
-		currentLife = maxLife;
+		maxFill = (memoryFragments.Count + 1) * 227f / 2047f;
+        maxLife = (memoryFragments.Count + 1) * 30;
+        currentLife = maxLife;
 
 		lifeBarRimStatic.fillAmount = maxFill;
 		lifeBarFillStatic.fillAmount = maxFill;
