@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
     public UIManager ui{ get; set; }
+    
 
     public GameObject stunStars;
 
@@ -12,8 +13,11 @@ public class Player : Entity {
 
 	[SerializeField]
 	private float stunTime = 2f;
-	private float beginStunTime;
+    [SerializeField]
+    private float delayBeforeCollisionSFX = 2f;
+    private float beginStunTime;
 
+    private float lastTimeCollisionSFX = 0.0f;
 
 	[SerializeField]
 	private ParticleSystem collisionSystem;
@@ -23,7 +27,7 @@ public class Player : Entity {
     }
 
 	private void Update() {
-		if(isStuned && Time.time > beginStunTime + stunTime) {
+        if (isStuned && Time.time > beginStunTime + stunTime) {
 			isStuned = false;
             stunStars.SetActive(false);
             PlayerController.PlayerCanBeMoved = true;
@@ -43,12 +47,19 @@ public class Player : Entity {
 		beginStunTime = Time.time;
 	}
 
-	private void OnCollisionEnter(Collision collision) {
-		if(collision.gameObject.CompareTag("Environment")) {
-            audioController.PlayAudio(AudioController.soundType.collision);
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Environment"))
+        {
+            if (Time.time - lastTimeCollisionSFX > delayBeforeCollisionSFX)
+            {
+                audioController.PlayAudio(AudioController.soundType.collision);
+                lastTimeCollisionSFX = Time.time;
+            }
+
             collisionSystem.Emit(Random.Range(30, 50));
-		}
-	}
+        }
+    }
 
 	private void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
