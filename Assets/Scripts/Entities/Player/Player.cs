@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
+    public UIManager ui{ get; set; }
 
     public GameObject stunStars;
 
@@ -17,6 +18,9 @@ public class Player : Entity {
 	[SerializeField]
 	private ParticleSystem collisionSystem;
 
+    private void Awake() {
+        ui = FindObjectOfType<UIManager>();
+    }
 
 	private void Update() {
 		if(isStuned && Time.time > beginStunTime + stunTime) {
@@ -52,6 +56,7 @@ public class Player : Entity {
 			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
 		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
+            ui.EnterLevel(other.gameObject.name);
 		} else if(other.CompareTag("Life")) {
 			PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
 			other.gameObject.SetActive(false);
@@ -59,9 +64,11 @@ public class Player : Entity {
 	}
 
 	protected override void OnTriggerStay(Collider other) {
-		if(other.CompareTag("Stream")) { // Is inside a stream
-			Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
-			PlayerController.AddForce(force, other.GetComponent<Stream>());
+		if(!isStuned) {
+			if(other.CompareTag("Stream")) { // Is inside a stream
+				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+				PlayerController.AddForce(force, other.GetComponent<Stream>());
+			}
 		}
 	}
 
@@ -71,6 +78,7 @@ public class Player : Entity {
                 audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
 
             PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
+			ui.EnterLevel("Open World");
 		}
 	}
 }

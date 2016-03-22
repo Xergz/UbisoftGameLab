@@ -6,7 +6,7 @@ using RAIN.Perception.Sensors;
 
 public class StunEntity : Entity {
 
-    private Rigidbody rigidBody;
+    //private Rigidbody rigidBody;
 	private AIRig ai;
 	private LineRenderer line;
 
@@ -14,7 +14,7 @@ public class StunEntity : Entity {
 
     protected override void Start() {
 		base.Start();
-        rigidBody = GetComponent<Rigidbody>();
+        //rigidBody = GetComponent<Rigidbody>();
 		ai = GetComponentInChildren<AIRig>();
 
 		if(debug) {
