@@ -212,7 +212,7 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-		GameObject musicControllerObject = GameObject.Find("MusicController");
+		GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
 		if(musicControllerObject != null) {
 			Music = musicControllerObject.GetComponent<MusicController>();
 		}
