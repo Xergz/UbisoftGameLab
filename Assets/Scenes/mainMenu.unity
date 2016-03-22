@@ -1531,6 +1531,8 @@ MonoBehaviour:
   mainMenuScript: {fileID: 2027810256}
   pauseMenuScript: {fileID: 59799363}
   enterLevelScript: {fileID: 1243224783}
+  gameOverScript: {fileID: 576197984}
+  winScript: {fileID: 155189204}
 --- !u!4 &680230395
 Transform:
   m_ObjectHideFlags: 0
