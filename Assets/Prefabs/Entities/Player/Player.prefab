@@ -1211,7 +1211,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124706}
   m_LocalRotation: {x: -0.70202905, y: 0, z: 0, w: -0.71214837}
-  m_LocalPosition: {x: 0, y: 0.002, z: -0.022}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 447148}
@@ -1272,7 +1272,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132074}
   m_LocalRotation: {x: 0, y: -0.37554115, z: 0, w: 0.9268058}
-  m_LocalPosition: {x: -130.1, y: 0, z: 4.9}
+  m_LocalPosition: {x: 25.43, y: 0, z: 114.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480544}
@@ -2414,16 +2414,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4a743e72299565248ad57766203fd34e, type: 3}
   - {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
   clipsCollectFragments:
-  - {fileID: 8300000, guid: 75ef4c2c2f41e3643b1a3b6c1c49292f, type: 3}
+  - {fileID: 0}
   clipsDeath:
-  - {fileID: 8300000, guid: b67ae7d6077db2b4bb3d7da1e38610c5, type: 3}
+  - {fileID: 0}
   clipsCollectLife:
-  - {fileID: 8300000, guid: 569c4a4ff6307e844850cd799bd620e9, type: 3}
+  - {fileID: 0}
   clipsCollision:
-  - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
+  - {fileID: 0}
   clipsUseBoost: []
   clipsReverseStream:
-  - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
+  - {fileID: 0}
   source: {fileID: 8254562}
 --- !u!114 &11476120
 MonoBehaviour:
@@ -4296,7 +4296,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124706}
   serializedVersion: 2
-  lengthInSec: 0.6
+  lengthInSec: 1
   startDelay:
     scalar: 0
     maxCurve:
@@ -4334,9 +4334,9 @@ ParticleSystem:
     minMaxState: 0
   speed: 1
   randomSeed: 0
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 1
   scalingMode: 1
   InitialModule:
@@ -4378,7 +4378,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 0.1
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4504,10 +4504,10 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4285624689
+        rgba: 4278386432
       minMaxState: 0
     startSize:
-      scalar: 0.19
+      scalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4675,7 +4675,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 1.07
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4709,17 +4709,17 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    cnt0: 5
-    cnt1: 5
-    cnt2: 5
+    cnt0: 100
+    cnt1: 75
+    cnt2: 60
     cnt3: 5
-    cntmax0: 30
-    cntmax1: 60
-    cntmax2: 30
+    cntmax0: 100
+    cntmax1: 75
+    cntmax2: 60
     cntmax3: 30
-    time0: 0.1
-    time1: 0.4
-    time2: 0.1
+    time0: 0
+    time1: 0.75
+    time2: 1
     time3: 0.1
     m_BurstCount: 2
   SizeModule:
