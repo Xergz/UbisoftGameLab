@@ -20,6 +20,7 @@ AudioMixerController:
     - 68709274eb7e84651a3252c6117d830b
     - 4c70d5742ece745d391fc945e3b0caa6
     - b5c0f25429a844e699afed35802bdc2d
+    - a2829a5ee606d15409f1b3ac66d5c978
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24510354}
@@ -34,6 +35,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: 24312666}
   - {fileID: 24396910}
+  - {fileID: 24322388}
   m_Volume: dca5461606fef443fb52a9003dcedad5
   m_Pitch: 594d4bdea095046e095c97ca4ba7d574
   m_Effects:
@@ -55,6 +57,23 @@ AudioMixerGroupController:
   m_Pitch: 341093c03aa4e4bb2992dd3e389556ae
   m_Effects:
   - {fileID: 24485460}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &24322388
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: SFX
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: a2829a5ee606d15409f1b3ac66d5c978
+  m_Children: []
+  m_Volume: 5d4d8296995c15840859f234b84def30
+  m_Pitch: 9ef11e2be6b01174d8195fcd4558bdd5
+  m_Effects:
+  - {fileID: 24404282}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -85,6 +104,19 @@ AudioMixerEffectController:
   m_EffectID: 85dd26b05aac44eeeb3f7d940afa23eb
   m_EffectName: Attenuation
   m_MixLevel: 3d433a33a584549dba479925f9df41d5
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &24404282
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 605ac0c25aeb5e240824c9665753b02e
+  m_EffectName: Attenuation
+  m_MixLevel: 9ac3a62e16261a7498532b9f880b7c49
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
@@ -137,5 +169,6 @@ AudioMixerSnapshotController:
   m_SnapshotID: 1602ac31428f142a38a23f3f52154910
   m_FloatValues:
     dca5461606fef443fb52a9003dcedad5: -18.592384
+    5d4d8296995c15840859f234b84def30: -13.637256
     22cc09fc85b6e4e108d6d3de5e054b01: -80
   m_TransitionOverrides: {}
