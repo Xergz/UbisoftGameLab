@@ -15,8 +15,7 @@ public class AudioController : MonoBehaviour {
         collectLife,
         collision,
         useBoost,
-        reverseStream,
-        spotFragment
+        reverseStream
     }
 
 	public List<AudioClip> clipsFar = new List<AudioClip>();
@@ -30,7 +29,6 @@ public class AudioController : MonoBehaviour {
     public List<AudioClip> clipsCollision = new List<AudioClip>();
     public List<AudioClip> clipsUseBoost = new List<AudioClip>();
     public List<AudioClip> clipsReverseStream = new List<AudioClip>();
-    public List<AudioClip> clipsSpotFragment = new List<AudioClip>();
 
     //Pass parameters to coroutine
     private float _delay =  0.0f;
@@ -96,9 +94,6 @@ public class AudioController : MonoBehaviour {
                 break;
             case soundType.reverseStream:
                 playSoundFromList(clipsReverseStream, loop);
-                break;
-            case soundType.spotFragment:
-                playSoundFromList(clipsSpotFragment, loop);
                 break;
             default: break;
         }
