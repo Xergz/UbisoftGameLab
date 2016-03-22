@@ -45,19 +45,22 @@ public class Player : Entity {
 
 	private void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.CompareTag("Environment")) {
-			collisionSystem.Emit(Random.Range(30, 50));
+            audioController.PlayAudio(AudioController.soundType.collision);
+            collisionSystem.Emit(Random.Range(30, 50));
 		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
-			other.gameObject.SetActive(false);
+            audioController.PlayAudio(AudioController.soundType.collectFragment);
+            other.gameObject.SetActive(false);
 			PlayerController.AddFragment(other.GetComponent<Fragment>());
 			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
 		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
             ui.EnterLevel(other.gameObject.name);
 		} else if(other.CompareTag("Life")) {
+            audioController.PlayAudio(AudioController.soundType.collectLife);
 			PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
 			other.gameObject.SetActive(false);
 		}
