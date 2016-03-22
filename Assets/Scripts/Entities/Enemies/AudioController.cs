@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class AudioController : MonoBehaviour {
 
@@ -9,7 +10,8 @@ public class AudioController : MonoBehaviour {
         receiveStun,
         receiveHit,
         enterOpenWorld,
-        collectFragment
+        collectFragment,
+        death
     }
 
 	public List<AudioClip> clipsFar = new List<AudioClip>();
@@ -18,11 +20,24 @@ public class AudioController : MonoBehaviour {
     public List<AudioClip> clipsReceiveHit = new List<AudioClip>();
     public List<AudioClip> clipsEnterOpenWorld = new List<AudioClip>();
     public List<AudioClip> clipsCollectFragments = new List<AudioClip>();
+    public List<AudioClip> clipsDeath = new List<AudioClip>();
+
+    //Pass parameters to coroutine
+    private float _delay =  0.0f;
+    private bool loop = false;
+    private soundType _type;
 
     public AudioSource source;
 
-    public void PlayAudio(soundType type, bool loop = false)
+    public void PlayAudio(soundType type, bool loop = false, float delay = 0.0f)
     {
+        if( delay > 0.0f)
+        {
+            _type = type;
+            loop = loop;
+            _delay = delay;
+            StartCoroutine("PlayDelayedAudio");
+        }
         switch (type)
         {
             case soundType.far : PlayAudioFar(loop);
@@ -32,6 +47,40 @@ public class AudioController : MonoBehaviour {
             case soundType.receiveHit: PlayAudioReceiveHit(loop);
                 break;
             case soundType.receiveStun: PlayAudioReceiveStun(loop);
+                break;
+            case soundType.enterOpenWorld:
+                PlayAudioEnterOpenWorld(loop);
+                break;
+            case soundType.collectFragment:
+                PlayAudioCollectFragment(loop);
+                break;
+        }
+    }
+
+    public void PlaySpecificAudio(AudioClip clip)
+    {
+        source.clip = clip;
+        source.loop = loop;
+
+        source.Play();
+    }
+
+    public IEnumerator PlayDelayedAudio()
+    {
+        yield return new WaitForSeconds(_delay);
+        switch (_type)
+        {
+            case soundType.far:
+                PlayAudioFar(loop);
+                break;
+            case soundType.close:
+                PlayAudioClose(loop);
+                break;
+            case soundType.receiveHit:
+                PlayAudioReceiveHit(loop);
+                break;
+            case soundType.receiveStun:
+                PlayAudioReceiveStun(loop);
                 break;
             case soundType.enterOpenWorld:
                 PlayAudioEnterOpenWorld(loop);
@@ -68,6 +117,19 @@ public class AudioController : MonoBehaviour {
             source.Play();
         }
 	}
+
+    public void PlayAudioDeath(bool loop)
+    {
+        if (clipsClose.Count > 0)
+        {
+            int index = Random.Range(0, clipsClose.Count);
+
+            source.clip = clipsClose[index];
+            source.loop = loop;
+
+            source.Play();
+        }
+    }
 
     public void PlayAudioReceiveHit(bool loop)
     {
