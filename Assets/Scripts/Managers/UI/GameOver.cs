@@ -13,9 +13,6 @@ public class GameOver : MonoBehaviour {
 	public Button checkpointButton;
 	public Button mainMenuButton;
 
-
-	private bool onPause = false;
-
 	void Start() {
 #if UNITY_EDITOR
 		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
