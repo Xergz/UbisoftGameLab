@@ -197,11 +197,6 @@ public class PlayerController : InputReceiver {
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
 		float percentFilled = ((float) currentLife / (float) maxLife);
-		if(currentLife <= 5) {
-			lifeBarFillStatic.color = Color.red;
-		} else {
-			lifeBarFillStatic.color = (percentFilled >= 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percentFilled - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percentFilled * 2);
-		}
 		lifeBarFillStatic.fillAmount = percentFilled * maxFill;
 	}
 
@@ -212,7 +207,7 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-		GameObject musicControllerObject = GameObject.Find("MusicController");
+		GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
 		if(musicControllerObject != null) {
 			Music = musicControllerObject.GetComponent<MusicController>();
 		}
@@ -226,6 +221,7 @@ public class PlayerController : InputReceiver {
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
+		lifeBarFill.color = Color.red;
 		lifeBarFillStatic = lifeBarFill;
 		lifeBarRimStatic = lifeBarRim;
 
@@ -289,6 +285,5 @@ public class PlayerController : InputReceiver {
 
 		lifeBarRimStatic.fillAmount = maxFill;
 		lifeBarFillStatic.fillAmount = maxFill;
-		lifeBarFillStatic.color = Color.green;
 	}
 }

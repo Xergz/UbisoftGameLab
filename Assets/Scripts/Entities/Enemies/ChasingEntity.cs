@@ -103,7 +103,7 @@ public class ChasingEntity : Entity {
 
 	public void SetDying() {
 		meshObject.SetActive(false);
-		dieParticles.Emit(150);
+		dieParticles.Emit(Random.Range(30, 50));
 		StartCoroutine(DestroyInXSeconds(2));
 	}
 

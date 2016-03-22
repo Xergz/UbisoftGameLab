@@ -78,7 +78,6 @@ public abstract class Power : MonoBehaviour {
 	}*/
 
     private void Start() {
-        Debug.Log("hello");
 		if(Application.isPlaying) {
 			PowerController.RegisterPower(this); // We must wait for when the PowerController will be initialized so we use Start
 												 //CooldownBar.fillAmount = 0;
