@@ -2,69 +2,59 @@
 using System.Collections;
 
 public class CompassScript : MonoBehaviour {
-    
-    public GameObject imageDirectionCenter;
 
-    public GameObject compassDirection;
-    public Vector3 imageCenter;
-    public Vector3 playerPosition;
-    public Vector3 nextFragmentPosition;
+	public GameObject imageDirectionCenter;
 
-    public Vector3 playerForwardVector;
-    public Vector3 playerFragmentVector;
+	public GameObject compassDirection;
+	public Vector3 imageCenter;
+	public Vector3 playerPosition;
+	public Vector3 nextFragmentPosition;
 
-    public float lastAngle;
-    public float currentAngle;
+	public Vector3 playerForwardVector;
+	public Vector3 playerFragmentVector;
 
-    void Start() {
-        imageCenter = imageDirectionCenter.transform.position;
-        playerPosition = PlayerController.playerRigidbody.position;
-        //nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+	public float lastAngle;
+	public float currentAngle;
 
-        //CalculateVector();
+	void Start() {
+		imageCenter = imageDirectionCenter.transform.position;
+		playerPosition = PlayerController.playerRigidbody.position;
+		//nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
 
-        lastAngle = 0.0F;
-    }
+		//CalculateVector();
 
-    void Update() {
-        Debug.Log("index : " + PlayerController.nextFragmentIndex);
-        Debug.Log("number of fragment : " + PlayerController.numberOfFragments);
-        for (int i = 0; i < PlayerController.numberOfFragments; i++){
-            if (PlayerController.fragmentsList[i] != null)
-                Debug.Log("Position[" + i + "] : " + PlayerController.fragmentsList[i].position);
-            else
-                Debug.Log("Position[" + i + "] : null");
-        }
-        
-        nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
-        if (PlayerController.nextFragmentIndex < PlayerController.numberOfFragments){
-            CalculateVector();
-            RotateDirection(CalculateAngle() - lastAngle);
-            lastAngle = currentAngle;
+		lastAngle = 0.0F;
+	}
 
-            playerPosition = PlayerController.playerRigidbody.position;
-       }
-       else {
-            RotateDirection(-lastAngle);
-            lastAngle = 0.0F;
-        }
-    }
+	void Update() {
+		nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentIndex].position;
+		if(PlayerController.nextFragmentIndex < PlayerController.numberOfFragments) {
+			CalculateVector();
+			RotateDirection(CalculateAngle() - lastAngle);
+			lastAngle = currentAngle;
 
-    void RotateDirection(float angle){
-        compassDirection.GetComponent<RectTransform>().RotateAround(imageCenter, Vector3.forward, angle);
-    }
+			playerPosition = PlayerController.playerRigidbody.position;
+		} else {
+			RotateDirection(-lastAngle);
+			lastAngle = 0.0F;
+		}
+	}
 
-    public void CalculateVector(){
-        playerForwardVector = -Vector3.forward;
-        playerForwardVector.y = 0;
-        playerFragmentVector = new Vector3(nextFragmentPosition.x - playerPosition.x, 0, nextFragmentPosition.z - playerPosition.z);
-    }
+	void RotateDirection(float angle) {
+		compassDirection.GetComponent<RectTransform>().RotateAround(imageCenter, Vector3.forward, angle);
+	}
 
-    public float CalculateAngle() {
-       currentAngle = Vector3.Angle(playerForwardVector, playerFragmentVector) - 10.0F;
-       if(Vector3.Cross(playerForwardVector, playerFragmentVector).y > 0) {
-            currentAngle = -currentAngle;
-        }
-        return currentAngle;
-    }
+	public void CalculateVector() {
+		playerForwardVector = -Vector3.forward;
+		playerForwardVector.y = 0;
+		playerFragmentVector = new Vector3(nextFragmentPosition.x - playerPosition.x, 0, nextFragmentPosition.z - playerPosition.z);
+	}
+
+	public float CalculateAngle() {
+		currentAngle = Vector3.Angle(playerForwardVector, playerFragmentVector) - 10.0F;
+		if(Vector3.Cross(playerForwardVector, playerFragmentVector).y > 0) {
+			currentAngle = -currentAngle;
+		}
+		return currentAngle;
+	}
 }

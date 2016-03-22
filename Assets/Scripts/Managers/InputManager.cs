@@ -59,69 +59,57 @@ public class InputManager : MonoBehaviour {
 
 	private void CheckButtons() {
 		if(Input.GetButtonDown("AButton")) {
-			Debug.Log("A pressed");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float) EnumButtonState.PRESSED));
 			AButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("BButton")) {
-			Debug.Log("B pressed");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float) EnumButtonState.PRESSED));
 			BButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("XButton")) {
-			Debug.Log("X pressed");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float) EnumButtonState.PRESSED));
 			XButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("YButton")) {
-			Debug.Log("Y pressed");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float) EnumButtonState.PRESSED));
 			YButtonTimeAtDown = Time.time;
 		}
 
 		if(Input.GetButton("AButton")) {
 			if(Time.time - AButtonTimeAtDown > timeBeforeHeldDown && !AButtonHeldDown) {
-				Debug.Log("A held down");
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float) EnumButtonState.HELD_DOWN));
 				AButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("BButton")) {
 			if(Time.time - BButtonTimeAtDown > timeBeforeHeldDown && !BButtonHeldDown) {
-				Debug.Log("B held down");
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float) EnumButtonState.HELD_DOWN));
 				BButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("XButton")) {
 			if(Time.time - XButtonTimeAtDown > timeBeforeHeldDown && !XButtonHeldDown) {
-				Debug.Log("X held down");
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float) EnumButtonState.HELD_DOWN));
 				XButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("YButton")) {
 			if(Time.time - YButtonTimeAtDown > timeBeforeHeldDown && !YButtonHeldDown) {
-				Debug.Log("Y held down");
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float) EnumButtonState.HELD_DOWN));
 				YButtonHeldDown = true;
 			}
 		}
 
 		if(Input.GetButtonUp("AButton")) {
-			Debug.Log("A released or clicked");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			AButtonHeldDown = false;
 		} else if(Input.GetButtonUp("BButton")) {
-			Debug.Log("B released or clicked");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (BButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			BButtonHeldDown = false;
 		} else if(Input.GetButtonUp("XButton")) {
-			Debug.Log("X released or clicked");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (XButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
 			XButtonHeldDown = false;
 		} else if(Input.GetButtonUp("YButton")) {
-			Debug.Log("Y released or clicked");
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (YButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
@@ -129,13 +117,11 @@ public class InputManager : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("StartButton")) {
-			Debug.Log("Start pressed");
 			if(uiController != null)
 				uiController.ReceiveInputEvent(new InputEvent(EnumAxis.StartButton, 1));
 		}
 
 		if(Input.GetButtonDown("SelectButton")) {
-			Debug.Log("Select pressed");
 		}
 	}
 
@@ -192,17 +178,14 @@ public class InputManager : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("LeftJoystickButton")) {
-			Debug.Log("Left joystick button pressed");
 		}
 
 		if(Input.GetButtonDown("RightJoystickButton")) {
 			cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickButton, (float) EnumButtonState.PRESSED));
-			Debug.Log("Right joystick button pressed");
 		}
 
 		if(Input.GetButtonUp("RightJoystickButton")) {
 			cameraController.ReceiveInputEvent(new InputEvent(EnumAxis.RightJoystickButton, (float) EnumButtonState.RELEASED));
-			Debug.Log("Right joystick button released");
 		}
 	}
 
@@ -220,10 +203,8 @@ public class InputManager : MonoBehaviour {
 
 	private void CheckBumpers() {
 		if(Input.GetButtonDown("LeftBumper")) {
-			Debug.Log("Left bumper pressed");
 		}
 		if(Input.GetButtonDown("RightBumper")) {
-			Debug.Log("Right bumper pressed");
 		}
 	}
 }
