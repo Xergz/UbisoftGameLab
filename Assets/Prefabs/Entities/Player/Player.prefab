@@ -1272,7 +1272,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132074}
   m_LocalRotation: {x: 0, y: -0.37554115, z: 0, w: 0.9268058}
-  m_LocalPosition: {x: 0.9, y: 0, z: -18.4}
+  m_LocalPosition: {x: -130.1, y: 0, z: 4.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480544}
@@ -2116,7 +2116,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f9826f595784348498b57bcf6b2c8b1f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2177,7 +2177,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0.75
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2413,7 +2413,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 69c47461e2c1d134dae1da445610fcad, type: 3}
   - {fileID: 8300000, guid: 4a743e72299565248ad57766203fd34e, type: 3}
   - {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
-  clipsCollectFragments: []
+  clipsCollectFragments:
+  - {fileID: 8300000, guid: 75ef4c2c2f41e3643b1a3b6c1c49292f, type: 3}
+  clipsDeath:
+  - {fileID: 8300000, guid: b67ae7d6077db2b4bb3d7da1e38610c5, type: 3}
+  clipsCollectLife:
+  - {fileID: 8300000, guid: 569c4a4ff6307e844850cd799bd620e9, type: 3}
+  clipsCollision:
+  - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
+  clipsUseBoost: []
+  clipsReverseStream:
+  - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
   source: {fileID: 8254562}
 --- !u!114 &11476120
 MonoBehaviour:
@@ -7408,6 +7418,14 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: clipsDeath.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsCollision.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: clipsReceiveHit.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -7416,8 +7434,20 @@ Prefab:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: clipsCollectLife.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsReverseStream.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: clipsEnterOpenWorld.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: clipsCollectFragments.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: _dataSerializer._serializedGameObjects.Array.size
@@ -7519,6 +7549,26 @@ Prefab:
       propertyPath: clipsEnterOpenWorld.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsReverseStream.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsCollision.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsCollectLife.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 569c4a4ff6307e844850cd799bd620e9, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsDeath.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b67ae7d6077db2b4bb3d7da1e38610c5, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsCollectFragments.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 75ef4c2c2f41e3643b1a3b6c1c49292f, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132074}
