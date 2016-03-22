@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Player : Entity {
 	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
+    public UIManager ui{ get; set; }
 
     public GameObject stunStars;
 
@@ -17,6 +18,9 @@ public class Player : Entity {
 	[SerializeField]
 	private ParticleSystem collisionSystem;
 
+    private void Awake() {
+        ui = FindObjectOfType<UIManager>();
+    }
 
 	private void Update() {
 		if(isStuned && Time.time > beginStunTime + stunTime) {
@@ -27,11 +31,13 @@ public class Player : Entity {
 	}
 
 	public override void ReceiveHit() {
+        audioController.PlayAudio(AudioController.soundType.receiveHit);
 		PlayerController.DamagePlayer(5);
 	}
 
 	public override void ReceiveStun() {
-		PlayerController.PlayerCanBeMoved = false;
+        audioController.PlayAudio(AudioController.soundType.receiveStun);
+        PlayerController.PlayerCanBeMoved = false;
 		isStuned = true;
         stunStars.SetActive(true);
 		beginStunTime = Time.time;
@@ -50,6 +56,7 @@ public class Player : Entity {
 			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
 		} else if(other.CompareTag("Zone")) { // Entered a zone
 			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
+            ui.EnterLevel(other.gameObject.name);
 		} else if(other.CompareTag("Life")) {
 			PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
 			other.gameObject.SetActive(false);
@@ -57,15 +64,21 @@ public class Player : Entity {
 	}
 
 	protected override void OnTriggerStay(Collider other) {
-		if(other.CompareTag("Stream")) { // Is inside a stream
-			Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
-			PlayerController.AddForce(force, other.GetComponent<Stream>());
+		if(!isStuned) {
+			if(other.CompareTag("Stream")) { // Is inside a stream
+				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+				PlayerController.AddForce(force, other.GetComponent<Stream>());
+			}
 		}
 	}
 
 	private void OnTriggerExit(Collider other) {
 		if(other.CompareTag("Zone")) { // Left the zone to enter the open world
-			PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
+            if (Random.Range(0.0f, 1.0f) > 0.5f)
+                audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
+
+            PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
+			ui.EnterLevel("Open World");
 		}
 	}
 }

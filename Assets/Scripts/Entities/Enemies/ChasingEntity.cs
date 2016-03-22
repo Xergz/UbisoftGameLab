@@ -10,13 +10,16 @@ public class ChasingEntity : Entity {
 	public float maxTimeBetweenAudio = 20F;
 	public float distanceForCloseAudio = 20F;
 	public float distanceForFarAudio = 40F;
-	//[Tooltip("Speed to give the shade when moving against a stream. This is to prevent the shade from jamming")]
-	//public float speedAgainstStream = 8F;
-	//public float normalSpeed = 4F;
-
-	public AudioController audioController;
+    //[Tooltip("Speed to give the shade when moving against a stream. This is to prevent the shade from jamming")]
+    //public float speedAgainstStream = 8F;
+    //public float normalSpeed = 4F;
 
     public GameObject stunStars;
+
+	public GameObject meshObject;
+
+	public ParticleSystem dieParticles;
+
 
     private Rigidbody rigidBody;
     private AIRig tRig;
@@ -50,10 +53,10 @@ public class ChasingEntity : Entity {
 
 		while(true) {
 			if(Distance < distanceForCloseAudio) {
-				audioController.PlayAudioClose();
-			} else if(Distance < distanceForFarAudio) {
-				audioController.PlayAudioFar();
-			}
+				audioController.PlayAudio(AudioController.soundType.close);
+            } else if(Distance < distanceForFarAudio) {
+				audioController.PlayAudio(AudioController.soundType.far);
+            }
 
 			yield return new WaitForSeconds(Random.Range(minTimeBetweenAudio, maxTimeBetweenAudio));
 		}
@@ -70,11 +73,14 @@ public class ChasingEntity : Entity {
 
     public override void ReceiveHit() {
         life -= 1;
-        if (life <= 0)
-            Destroy(gameObject);
+        audioController.PlayAudio(AudioController.soundType.receiveHit);
+        if (life <= 0) {
+			SetDying();
+		}
     }
 
     public override void ReceiveStun() {
+        audioController.PlayAudio(AudioController.soundType.receiveStun);
         isStuned = true;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
@@ -93,5 +99,17 @@ public class ChasingEntity : Entity {
 				}
 			}
 		}
+	}
+
+	public void SetDying() {
+		meshObject.SetActive(false);
+		dieParticles.Emit(150);
+		StartCoroutine(DestroyInXSeconds(2));
+	}
+
+	private IEnumerator DestroyInXSeconds(int seconds) {
+		yield return new WaitForSeconds(seconds);
+
+		Destroy(gameObject);
 	}
 }

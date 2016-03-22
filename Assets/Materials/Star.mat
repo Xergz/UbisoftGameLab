@@ -169,10 +169,6 @@ Material:
         second: 1
       data:
         first:
-          name: _Cull
-        second: 2
-      data:
-        first:
           name: _Stencil
         second: 0
       data:
@@ -199,6 +195,10 @@ Material:
         first:
           name: _UseUIAlphaClip
         second: 0
+      data:
+        first:
+          name: _Cull
+        second: 2
       data:
         first:
           name: _SquashAmount

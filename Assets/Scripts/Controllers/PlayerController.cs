@@ -21,7 +21,18 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-	public bool PlayerCanBeMoved { get; set; }
+	private bool canBeMoved = true;
+	public bool PlayerCanBeMoved {
+		get {
+			return canBeMoved;
+		}
+		set {
+			canBeMoved = value;
+			if(!canBeMoved) {
+				forceToApply = Vector3.zero;
+			}
+		}
+	}
 
 	public static bool IsDead { get; private set; }
 	public static bool HasWon { get; private set; }
@@ -130,13 +141,15 @@ public class PlayerController : InputReceiver {
     }
 
 	public void AddForce(Vector3 force, Stream stream) {
-		forceToApply += force;
-		if(force == Vector3.zero) {
-			isPlayerOnstream = false;
-			streamPlayer = null;
-		} else {
-			isPlayerOnstream = true;
-			streamPlayer = stream;
+		if(PlayerCanBeMoved) {
+			forceToApply += force;
+			if(force == Vector3.zero) {
+				isPlayerOnstream = false;
+				streamPlayer = null;
+			} else {
+				isPlayerOnstream = true;
+				streamPlayer = stream;
+			}
 		}
 	}
 
@@ -160,13 +173,7 @@ public class PlayerController : InputReceiver {
 	public static void AddFragment(Fragment fragment) {
 		memoryFragments.Add(fragment);
 
-		maxFill = (memoryFragments.Count + 1) * 0.2F;
-		maxLife = (int) (baseLife * maxFill);
-		currentLife = maxLife;
-
-		lifeBarRimStatic.fillAmount = maxFill;
-		lifeBarFillStatic.fillAmount = maxFill;
-		lifeBarFillStatic.color = Color.green;
+		RestoreAllLife();
 
 		//powerController.SetCooldownMultipliers(maxFill);
 
@@ -179,25 +186,28 @@ public class PlayerController : InputReceiver {
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
-		//fragmentsList.Insert(fragment.index, fragment.GetComponent<Transform>());
-		UpdateNumberOfFragments();
-	}
-
-	public static void UpdateNumberOfFragments() {
-		numberOfFragments = fragmentsList.Count;
+         for(int i = fragmentsList.Count; i <= fragment.index; i++)
+         {
+             fragmentsList.Add(null);
+         }
+         fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
+         numberOfFragments++;
 	}
 
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
-		float percent = (currentLife / maxLife);
-		lifeBarFillStatic.color = (percent > 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percent - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percent * 2);
-		lifeBarFillStatic.fillAmount = percent * maxFill;
+		float percentFilled = ((float) currentLife / (float) maxLife);
+		if(currentLife <= 5) {
+			lifeBarFillStatic.color = Color.red;
+		} else {
+			lifeBarFillStatic.color = (percentFilled >= 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percentFilled - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percentFilled * 2);
+		}
+		lifeBarFillStatic.fillAmount = percentFilled * maxFill;
 	}
 
 	public List<Fragment> GetFragments() {
 		return memoryFragments;
 	}
-
 
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
@@ -207,25 +217,19 @@ public class PlayerController : InputReceiver {
 			Music = musicControllerObject.GetComponent<MusicController>();
 		}
 
-		memoryFragments = new List<Fragment>();
+        fragmentsList = new List<Transform>(20);
+        numberOfFragments = fragmentsList.Count;
+        nextFragmentIndex = 0;
+
+        memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 
-		fragmentsList = new List<Transform>();
-		numberOfFragments = fragmentsList.Count;
-		nextFragmentIndex = 0;
-
-		maxFill = (1 + memoryFragments.Count) * 0.2F;
-		maxLife = (int) (baseLife * maxFill);
-		currentLife = baseLife;
-
 		lifeBarFillStatic = lifeBarFill;
 		lifeBarRimStatic = lifeBarRim;
 
-		lifeBarRimStatic.fillAmount = maxFill;
-		lifeBarFillStatic.fillAmount = maxFill;
-		lifeBarFillStatic.color = Color.green;
+		RestoreAllLife();
 
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
@@ -276,5 +280,15 @@ public class PlayerController : InputReceiver {
             unBoostPower();
             Debug.Log("ripboost");
         }
+	}
+
+	private static void RestoreAllLife() {
+		maxFill = (memoryFragments.Count + 1) * 0.2F;
+		maxLife = (int) (baseLife * maxFill);
+		currentLife = maxLife;
+
+		lifeBarRimStatic.fillAmount = maxFill;
+		lifeBarFillStatic.fillAmount = maxFill;
+		lifeBarFillStatic.color = Color.green;
 	}
 }

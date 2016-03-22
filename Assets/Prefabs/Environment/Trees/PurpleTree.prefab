@@ -14,7 +14,7 @@ GameObject:
   m_Name: Box001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &140548
@@ -47,7 +47,7 @@ GameObject:
   m_Name: GeoSphere002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &413694
@@ -57,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -135.32578, y: 30.836208, z: -206.60156}
+  m_LocalPosition: {x: 36.1855, y: 83.64067, z: 67.510124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 453148}
