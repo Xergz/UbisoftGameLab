@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class AudioController : MonoBehaviour {
+public class AudioController : MonoBehaviour
+{
 
-    public enum soundType{
+    public enum soundType
+    {
         far,
         close,
         receiveStun,
@@ -15,11 +17,12 @@ public class AudioController : MonoBehaviour {
         collectLife,
         collision,
         useBoost,
-        reverseStream
+        reverseStream,
+        spotFragment
     }
 
-	public List<AudioClip> clipsFar = new List<AudioClip>();
-	public List<AudioClip> clipsClose = new List<AudioClip>();
+    public List<AudioClip> clipsFar = new List<AudioClip>();
+    public List<AudioClip> clipsClose = new List<AudioClip>();
     public List<AudioClip> clipsReceiveStun = new List<AudioClip>();
     public List<AudioClip> clipsReceiveHit = new List<AudioClip>();
     public List<AudioClip> clipsEnterOpenWorld = new List<AudioClip>();
@@ -29,9 +32,10 @@ public class AudioController : MonoBehaviour {
     public List<AudioClip> clipsCollision = new List<AudioClip>();
     public List<AudioClip> clipsUseBoost = new List<AudioClip>();
     public List<AudioClip> clipsReverseStream = new List<AudioClip>();
+    public List<AudioClip> clipsSpotFragment = new List<AudioClip>();
 
     //Pass parameters to coroutine
-    private float _delay =  0.0f;
+    private float _delay = 0.0f;
     private bool _loop = false;
     private soundType _type;
 
@@ -94,6 +98,9 @@ public class AudioController : MonoBehaviour {
                 break;
             case soundType.reverseStream:
                 playSoundFromList(clipsReverseStream, loop);
+                break;
+            case soundType.spotFragment:
+                playSoundFromList(clipsSpotFragment, loop);
                 break;
             default: break;
         }

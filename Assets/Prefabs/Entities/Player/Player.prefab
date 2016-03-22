@@ -2424,6 +2424,10 @@ MonoBehaviour:
   clipsUseBoost: []
   clipsReverseStream:
   - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
+  clipsSpotFragment:
+  - {fileID: 8300000, guid: 0e676b99932f59941a3285ea103b7f14, type: 3}
+  - {fileID: 8300000, guid: 03aa03bf95c04bf4385328cd4feb6968, type: 3}
+  - {fileID: 8300000, guid: e0e3370808274c14e9ffe2a8a445aab6, type: 3}
   source: {fileID: 8254562}
 --- !u!114 &11476120
 MonoBehaviour:
@@ -7438,6 +7442,10 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: clipsSpotFragment.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: clipsReverseStream.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -7569,6 +7577,18 @@ Prefab:
       propertyPath: clipsCollectFragments.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 75ef4c2c2f41e3643b1a3b6c1c49292f, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsSpotFragment.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0e676b99932f59941a3285ea103b7f14, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsSpotFragment.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 03aa03bf95c04bf4385328cd4feb6968, type: 3}
+    - target: {fileID: 0}
+      propertyPath: clipsSpotFragment.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: e0e3370808274c14e9ffe2a8a445aab6, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132074}
