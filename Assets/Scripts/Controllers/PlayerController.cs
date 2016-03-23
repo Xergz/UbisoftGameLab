@@ -14,71 +14,80 @@ public class PlayerController : InputReceiver
     public int numberOfFragmentsToWin = 5;
 
 
-	private static EnumZone c_currentZone;
-	public static EnumZone CurrentZone {
-		get {
-			return c_currentZone;
-		}
-		set {
-			c_currentZone = value;
+    private static EnumZone c_currentZone;
+    public static EnumZone CurrentZone
+    {
+        get
+        {
+            return c_currentZone;
+        }
+        set
+        {
+            c_currentZone = value;
 
-			if(Music != null) {
-				Music.OnZoneChanged(c_currentZone);
-			}
-		}
-	}
+            if (Music != null)
+            {
+                Music.OnZoneChanged(c_currentZone);
+            }
+        }
+    }
 
-	private bool canBeMoved = true;
-	public bool PlayerCanBeMoved {
-		get {
-			return canBeMoved;
-		}
-		set {
-			canBeMoved = value;
-			if(!canBeMoved) {
-				forceToApply = Vector3.zero;
-			}
-		}
-	}
+    private bool canBeMoved = true;
+    public bool PlayerCanBeMoved
+    {
+        get
+        {
+            return canBeMoved;
+        }
+        set
+        {
+            canBeMoved = value;
+            if (!canBeMoved)
+            {
+                forceToApply = Vector3.zero;
+            }
+        }
+    }
 
-	public static bool HasWon { get; set; }
-	public static bool isPlayerOnstream { get; set; }
+    public static bool HasWon { get; set; }
+    public static bool isPlayerOnstream { get; set; }
 
-	public static Stream streamPlayer { get; set; }
+    public static Stream streamPlayer { get; set; }
 
-	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
-	public float movementForce;
-	[Tooltip("The time in seconds the player takes to rotate 1 unit")]
-	public float rotationSpeed;
-	[Tooltip("The maximum velocity the player can reach")]
-	public float maximumVelocity;
-	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
-	public float sightRange = 60F;
+    [Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
+    public float movementForce;
+    [Tooltip("The time in seconds the player takes to rotate 1 unit")]
+    public float rotationSpeed;
+    [Tooltip("The maximum velocity the player can reach")]
+    public float maximumVelocity;
+    [Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
+    public float sightRange = 60F;
 
-	public Image lifeBarFill;
-	public Image lifeBarRim;
+    public Image lifeBarFill;
+    public Image lifeBarRim;
 
-	private static Image lifeBarFillStatic;
-	private static Image lifeBarRimStatic;
+    private static Image lifeBarFillStatic;
+    private static Image lifeBarRimStatic;
 
-	public ParticleSystem switchParticles;
+    public ParticleSystem switchParticles;
 
-	private static ParticleSystem switchParticlesStatic;
+    private static ParticleSystem switchParticlesStatic;
 
-	//public PowerController powerController;
+    //public PowerController powerController;
 
-	private static float maxFill;
-	private static int maxLife;
+    private static float maxFill;
+    private static int maxLife;
 
-	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+    public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
-	//public Transform Fragments;
-	public static List<Transform> fragmentsList; //List of every fragments
+    //public Transform Fragments;
+    public static List<Transform> fragmentsList; //List of every fragments
 
-	//public static Transform nextFragment;
-	public static int nextFragmentIndex;
-	public static int numberOfFragments;
-	public static float nbHearts = 9;
+    //public static Transform nextFragment;
+    public static int nextFragmentIndex;
+    public static int nextFragmentFind;
+    public static int numberOfFragments;
+    public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -96,6 +105,7 @@ public class PlayerController : InputReceiver
 
     private static int currentLife;
 
+    public static UIBoostControl uiBoostController;
     private float timeSinceLastBoost = 0.0f;
     private bool powerboost = false;
     private static Player _player = null;
@@ -220,7 +230,7 @@ public class PlayerController : InputReceiver
 
     private void boostPower()
     {
-        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/)
+        if (!powerboost /*&& (uiBoostController.timeLeft < 10.0f)*/)
         {
             powerboost = true;
             timeSinceLastBoost = Time.time;
@@ -245,20 +255,39 @@ public class PlayerController : InputReceiver
         memoryFragments.Add(fragment);
 
         RestoreAllLife();
-
+        nextFragmentIndex++;
         //powerController.SetCooldownMultipliers(maxFill);
+        Fragment fragmenttemp;
+        for (int i = 0; i < memoryFragments.Count - 1; i++)
+        {
+            if (memoryFragments[i].index > memoryFragments[i + 1].index)
+            {
+                fragmenttemp = memoryFragments[i + 1];
+                memoryFragments[i + 1] = memoryFragments[i];
+                memoryFragments[i] = fragmenttemp;
+            }
+        }
+
+        memoryFragments.ForEach((fragment1) =>
+        {
+
+            if (fragment1.index == nextFragmentFind)
+            {
+                nextFragmentFind++;
+            }
+        });
 
 
-		nextFragmentIndex++;
-
-		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
-			HasWon = true;
-			GameManager.SaveCheckpoint(new Checkpoint("Won"));
-			loader.LoadEndLevel("win");
-		} else {
-			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
-		}
-	}
+        if (memoryFragments.Count >= fragmentsList.Count && !HasWon)
+        {
+            HasWon = true;
+            GameManager.SaveCheckpoint(new Checkpoint("Won"));
+            loader.LoadEndLevel("win");
+        }
+        else {
+            GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
+        }
+    }
 
     public void ClearFragments()
     {
@@ -277,14 +306,16 @@ public class PlayerController : InputReceiver
     }
 
 
-	public void DamagePlayer(int damage) {
-		currentLife -= damage;
-		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
+    public void DamagePlayer(int damage)
+    {
+        currentLife -= damage;
+        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
 
-		if(currentLife <= 0) {
-			loader.LoadEndLevel("gameOver");
-		}
-	}
+        if (currentLife <= 0)
+        {
+            loader.LoadEndLevel("gameOver");
+        }
+    }
 
     public List<Fragment> GetFragments()
     {
@@ -307,6 +338,7 @@ public class PlayerController : InputReceiver
         fragmentsList = new List<Transform>(20);
         numberOfFragments = fragmentsList.Count;
         nextFragmentIndex = 0;
+        nextFragmentFind = 0;
 
         memoryFragments = new List<Fragment>();
         forceToApply = new Vector3(0, 0, 0);
@@ -331,8 +363,9 @@ public class PlayerController : InputReceiver
     }
 
 
-	private void FixedUpdate() {
-		life = currentLife;
+    private void FixedUpdate()
+    {
+        life = currentLife;
 
         if (PlayerCanBeMoved)
         {
@@ -378,6 +411,10 @@ public class PlayerController : InputReceiver
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
+        }
+        else
+        {
+          //  uiBoostController.timeLeft = (Time.time - timeSinceLastBoost);
         }
     }
 
