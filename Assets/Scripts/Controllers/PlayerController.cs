@@ -97,7 +97,6 @@ public class PlayerController : InputReceiver {
 
     private float timeSinceLastBoost = 0.0f;
     private bool powerboost=false;
-    private static Player _player = null;
 
 	public static GameObject Player {
 		get {
@@ -116,17 +115,7 @@ public class PlayerController : InputReceiver {
 		return currentLife;
 	}
 
-    public static void SFXBoost()
-    {
-        _player.audioController.PlayAudio(AudioController.soundType.useBoost);
-    }
-
-    public static void SFXReverseStream()
-    {
-        _player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.6f);
-    }
-
-    public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
+	public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
 		if(switchParticlesStatic.isPlaying) {
 			switchParticlesStatic.Stop();
 		}
@@ -203,7 +192,6 @@ public class PlayerController : InputReceiver {
             powerboost = true;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 5f;
-            SFXBoost();
 
         }
     }
@@ -251,7 +239,6 @@ public class PlayerController : InputReceiver {
 
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
-        _player = Player.GetComponent<Player>();
 
         loader = GameObject.Find("SceneTransitionManager").GetComponent<LevelLoading>();
 
