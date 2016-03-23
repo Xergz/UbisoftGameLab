@@ -36,7 +36,10 @@ public class ParseDetect : RAINAction {
             }
         }
 
-        ai.WorkingMemory.SetItem<GameObject>(detectedForm.VariableName, tAspects[index].Entity.Form);
+        if(tAspects.Count > 0)
+            ai.WorkingMemory.SetItem<GameObject>(detectedForm.VariableName, tAspects[index].Entity.Form);
+        else
+            ai.WorkingMemory.SetItem<GameObject>(detectedForm.VariableName, null);
 
         return ActionResult.SUCCESS;
     }
