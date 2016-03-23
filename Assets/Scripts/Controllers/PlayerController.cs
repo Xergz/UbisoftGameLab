@@ -257,7 +257,7 @@ public class PlayerController : InputReceiver
 		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
 			HasWon = true;
 			GameManager.SaveCheckpoint(new Checkpoint("Won"));
-			loader.LoadEndLevel("win");
+			loader.LoadLevel("win");
 		} else {
 			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
 		}
@@ -285,7 +285,7 @@ public class PlayerController : InputReceiver
 		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
 
 		if(currentLife <= 0) {
-			loader.LoadEndLevel("gameOver");
+			loader.LoadLevel("gameOver");
 		}
 	}
 
