@@ -2496,7 +2496,7 @@ MonoBehaviour:
   isInvincible: 0
   stunTime: 2
   invincibleTime: 1
-  delayBeforeCollisionSFX: 2
+  delayBeforeCollisionSFX: 4
   collisionSystem: {fileID: 19802022}
 --- !u!136 &13683454
 CapsuleCollider:
@@ -7594,6 +7594,10 @@ Prefab:
       propertyPath: clipsSpotFragment.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: e0e3370808274c14e9ffe2a8a445aab6, type: 3}
+    - target: {fileID: 0}
+      propertyPath: delayBeforeCollisionSFX
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132074}
