@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
-public class PlayerController : InputReceiver {
-	public static Rigidbody playerRigidbody;
+public class PlayerController : InputReceiver
+{
+    public static Rigidbody playerRigidbody;
 
-	public static MusicController Music;
+    public static MusicController Music;
+
+    public static LevelLoading loader;
+
+    public int numberOfFragmentsToWin = 5;
+
 
 	private static EnumZone c_currentZone;
 	public static EnumZone CurrentZone {
@@ -20,8 +27,8 @@ public class PlayerController : InputReceiver {
 			}
 		}
 	}
-    UIboostControl uiBoostControl;
-    private bool canBeMoved = true;
+
+	private bool canBeMoved = true;
 	public bool PlayerCanBeMoved {
 		get {
 			return canBeMoved;
@@ -34,8 +41,7 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-	public static bool IsDead { get; private set; }
-	public static bool HasWon { get; private set; }
+	public static bool HasWon { get; set; }
 	public static bool isPlayerOnstream { get; set; }
 
 	public static Stream streamPlayer { get; set; }
@@ -55,9 +61,11 @@ public class PlayerController : InputReceiver {
 	private static Image lifeBarFillStatic;
 	private static Image lifeBarRimStatic;
 
-	//public PowerController powerController;
+	public ParticleSystem switchParticles;
 
-	public static int baseLife = 100;
+	private static ParticleSystem switchParticlesStatic;
+
+	//public PowerController powerController;
 
 	private static float maxFill;
 	private static int maxLife;
@@ -70,6 +78,7 @@ public class PlayerController : InputReceiver {
 	//public static Transform nextFragment;
 	public static int nextFragmentIndex;
 	public static int numberOfFragments;
+	public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -77,52 +86,104 @@ public class PlayerController : InputReceiver {
 
     private float currentVelocity; // The current velocity of the player
 
-	private Vector3 forceToApply;
+    private Vector3 forceToApply;
 
 
 
-	[Tooltip("The current life of the player")]
-	[SerializeField]
-	private int life;
+    [Tooltip("The current life of the player")]
+    [SerializeField]
+    private int life;
 
-	private static int currentLife;
+    private static int currentLife;
 
     private float timeSinceLastBoost = 0.0f;
-    private bool powerboost=false;
+    private bool powerboost = false;
+    private static Player _player = null;
 
-	public static GameObject Player {
-		get {
-			if(playerRigidbody != null) {
-				return playerRigidbody.gameObject;
-			}
-			return null;
-		}
-	}
+    public static GameObject Player
+    {
+        get
+        {
+            if (playerRigidbody != null)
+            {
+                return playerRigidbody.gameObject;
+            }
+            return null;
+        }
+    }
 
-	public static List<Fragment> GetCollectedFragments() {
-		return memoryFragments;
-	}
+    public static List<Fragment> GetCollectedFragments()
+    {
+        return memoryFragments;
+    }
 
-	public static int GetPlayerCurrentLife() {
-		return currentLife;
-	}
+    public static int GetPlayerCurrentLife()
+    {
+        return currentLife;
+    }
 
-	public static void SetPlayerCurrentLife(int val) {
-		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * 0.2F);
+    public static void SFXBoost()
+    {
+        _player.audioController.PlayAudio(AudioController.soundType.useBoost);
+    }
 
-		currentLife = Mathf.Clamp(val, 0, maxLife);
-	}
+    public static void SFXReverseStream()
+    {
+        _player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.6f);
+    }
 
-	public void AddLife(int val) {
-		currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
-	}
+    public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor)
+    {
+        if (switchParticlesStatic.isPlaying)
+        {
+            switchParticlesStatic.Stop();
+        }
 
-	public override void ReceiveInputEvent(InputEvent inputEvent) {
-		if(inputEvent.InputAxis == EnumAxis.LeftJoystickX) {
-			XSpeedMultiplier = inputEvent.Value;
-			if(Mathf.Abs(XSpeedMultiplier) < 0.2) {
-				XSpeedMultiplier = 0;
-			}
+        Color color;
+        switch (streamColor)
+        {
+            case EnumStreamColor.BLUE:
+                color = Color.blue;
+                break;
+            case EnumStreamColor.GREEN:
+                color = Color.green;
+                break;
+            case EnumStreamColor.RED:
+                color = Color.red;
+                break;
+            default:
+                color = Color.yellow;
+                break;
+        }
+        switchParticlesStatic.startColor = color;
+        switchParticlesStatic.Play();
+
+        yield return new WaitForSeconds(1);
+
+        switchParticlesStatic.Stop();
+    }
+
+    public static void SetPlayerCurrentLife(int val)
+    {
+        int maxLife = (memoryFragments.Count + 1) * 30;
+
+        currentLife = Mathf.Clamp(val, 0, maxLife);
+    }
+
+    public void AddLife(int val)
+    {
+        currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
+    }
+
+    public override void ReceiveInputEvent(InputEvent inputEvent)
+    {
+        if (inputEvent.InputAxis == EnumAxis.LeftJoystickX)
+        {
+            XSpeedMultiplier = inputEvent.Value;
+            if (Mathf.Abs(XSpeedMultiplier) < 0.2)
+            {
+                XSpeedMultiplier = 0;
+            }
         }
 
         if (inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger)
@@ -130,168 +191,203 @@ public class PlayerController : InputReceiver {
             boostPower();
         }
 
-        if (inputEvent.InputAxis == EnumAxis.LeftJoystickY) {
-			ZSpeedMultiplier = inputEvent.Value;
-			if(Mathf.Abs(ZSpeedMultiplier) < 0.2) {
-				ZSpeedMultiplier = 0;
-			}
+        if (inputEvent.InputAxis == EnumAxis.LeftJoystickY)
+        {
+            ZSpeedMultiplier = inputEvent.Value;
+            if (Mathf.Abs(ZSpeedMultiplier) < 0.2)
+            {
+                ZSpeedMultiplier = 0;
+            }
         }
-
-
     }
 
-	public void AddForce(Vector3 force, Stream stream) {
-		if(PlayerCanBeMoved) {
-			forceToApply += force;
-			if(force == Vector3.zero) {
-				isPlayerOnstream = false;
-				streamPlayer = null;
-			} else {
-				isPlayerOnstream = true;
-				streamPlayer = stream;
-			}
-		}
-	}
+    public void AddForce(Vector3 force, Stream stream)
+    {
+        if (PlayerCanBeMoved)
+        {
+            forceToApply += force;
+            if (force == Vector3.zero)
+            {
+                isPlayerOnstream = false;
+                streamPlayer = null;
+            }
+            else {
+                isPlayerOnstream = true;
+                streamPlayer = stream;
+            }
+        }
+    }
 
-    private void boostPower() {
-        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/) {
+    private void boostPower()
+    {
+        if (!powerboost/*&&(Time.time-timeSinceLastBoost>5.0f)*/)
+        {
             powerboost = true;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 5f;
+            SFXBoost();
 
         }
     }
 
-    private void unBoostPower() {
-        if (powerboost) {
+    private void unBoostPower()
+    {
+        if (powerboost)
+        {
             powerboost = false;
             timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 1f;
         }
     }
 
-	public static void AddFragment(Fragment fragment) {
-		memoryFragments.Add(fragment);
+    public static void AddFragment(Fragment fragment)
+    {
+        memoryFragments.Add(fragment);
 
-		RestoreAllLife();
+        RestoreAllLife();
 
-		//powerController.SetCooldownMultipliers(maxFill);
+        //powerController.SetCooldownMultipliers(maxFill);
+
 
 		nextFragmentIndex++;
+
+		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
+			HasWon = true;
+			GameManager.SaveCheckpoint(new Checkpoint("Won"));
+			loader.LoadEndLevel("win");
+		} else {
+			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
+		}
 	}
 
-	public void ClearFragments() {
-		memoryFragments.Clear();
-		nextFragmentIndex = 0;
-	}
+    public void ClearFragments()
+    {
+        memoryFragments.Clear();
+        nextFragmentIndex = 0;
+    }
 
-	public static void RegisterFragment(Fragment fragment) {
-         for(int i = fragmentsList.Count; i <= fragment.index; i++)
-         {
-             fragmentsList.Add(null);
-         }
-         fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
-         numberOfFragments++;
-	}
+    public static void RegisterFragment(Fragment fragment)
+    {
+        for (int i = fragmentsList.Count; i <= fragment.index; i++)
+        {
+            fragmentsList.Add(null);
+        }
+        fragmentsList[fragment.index] = fragment.GetComponent<Transform>();
+        numberOfFragments++;
+    }
+
 
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
-		float percentFilled = ((float) currentLife / (float) maxLife);
-		if(currentLife <= 5) {
-			lifeBarFillStatic.color = Color.red;
-		} else {
-			lifeBarFillStatic.color = (percentFilled >= 0.5F) ? Color.Lerp(Color.yellow, Color.green, (percentFilled - 0.5F) * 2) : Color.Lerp(Color.red, Color.yellow, percentFilled * 2);
+		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
+
+		if(currentLife <= 0) {
+			loader.LoadEndLevel("gameOver");
 		}
-		lifeBarFillStatic.fillAmount = percentFilled * maxFill;
 	}
 
-	public List<Fragment> GetFragments() {
-		return memoryFragments;
-	}
+    public List<Fragment> GetFragments()
+    {
+        return memoryFragments;
+    }
 
-	private void Awake() {
-		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+    private void Awake()
+    {
+        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+        _player = Player.GetComponent<Player>();
 
-		GameObject musicControllerObject = GameObject.Find("MusicController");
-		if(musicControllerObject != null) {
-			Music = musicControllerObject.GetComponent<MusicController>();
-		}
+        loader = GameObject.Find("SceneTransitionManager").GetComponent<LevelLoading>();
+
+        GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
+        if (musicControllerObject != null)
+        {
+            Music = musicControllerObject.GetComponent<MusicController>();
+        }
 
         fragmentsList = new List<Transform>(20);
         numberOfFragments = fragmentsList.Count;
         nextFragmentIndex = 0;
 
         memoryFragments = new List<Fragment>();
-		forceToApply = new Vector3(0, 0, 0);
-		CurrentZone = EnumZone.OPEN_WORLD;
-		PlayerCanBeMoved = true;
+        forceToApply = new Vector3(0, 0, 0);
+        CurrentZone = EnumZone.OPEN_WORLD;
+        PlayerCanBeMoved = true;
 
-		lifeBarFillStatic = lifeBarFill;
-		lifeBarRimStatic = lifeBarRim;
+        lifeBarFill.color = Color.red;
+        lifeBarFillStatic = lifeBarFill;
+        lifeBarRimStatic = lifeBarRim;
 
-		RestoreAllLife();
+        RestoreAllLife();
 
-		if(playerRigidbody == null) {
-			Debug.LogError("No player is registered to the PlayerController");
-		} else {
-			playerRigidbody.GetComponent<Player>().PlayerController = this;
-		}
-	}
+        switchParticlesStatic = switchParticles;
+
+        if (playerRigidbody == null)
+        {
+            Debug.LogError("No player is registered to the PlayerController");
+        }
+        else {
+            playerRigidbody.GetComponent<Player>().PlayerController = this;
+        }
+    }
+
 
 	private void FixedUpdate() {
 		life = currentLife;
-		if(PlayerCanBeMoved) {
-			MovePlayer();
-		} else {
-			playerRigidbody.velocity = Vector3.zero;
-		}
-	}
 
-	private void MovePlayer() {
-		//var cam = Camera.main;
+        if (PlayerCanBeMoved)
+        {
+            MovePlayer();
+        }
+        else {
+            playerRigidbody.velocity = Vector3.zero;
+        }
+    }
 
-		Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier* speedMultiplierBoost, 0, movementForce * ZSpeedMultiplier* speedMultiplierBoost);
-		Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
+    private void MovePlayer()
+    {
+        //var cam = Camera.main;
 
-		if(!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F))) {
+        Vector3 baseMovement = new Vector3(movementForce * XSpeedMultiplier * speedMultiplierBoost, 0, movementForce * ZSpeedMultiplier * speedMultiplierBoost);
+        Vector3 movement = /*Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) **/ baseMovement + forceToApply; //Adjust the movement direction depending on camera before applying external forces
 
-			playerRigidbody.AddForce(movement, ForceMode.Acceleration);
+        if (!(Mathf.Approximately(movement.x, 0F) && Mathf.Approximately(movement.y, 0F) && Mathf.Approximately(movement.z, 0F)))
+        {
 
-			Vector3 lastForward = playerRigidbody.transform.forward;
-			lastForward.y = 0;
+            playerRigidbody.AddForce(movement, ForceMode.Acceleration);
 
-			// Check in what direction the boat should rotate
-			float rotation = Vector3.Angle(lastForward, movement);
-			if(Vector3.Dot(Vector3.up, Vector3.Cross(lastForward, movement)) < 0) {
-				rotation = -rotation;
-			}
+            Vector3 lastForward = playerRigidbody.transform.forward;
+            lastForward.y = 0;
 
-			rotation = Mathf.SmoothDampAngle(0, rotation, ref currentVelocity, rotationSpeed);
-			playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
-		}
+            // Check in what direction the boat should rotate
+            float rotation = Vector3.Angle(lastForward, movement);
+            if (Vector3.Dot(Vector3.up, Vector3.Cross(lastForward, movement)) < 0)
+            {
+                rotation = -rotation;
+            }
 
-		if(Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity) {
-			playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
-		}
+            rotation = Mathf.SmoothDampAngle(0, rotation, ref currentVelocity, rotationSpeed);
+            playerRigidbody.transform.Rotate(0, rotation, 0, Space.World);
+        }
 
-		forceToApply = new Vector3(0, 0, 0);
+        if (Vector3.Magnitude(playerRigidbody.velocity) > maximumVelocity)
+        {
+            playerRigidbody.velocity = Vector3.Normalize(playerRigidbody.velocity) * maximumVelocity;
+        }
+
+        forceToApply = new Vector3(0, 0, 0);
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
         }
-        else
-        {
-            uiBoostControl.cooldownUpdate(timeSinceLastBoost);
-        }
-	}
+    }
 
-	private static void RestoreAllLife() {
-		maxFill = (memoryFragments.Count + 1) * 0.2F;
-		maxLife = (int) (baseLife * maxFill);
-		currentLife = maxLife;
+    private static void RestoreAllLife()
+    {
+        maxFill = (memoryFragments.Count + 1) * 227f / 2047f;
+        maxLife = (memoryFragments.Count + 1) * 30;
+        currentLife = maxLife;
 
-		lifeBarRimStatic.fillAmount = maxFill;
-		lifeBarFillStatic.fillAmount = maxFill;
-		lifeBarFillStatic.color = Color.green;
-	}
+        lifeBarRimStatic.fillAmount = maxFill;
+        lifeBarFillStatic.fillAmount = maxFill;
+    }
 }

@@ -113,6 +113,8 @@ public class Stream : MonoBehaviour {
 	[Tooltip("Whether the stream will oscillate or not")]
 	[SerializeField]
 	private bool oscillate = true;
+	[SerializeField]
+	private bool forceManualSegmentCount = false;
 
 	#region Curve Parameters
 	[Tooltip("The number of segments in the bezier curve representing the stream")]
@@ -482,7 +484,7 @@ public class Stream : MonoBehaviour {
 
 		if(curveChanged) {
 			// To make sure the tangents are accurate enough
-			while(Vector3.Distance(streamCurve[0], streamCurve[1]) > MAX_CURVE_POINTS_SPACING && segmentCount < MAX_SEGMENT_COUNT) {
+			while(Vector3.Distance(streamCurve[0], streamCurve[1]) > MAX_CURVE_POINTS_SPACING && segmentCount < MAX_SEGMENT_COUNT && !forceManualSegmentCount) {
 				segmentCount = Mathf.Min(segmentCount + 10, MAX_SEGMENT_COUNT);
 				curveGenerator.GenerateBezierCurve(startPosition, startTangent, endPosition, endTangent, segmentCount, out streamCurve);
 			}

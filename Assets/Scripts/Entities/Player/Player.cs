@@ -1,84 +1,150 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Player : Entity {
-	public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
-    public UIManager ui{ get; set; }
+public class Player : Entity
+{
+    public PlayerController PlayerController { get; set; } // The PlayerController linked to this player
+    public UIManager ui { get; set; }
+
+    public List<GameObject> objectsForBlink;
 
     public GameObject stunStars;
 
-	[SerializeField]
-	private bool isStuned;
+    [SerializeField]
+    private bool isStuned = false;
 
-	[SerializeField]
-	private float stunTime = 2f;
-	private float beginStunTime;
+    [SerializeField]
+    private bool isInvincible = false;
 
+    [SerializeField]
+    private float stunTime = 2f;
+    [SerializeField]
+    private float invincibleTime = 1f;
+    [SerializeField]
+    private float delayBeforeCollisionSFX = 2f;
+    private float beginStunTime;
+    private float beginInvincibleTime;
 
-	[SerializeField]
-	private ParticleSystem collisionSystem;
+    private float lastTimeCollisionSFX = 0.0f;
 
-    private void Awake() {
+    [SerializeField]
+    private ParticleSystem collisionSystem;
+
+    private void Awake()
+    {
         ui = FindObjectOfType<UIManager>();
     }
 
-	private void Update() {
-		if(isStuned && Time.time > beginStunTime + stunTime) {
-			isStuned = false;
+    private void Update()
+    {
+        if (isStuned && Time.time > beginStunTime + stunTime)
+        {
+            isStuned = false;
             stunStars.SetActive(false);
             PlayerController.PlayerCanBeMoved = true;
-		}
-	}
+        }
 
-	public override void ReceiveHit() {
-        audioController.PlayAudio(AudioController.soundType.receiveHit);
-		PlayerController.DamagePlayer(5);
-	}
+        if (isInvincible && Time.time > beginInvincibleTime + invincibleTime)
+        {
+            isInvincible = false;
+        }
 
-	public override void ReceiveStun() {
+    }
+
+    public override void ReceiveHit()
+    {
+        if (!isInvincible)
+        {
+            audioController.PlayAudio(AudioController.soundType.receiveHit);
+            PlayerController.DamagePlayer(10);
+            isInvincible = true;
+            beginInvincibleTime = Time.time;
+            StartCoroutine(DoBlinks(invincibleTime, 0.2f));
+        }
+    }
+
+    public override void ReceiveStun()
+    {
         audioController.PlayAudio(AudioController.soundType.receiveStun);
         PlayerController.PlayerCanBeMoved = false;
-		isStuned = true;
+        isStuned = true;
         stunStars.SetActive(true);
-		beginStunTime = Time.time;
-	}
+        beginStunTime = Time.time;
+    }
 
-	private void OnCollisionEnter(Collision collision) {
-		if(collision.gameObject.CompareTag("Environment")) {
-			collisionSystem.Emit(Random.Range(30, 50));
-		}
-	}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Environment"))
+        {
+            if (Time.time - lastTimeCollisionSFX > delayBeforeCollisionSFX)
+            {
+                audioController.PlayAudio(AudioController.soundType.collision, volume: 0.6f);
+                lastTimeCollisionSFX = Time.time;
+            }
 
-	private void OnTriggerEnter(Collider other) {
-		if(other.CompareTag("Fragment")) { // Picked up a fragment
-			other.gameObject.SetActive(false);
-			PlayerController.AddFragment(other.GetComponent<Fragment>());
-			Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
-		} else if(other.CompareTag("Zone")) { // Entered a zone
-			PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
+            collisionSystem.Emit(Random.Range(30, 50));
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Fragment"))
+        { // Picked up a fragment
+            audioController.PlayAudio(AudioController.soundType.collectFragment);
+            other.gameObject.SetActive(false);
+            PlayerController.AddFragment(other.GetComponent<Fragment>());
+            Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
+        }
+        else if (other.CompareTag("Zone"))
+        { // Entered a zone
+            PlayerController.CurrentZone = other.GetComponent<Zone>().ZoneIndex;
             ui.EnterLevel(other.gameObject.name);
-		} else if(other.CompareTag("Life")) {
-			PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
-			other.gameObject.SetActive(false);
-		}
-	}
+        }
+        else if (other.CompareTag("Life"))
+        {
+            audioController.PlayAudio(AudioController.soundType.collectLife);
+            PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
+            other.gameObject.SetActive(false);
+        }
+    }
 
-	protected override void OnTriggerStay(Collider other) {
-		if(!isStuned) {
-			if(other.CompareTag("Stream")) { // Is inside a stream
-				Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
-				PlayerController.AddForce(force, other.GetComponent<Stream>());
-			}
-		}
-	}
+    protected override void OnTriggerStay(Collider other)
+    {
+        if (!isStuned)
+        {
+            if (other.CompareTag("Stream"))
+            { // Is inside a stream
+                Vector3 force = other.GetComponent<Stream>().GetForceAtPosition(transform.position);
+                PlayerController.AddForce(force, other.GetComponent<Stream>());
+            }
+        }
+    }
 
-	private void OnTriggerExit(Collider other) {
-		if(other.CompareTag("Zone")) { // Left the zone to enter the open world
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Zone"))
+        { // Left the zone to enter the open world
             if (Random.Range(0.0f, 1.0f) > 0.5f)
                 audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
 
             PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
-			ui.EnterLevel("Open World");
-		}
-	}
+            ui.EnterLevel("Open World");
+        }
+    }
+
+    IEnumerator DoBlinks(float duration, float blinkTime)
+    {
+        float beginTime = Time.time;
+        while (Time.time - beginTime < duration)
+        {
+            foreach (GameObject element in objectsForBlink)
+                element.SetActive(!element.activeSelf);
+
+            yield return new WaitForSeconds(blinkTime);
+        }
+
+        foreach (GameObject element in objectsForBlink)
+            element.SetActive(true);
+    }
 }
