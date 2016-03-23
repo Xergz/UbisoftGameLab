@@ -230,7 +230,7 @@ public class PlayerController : InputReceiver
 
     private void boostPower()
     {
-        if (!powerboost /*&& (uiBoostController.timeLeft < 10.0f)*/)
+        if (!powerboost && (uiBoostController.timeLeft < 10.0f))
         {
             powerboost = true;
             timeSinceLastBoost = Time.time;
@@ -414,7 +414,7 @@ public class PlayerController : InputReceiver
         }
         else
         {
-          //  uiBoostController.timeLeft = (Time.time - timeSinceLastBoost);
+            uiBoostController.timeLeft = (Time.time - timeSinceLastBoost);
         }
     }
 
