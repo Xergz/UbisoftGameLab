@@ -11,7 +11,7 @@ public class PlayerController : InputReceiver
 
     public static LevelLoading loader;
 
-    public int numberOfFragmentsToWin = 5;
+    public static int numberOfFragmentsToWin = 5;
 
 
 	private static EnumZone c_currentZone;
@@ -117,10 +117,13 @@ public class PlayerController : InputReceiver
         return memoryFragments;
     }
 
-    public static int GetPlayerCurrentLife()
-    {
-        return currentLife;
-    }
+	public static void ClearCollectedFragments() {
+		memoryFragments.Clear();
+	}
+
+	public static int GetPlayerCurrentLife() {
+		return currentLife;
+	}
 
     public static void SFXBoost()
     {
@@ -251,7 +254,7 @@ public class PlayerController : InputReceiver
 
 		nextFragmentIndex++;
 
-		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
+		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
 			HasWon = true;
 			GameManager.SaveCheckpoint(new Checkpoint("Won"));
 			loader.LoadEndLevel("win");
@@ -305,13 +308,14 @@ public class PlayerController : InputReceiver
         }
 
         fragmentsList = new List<Transform>(20);
-        numberOfFragments = fragmentsList.Count;
+        numberOfFragments = 0;
         nextFragmentIndex = 0;
 
         memoryFragments = new List<Fragment>();
-        forceToApply = new Vector3(0, 0, 0);
-        CurrentZone = EnumZone.OPEN_WORLD;
-        PlayerCanBeMoved = true;
+		forceToApply = new Vector3(0, 0, 0);
+		CurrentZone = EnumZone.OPEN_WORLD;
+		PlayerCanBeMoved = true;
+		isPlayerOnstream = false;
 
         lifeBarFill.color = Color.red;
         lifeBarFillStatic = lifeBarFill;

@@ -85,7 +85,6 @@ public class MainMenu : MonoBehaviour {
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
 		PlayerController.HasWon = false;
-		GameManager.SaveCheckpoint(new Checkpoint("Start"));
 		// Fade to game
 	}
 	
