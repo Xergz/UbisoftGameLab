@@ -67,6 +67,7 @@ public class MainMenu : MonoBehaviour {
 		// Fade to black
 		SceneManager.LoadScene(mainSceneName);
 
+		GameManager.RestoreFromLastCheckpoint();
 #if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
@@ -83,7 +84,7 @@ public class MainMenu : MonoBehaviour {
 #if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
-
+		PlayerController.HasWon = false;
 		GameManager.SaveCheckpoint(new Checkpoint("Start"));
 		// Fade to game
 	}

@@ -39,8 +39,7 @@ public class PlayerController : InputReceiver {
 		}
 	}
 
-	public static bool IsDead { get; private set; }
-	public static bool HasWon { get; private set; }
+	public static bool HasWon { get; set; }
 	public static bool isPlayerOnstream { get; set; }
 
 	public static Stream streamPlayer { get; set; }
@@ -212,6 +211,14 @@ public class PlayerController : InputReceiver {
 		//powerController.SetCooldownMultipliers(maxFill);
 
 		nextFragmentIndex++;
+
+		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
+			HasWon = true;
+			GameManager.SaveCheckpoint(new Checkpoint("Won"));
+			loader.LoadEndLevel("win");
+		} else {
+			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
+		}
 	}
 
 	public void ClearFragments() {
@@ -231,6 +238,10 @@ public class PlayerController : InputReceiver {
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
 		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
+
+		if(currentLife <= 0) {
+			loader.LoadEndLevel("gameOver");
+		}
 	}
 
 	public List<Fragment> GetFragments() {
@@ -273,11 +284,6 @@ public class PlayerController : InputReceiver {
 
 	private void FixedUpdate() {
 		life = currentLife;
-        if (life <= 0) {
-            loader.LoadEndLevel("gameOver");
-        }  else if(memoryFragments.Count >= numberOfFragmentsToWin) {
-            loader.LoadEndLevel("win");
-        }
 
 		if(PlayerCanBeMoved) {
 			MovePlayer();

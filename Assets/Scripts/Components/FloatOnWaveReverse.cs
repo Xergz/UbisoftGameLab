@@ -30,7 +30,7 @@ public class FloatOnWaveReverse : MonoBehaviour {
 
 		this.transform.position = pos;
 
-        Quaternion rotation = Quaternion.FromToRotation(this.transform.up*-1, infos.Normal);
-        this.transform.Rotate(rotation.eulerAngles.x, 0, rotation.eulerAngles.z, Space.World);
+        //Quaternion rotation = Quaternion.FromToRotation(this.transform.up*-1, infos.Normal);
+        //this.transform.Rotate(rotation.eulerAngles.x, 0, rotation.eulerAngles.z, Space.World);
 	}
 }
