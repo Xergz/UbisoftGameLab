@@ -2640,30 +2640,30 @@ AudioSource:
       inSlope: 0.13778396
       outSlope: 0.13778396
       tangentMode: 0
-    - time: 0.25674227
-      value: 0.9503788
-      inSlope: -0.29153988
-      outSlope: -0.29153988
+    - time: 0.032104615
+      value: 0.13872834
+      inSlope: -0.840429
+      outSlope: -0.840429
       tangentMode: 0
-    - time: 0.40032992
-      value: 0.8017519
-      inSlope: -1.8160038
-      outSlope: -1.8160038
+    - time: 0.1648227
+      value: 0.054179076
+      inSlope: -0.8512749
+      outSlope: -0.8512749
       tangentMode: 0
-    - time: 0.48428866
-      value: 0.5621212
-      inSlope: -2.5450578
-      outSlope: -2.5450578
+    - time: 0.32486838
+      value: 0.06017946
+      inSlope: -0.12752621
+      outSlope: -0.12752621
       tangentMode: 0
-    - time: 0.59769344
-      value: 0.22886565
-      inSlope: -1.9949654
-      outSlope: -1.9949654
+    - time: 0.54334563
+      value: 0.04731225
+      inSlope: -0.12991059
+      outSlope: -0.12991059
       tangentMode: 0
     - time: 0.7346804
       value: 0.05542141
-      inSlope: -0.36372623
-      outSlope: -0.36372623
+      inSlope: 0.03710359
+      outSlope: 0.03710359
       tangentMode: 0
     - time: 1
       value: 0.021212123
@@ -2821,6 +2821,7 @@ MonoBehaviour:
   clipsCollision: []
   clipsUseBoost: []
   clipsReverseStream: []
+  clipsSpotFragment: []
   source: {fileID: 8250720}
 --- !u!114 &11450898
 MonoBehaviour:
