@@ -134,12 +134,12 @@ public class PlayerController : InputReceiver
 
     public static void SFXBoost()
     {
-        _player.audioController.PlayAudio(AudioController.soundType.useBoost);
+        _player.audioController.PlayAudio(AudioController.soundType.useBoost, volume: 0.2f);
     }
 
     public static void SFXReverseStream()
     {
-        _player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.6f);
+        _player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.2f);
     }
 
     public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor)

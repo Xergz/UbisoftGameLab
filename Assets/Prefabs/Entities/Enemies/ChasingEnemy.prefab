@@ -2325,8 +2325,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134078}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.24, y: 0, z: -17.1}
+  m_LocalRotation: {x: 0, y: 0.92387944, z: 0, w: -0.38268363}
+  m_LocalPosition: {x: -1, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 420674}
@@ -2640,30 +2640,30 @@ AudioSource:
       inSlope: 0.13778396
       outSlope: 0.13778396
       tangentMode: 0
-    - time: 0.25674227
-      value: 0.9503788
-      inSlope: -0.29153988
-      outSlope: -0.29153988
+    - time: 0.032104615
+      value: 0.13872834
+      inSlope: -0.840429
+      outSlope: -0.840429
       tangentMode: 0
-    - time: 0.40032992
-      value: 0.8017519
-      inSlope: -1.8160038
-      outSlope: -1.8160038
+    - time: 0.1648227
+      value: 0.054179076
+      inSlope: -0.8512749
+      outSlope: -0.8512749
       tangentMode: 0
-    - time: 0.48428866
-      value: 0.5621212
-      inSlope: -2.5450578
-      outSlope: -2.5450578
+    - time: 0.32486838
+      value: 0.06017946
+      inSlope: -0.12752621
+      outSlope: -0.12752621
       tangentMode: 0
-    - time: 0.59769344
-      value: 0.22886565
-      inSlope: -1.9949654
-      outSlope: -1.9949654
+    - time: 0.54334563
+      value: 0.04731225
+      inSlope: -0.12991059
+      outSlope: -0.12991059
       tangentMode: 0
     - time: 0.7346804
       value: 0.05542141
-      inSlope: -0.36372623
-      outSlope: -0.36372623
+      inSlope: 0.03710359
+      outSlope: 0.03710359
       tangentMode: 0
     - time: 1
       value: 0.021212123
@@ -2821,6 +2821,7 @@ MonoBehaviour:
   clipsCollision: []
   clipsUseBoost: []
   clipsReverseStream: []
+  clipsSpotFragment: []
   source: {fileID: 8250720}
 --- !u!114 &11450898
 MonoBehaviour:
@@ -2888,11 +2889,11 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="6" id="_mind" childrenvisible="True" /><field type="ChaseEnemyMotor"
+      reference="6" id="_mind" childrenvisible="False" /><field type="ChaseEnemyMotor"
       reference="10" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
       reference="11" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
       reference="12" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
-      reference="13" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
+      reference="13" id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
       id="_customElements" elementtype="RAIN.Core.CustomAIElement" childrenvisible="False"
       /></reference><reference type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field
       type="System.Collections.Generic.List" id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field
@@ -2971,7 +2972,8 @@ MonoBehaviour:
       id="element1" /></field></reference><reference type="StunFilter" refcount="1"
       id="17"><field type="System.Collections.Generic.List" id="visibleTags" elementtype="System.String"
       childrenvisible="True"><field value="Player" type="System.String" id="element0"
-      /><field value="Fist" type="System.String" id="element1" /></field></reference></references></component>
+      /><field value="Fist" type="System.String" id="element1" /></field></reference><reference
+      type="StunFilter" refcount="0" id="18" /></references></component>
     _serializedGameObjects:
     - {fileID: 134078}
     - {fileID: 11400000, guid: 3fb3f3fcc341e5c4a9afa34f1a9b37fd, type: 2}
