@@ -10,6 +10,8 @@ public class PlayerController : InputReceiver {
 
     public static LevelLoading loader;
 
+    public int numberOfFragmentsToWin = 5;
+
 	private static EnumZone c_currentZone;
 	public static EnumZone CurrentZone {
 		get {
