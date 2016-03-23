@@ -20,8 +20,8 @@ public class PlayerController : InputReceiver {
 			}
 		}
 	}
-
-	private bool canBeMoved = true;
+    UIboostControl uiBoostControl;
+    private bool canBeMoved = true;
 	public bool PlayerCanBeMoved {
 		get {
 			return canBeMoved;
@@ -278,7 +278,10 @@ public class PlayerController : InputReceiver {
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
-            Debug.Log("ripboost");
+        }
+        else
+        {
+            uiBoostControl.cooldownUpdate(timeSinceLastBoost);
         }
 	}
 
