@@ -13,80 +13,72 @@ public class PlayerController : InputReceiver
 
     public int numberOfFragmentsToWin = 5;
 
-    private static EnumZone c_currentZone;
-    public static EnumZone CurrentZone
-    {
-        get
-        {
-            return c_currentZone;
-        }
-        set
-        {
-            c_currentZone = value;
 
-            if (Music != null)
-            {
-                Music.OnZoneChanged(c_currentZone);
-            }
-        }
-    }
+	private static EnumZone c_currentZone;
+	public static EnumZone CurrentZone {
+		get {
+			return c_currentZone;
+		}
+		set {
+			c_currentZone = value;
 
-    private bool canBeMoved = true;
-    public bool PlayerCanBeMoved
-    {
-        get
-        {
-            return canBeMoved;
-        }
-        set
-        {
-            canBeMoved = value;
-            if (!canBeMoved)
-            {
-                forceToApply = Vector3.zero;
-            }
-        }
-    }
+			if(Music != null) {
+				Music.OnZoneChanged(c_currentZone);
+			}
+		}
+	}
 
-    public static bool IsDead { get; private set; }
-    public static bool HasWon { get; private set; }
-    public static bool isPlayerOnstream { get; set; }
+	private bool canBeMoved = true;
+	public bool PlayerCanBeMoved {
+		get {
+			return canBeMoved;
+		}
+		set {
+			canBeMoved = value;
+			if(!canBeMoved) {
+				forceToApply = Vector3.zero;
+			}
+		}
+	}
 
-    public static Stream streamPlayer { get; set; }
+	public static bool HasWon { get; set; }
+	public static bool isPlayerOnstream { get; set; }
 
-    [Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
-    public float movementForce;
-    [Tooltip("The time in seconds the player takes to rotate 1 unit")]
-    public float rotationSpeed;
-    [Tooltip("The maximum velocity the player can reach")]
-    public float maximumVelocity;
-    [Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
-    public float sightRange = 60F;
+	public static Stream streamPlayer { get; set; }
 
-    public Image lifeBarFill;
-    public Image lifeBarRim;
+	[Tooltip("The force to apply to the player when it moves (multiplied by its movement speed multiplier)")]
+	public float movementForce;
+	[Tooltip("The time in seconds the player takes to rotate 1 unit")]
+	public float rotationSpeed;
+	[Tooltip("The maximum velocity the player can reach")]
+	public float maximumVelocity;
+	[Tooltip("The range the player's sight can reach. We should animate any objet within this distance")]
+	public float sightRange = 60F;
 
-    private static Image lifeBarFillStatic;
-    private static Image lifeBarRimStatic;
+	public Image lifeBarFill;
+	public Image lifeBarRim;
 
-    public ParticleSystem switchParticles;
+	private static Image lifeBarFillStatic;
+	private static Image lifeBarRimStatic;
 
-    private static ParticleSystem switchParticlesStatic;
+	public ParticleSystem switchParticles;
 
-    //public PowerController powerController;
+	private static ParticleSystem switchParticlesStatic;
 
-    private static float maxFill;
-    private static int maxLife;
+	//public PowerController powerController;
 
-    public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
+	private static float maxFill;
+	private static int maxLife;
 
-    //public Transform Fragments;
-    public static List<Transform> fragmentsList; //List of every fragments
+	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
-    //public static Transform nextFragment;
-    public static int nextFragmentIndex;
-    public static int numberOfFragments;
-    public static float nbHearts = 9;
+	//public Transform Fragments;
+	public static List<Transform> fragmentsList; //List of every fragments
+
+	//public static Transform nextFragment;
+	public static int nextFragmentIndex;
+	public static int numberOfFragments;
+	public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -256,8 +248,17 @@ public class PlayerController : InputReceiver
 
         //powerController.SetCooldownMultipliers(maxFill);
 
-        nextFragmentIndex++;
-    }
+
+		nextFragmentIndex++;
+
+		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
+			HasWon = true;
+			GameManager.SaveCheckpoint(new Checkpoint("Won"));
+			loader.LoadEndLevel("win");
+		} else {
+			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
+		}
+	}
 
     public void ClearFragments()
     {
@@ -275,11 +276,15 @@ public class PlayerController : InputReceiver
         numberOfFragments++;
     }
 
-    public void DamagePlayer(int damage)
-    {
-        currentLife -= damage;
-        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
-    }
+
+	public void DamagePlayer(int damage) {
+		currentLife -= damage;
+		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
+
+		if(currentLife <= 0) {
+			loader.LoadEndLevel("gameOver");
+		}
+	}
 
     public List<Fragment> GetFragments()
     {
@@ -325,17 +330,9 @@ public class PlayerController : InputReceiver
         }
     }
 
-    private void FixedUpdate()
-    {
-        life = currentLife;
-        if (life <= 0)
-        {
-            loader.LoadEndLevel("gameOver");
-        }
-        else if (memoryFragments.Count >= numberOfFragmentsToWin)
-        {
-            loader.LoadEndLevel("win");
-        }
+
+	private void FixedUpdate() {
+		life = currentLife;
 
         if (PlayerCanBeMoved)
         {

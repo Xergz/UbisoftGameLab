@@ -28,6 +28,15 @@ public class Win : MonoBehaviour {
         }
     }	
 
+	public void KeepPlaying() {
+		SceneManager.LoadScene("Extended");
+		GameManager.RestoreFromLastCheckpoint();
+
+#if UNITY_EDITOR
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
+#endif
+	}
+
 	public void MainMenu() {
 		SceneManager.LoadScene(mainMenuSceneName);
 
