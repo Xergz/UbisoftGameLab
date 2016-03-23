@@ -24,7 +24,7 @@ MonoBehaviour:
       aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
       priority=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdGllcwBkZXRlY3RlZEVudGl0eQ==&quot;
       parameters=&quot;YXNwZWN0c0xpc3QAZGV0ZWN0ZWRGb3Jt&quot; namespace=&quot;(global)&quot;
-      name=&quot;action&quot; debugbreak=&quot;True&quot; classname=&quot;ParseDetect&quot;
+      name=&quot;Parse Detect&quot; debugbreak=&quot;False&quot; classname=&quot;ParseDetect&quot;
       /&gt;&lt;/sequencer&gt;&lt;constraint repeatuntil=&quot;&quot; priority=&quot;&quot;
       name=&quot;VisualNotAcquired&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity
       == null&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Hearing&amp;quot;&quot; repeatuntil=&quot;&quot;
