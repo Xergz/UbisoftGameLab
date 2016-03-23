@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerController : InputReceiver {
 	public static Rigidbody playerRigidbody;
 
 	public static MusicController Music;
+
+    public static LevelLoading loader;
 
 	private static EnumZone c_currentZone;
 	public static EnumZone CurrentZone {
@@ -55,9 +58,11 @@ public class PlayerController : InputReceiver {
 	private static Image lifeBarFillStatic;
 	private static Image lifeBarRimStatic;
 
-	//public PowerController powerController;
+	public ParticleSystem switchParticles;
 
-	public static int baseLife = 100;
+	private static ParticleSystem switchParticlesStatic;
+
+	//public PowerController powerController;
 
 	private static float maxFill;
 	private static int maxLife;
@@ -70,6 +75,7 @@ public class PlayerController : InputReceiver {
 	//public static Transform nextFragment;
 	public static int nextFragmentIndex;
 	public static int numberOfFragments;
+	public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -107,10 +113,38 @@ public class PlayerController : InputReceiver {
 		return currentLife;
 	}
 
-	public static void SetPlayerCurrentLife(int val) {
-		int maxLife = baseLife * (int) ((memoryFragments.Count + 1) * 0.2F);
+	public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
+		if(switchParticlesStatic.isPlaying) {
+			switchParticlesStatic.Stop();
+		}
 
-		currentLife = Mathf.Clamp(val, 0, maxLife);
+		Color color;
+		switch(streamColor) {
+			case EnumStreamColor.BLUE:
+				color = Color.blue;
+				break;
+			case EnumStreamColor.GREEN:
+				color = Color.green;
+				break;
+			case EnumStreamColor.RED:
+				color = Color.red;
+				break;
+			default:
+				color = Color.yellow;
+				break;
+		}
+		switchParticlesStatic.startColor = color;
+		switchParticlesStatic.Play();
+
+		yield return new WaitForSeconds(1);
+
+		switchParticlesStatic.Stop();
+	}
+
+	public static void SetPlayerCurrentLife(int val) {
+		int maxLife = (memoryFragments.Count + 1) * 30;
+
+        currentLife = Mathf.Clamp(val, 0, maxLife);
 	}
 
 	public void AddLife(int val) {
@@ -136,8 +170,6 @@ public class PlayerController : InputReceiver {
 				ZSpeedMultiplier = 0;
 			}
         }
-
-
     }
 
 	public void AddForce(Vector3 force, Stream stream) {
@@ -196,8 +228,7 @@ public class PlayerController : InputReceiver {
 
 	public void DamagePlayer(int damage) {
 		currentLife -= damage;
-		float percentFilled = ((float) currentLife / (float) maxLife);
-		lifeBarFillStatic.fillAmount = percentFilled * maxFill;
+		lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
 	}
 
 	public List<Fragment> GetFragments() {
@@ -207,7 +238,9 @@ public class PlayerController : InputReceiver {
 	private void Awake() {
 		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 
-		GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
+        loader = GameObject.Find("SceneTransitionManager").GetComponent<LevelLoading>();
+
+        GameObject musicControllerObject = GameObject.Find("AudioManager/MusicController");
 		if(musicControllerObject != null) {
 			Music = musicControllerObject.GetComponent<MusicController>();
 		}
@@ -227,6 +260,8 @@ public class PlayerController : InputReceiver {
 
 		RestoreAllLife();
 
+		switchParticlesStatic = switchParticles;
+
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
@@ -236,6 +271,12 @@ public class PlayerController : InputReceiver {
 
 	private void FixedUpdate() {
 		life = currentLife;
+        if (life <= 0) {
+            loader.LoadEndLevel("gameOver");
+        }  else if(memoryFragments.Count >= fragmentsList.Count) {
+            loader.LoadEndLevel("win");
+        }
+
 		if(PlayerCanBeMoved) {
 			MovePlayer();
 		} else {
@@ -274,14 +315,13 @@ public class PlayerController : InputReceiver {
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
-            Debug.Log("ripboost");
         }
 	}
 
 	private static void RestoreAllLife() {
-		maxFill = (memoryFragments.Count + 1) * 0.2F;
-		maxLife = (int) (baseLife * maxFill);
-		currentLife = maxLife;
+		maxFill = (memoryFragments.Count + 1) * 227f / 2047f;
+        maxLife = (memoryFragments.Count + 1) * 30;
+        currentLife = maxLife;
 
 		lifeBarRimStatic.fillAmount = maxFill;
 		lifeBarFillStatic.fillAmount = maxFill;

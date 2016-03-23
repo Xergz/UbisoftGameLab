@@ -40,16 +40,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entities:
-  - entity: {fileID: 0}
-    spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 0}
-    spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 0}
-    spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 0}
-    spawnPoint: {x: 0, y: 0, z: 0}
-  - entity: {fileID: 0}
-    spawnPoint: {x: 0, y: 0, z: 0}
+  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+    spawnPoint: {x: 26, y: 0, z: 0}
+  - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+    spawnPoint: {x: -10, y: 0, z: -6}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -10, y: 0, z: 18}
+  - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+    spawnPoint: {x: -10, y: 0, z: 55}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -27, y: 0, z: 67}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -64,15 +64,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].entity
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[1].entity
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[2].entity
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -87,7 +90,49 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: entities.Array.data[0].spawnPoint.x
-      value: 0
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[1].spawnPoint.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[1].spawnPoint.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[3].entity
+      value: 
+      objectReference: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[4].entity
+      value: 
+      objectReference: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[2].spawnPoint.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[2].spawnPoint.z
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[4].spawnPoint.x
+      value: -27
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[4].spawnPoint.z
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[3].spawnPoint.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: entities.Array.data[3].spawnPoint.z
+      value: 55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

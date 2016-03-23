@@ -2816,6 +2816,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
   clipsEnterOpenWorld: []
   clipsCollectFragments: []
+  clipsDeath: []
+  clipsCollectLife: []
+  clipsCollision: []
+  clipsUseBoost: []
+  clipsReverseStream: []
   source: {fileID: 8250720}
 --- !u!114 &11450898
 MonoBehaviour:
@@ -3853,7 +3858,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3903,12 +3908,12 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     z:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: -1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0

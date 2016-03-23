@@ -938,7 +938,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 172208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.05, y: 0, z: -12.2}
+  m_LocalPosition: {x: 0, y: 0, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462628}
@@ -1319,30 +1319,31 @@ MonoBehaviour:
       /><field value="0,0.25,0" type="UnityEngine.Vector3" id="_positionOffset" /><field
       value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset" /><field type="System.Collections.Generic.List"
       id="_filters" elementtype="RAIN.Perception.Sensors.Filters.RAINSensorFilter"><field
-      type="StunFilter" reference="18" id="element0" /></field><field value="15" type="System.Single"
-      id="_range" /><field value="False" type="System.Boolean" id="_canDetectSelf"
-      /><field value="90" type="System.Single" id="_horizontalAngle" /><field value="50"
-      type="System.Single" id="_verticalAngle" /><field value="False" type="System.Boolean"
-      id="_lineOfSight" /><field value="-5" type="UnityEngine.LayerMask" id="_lineOfSightMask"
-      /></reference><reference type="RAIN.Perception.Sensors.AudioSensor" refcount="1"
-      id="16"><field value="True" type="System.Boolean" id="_showVisual" /><field
-      value="Hearing" type="System.String" id="_sensorName" /><field value="True"
+      type="PriorityFilter" reference="17" id="element0" /></field><field value="15"
+      type="System.Single" id="_range" /><field value="False" type="System.Boolean"
+      id="_canDetectSelf" /><field value="90" type="System.Single" id="_horizontalAngle"
+      /><field value="50" type="System.Single" id="_verticalAngle" /><field value="False"
+      type="System.Boolean" id="_lineOfSight" /><field value="-5" type="UnityEngine.LayerMask"
+      id="_lineOfSightMask" /></reference><reference type="RAIN.Perception.Sensors.AudioSensor"
+      refcount="1" id="16"><field value="True" type="System.Boolean" id="_showVisual"
+      /><field value="Hearing" type="System.String" id="_sensorName" /><field value="True"
       type="System.Boolean" id="_isActive" /><field value="0.6,0.5529412,0.009411765,1"
       type="UnityEngine.Color" id="_sensorColor" /><field type="UnityEngine.Transform"
       id="_mountPoint" gameobject="5" /><field value="0,0.25,0" type="UnityEngine.Vector3"
       id="_positionOffset" /><field value="0,0,0" type="UnityEngine.Vector3" id="_angleOffset"
       /><field type="System.Collections.Generic.List" id="_filters" elementtype="RAIN.Perception.Sensors.Filters.RAINSensorFilter"><field
-      type="StunFilter" reference="17" id="element0" /></field><field value="5" type="System.Single"
-      id="_range" /><field value="False" type="System.Boolean" id="_canDetectSelf"
-      /><field value="0.1" type="System.Single" id="_volumeThreshold" /></reference><reference
-      type="StunFilter" refcount="1" id="17"><field type="System.Collections.Generic.List"
-      id="visibleTags" elementtype="System.String" childrenvisible="True"><field value="Player"
-      type="System.String" id="element0" /><field value="Shade" type="System.String"
+      type="PriorityFilter" reference="19" id="element0" /></field><field value="5"
+      type="System.Single" id="_range" /><field value="False" type="System.Boolean"
+      id="_canDetectSelf" /><field value="0.1" type="System.Single" id="_volumeThreshold"
+      /></reference><reference type="PriorityFilter" refcount="1" id="17"><field type="System.Collections.Generic.List"
+      id="visibleTags" elementtype="System.String" childrenvisible="True"><field value="Shade"
+      type="System.String" id="element0" /><field value="Player" type="System.String"
       id="element1" /><field value="Fist" type="System.String" id="element2" /></field></reference><reference
-      type="StunFilter" refcount="1" id="18"><field type="System.Collections.Generic.List"
-      id="visibleTags" elementtype="System.String" childrenvisible="True"><field value="Player"
-      type="System.String" id="element0" /><field value="Shade" type="System.String"
-      id="element1" /><field value="Fist" type="System.String" id="element2" /></field></reference></references></component>
+      type="StunFilter" refcount="0" id="18" /><reference type="PriorityFilter" refcount="1"
+      id="19"><field type="System.Collections.Generic.List" id="visibleTags" elementtype="System.String"
+      childrenvisible="True"><field value="Shade" type="System.String" id="element0"
+      /><field value="Player" type="System.String" id="element1" /><field value="Fist"
+      type="System.String" id="element2" /></field></reference></references></component>
     _serializedGameObjects:
     - {fileID: 172208}
     - {fileID: 11400000, guid: 3fb3f3fcc341e5c4a9afa34f1a9b37fd, type: 2}
@@ -1435,6 +1436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 1
+  audioController: {fileID: 0}
   stunStars: {fileID: 144920}
   isRamming: 0
   isStuned: 0
