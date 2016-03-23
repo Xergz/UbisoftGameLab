@@ -16,7 +16,6 @@ public class SpawnNode : MonoBehaviour {
 
 	private void OnTriggerStay(Collider other) {
 		if(other.gameObject.tag == "Player" && !spawned) {
-			Debug.Log("Player enters spawn node");
 			spawned = true;
 			SpawnEncounter();
 		}

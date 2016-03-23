@@ -110,6 +110,10 @@ public class PlayerController : InputReceiver {
 		return memoryFragments;
 	}
 
+	public static void ClearCollectedFragments() {
+		memoryFragments.Clear();
+	}
+
 	public static int GetPlayerCurrentLife() {
 		return currentLife;
 	}
@@ -212,7 +216,7 @@ public class PlayerController : InputReceiver {
 
 		nextFragmentIndex++;
 
-		if(memoryFragments.Count >= fragmentsList.Count && !HasWon) {
+		if(memoryFragments.Count >= 5 && !HasWon) {
 			HasWon = true;
 			GameManager.SaveCheckpoint(new Checkpoint("Won"));
 			loader.LoadEndLevel("win");

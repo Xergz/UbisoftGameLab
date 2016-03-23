@@ -82,6 +82,7 @@ public class ChasingEntity : Entity {
     public override void ReceiveStun() {
         audioController.PlayAudio(AudioController.soundType.receiveStun);
         isStuned = true;
+		IsDodging = false;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
         stunStars.SetActive(true);

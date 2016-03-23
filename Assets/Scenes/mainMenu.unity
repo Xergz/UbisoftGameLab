@@ -346,6 +346,14 @@ Prefab:
       propertyPath: Waves
       value: 
       objectReference: {fileID: 665651749}
+    - target: {fileID: 11482502, guid: 92dcd8eee245f1a41b5c2df498481caa, type: 2}
+      propertyPath: numberOfClouds
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11482502, guid: 92dcd8eee245f1a41b5c2df498481caa, type: 2}
+      propertyPath: tilingRange.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92dcd8eee245f1a41b5c2df498481caa, type: 2}
   m_IsPrefabParent: 0
