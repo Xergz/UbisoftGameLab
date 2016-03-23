@@ -59,8 +59,13 @@ MonoBehaviour:
       debugbreak=&quot;False&quot; classname=&quot;StillATarget&quot; /&gt;&lt;action
       repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;ZmFsc2U=&quot;
       parameters=&quot;aXNEb2RnaW5n&quot; namespace=&quot;&quot; name=&quot;SetDodgingFalse&quot;
-      debugbreak=&quot;False&quot; classname=&quot;SetDodging&quot; /&gt;&lt;/sequencer&gt;&lt;/decision&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;/behaviortree&gt;"
-      type="System.String" id="treeData" /><field type="System.Array" id="treeBindings"
-      elementtype="System.String" /></fields><references /></scriptableobject>
+      debugbreak=&quot;False&quot; classname=&quot;SetDodging&quot; /&gt;&lt;/sequencer&gt;&lt;/decision&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
+      repeatuntil=&quot;&quot; name=&quot;NoEntity&quot; debugbreak=&quot;False&quot;
+      constraint=&quot;detectedEntity == null&quot;&gt;&lt;action repeatuntil=&quot;&quot;
+      parametervalues=&quot;ZmFsc2U=&quot; parameters=&quot;aXNEb2RnaW5n&quot; namespace=&quot;&quot;
+      name=&quot;SetDodgingFalse&quot; debugbreak=&quot;False&quot; classname=&quot;SetDodging&quot;
+      /&gt;&lt;/constraint&gt;&lt;/behaviortree&gt;" type="System.String" id="treeData"
+      /><field type="System.Array" id="treeBindings" elementtype="System.String" /></fields><references
+      /></scriptableobject>
     _serializedGameObjects: []
     _serializedCustomData: []

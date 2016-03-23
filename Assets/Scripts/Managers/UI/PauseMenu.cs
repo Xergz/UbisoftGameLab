@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour {
 	public Button mainMenuButton;
 
 
-	private bool onPause = false;
+	public bool onPause = false;
 
 	void Start() {
 #if UNITY_EDITOR
