@@ -216,7 +216,7 @@ public class PlayerController : InputReceiver {
 
 		nextFragmentIndex++;
 
-		if(memoryFragments.Count >= 5 && !HasWon) {
+		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
 			HasWon = true;
 			GameManager.SaveCheckpoint(new Checkpoint("Won"));
 			loader.LoadEndLevel("win");
@@ -270,6 +270,7 @@ public class PlayerController : InputReceiver {
 		forceToApply = new Vector3(0, 0, 0);
 		CurrentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
+		isPlayerOnstream = false;
 
 		lifeBarFill.color = Color.red;
 		lifeBarFillStatic = lifeBarFill;

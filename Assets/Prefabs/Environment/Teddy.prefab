@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3383356}
   - 23: {fileID: 2351732}
   - 95: {fileID: 9560558}
+  - 136: {fileID: 13628324}
   m_Layer: 0
   m_Name: Teddy
   m_TagString: Environment
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -131.7, y: -1.8, z: -120}
+  m_LocalPosition: {x: -3.0849686, y: -7.342145, z: 1.9548111}
   m_LocalScale: {x: 1000, y: 1000, z: 1000}
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,6 +81,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!136 &13628324
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0055
+  m_Height: 0.03
+  m_Direction: 1
+  m_Center: {x: -0.002, y: 0.003, z: -0.002}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
