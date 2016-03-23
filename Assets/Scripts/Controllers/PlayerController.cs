@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerController : InputReceiver {
 	public static Rigidbody playerRigidbody;
@@ -57,6 +58,10 @@ public class PlayerController : InputReceiver {
 	private static Image lifeBarFillStatic;
 	private static Image lifeBarRimStatic;
 
+	public ParticleSystem switchParticles;
+
+	private static ParticleSystem switchParticlesStatic;
+
 	//public PowerController powerController;
 
 	private static float maxFill;
@@ -70,6 +75,7 @@ public class PlayerController : InputReceiver {
 	//public static Transform nextFragment;
 	public static int nextFragmentIndex;
 	public static int numberOfFragments;
+	public static float nbHearts = 9;
 
     private float ZSpeedMultiplier = 0; // The current Z speed multiplier
     private float XSpeedMultiplier = 0; // The current X speed multiplier
@@ -107,6 +113,34 @@ public class PlayerController : InputReceiver {
 		return currentLife;
 	}
 
+	public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
+		if(switchParticlesStatic.isPlaying) {
+			switchParticlesStatic.Stop();
+		}
+
+		Color color;
+		switch(streamColor) {
+			case EnumStreamColor.BLUE:
+				color = Color.blue;
+				break;
+			case EnumStreamColor.GREEN:
+				color = Color.green;
+				break;
+			case EnumStreamColor.RED:
+				color = Color.red;
+				break;
+			default:
+				color = Color.yellow;
+				break;
+		}
+		switchParticlesStatic.startColor = color;
+		switchParticlesStatic.Play();
+
+		yield return new WaitForSeconds(1);
+
+		switchParticlesStatic.Stop();
+	}
+
 	public static void SetPlayerCurrentLife(int val) {
 		int maxLife = (memoryFragments.Count + 1) * 30;
 
@@ -136,8 +170,6 @@ public class PlayerController : InputReceiver {
 				ZSpeedMultiplier = 0;
 			}
         }
-
-
     }
 
 	public void AddForce(Vector3 force, Stream stream) {
@@ -228,6 +260,8 @@ public class PlayerController : InputReceiver {
 
 		RestoreAllLife();
 
+		switchParticlesStatic = switchParticles;
+
 		if(playerRigidbody == null) {
 			Debug.LogError("No player is registered to the PlayerController");
 		} else {
@@ -281,7 +315,6 @@ public class PlayerController : InputReceiver {
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             unBoostPower();
-            Debug.Log("ripboost");
         }
 	}
 
