@@ -2415,13 +2415,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4a743e72299565248ad57766203fd34e, type: 3}
   - {fileID: 8300000, guid: 2b3a2a145c2e25349bc0a5ed9f5d0cba, type: 3}
   clipsCollectFragments:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 75ef4c2c2f41e3643b1a3b6c1c49292f, type: 3}
   clipsDeath:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: b67ae7d6077db2b4bb3d7da1e38610c5, type: 3}
   clipsCollectLife:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 569c4a4ff6307e844850cd799bd620e9, type: 3}
   clipsCollision:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
   clipsUseBoost: []
   clipsReverseStream:
   - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
@@ -2490,9 +2490,13 @@ MonoBehaviour:
   timeBetweenDistanceChecks: 1
   debug: 0
   audioController: {fileID: 11468408}
+  objectsForBlink: []
   stunStars: {fileID: 189394}
   isStuned: 0
+  isInvincible: 0
   stunTime: 2
+  invincibleTime: 1
+  delayBeforeCollisionSFX: 2
   collisionSystem: {fileID: 19802022}
 --- !u!136 &13683454
 CapsuleCollider:
