@@ -71,7 +71,7 @@ public class Player : Entity {
         {
             if (Time.time - lastTimeCollisionSFX > delayBeforeCollisionSFX)
             {
-                audioController.PlayAudio(AudioController.soundType.collision, volume: 0.6f);
+                audioController.PlayAudio(AudioController.soundType.collision);
                 lastTimeCollisionSFX = Time.time;
             }
 

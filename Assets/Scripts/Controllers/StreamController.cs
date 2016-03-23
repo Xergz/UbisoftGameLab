@@ -117,7 +117,6 @@ public class StreamController : InputReceiver {
 	/// <param name="color">The color of the streams to switch</param>
 	private void SwitchDirectionForColor(EnumStreamColor color) {
 		StartCoroutine(PlayerController.ActivateSwitchFX(color));
-        PlayerController.SFXReverseStream();
 		(powerController.GetPower(EnumPower.SwitchDirection) as SwitchDirectionPower).Streams = GetStreamList(color);
 		powerController.ActivatePower(EnumPower.SwitchDirection);
 	}
