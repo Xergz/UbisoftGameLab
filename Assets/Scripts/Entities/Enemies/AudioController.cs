@@ -36,22 +36,24 @@ public class AudioController : MonoBehaviour
 
     //Pass parameters to coroutine
     private float _delay = 0.0f;
+    private float _volume = 0.0f;
     private bool _loop = false;
     private soundType _type;
 
     public AudioSource source;
 
-    public void PlayAudio(soundType type, bool loop = false, float delay = 0.0f)
+    public void PlayAudio(soundType type, bool loop = false, float delay = 0.0f, float volume = 1.0f)
     {
         if (delay > 0.0f)
         {
             _type = type;
             _loop = loop;
             _delay = delay;
+            _volume = volume;
             StartCoroutine("PlayDelayedAudio");
         }
         else
-            PlaySoundType(type, loop);
+            PlaySoundType(type, loop, volume);
     }
 
     public void PlaySpecificAudio(AudioClip clip, bool loop)
@@ -62,45 +64,45 @@ public class AudioController : MonoBehaviour
         source.Play();
     }
 
-    public void PlaySoundType(soundType type, bool loop)
+    public void PlaySoundType(soundType type, bool loop, float volume)
     {
         switch (type)
         {
             case soundType.far:
-                playSoundFromList(clipsFar, loop);
+                playSoundFromList(clipsFar, loop, volume);
                 break;
             case soundType.close:
-                playSoundFromList(clipsClose, loop);
+                playSoundFromList(clipsClose, loop, volume);
                 break;
             case soundType.receiveHit:
-                playSoundFromList(clipsReceiveHit, loop);
+                playSoundFromList(clipsReceiveHit, loop, volume);
                 break;
             case soundType.receiveStun:
-                playSoundFromList(clipsReceiveStun, loop);
+                playSoundFromList(clipsReceiveStun, loop, volume);
                 break;
             case soundType.enterOpenWorld:
-                playSoundFromList(clipsEnterOpenWorld, loop);
+                playSoundFromList(clipsEnterOpenWorld, loop, volume);
                 break;
             case soundType.collectFragment:
-                playSoundFromList(clipsCollectFragments, loop);
+                playSoundFromList(clipsCollectFragments, loop, volume);
                 break;
             case soundType.death:
-                playSoundFromList(clipsDeath, loop);
+                playSoundFromList(clipsDeath, loop, volume);
                 break;
             case soundType.collectLife:
-                playSoundFromList(clipsCollectLife, loop);
+                playSoundFromList(clipsCollectLife, loop, volume);
                 break;
             case soundType.collision:
-                playSoundFromList(clipsCollision, loop);
+                playSoundFromList(clipsCollision, loop, volume);
                 break;
             case soundType.useBoost:
-                playSoundFromList(clipsUseBoost, loop);
+                playSoundFromList(clipsUseBoost, loop, volume);
                 break;
             case soundType.reverseStream:
-                playSoundFromList(clipsReverseStream, loop);
+                playSoundFromList(clipsReverseStream, loop, volume);
                 break;
             case soundType.spotFragment:
-                playSoundFromList(clipsSpotFragment, loop);
+                playSoundFromList(clipsSpotFragment, loop, volume);
                 break;
             default: break;
         }
@@ -109,15 +111,16 @@ public class AudioController : MonoBehaviour
     public IEnumerator PlayDelayedAudio()
     {
         yield return new WaitForSeconds(_delay);
-        PlaySoundType(_type, _loop);
+        PlaySoundType(_type, _loop, _volume);
     }
 
-    public void playSoundFromList(List<AudioClip> list, bool loop)
+    public void playSoundFromList(List<AudioClip> list, bool loop, float volume)
     {
         if (list.Count > 0)
         {
             int index = Random.Range(0, list.Count);
 
+            source.volume = volume;
             source.clip = list[index];
             source.loop = loop;
 
