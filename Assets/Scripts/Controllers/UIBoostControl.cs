@@ -34,7 +34,8 @@ public class UIBoostControl : MonoBehaviour
             CooldownBar.color = cooldownColor;
             CooldownBar.fillAmount = (timeLeft / (cooldownTime));
         }
-        else {
+        else
+        {
             CooldownBar.fillAmount = 0;
             CooldownBar.color = Color.white;
         }
