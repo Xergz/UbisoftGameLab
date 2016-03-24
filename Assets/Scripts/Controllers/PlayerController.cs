@@ -240,7 +240,6 @@ public class PlayerController : InputReceiver {
 			}
 		});
 
-
 		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
 			HasWon = true;
 			GameManager.SaveCheckpoint(new Checkpoint("Won"));
@@ -309,6 +308,7 @@ public class PlayerController : InputReceiver {
 
 		UpdateMaxLife();
 		lifeBarFillStatic.fillAmount = maxFill;
+		currentLife = maxLife;
 
 		switchParticlesStatic = switchParticles;
 
