@@ -43,7 +43,7 @@ MonoBehaviour:
       /&gt;&lt;selector usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot;
       name=&quot;rotation&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Entity Inner Ring&quot; debugbreak=&quot;False&quot;
-      constraint=&quot;detectedEntity != null&quot;&gt;&lt;move turnspeed=&quot;90&quot;
+      constraint=&quot;detectedEntity != null&quot;&gt;&lt;move turnspeed=&quot;2000&quot;
       repeatuntil=&quot;&quot; name=&quot;Turn&quot; movetarget=&quot;&quot; movespeed=&quot;&quot;
       facetarget=&quot;detectedEntity&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
       closeenoughangle=&quot;&quot; /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
