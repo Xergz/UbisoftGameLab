@@ -105,7 +105,7 @@ public class PlayerController : InputReceiver
 
     private static int currentLife;
 
-    public static UIBoostControl uiBoostController;
+    public UIBoostControl uiBoostController;
     private float timeSinceLastBoost = 0.0f;
     private bool powerboost = false;
     private static Player _player = null;
@@ -127,13 +127,15 @@ public class PlayerController : InputReceiver
         return memoryFragments;
     }
 
-	public static void ClearCollectedFragments() {
-		memoryFragments.Clear();
-	}
+    public static void ClearCollectedFragments()
+    {
+        memoryFragments.Clear();
+    }
 
-	public static int GetPlayerCurrentLife() {
-		return currentLife;
-	}
+    public static int GetPlayerCurrentLife()
+    {
+        return currentLife;
+    }
 
     public static void SFXBoost()
     {
@@ -233,7 +235,7 @@ public class PlayerController : InputReceiver
 
     private void boostPower()
     {
-        if (!powerboost && (uiBoostController.timeLeft < 10.0f))
+        if ((!powerboost) && (uiBoostController.timeLeft > 10.0f))
         {
             powerboost = true;
             timeSinceLastBoost = Time.time;
@@ -248,7 +250,6 @@ public class PlayerController : InputReceiver
         if (powerboost)
         {
             powerboost = false;
-            timeSinceLastBoost = Time.time;
             speedMultiplierBoost = 1f;
         }
     }
@@ -280,15 +281,17 @@ public class PlayerController : InputReceiver
             }
         });
 
-        
-		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
-			HasWon = true;
-			GameManager.SaveCheckpoint(new Checkpoint("Won"));
-			loader.LoadLevel("win");
-		} else {
-			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
-		}
-	}
+
+        if (memoryFragments.Count >= numberOfFragmentsToWin && !HasWon)
+        {
+            HasWon = true;
+            GameManager.SaveCheckpoint(new Checkpoint("Won"));
+            loader.LoadLevel("win");
+        }
+        else {
+            GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
+        }
+    }
 
     public void ClearFragments()
     {
@@ -312,10 +315,11 @@ public class PlayerController : InputReceiver
         currentLife -= damage;
         lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
 
-		if(currentLife <= 0) {
-			loader.LoadLevel("gameOver");
-		}
-	}
+        if (currentLife <= 0)
+        {
+            loader.LoadLevel("gameOver");
+        }
+    }
 
     public List<Fragment> GetFragments()
     {
@@ -341,10 +345,10 @@ public class PlayerController : InputReceiver
         nextFragmentFind = 0;
 
         memoryFragments = new List<Fragment>();
-		forceToApply = new Vector3(0, 0, 0);
-		CurrentZone = EnumZone.OPEN_WORLD;
-		PlayerCanBeMoved = true;
-		isPlayerOnstream = false;
+        forceToApply = new Vector3(0, 0, 0);
+        CurrentZone = EnumZone.OPEN_WORLD;
+        PlayerCanBeMoved = true;
+        isPlayerOnstream = false;
 
         lifeBarFill.color = Color.red;
         lifeBarFillStatic = lifeBarFill;
