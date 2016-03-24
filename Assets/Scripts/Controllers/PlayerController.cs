@@ -166,6 +166,7 @@ public class PlayerController : InputReceiver {
 		currentLife = Mathf.Clamp(val, 0, maxLife);
 
         UpdateMaxLife();
+        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
     }
 
 	public void AddLife(int val) {
