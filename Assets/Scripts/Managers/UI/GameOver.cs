@@ -43,8 +43,7 @@ public class GameOver : MonoBehaviour {
     }	
 
 	public void ReloadLastCheckpoint() {
-        SceneManager.LoadScene(gameSceneName);
-        GameManager.RestoreFromLastCheckpoint();
+        LevelLoading.instance.LoadLevel("Extended", true);
 
         UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(gameSceneName).buildIndex);
     }
