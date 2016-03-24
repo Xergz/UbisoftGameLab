@@ -52,12 +52,12 @@ public class InputManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if(!UIManager.instance.pauseMenuScript.onPause) {
-			CheckButtons();
-			CheckJoysticks();
-			CheckTriggers();
-			CheckBumpers();
-		}
+        if(Time.timeScale != 0) {
+            CheckButtons();
+            CheckJoysticks();
+            CheckTriggers();
+            CheckBumpers();
+        }	
 	}
 
 	private void CheckButtons() {
