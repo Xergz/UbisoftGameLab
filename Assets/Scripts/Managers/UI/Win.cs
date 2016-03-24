@@ -27,10 +27,9 @@ public class Win : MonoBehaviour {
     }	
 
 	public void KeepPlaying() {
-		SceneManager.LoadScene("Extended");
-		GameManager.RestoreFromLastCheckpoint();
+        LevelLoading.instance.LoadLevel("Extended", true);
 
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
+        UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
 	}
 
 	public void MainMenu() {
