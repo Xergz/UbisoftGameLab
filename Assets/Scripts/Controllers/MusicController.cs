@@ -28,6 +28,8 @@ public class MusicController : MonoBehaviour {
 	private bool m_Fade;
 	private float m_FadeAcc;
 	private AudioClip m_NextClip;
+	private int[] m_LevelClipIndex;
+	private EnumZone m_CurrentZone;
 
 	public void NewEnnemyStartedChasing() {
 		m_ChasingEnnemiesCount++;
@@ -53,18 +55,20 @@ public class MusicController : MonoBehaviour {
 	/// </summary>
 	/// <param name="newZone">The new zone where the player entered.</param>
 	public void OnZoneChanged(EnumZone newZone) {
+		m_CurrentZone = newZone;
+
 		switch (newZone) {
 		case EnumZone.OPEN_WORLD:
-			TargetClip (OpenWorldClips[Random.Range(0, OpenWorldClips.Length)]);
+			TargetClip (OpenWorldClips[m_LevelClipIndex[0]++ % OpenWorldClips.Length]);
 			break;
 		case EnumZone.LEVEL_1:
-			if(Level1Clips.Length > 0) TargetClip(Level1Clips[Random.Range(0, Level1Clips.Length)]);
+			if(Level1Clips.Length > 0) TargetClip(Level1Clips[m_LevelClipIndex[1]++ % OpenWorldClips.Length]);
 			break;
 		case EnumZone.LEVEL_2:
-			if(Level2Clips.Length > 0) TargetClip(Level2Clips[Random.Range(0, Level2Clips.Length)]);
+			if(Level2Clips.Length > 0) TargetClip(Level2Clips[m_LevelClipIndex[2]++ % OpenWorldClips.Length]);
 			break;
 		case EnumZone.LEVEL_3:
-			if(Level3Clips.Length > 0) TargetClip(Level3Clips[Random.Range(0, Level3Clips.Length)]);
+			if(Level3Clips.Length > 0) TargetClip(Level3Clips[m_LevelClipIndex[3]++ % OpenWorldClips.Length]);
 			break;
 		default:
 			break;
@@ -108,13 +112,20 @@ public class MusicController : MonoBehaviour {
 	}
 
 	// UNITY CALLBACKS
-	void Start() {
+	void Awake() {
 		m_QuarterNote = 60 / bpm;
 		m_TransitionIn = m_QuarterNote;
 		m_TransitionOut = m_QuarterNote * 2;// * 16;
 
 		m_ChasingEnnemiesCount = 0;
 		m_Fade = false;
+
+		m_LevelClipIndex = new int[4];
+		// Set the starting location for every zones
+		m_LevelClipIndex [0] = Random.Range (0, OpenWorldClips.Length);
+		m_LevelClipIndex [1] = Random.Range (0, Level1Clips.Length);
+		m_LevelClipIndex [2] = Random.Range (0, Level2Clips.Length);
+		m_LevelClipIndex [3] = Random.Range (0, Level3Clips.Length);
 	}
 
 	void Update() {
@@ -131,6 +142,8 @@ public class MusicController : MonoBehaviour {
 		} else if (!m_Fade && m_NextClip != null) {
 			TargetClip (m_NextClip);
 			m_NextClip = null;
+		} else if (!m_Fade && MainTrackSource.time >= MainTrackSource.clip.length - FadeDuration) {
+			OnZoneChanged(m_CurrentZone);
 		}
 	}
 }
