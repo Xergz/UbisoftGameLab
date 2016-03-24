@@ -164,7 +164,10 @@ public class PlayerController : InputReceiver {
 		int maxLife = (memoryFragments.Count + 1) * 20;
 
 		currentLife = Mathf.Clamp(val, 0, maxLife);
-	}
+
+        UpdateMaxLife();
+        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
+    }
 
 	public void AddLife(int val) {
 		currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
