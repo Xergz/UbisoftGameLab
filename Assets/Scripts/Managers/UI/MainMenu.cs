@@ -17,8 +17,7 @@ public class MainMenu : MonoBehaviour {
 	public Button newGameButton;
 	public Button quitButton;
 
-
-	void Start() {
+    void Start() {
 #if UNITY_EDITOR
 		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 #endif
@@ -57,17 +56,16 @@ public class MainMenu : MonoBehaviour {
 		} else if (level == SceneManager.GetSceneByName("Extended").buildIndex) {
 			gameObject.SetActive(false);
 			eventSystem.gameObject.SetActive(false);
-		} else {
+        } else {
             gameObject.SetActive(false);
         }
 	}
 
 	public void Continue() {
-		// Transition out of main menu
-		// Fade to black
-		SceneManager.LoadScene(mainSceneName);
+        // Transition out of main menu
+        // Fade to black
+        LevelLoading.instance.LoadLevel("Extended", true);
 
-		GameManager.RestoreFromLastCheckpoint();
 #if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
@@ -85,7 +83,6 @@ public class MainMenu : MonoBehaviour {
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 #endif
 		PlayerController.HasWon = false;
-		GameManager.SaveCheckpoint(new Checkpoint("Start"));
 		// Fade to game
 	}
 	
