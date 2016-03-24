@@ -18,9 +18,7 @@ public class MainMenu : MonoBehaviour {
 	public Button quitButton;
 
     void Start() {
-#if UNITY_EDITOR
 		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-#endif
 	}
 
 	public void OnLevelWasLoaded(int level) {
@@ -66,9 +64,7 @@ public class MainMenu : MonoBehaviour {
         // Fade to black
         LevelLoading.instance.LoadLevel("Extended", true);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
-#endif
 
 		// Fade to game
 	}
@@ -79,9 +75,8 @@ public class MainMenu : MonoBehaviour {
 		// Fade to black
 		SceneManager.LoadScene(mainSceneName);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
-#endif
+
 		PlayerController.HasWon = false;
 		// Fade to game
 	}

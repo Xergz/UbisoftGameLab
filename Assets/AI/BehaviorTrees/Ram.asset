@@ -37,7 +37,7 @@ MonoBehaviour:
       classname=&quot;MoveAcceleration&quot; /&gt;&lt;/decision&gt;&lt;action repeatuntil=&quot;&quot;
       priority=&quot;&quot; parametervalues=&quot;ZmFsc2U=&quot; parameters=&quot;aXNSYW1taW5n&quot;
       namespace=&quot;(global)&quot; name=&quot;SetRammingFalse&quot; debugbreak=&quot;False&quot;
-      classname=&quot;SetRamming&quot; /&gt;&lt;timer waitforsec=&quot;random(2, 4)&quot;
+      classname=&quot;SetRamming&quot; /&gt;&lt;timer waitforsec=&quot;random(1, 2)&quot;
       returnvalue=&quot;success&quot; priority=&quot;&quot; name=&quot;Pause&quot;
       debugbreak=&quot;False&quot; /&gt;&lt;/sequencer&gt;&lt;/behaviortree&gt;" type="System.String"
       id="treeData" /><field type="System.Array" id="treeBindings" elementtype="System.String"

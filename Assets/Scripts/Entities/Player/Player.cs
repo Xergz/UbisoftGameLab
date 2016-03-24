@@ -105,9 +105,11 @@ public class Player : Entity
         }
         else if (other.CompareTag("Life"))
         {
-            audioController.PlayAudio(AudioController.soundType.collectLife);
-            PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
-            other.gameObject.SetActive(false);
+			if(PlayerController.GetPlayerCurrentLife() < PlayerController.GetPlayerMaxLife()) {
+				audioController.PlayAudio(AudioController.soundType.collectLife);
+				PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
+				other.gameObject.SetActive(false);
+			}
         }
     }
 

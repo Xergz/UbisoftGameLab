@@ -97,8 +97,6 @@ public class PlayerController : InputReceiver {
 	private static int currentLife;
 
 	public UIBoostControl uiBoostController;
-	private float timeSinceLastBoost = 0.0f;
-	private bool powerboost = false;
 	private static Player _player = null;
 
 	public static GameObject Player {
@@ -120,6 +118,10 @@ public class PlayerController : InputReceiver {
 
 	public static int GetPlayerCurrentLife() {
 		return currentLife;
+	}
+
+	public static int GetPlayerMaxLife() {
+		return maxLife;
 	}
 
 	public static void SFXBoost() {
@@ -203,20 +205,15 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void boostPower() {
-		if((!powerboost) && (uiBoostController.timeLeft > 10.0f)) {
-			powerboost = true;
-			timeSinceLastBoost = Time.time;
+		if(uiBoostController.IsReady) {
+			uiBoostController.IsReady = false;
 			speedMultiplierBoost = 5f;
 			SFXBoost();
-
 		}
 	}
 
 	private void unBoostPower() {
-		if(powerboost) {
-			powerboost = false;
-			speedMultiplierBoost = 1f;
-		}
+		speedMultiplierBoost = 1f;
 	}
 
 	public static void AddFragment(Fragment fragment) {
@@ -224,7 +221,6 @@ public class PlayerController : InputReceiver {
 
 		UpdateMaxLife();
 		nextFragmentIndex++;
-		//powerController.SetCooldownMultipliers(maxFill);
 		Fragment fragmenttemp;
 		for(int i = 0; i < memoryFragments.Count - 1; i++) {
 			if(memoryFragments[i].index > memoryFragments[i + 1].index) {
@@ -239,7 +235,6 @@ public class PlayerController : InputReceiver {
 				nextFragmentFind++;
 			}
 		});
-
 
 		if(memoryFragments.Count >= numberOfFragmentsToWin && !HasWon) {
 			HasWon = true;
@@ -309,6 +304,7 @@ public class PlayerController : InputReceiver {
 
 		UpdateMaxLife();
 		lifeBarFillStatic.fillAmount = maxFill;
+		currentLife = maxLife;
 
 		switchParticlesStatic = switchParticles;
 
@@ -322,6 +318,10 @@ public class PlayerController : InputReceiver {
 
 	private void FixedUpdate() {
 		life = currentLife;
+
+		if(uiBoostController.ElapsedTime > 1.5f && !uiBoostController.IsReady) {
+			unBoostPower();
+		}
 
 		if(PlayerCanBeMoved) {
 			MovePlayer();
@@ -358,11 +358,6 @@ public class PlayerController : InputReceiver {
 		}
 
 		forceToApply = new Vector3(0, 0, 0);
-		if(Time.time - timeSinceLastBoost > 1.5f && powerboost) {
-			unBoostPower();
-		} else {
-			uiBoostController.timeLeft = (Time.time - timeSinceLastBoost);
-		}
 	}
 
 	private static void UpdateMaxLife() {

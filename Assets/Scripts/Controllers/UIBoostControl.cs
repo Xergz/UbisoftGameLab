@@ -4,20 +4,26 @@ using UnityEngine.UI;
 public class UIBoostControl : MonoBehaviour
 {
 
-    float cooldownTime = 10.0f;
+    public float cooldownTime = 8.0f;
     public Image CooldownBar;
-    protected Color cooldownColor = Color.white;
-    public float timeLeft { get; set; }
+
+	public bool IsReady { get; set; }
+
+	public float ElapsedTime { get; private set; }
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        timeLeft = 0.0f;
+        ElapsedTime = 0.0f;
+		IsReady = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        cooldownUpdate();
+		if(!IsReady) {
+			cooldownUpdate();
+		}
     }
 
     //public void Activate()
@@ -28,17 +34,14 @@ public class UIBoostControl : MonoBehaviour
 
     private void cooldownUpdate()
     {
-        timeLeft = cooldownTime - timeLeft;
-        if (timeLeft > 0.01)
-        {
-            CooldownBar.color = cooldownColor;
-            CooldownBar.fillAmount = (timeLeft / (cooldownTime));
-        }
-        else
-        {
-            CooldownBar.fillAmount = 0;
-            CooldownBar.color = Color.white;
-        }
+		if(ElapsedTime < cooldownTime - 0.01) {
+			ElapsedTime += Time.deltaTime;
+			CooldownBar.fillAmount = ElapsedTime / cooldownTime;
+		} else {
+			ElapsedTime = 0F;
+			IsReady = true;
+			CooldownBar.fillAmount = 1;
+		}
     }
 
 }
