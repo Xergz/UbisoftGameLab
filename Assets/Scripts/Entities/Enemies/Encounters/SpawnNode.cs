@@ -8,16 +8,19 @@ public class SpawnNode : MonoBehaviour {
 	public EncounterManager EncounterManager = null;
 	[Tooltip("Need to be given the waves manage for each node")]
 	public WaveController WaveManager = null;
-
-
+    public bool enableRespawn = false;
+    
 	[SerializeField]
 	private bool spawned = false;
+    [SerializeField]
+    private float delayBeforeRespawn = 2f;
+    private float lastTimeSpawned = 0.0f;
 
-
-	private void OnTriggerStay(Collider other) {
-		if(other.gameObject.tag == "Player" && !spawned) {
-			spawned = true;
-			SpawnEncounter();
+    private void OnTriggerStay(Collider other) {
+		if(other.gameObject.tag == "Player" && (!spawned || (enableRespawn && Time.time - lastTimeSpawned > delayBeforeRespawn))) {
+                spawned = true;
+            lastTimeSpawned = Time.time;
+            SpawnEncounter();
 		}
 	}
 
