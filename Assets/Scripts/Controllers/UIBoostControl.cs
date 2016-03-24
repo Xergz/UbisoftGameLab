@@ -34,14 +34,13 @@ public class UIBoostControl : MonoBehaviour
 
     private void cooldownUpdate()
     {
-		float timeLeft = cooldownTime - ElapsedTime;
-		if(timeLeft > 0.01) {
+		if(ElapsedTime < cooldownTime - 0.01) {
 			ElapsedTime += Time.deltaTime;
-			CooldownBar.fillAmount = timeLeft / cooldownTime;
+			CooldownBar.fillAmount = ElapsedTime / cooldownTime;
 		} else {
 			ElapsedTime = 0F;
 			IsReady = true;
-			CooldownBar.fillAmount = 0;
+			CooldownBar.fillAmount = 1;
 		}
     }
 

@@ -2747,7 +2747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
-  debug: 1
+  debug: 0
   audioController: {fileID: 11449704}
   minTimeBetweenAudio: 10
   maxTimeBetweenAudio: 20
@@ -4783,6 +4783,10 @@ Prefab:
       propertyPath: clipsReceiveHit.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 8d699814968d5dc47a05f5ff55e0cc24, type: 3}
+    - target: {fileID: 0}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134078}
