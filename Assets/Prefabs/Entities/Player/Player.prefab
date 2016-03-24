@@ -697,9 +697,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 494456}
-  - 114: {fileID: 11413170}
+  - 114: {fileID: 11481516}
   m_Layer: 0
-  m_Name: DecreaseStrength
+  m_Name: Boost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2315,18 +2315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 132074}
---- !u!114 &11413170
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 179904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ef62bda9a3af7c4bb03073e28959d24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  value: 0
 --- !u!114 &11415276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2423,7 +2411,7 @@ MonoBehaviour:
   clipsCollision:
   - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
   clipsUseBoost:
-  - {fileID: 8300000, guid: 605b2d1b36d523448be310410712fe4c, type: 3}
+  - {fileID: 0}
   clipsReverseStream:
   - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
   clipsSpotFragment:
@@ -2477,6 +2465,17 @@ MonoBehaviour:
     - {fileID: 434746}
     - {fileID: 8254562}
     _serializedCustomData: []
+--- !u!114 &11481516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735d0201108c2ed4ea37f86671080146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11483540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2491,7 +2490,9 @@ MonoBehaviour:
   timeBetweenDistanceChecks: 1
   debug: 0
   audioController: {fileID: 11468408}
-  objectsForBlink: []
+  objectsForBlink:
+  - {fileID: 192378}
+  - {fileID: 198924}
   stunStars: {fileID: 189394}
   isStuned: 0
   isInvincible: 0
