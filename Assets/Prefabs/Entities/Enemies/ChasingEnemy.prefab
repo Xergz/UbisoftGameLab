@@ -2890,10 +2890,10 @@ MonoBehaviour:
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
       reference="6" id="_mind" childrenvisible="False" /><field type="ChaseEnemyMotor"
-      reference="10" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
+      reference="10" id="_motor" childrenvisible="True" /><field type="RAIN.Animation.BasicAnimator"
       reference="11" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
       reference="12" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
-      reference="13" id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
+      reference="13" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
       id="_customElements" elementtype="RAIN.Core.CustomAIElement" childrenvisible="False"
       /></reference><reference type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field
       type="System.Collections.Generic.List" id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field
@@ -2928,8 +2928,8 @@ MonoBehaviour:
       id="9"><field value="Entity Detected Tree" type="System.String" id="binding"
       /><field type="RAIN.BehaviorTrees.BTAsset" id="behaviorTree" gameobject="4"
       /></reference><reference type="ChaseEnemyMotor" refcount="1" id="10"><field
-      value="0.1" type="System.Single" id="defaultCloseEnoughDistance" /><field value="3"
-      type="System.Single" id="defaultSpeed" /><field value="3" type="System.Single"
+      value="0.1" type="System.Single" id="defaultCloseEnoughDistance" /><field value="6"
+      type="System.Single" id="defaultSpeed" /><field value="5" type="System.Single"
       id="defaultAcceleration" /></reference><reference type="RAIN.Animation.BasicAnimator"
       refcount="1" id="11"><field type="System.Collections.Generic.List" id="_animationStates"
       elementtype="RAIN.Animation.BasicAnimator+BasicAnimatorState" /></reference><reference

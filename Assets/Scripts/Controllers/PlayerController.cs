@@ -122,6 +122,10 @@ public class PlayerController : InputReceiver {
 		return currentLife;
 	}
 
+	public static int GetPlayerMaxLife() {
+		return maxLife;
+	}
+
 	public static void SFXBoost() {
 		_player.audioController.PlayAudio(AudioController.soundType.useBoost, volume: 0.2f);
 	}
