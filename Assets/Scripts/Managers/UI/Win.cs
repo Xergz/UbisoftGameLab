@@ -12,9 +12,7 @@ public class Win : MonoBehaviour {
     public Button mainMenuButton;
 
 	void Start() {
-#if UNITY_EDITOR
 		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-#endif
 	}
 
 	public void OnLevelWasLoaded(int level) {
@@ -32,17 +30,13 @@ public class Win : MonoBehaviour {
 		SceneManager.LoadScene("Extended");
 		GameManager.RestoreFromLastCheckpoint();
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
-#endif
 	}
 
 	public void MainMenu() {
 		SceneManager.LoadScene(mainMenuSceneName);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
-#endif
 	}
 
 	public void Quit() {
