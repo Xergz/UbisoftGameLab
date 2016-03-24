@@ -93,8 +93,10 @@ public class Player : Entity
         { // Picked up a fragment
             audioController.PlayAudio(AudioController.soundType.collectFragment);
             other.gameObject.SetActive(false);
-            PlayerController.AddFragment(other.GetComponent<Fragment>());
-            Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
+			Fragment frag = other.GetComponent<Fragment>();
+			if(frag.rockTrigger != null)
+				frag.rockTrigger.startFall();
+			PlayerController.AddFragment(frag);
         }
         else if (other.CompareTag("Zone"))
         { // Entered a zone
