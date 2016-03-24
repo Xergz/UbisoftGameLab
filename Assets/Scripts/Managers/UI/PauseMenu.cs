@@ -17,9 +17,7 @@ public class PauseMenu : MonoBehaviour {
 	public bool onPause = false;
 
 	void Start() {
-#if UNITY_EDITOR
 		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-#endif
 	}
 
 	public void OnLevelWasLoaded(int level) {
@@ -75,9 +73,7 @@ public class PauseMenu : MonoBehaviour {
 		Time.timeScale = 1;
 		SceneManager.LoadScene(mainMenuSceneName);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
-#endif
 	}
 
 	public void Quit() {

@@ -51,7 +51,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &109912
 GameObject:
   m_ObjectHideFlags: 1
@@ -169,7 +169,6 @@ GameObject:
   - 114: {fileID: 11464718}
   - 114: {fileID: 11495402}
   - 222: {fileID: 22260520}
-  - 114: {fileID: 11443572}
   - 114: {fileID: 11470168}
   m_Layer: 5
   m_Name: Win
@@ -450,7 +449,6 @@ GameObject:
   - 114: {fileID: 11438594}
   - 222: {fileID: 22275352}
   - 225: {fileID: 22566894}
-  - 114: {fileID: 11421018}
   - 114: {fileID: 11401526}
   - 114: {fileID: 11410768}
   m_Layer: 5
@@ -459,7 +457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &165568
 GameObject:
   m_ObjectHideFlags: 1
@@ -490,7 +488,6 @@ GameObject:
   - 114: {fileID: 11427804}
   - 114: {fileID: 11446142}
   - 222: {fileID: 22291222}
-  - 114: {fileID: 11482382}
   - 114: {fileID: 11460652}
   m_Layer: 5
   m_Name: GameOver
@@ -498,7 +495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &171174
 GameObject:
   m_ObjectHideFlags: 1
@@ -583,14 +580,13 @@ GameObject:
   - 114: {fileID: 11402134}
   - 222: {fileID: 22268722}
   - 114: {fileID: 11403240}
-  - 114: {fileID: 11439652}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &181816
 GameObject:
   m_ObjectHideFlags: 1
@@ -707,14 +703,13 @@ GameObject:
   - 114: {fileID: 11488288}
   - 222: {fileID: 22219234}
   - 114: {fileID: 11495608}
-  - 114: {fileID: 11439878}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &197224
 GameObject:
   m_ObjectHideFlags: 1
@@ -1075,17 +1070,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11421018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 164506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861995dad05f3d94fbdb5ca456a8fb09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11422100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1499,28 +1483,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11439652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 179816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861995dad05f3d94fbdb5ca456a8fb09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11439878
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861995dad05f3d94fbdb5ca456a8fb09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11441494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1573,17 +1535,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11443572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861995dad05f3d94fbdb5ca456a8fb09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11444110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2521,17 +2472,6 @@ MonoBehaviour:
   m_Text: 'Quit
 
 '
---- !u!114 &11482382
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861995dad05f3d94fbdb5ca456a8fb09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11488288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2681,6 +2621,7 @@ MonoBehaviour:
   resumeButton: {fileID: 11431554}
   checkpointButton: {fileID: 11446998}
   mainMenuButton: {fileID: 11444110}
+  onPause: 0
 --- !u!114 &11495916
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -144,6 +144,34 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 121290, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22406636, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463976, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463976, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Color.r
+      value: 0.6764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463976, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Color.g
+      value: 0.3918864
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463976, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Color.b
+      value: 0.3730536
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463976, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11439652, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
     - {fileID: 11439878, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
@@ -152,6 +180,24 @@ Prefab:
     - {fileID: 11443572, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &534556310 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 116200, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+  m_PrefabInternal: {fileID: 534556309}
+--- !u!114 &534556311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534556310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &620127335
 Prefab:
   m_ObjectHideFlags: 0

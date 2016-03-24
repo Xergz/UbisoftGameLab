@@ -104,6 +104,7 @@ public class ChasingEntity : Entity {
 
 	public void SetDying() {
 		meshObject.SetActive(false);
+		tRig.enabled = false;
 		dieParticles.Emit(Random.Range(30, 50));
 		StartCoroutine(DestroyInXSeconds(2));
 	}

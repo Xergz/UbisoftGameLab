@@ -3,7 +3,7 @@
 public class Fragment : MonoBehaviour {
     public string fragmentName;
 
-	public Sprite image;
+	public RockFall rockTrigger;
 
     public int index;
 

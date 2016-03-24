@@ -93,8 +93,10 @@ public class Player : Entity
         { // Picked up a fragment
             audioController.PlayAudio(AudioController.soundType.collectFragment);
             other.gameObject.SetActive(false);
-            PlayerController.AddFragment(other.GetComponent<Fragment>());
-            Debug.Log("Congratulations! You gained the \"" + other.GetComponent<Fragment>().fragmentName + "\" memory fragment");
+			Fragment frag = other.GetComponent<Fragment>();
+			if(frag.rockTrigger != null)
+				frag.rockTrigger.startFall();
+			PlayerController.AddFragment(frag);
         }
         else if (other.CompareTag("Zone"))
         { // Entered a zone
@@ -103,9 +105,11 @@ public class Player : Entity
         }
         else if (other.CompareTag("Life"))
         {
-            audioController.PlayAudio(AudioController.soundType.collectLife);
-            PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
-            other.gameObject.SetActive(false);
+			if(PlayerController.GetPlayerCurrentLife() < PlayerController.GetPlayerMaxLife()) {
+				audioController.PlayAudio(AudioController.soundType.collectLife);
+				PlayerController.AddLife(other.GetComponent<LifePickup>().Value);
+				other.gameObject.SetActive(false);
+			}
         }
     }
 
