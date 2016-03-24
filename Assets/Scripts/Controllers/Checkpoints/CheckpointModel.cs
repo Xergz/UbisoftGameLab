@@ -244,5 +244,6 @@ public class CheckpointModel {
 		}
 
 		checkpoints.Clear();
+        guids.Clear();
 	}
 }
