@@ -52,7 +52,8 @@ public class CheckpointModel {
 	/// <param name="newCheckpoint">The new checkpoint.</param>
 	public void Update(Checkpoint newCheckpoint) {
 		checkpoints.Push(newCheckpoint);
-	}
+        guids.Add(newCheckpoint.GUID);
+    }
 
 	public bool ContainsGUID(uint guid) {
 		return guids.Contains(guid);
