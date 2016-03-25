@@ -748,7 +748,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.45, y: 0, z: -10.2}
+  m_LocalPosition: {x: -26.57, y: 0, z: -10.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 485860}
@@ -919,7 +919,7 @@ Animator:
   m_GameObject: {fileID: 167882}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f4a00b4767fa0e242b27813a153c7ea6, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ae0934c2a9aeb3e4c8dccab328b4dc75, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -940,6 +940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenDistanceChecks: 1
   debug: 0
+  audioController: {fileID: 0}
 --- !u!114 &11447656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1006,11 +1007,11 @@ MonoBehaviour:
       id="0"><field value="True" type="System.Boolean" id="_isActive" /><field type="UnityEngine.GameObject"
       id="_body" gameobject="0" /><field type="RAIN.Memory.BasicMemory" reference="1"
       id="_workingMemory" childrenvisible="False" /><field type="RAIN.Minds.BasicMind"
-      reference="3" id="_mind" childrenvisible="False" /><field type="RAIN.Motion.BasicMotor"
+      reference="3" id="_mind" childrenvisible="True" /><field type="RAIN.Motion.BasicMotor"
       reference="4" id="_motor" childrenvisible="False" /><field type="RAIN.Animation.BasicAnimator"
       reference="5" id="_animator" childrenvisible="False" /><field type="RAIN.Navigation.BasicNavigator"
       reference="6" id="_navigator" childrenvisible="False" /><field type="RAIN.Perception.BasicSenses"
-      reference="7" id="_senses" childrenvisible="True" /><field type="System.Collections.Generic.List"
+      reference="7" id="_senses" childrenvisible="False" /><field type="System.Collections.Generic.List"
       id="_customElements" elementtype="RAIN.Core.CustomAIElement" /></reference><reference
       type="RAIN.Memory.BasicMemory" refcount="1" id="1"><field type="System.Collections.Generic.List"
       id="_memoryItems" elementtype="RAIN.Memory.BasicMemory+MemoryItem"><field type="RAIN.Memory.BasicMemory+MemoryItem"
