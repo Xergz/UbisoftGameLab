@@ -10,7 +10,7 @@ public class PlayerController : InputReceiver {
 
 	public static LevelLoading loader;
 
-	public static int numberOfFragmentsToWin = 1;
+	public static int numberOfFragmentsToWin = 5;
 
 
 	private static EnumZone c_currentZone;
