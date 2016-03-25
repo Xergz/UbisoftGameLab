@@ -27,7 +27,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1101 &110171248
+--- !u!1101 &110147610
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,7 +48,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &110179602
+--- !u!1101 &110168546
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -59,7 +59,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Grabbing
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 110222848}
+  m_DstState: {fileID: 110228306}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
@@ -72,7 +72,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &110222848
+--- !u!1102 &110228306
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
@@ -82,7 +82,7 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 110171248}
+  - {fileID: 110147610}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -91,7 +91,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f4a00b4767fa0e242b27813a153c7ea6, type: 3}
+  m_Motion: {fileID: 7400000, guid: 0b2c84734925d94408cd832f88c970ba, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -106,7 +106,7 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 110179602}
+  - {fileID: 110168546}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -132,8 +132,8 @@ AnimatorStateMachine:
     m_State: {fileID: 110289448}
     m_Position: {x: 36, y: 240, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 110222848}
-    m_Position: {x: 396, y: 240, z: 0}
+    m_State: {fileID: 110228306}
+    m_Position: {x: 348, y: 240, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
