@@ -16,7 +16,7 @@ MonoBehaviour:
       value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;Wander&quot;
       debugbreak=&quot;False&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; name=&quot;root&quot; debugbreak=&quot;False&quot;&gt;&lt;decision
-      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;NQ==&quot;
+      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;Mw==&quot;
       parameters=&quot;dGltZQ==&quot; namespace=&quot;&quot; name=&quot;Timed Action&quot;
       debugbreak=&quot;False&quot; classname=&quot;Timed&quot;&gt;&lt;action repeatuntil=&quot;&quot;
       parametervalues=&quot;bWF4aW11bVJhbmdlAG1pbmltdW1SYW5nZQB3YW5kZXJUYXJnZXQ=&quot;
