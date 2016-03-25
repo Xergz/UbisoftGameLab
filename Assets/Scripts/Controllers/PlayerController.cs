@@ -140,7 +140,8 @@ public class PlayerController : InputReceiver {
 		Color color;
 		switch(streamColor) {
 			case EnumStreamColor.BLUE:
-				color = Color.blue;
+                color = new Color(0.062f, 0.062f, 0.784f);
+                color.a = 0.784f;
 				break;
 			case EnumStreamColor.GREEN:
 				color = Color.green;
@@ -150,6 +151,7 @@ public class PlayerController : InputReceiver {
 				break;
 			default:
 				color = Color.yellow;
+                color.g = 0.92f;
 				break;
 		}
 		switchParticlesStatic.startColor = color;

@@ -4267,7 +4267,6 @@ ParticleSystem:
   looping: 0
   prewarm: 0
   playOnAwake: 0
-  moveWithTransform: 1
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -4437,7 +4436,7 @@ ParticleSystem:
         rgba: 4278386432
       minMaxState: 0
     startSize:
-      scalar: 0.3
+      scalar: 0.39
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4651,7 +4650,7 @@ ParticleSystem:
     time1: 0.75
     time2: 1
     time3: 0.1
-    m_BurstCount: 2
+    m_BurstCount: 1
   SizeModule:
     enabled: 0
     curve:
