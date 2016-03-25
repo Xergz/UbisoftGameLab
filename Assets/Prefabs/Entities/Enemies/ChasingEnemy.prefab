@@ -2756,7 +2756,7 @@ MonoBehaviour:
   stunStars: {fileID: 180898}
   meshObject: {fileID: 119632}
   dieParticles: {fileID: 19852900}
-  life: 5
+  life: 2
   isStuned: 0
   stunTime: 2
   isDodging: 0
@@ -4786,6 +4786,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: debug
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: life
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

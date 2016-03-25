@@ -76,6 +76,9 @@ public class ChasingEntity : Entity {
         audioController.PlayAudio(AudioController.soundType.receiveHit);
         if (life <= 0) {
 			SetDying();
+		} else {
+			dieParticles.Stop();
+			dieParticles.Emit(Random.Range(30, 50));
 		}
 		return true;
     }
@@ -106,6 +109,7 @@ public class ChasingEntity : Entity {
 	public void SetDying() {
 		meshObject.SetActive(false);
 		tRig.enabled = false;
+		dieParticles.Stop();
 		dieParticles.Emit(Random.Range(30, 50));
 		StartCoroutine(DestroyInXSeconds(2));
 	}
