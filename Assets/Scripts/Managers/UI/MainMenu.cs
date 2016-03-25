@@ -18,10 +18,11 @@ public class MainMenu : MonoBehaviour {
 	public Button quitButton;
 
     void Start() {
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName("mainMenu").buildIndex);
+		//LevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
-	public void OnLevelWasLoaded(int level) {
+	public void LevelWasLoaded(int level) {
 		if (level == SceneManager.GetSceneByName("mainMenu").buildIndex) {
 			gameObject.SetActive(true);
 			eventSystem.gameObject.SetActive(true);
@@ -63,9 +64,6 @@ public class MainMenu : MonoBehaviour {
         // Transition out of main menu
         // Fade to black
         LevelLoading.instance.LoadLevel("Extended", true);
-
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
-
 		// Fade to game
 	}
 
@@ -73,9 +71,7 @@ public class MainMenu : MonoBehaviour {
 		GameManager.DeleteAllCheckPoints();
 		// Transition out of main menu
 		// Fade to black
-		SceneManager.LoadScene(mainSceneName);
-
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+		LevelLoading.instance.LoadLevel(mainSceneName, false, true, "Start");
 
 		PlayerController.HasWon = false;
 		// Fade to game

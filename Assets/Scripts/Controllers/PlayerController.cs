@@ -299,7 +299,7 @@ public class PlayerController : InputReceiver {
 
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
-		CurrentZone = EnumZone.OPEN_WORLD;
+		c_currentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 		isPlayerOnstream = false;
 

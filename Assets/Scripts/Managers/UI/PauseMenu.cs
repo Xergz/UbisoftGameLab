@@ -17,10 +17,10 @@ public class PauseMenu : MonoBehaviour {
 	public bool onPause = false;
 
 	void Start() {
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		//LevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
-	public void OnLevelWasLoaded(int level) {
+	public void LevelWasLoaded(int level) {
 		gameObject.SetActive(false);
 	}
 
