@@ -64,20 +64,22 @@ public class MainMenu : MonoBehaviour {
         // Fade to black
         LevelLoading.instance.LoadLevel("Extended", true);
 
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+		//UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
 
 		// Fade to game
 	}
 
 	public void NewGame () {
 		GameManager.DeleteAllCheckPoints();
-		// Transition out of main menu
-		// Fade to black
-		SceneManager.LoadScene(mainSceneName);
+        // Transition out of main menu
+        // Fade to black
+        PlayerController.HasWon = false;
 
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+        SceneManager.LoadScene(mainSceneName);
 
-		PlayerController.HasWon = false;
+		//UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainSceneName).buildIndex);
+
+		
 		// Fade to game
 	}
 	

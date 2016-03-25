@@ -14,7 +14,7 @@ public class GameOver : MonoBehaviour {
 	public Button mainMenuButton;
 
 	void Start() {
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		//OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	public void OnLevelWasLoaded(int level) {
@@ -45,13 +45,13 @@ public class GameOver : MonoBehaviour {
 	public void ReloadLastCheckpoint() {
         LevelLoading.instance.LoadLevel("Extended", true);
 
-        UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(gameSceneName).buildIndex);
+        //UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(gameSceneName).buildIndex);
     }
 
     public void MainMenu() {
 		SceneManager.LoadScene(mainMenuSceneName);
 
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
+		//UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
 	}
 
 	public void Quit() {

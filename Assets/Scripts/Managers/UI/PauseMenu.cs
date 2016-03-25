@@ -17,12 +17,8 @@ public class PauseMenu : MonoBehaviour {
 	public bool onPause = false;
 
 	void Start() {
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-	}
-
-	public void OnLevelWasLoaded(int level) {
-		gameObject.SetActive(false);
-	}
+        gameObject.SetActive(false);
+    }
 
 	public void Pause() {
 		if(SceneManager.GetActiveScene().name != "mainMenu") {
@@ -72,8 +68,6 @@ public class PauseMenu : MonoBehaviour {
 	public void MainMenu() {
 		Time.timeScale = 1;
 		SceneManager.LoadScene(mainMenuSceneName);
-
-		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
 	}
 
 	public void Quit() {
