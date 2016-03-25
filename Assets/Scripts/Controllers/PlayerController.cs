@@ -10,7 +10,7 @@ public class PlayerController : InputReceiver {
 
 	public static LevelLoading loader;
 
-	public static int numberOfFragmentsToWin = 5;
+	public static int numberOfFragmentsToWin = 1;
 
 
 	private static EnumZone c_currentZone;
@@ -297,7 +297,7 @@ public class PlayerController : InputReceiver {
 
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
-		CurrentZone = EnumZone.OPEN_WORLD;
+		c_currentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 		isPlayerOnstream = false;
 
