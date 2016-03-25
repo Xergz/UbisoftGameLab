@@ -46,10 +46,11 @@ public class RammingEntity : Entity {
         }
     }
 
-    public override void ReceiveHit() {
+    public override bool ReceiveHit() {
 		life -= 1;
 		if(life <= 0)
 			Destroy(gameObject);
+		return true;
 	}
 
     public override void ReceiveStun() {

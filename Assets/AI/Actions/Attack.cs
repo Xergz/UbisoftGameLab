@@ -24,7 +24,9 @@ public class Attack : RAINAction {
         if (targetEntity == null)
             return ActionResult.FAILURE;
 
-        targetEntity.ReceiveHit();
+        if(!targetEntity.ReceiveHit()) {
+			return ActionResult.FAILURE;
+		}
 
         return ActionResult.SUCCESS;
     }

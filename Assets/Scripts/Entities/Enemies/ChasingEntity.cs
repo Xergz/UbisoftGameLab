@@ -19,6 +19,7 @@ public class ChasingEntity : Entity {
 	public GameObject meshObject;
 
 	public ParticleSystem dieParticles;
+	public ParticleSystem hitParticles;
 
 
     private Rigidbody rigidBody;
@@ -71,12 +72,15 @@ public class ChasingEntity : Entity {
         }
     }
 
-    public override void ReceiveHit() {
+    public override bool ReceiveHit() {
         life -= 1;
         audioController.PlayAudio(AudioController.soundType.receiveHit);
         if (life <= 0) {
 			SetDying();
+		} else {
+			hitParticles.Emit(Random.Range(30, 50));
 		}
+		return true;
     }
 
     public override void ReceiveStun() {
