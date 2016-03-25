@@ -46,8 +46,8 @@ public class RammingEntity : Entity {
         }
     }
 
-    public override void ReceiveHit() {
-
+    public override bool ReceiveHit() {
+		return false;
 	}
 
     public override void ReceiveStun() {

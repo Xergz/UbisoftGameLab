@@ -71,12 +71,13 @@ public class ChasingEntity : Entity {
         }
     }
 
-    public override void ReceiveHit() {
+    public override bool ReceiveHit() {
         life -= 1;
         audioController.PlayAudio(AudioController.soundType.receiveHit);
         if (life <= 0) {
 			SetDying();
 		}
+		return true;
     }
 
     public override void ReceiveStun() {
