@@ -2341,7 +2341,7 @@ MonoBehaviour:
   clipsCollision:
   - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
   clipsUseBoost:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 605b2d1b36d523448be310410712fe4c, type: 3}
   clipsReverseStream:
   - {fileID: 8300000, guid: cd5817e224b2b4d579cf0d0d8bfce316, type: 3}
   clipsSpotFragment:
@@ -4273,7 +4273,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 1.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4308,7 +4308,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 0.5
+      scalar: 0.7
       maxCurve:
         serializedVersion: 2
         m_Curve:

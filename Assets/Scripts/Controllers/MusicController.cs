@@ -62,13 +62,13 @@ public class MusicController : MonoBehaviour {
 			TargetClip (OpenWorldClips[m_LevelClipIndex[0]++ % OpenWorldClips.Length]);
 			break;
 		case EnumZone.LEVEL_1:
-			if(Level1Clips.Length > 0) TargetClip(Level1Clips[m_LevelClipIndex[1]++ % OpenWorldClips.Length]);
+			if(Level1Clips.Length > 0) TargetClip(Level1Clips[m_LevelClipIndex[1]++ % Level1Clips.Length]);
 			break;
 		case EnumZone.LEVEL_2:
-			if(Level2Clips.Length > 0) TargetClip(Level2Clips[m_LevelClipIndex[2]++ % OpenWorldClips.Length]);
+			if(Level2Clips.Length > 0) TargetClip(Level2Clips[m_LevelClipIndex[2]++ % Level2Clips.Length]);
 			break;
 		case EnumZone.LEVEL_3:
-			if(Level3Clips.Length > 0) TargetClip(Level3Clips[m_LevelClipIndex[3]++ % OpenWorldClips.Length]);
+			if(Level3Clips.Length > 0) TargetClip(Level3Clips[m_LevelClipIndex[3]++ % Level3Clips.Length]);
 			break;
 		default:
 			break;
