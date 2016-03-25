@@ -14,25 +14,25 @@ MonoBehaviour:
   _dataSerializer:
     _serializedData: <scriptableobject version="1.3" type="RAIN.BehaviorTrees.BTAsset"><fields><field
       value="&lt;behaviortree version=&quot;1.1&quot; repeatuntil=&quot;&quot; name=&quot;DetectEntity&quot;
-      debugbreak=&quot;False&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
-      repeatuntil=&quot;&quot; name=&quot;Detect Entity&quot; debugbreak=&quot;False&quot;&gt;&lt;selector
-      usepriorities=&quot;False&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;selector&quot; debugbreak=&quot;False&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Hearing&amp;quot;&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;DetectEntityAudio&quot;
-      matchtype=&quot;all&quot; entityobjectvariable=&quot;&quot; debugbreak=&quot;False&quot;
-      consistent=&quot;True&quot; aspectvariable=&quot;detectedEntities&quot; aspectobjectvariable=&quot;&quot;
-      aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
-      priority=&quot;&quot; name=&quot;HearingNotAcquired&quot; debugbreak=&quot;False&quot;
-      constraint=&quot;detectedEntities == null&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Sight&amp;quot;&quot;
-      repeatuntil=&quot;&quot; name=&quot;DetectEntityVisual&quot; matchtype=&quot;all&quot;
+      debugbreak=&quot;False&quot;&gt;&lt;iterator repeatuntil=&quot;&quot; name=&quot;iterator&quot;
+      debugbreak=&quot;False&quot; count=&quot;1&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Hearing&amp;quot;&quot;
+      repeatuntil=&quot;&quot; name=&quot;DetectEntityAudio&quot; matchtype=&quot;all&quot;
       entityobjectvariable=&quot;&quot; debugbreak=&quot;False&quot; consistent=&quot;True&quot;
       aspectvariable=&quot;detectedEntities&quot; aspectobjectvariable=&quot;&quot;
-      aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;action
-      repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdGllcwBkZXRlY3RlZEVudGl0eQ==&quot;
+      aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
+      parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdGllcwBkZXRlY3RlZEVudGl0eQ==&quot; parameters=&quot;YXNwZWN0c0xpc3QAZGV0ZWN0ZWRGb3Jt&quot;
+      namespace=&quot;(global)&quot; name=&quot;Parse Detect&quot; debugbreak=&quot;False&quot;
+      classname=&quot;ParseDetect&quot; /&gt;&lt;constraint repeatuntil=&quot;&quot;
+      name=&quot;HearingNotAcquired&quot; debugbreak=&quot;False&quot; constraint=&quot;detectedEntity
+      == null&quot;&gt;&lt;detect sensor=&quot;&amp;quot;Sight&amp;quot;&quot; repeatuntil=&quot;&quot;
+      name=&quot;DetectEntityVisual&quot; matchtype=&quot;all&quot; entityobjectvariable=&quot;&quot;
+      debugbreak=&quot;False&quot; consistent=&quot;True&quot; aspectvariable=&quot;detectedEntities&quot;
+      aspectobjectvariable=&quot;&quot; aspect=&quot;&amp;quot;EntityVisual&amp;quot;&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdGllcwBkZXRlY3RlZEVudGl0eQ==&quot;
       parameters=&quot;YXNwZWN0c0xpc3QAZGV0ZWN0ZWRGb3Jt&quot; namespace=&quot;(global)&quot;
       name=&quot;Parse Detect&quot; debugbreak=&quot;False&quot; classname=&quot;ParseDetect&quot;
-      /&gt;&lt;/sequencer&gt;&lt;/behaviortree&gt;" type="System.String" id="treeData"
-      /><field type="System.Array" id="treeBindings" elementtype="System.String" /></fields><references
-      /></scriptableobject>
+      /&gt;&lt;/constraint&gt;&lt;/iterator&gt;&lt;/behaviortree&gt;" type="System.String"
+      id="treeData" /><field type="System.Array" id="treeBindings" elementtype="System.String"
+      /></fields><references /></scriptableobject>
     _serializedGameObjects: []
     _serializedCustomData: []
