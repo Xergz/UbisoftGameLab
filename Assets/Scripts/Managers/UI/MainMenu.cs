@@ -16,6 +16,9 @@ public class MainMenu : MonoBehaviour {
 	public Button continueButton;
 	public Button newGameButton;
 	public Button quitButton;
+    public Button creditsMainMenuButton;
+
+    public GameObject credits;
 
     void Start() {
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName("mainMenu").buildIndex);
@@ -26,6 +29,7 @@ public class MainMenu : MonoBehaviour {
 		if (level == SceneManager.GetSceneByName("mainMenu").buildIndex) {
 			gameObject.SetActive(true);
 			eventSystem.gameObject.SetActive(true);
+            credits.SetActive(false);
 
 			if(GameManager.CountSavedCheckpoints() != 0) {
 				eventSystem.firstSelectedGameObject = continueButton.gameObject;
@@ -76,6 +80,13 @@ public class MainMenu : MonoBehaviour {
 		PlayerController.HasWon = false;
 		// Fade to game
 	}
+
+    public void Credits() {
+        gameObject.SetActive(false);
+        eventSystem.firstSelectedGameObject = creditsMainMenuButton.gameObject;
+        eventSystem.SetSelectedGameObject(creditsMainMenuButton.gameObject);
+        credits.SetActive(true);
+    }
 	
 	public void Quit() {
 #if UNITY_STANDALONE
