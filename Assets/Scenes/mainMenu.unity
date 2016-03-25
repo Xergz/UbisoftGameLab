@@ -172,12 +172,57 @@ Prefab:
       propertyPath: m_FontData.m_FontStyle
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 22377250, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400214, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22347462, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11448388, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22380412, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498064, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22301150, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22375776, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11427804, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11464718, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22566894, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11439652, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
     - {fileID: 11439878, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
     - {fileID: 11421018, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
     - {fileID: 11482382, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
     - {fileID: 11443572, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+    - {fileID: 22566894, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &534556310 stripped
@@ -396,6 +441,21 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb66d88eaf36f7d4b9daf1c1a17c6158, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1006332484 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 164506, guid: 5abc3c8682d8eef4c95b84013a05ec63, type: 2}
+  m_PrefabInternal: {fileID: 534556309}
+--- !u!225 &1006332488
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1006332484}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1189699903
 Prefab:
   m_ObjectHideFlags: 0
