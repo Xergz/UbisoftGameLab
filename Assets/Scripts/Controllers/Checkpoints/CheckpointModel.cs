@@ -8,7 +8,7 @@ public class CheckpointModel {
 	private Stack<Checkpoint> checkpoints = new Stack<Checkpoint>();
 	private string FILE_EXTENSION = "chk";
 	private byte[] VALID_HEADER_MAGIC = { 67, 72, 69, 75 };
-	private byte VALID_HEADER_VERSION = 14;
+	private byte VALID_HEADER_VERSION = 15;
 	private List<uint> guids = new List<uint>();
 
 	/// <summary>
@@ -81,7 +81,7 @@ public class CheckpointModel {
 		foreach(KeyValuePair<uint, bool> pair in checkpoint.Collectables) {
 			// 32 bits for collectable id + 1 bit for associated boolean value
 			// stored on 64 bits
-			System.UInt64 collectable = pair.Key << 1;
+			System.UInt64 collectable = (System.UInt64)(pair.Key) << 1;
 
 			if(pair.Value) {
 				collectable |= 1;
