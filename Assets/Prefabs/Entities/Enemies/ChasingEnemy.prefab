@@ -2640,27 +2640,27 @@ AudioSource:
       inSlope: 0.13778396
       outSlope: 0.13778396
       tangentMode: 0
-    - time: 0.032104615
-      value: 0.13872834
-      inSlope: -0.840429
-      outSlope: -0.840429
+    - time: 0.02123505
+      value: 0.07999047
+      inSlope: -0.7176452
+      outSlope: -0.7176452
       tangentMode: 0
-    - time: 0.1648227
-      value: 0.054179076
-      inSlope: -0.8512749
-      outSlope: -0.8512749
+    - time: 0.16119951
+      value: 0.032819852
+      inSlope: -0.44232705
+      outSlope: -0.44232705
       tangentMode: 0
-    - time: 0.32486838
-      value: 0.06017946
+    - time: 0.33211476
+      value: 0.022800818
       inSlope: -0.12752621
       outSlope: -0.12752621
       tangentMode: 0
     - time: 0.54334563
-      value: 0.04731225
+      value: 0.020613218
       inSlope: -0.12991059
       outSlope: -0.12991059
       tangentMode: 0
-    - time: 0.7346804
+    - time: 0.7383036
       value: 0.05542141
       inSlope: 0.03710359
       outSlope: 0.03710359
