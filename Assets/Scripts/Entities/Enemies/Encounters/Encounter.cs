@@ -25,6 +25,7 @@ public class Encounter : MonoBehaviour {
 			Vector3 spawnPosition = localPosition + entity.spawnPoint;
 			if(NavMesh.SamplePosition(spawnPosition, out hit, 10.0f, NavMesh.AllAreas)) {
 				var spawned = Instantiate(entity.entity, hit.position, Quaternion.identity) as Entity;
+				spawned.gameObject.SetActive(false);
 				var wave = spawned.GetComponent<FloatOnWave>();
 
 				wave.waves = waveController;

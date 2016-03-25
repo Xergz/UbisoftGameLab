@@ -17,7 +17,7 @@ public abstract class Entity : MonoBehaviour {
 
     public AudioController audioController;
 
-    public abstract void ReceiveHit();
+    public abstract bool ReceiveHit();
 
     public abstract void ReceiveStun();
 

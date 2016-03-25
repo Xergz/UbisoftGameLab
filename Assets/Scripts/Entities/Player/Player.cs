@@ -52,7 +52,7 @@ public class Player : Entity
 
     }
 
-    public override void ReceiveHit()
+    public override bool ReceiveHit()
     {
         if (!isInvincible)
         {
@@ -61,7 +61,9 @@ public class Player : Entity
             isInvincible = true;
             beginInvincibleTime = Time.time;
             StartCoroutine(DoBlinks(invincibleTime, 0.2f));
+			return true;
         }
+		return false;
     }
 
     public override void ReceiveStun()
@@ -133,7 +135,6 @@ public class Player : Entity
                 audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
 
             PlayerController.CurrentZone = EnumZone.OPEN_WORLD;
-            ui.EnterLevel("Open World");
         }
     }
 
