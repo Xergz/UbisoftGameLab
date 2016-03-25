@@ -10,6 +10,15 @@ public class EnterLevel : MonoBehaviour {
 
     private float initialTime = -1f;
 
+	public void LevelWasLoaded(int level) {
+		if(gameObject.activeSelf)
+			iTween.ToAlpha(0);
+		else {
+			gameObject.SetActive(true);
+			iTween.ToAlpha(0);
+		}
+	}
+
 	// Use this for initialization
 	private void Start () {
         if (iTween == null)

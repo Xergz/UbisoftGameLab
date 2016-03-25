@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour {
 	public InputReceiver streamController;
 	public InputReceiver uiController;
     public InputReceiver uiInGameButtons;
+	public InputReceiver uiInGameTrigger;
 
 	public float timeBeforeHeldDown = 0.15F;
 
@@ -213,15 +214,17 @@ public class InputManager : MonoBehaviour {
 	}
 
 	private void CheckTriggers() {
-		if(Input.GetAxis("LeftTrigger") != LeftTriggerStatus) {
+		//if(Input.GetAxis("LeftTrigger") != LeftTriggerStatus) {
 			LeftTriggerStatus = Input.GetAxis("LeftTrigger");
 			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
-		}
+			uiInGameTrigger.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
+		//}
 
-		if(Input.GetAxis("RightTrigger") != RightTriggerStatus) {
+		//if(Input.GetAxis("RightTrigger") != RightTriggerStatus) {
 			RightTriggerStatus = Input.GetAxis("RightTrigger");
 			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
-		}
+			uiInGameTrigger.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
+		//}
 	}
 
 	private void CheckBumpers() {

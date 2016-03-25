@@ -1415,7 +1415,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 709681840}
-    m_SelectOnDown: {fileID: 1971088836}
+    m_SelectOnDown: {fileID: 1237494366}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1978,14 +1978,30 @@ Prefab:
       propertyPath: creditsMainMenuButton
       value: 
       objectReference: {fileID: 1323580126}
+    - target: {fileID: 11433130, guid: 13ee3f2075b52a44a91b06d9e1e9335d, type: 2}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 1237494368}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13ee3f2075b52a44a91b06d9e1e9335d, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1237494366 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11426784, guid: 13ee3f2075b52a44a91b06d9e1e9335d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1237494365}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &1237494367 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22462274, guid: 13ee3f2075b52a44a91b06d9e1e9335d,
     type: 2}
   m_PrefabInternal: {fileID: 1237494365}
+--- !u!114 &1237494368 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11481196, guid: 13ee3f2075b52a44a91b06d9e1e9335d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1237494365}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1301209157
 GameObject:
   m_ObjectHideFlags: 0
@@ -3026,12 +3042,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1963372720}
---- !u!114 &1971088836 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11455662, guid: 13ee3f2075b52a44a91b06d9e1e9335d,
-    type: 2}
-  m_PrefabInternal: {fileID: 1237494365}
-  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!114 &2131329257 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11442242, guid: 13ee3f2075b52a44a91b06d9e1e9335d,

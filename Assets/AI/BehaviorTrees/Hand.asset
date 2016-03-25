@@ -24,8 +24,8 @@ MonoBehaviour:
       name=&quot;action&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Entity&amp;amp;NoCooldown&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity != null &amp;amp;&amp;amp; !coolDown&quot;&gt;&lt;timer
-      waitforsec=&quot;0.1&quot; returnvalue=&quot;success&quot; name=&quot;Wait Before
-      Stun&quot; debugbreak=&quot;False&quot; /&gt;&lt;mecparam valueexpression=&quot;true&quot;
+      waitforsec=&quot;0.05&quot; returnvalue=&quot;success&quot; name=&quot;Wait
+      Before Stun&quot; debugbreak=&quot;False&quot; /&gt;&lt;mecparam valueexpression=&quot;true&quot;
       repeatuntil=&quot;&quot; parametertype=&quot;trigger&quot; parametername=&quot;Grabbing&quot;
       name=&quot;mecparam&quot; debugbreak=&quot;False&quot; damptime=&quot;0&quot;
       /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdHk=&quot;
