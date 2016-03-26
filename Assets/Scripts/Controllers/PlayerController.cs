@@ -184,7 +184,7 @@ public class PlayerController : InputReceiver {
 			}
 		}
 
-		if(inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger) {
+		if((inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger) && inputEvent.Value > 0.01) {
 			boostPower();
 		}
 

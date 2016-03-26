@@ -34,5 +34,6 @@ public class UIManager : InputReceiver {
 		pauseMenuScript.LevelWasLoaded(level);
         winScript.LevelWasLoaded(level);
         gameOverScript.LevelWasLoaded(level);
+		enterLevelScript.LevelWasLoaded(level);
 	}
 }

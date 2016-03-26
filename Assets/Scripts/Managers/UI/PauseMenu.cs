@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour {
 	public Button checkpointButton;
 	public Button mainMenuButton;
 
+	public GameObject enterLevel;
 
 	public bool onPause = false;
 
@@ -31,6 +32,7 @@ public class PauseMenu : MonoBehaviour {
 			if(onPause) {
 				gameObject.SetActive(true);
 				eventSystem.gameObject.SetActive(true);
+				enterLevel.SetActive(false);
 				eventSystem.firstSelectedGameObject = resumeButton.gameObject;
 				eventSystem.SetSelectedGameObject(resumeButton.gameObject);
 				Time.timeScale = 0;
@@ -59,6 +61,7 @@ public class PauseMenu : MonoBehaviour {
 			} else {
 				eventSystem.gameObject.SetActive(false);
 				gameObject.SetActive(false);
+				enterLevel.SetActive(true);
 				Time.timeScale = 1;
 			}
 		}
