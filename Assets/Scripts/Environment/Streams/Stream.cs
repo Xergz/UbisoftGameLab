@@ -71,6 +71,9 @@ public class Stream : MonoBehaviour {
 	[SerializeField]
 	private float strengthRestorationSpeed = 1F;
 	private float timeAtLastStrengthModification = 0F;
+	[SerializeField]
+	private float verticalOffset = 0.1F;
+
 
 	#region Oscillation
 	[Tooltip("The speed at which the stream will oscillate")]
@@ -544,7 +547,12 @@ public class Stream : MonoBehaviour {
 		Quaternion[] arrowRotations = new Quaternion[streamCurve.Length - 1];
 
 		for(int i = 0; i < arrowPositions.Length; ++i) {
-			arrowPositions[i] = new Vector3(streamCurve[i + 1].x, streamCurve[i + 1].y + 0.15f, streamCurve[i + 1].z);
+			if(waveController != null && Application.isPlaying) {
+				Vector3 worldVertex = transform.TransformPoint(streamCurve[i + 1]);
+				arrowPositions[i] = new Vector3(streamCurve[i + 1].x, waveController.GetOceanHeightAt(worldVertex.x, worldVertex.z) + verticalOffset + 0.5F, streamCurve[i + 1].z);
+			} else {
+				arrowPositions[i] = new Vector3(streamCurve[i + 1].x, streamCurve[i + 1].y + verticalOffset + 0.5F, streamCurve[i + 1].z);
+			}
 			arrowRotations[i] = Quaternion.LookRotation(tangents[i + 1] * (int) direction, Vector3.up);
 		}
 
@@ -588,7 +596,7 @@ public class Stream : MonoBehaviour {
 			if(waveController != null && Application.isPlaying) {
 				for(int j = 0; j < wavePrecision; ++j) {
 					Vector3 worldVertex = transform.TransformPoint(streamVertices[iMultiplied + j]);
-					streamVertices[iMultiplied + j].y = waveController.GetOceanHeightAt(worldVertex.x, worldVertex.z) + 0.1F;
+					streamVertices[iMultiplied + j].y = waveController.GetOceanHeightAt(worldVertex.x, worldVertex.z) + verticalOffset;
 					streamNormals[iMultiplied + j] = waveController.GetSurfaceNormalAt(worldVertex.x, worldVertex.z);
 				}
 			} else {
