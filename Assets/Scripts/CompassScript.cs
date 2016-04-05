@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CompassScript : MonoBehaviour {
 
@@ -12,6 +12,9 @@ public class CompassScript : MonoBehaviour {
 
 	public Vector3 playerForwardVector;
 	public Vector3 playerFragmentVector;
+
+	[Tooltip("List of the places to point to, must be ordered the same way as the list of fragments")]
+	public List<LevelWaypoint> targets;
 
 	public float lastAngle;
 	public float currentAngle;
@@ -27,17 +30,17 @@ public class CompassScript : MonoBehaviour {
 	}
 
 	void Update() {
-		nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentFind].position;
+		if(targets[PlayerController.nextFragmentFind].playerEntered) {
+			nextFragmentPosition = PlayerController.fragmentsList[PlayerController.nextFragmentFind].position;
+		} else {
+			nextFragmentPosition = targets[PlayerController.nextFragmentFind].transform.position;
+		}
 		if(PlayerController.nextFragmentFind < PlayerController.numberOfFragments) {
-            
-
 			CalculateVector();
 			RotateDirection(CalculateAngle() - lastAngle);
 			lastAngle = currentAngle;
 
 			playerPosition = PlayerController.playerRigidbody.position;
-
-
 		} else {
 			RotateDirection(-lastAngle);
 			lastAngle = 0.0F;

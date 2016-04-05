@@ -21,5 +21,10 @@ public class Zone : MonoBehaviour {
 				Debug.LogError("Area " + stream.AreaIndex + " exists more than once in zone " + zone);
 			}
 		}
+
+		LevelWaypoint[] waypoints = GetComponentsInChildren<LevelWaypoint>();
+		foreach(LevelWaypoint waypoint in waypoints) {
+			waypoint.Zone = zone;
+		}
 	}
 }
