@@ -71,11 +71,8 @@ public class PlayerController : InputReceiver {
 
 	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
-	//public Transform Fragments;
 	public static List<Transform> fragmentsList; //List of every fragments
 
-	//public static Transform nextFragment;
-	public static int nextFragmentIndex;
 	public static int nextFragmentFind;
 	public static int numberOfFragments;
 	public static float nbHearts = 9;
@@ -132,6 +129,12 @@ public class PlayerController : InputReceiver {
 		_player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.2f);
 	}
 
+	public static void SFXEnterOpenWorld() {
+		if(Random.Range(0.0f, 1.0f) > 0.5f) {
+			_player.audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
+		}
+	}
+
 	public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
 		if(switchParticlesStatic.isPlaying) {
 			switchParticlesStatic.Stop();
@@ -184,7 +187,7 @@ public class PlayerController : InputReceiver {
 			}
 		}
 
-		if(inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger) {
+		if((inputEvent.InputAxis == EnumAxis.RightTrigger || inputEvent.InputAxis == EnumAxis.LeftTrigger) && inputEvent.Value > 0.01) {
 			boostPower();
 		}
 
@@ -225,7 +228,6 @@ public class PlayerController : InputReceiver {
 		memoryFragments.Add(fragment);
 
 		UpdateMaxLife();
-		nextFragmentIndex++;
 		Fragment fragmenttemp;
 		for(int i = 0; i < memoryFragments.Count - 1; i++) {
 			if(memoryFragments[i].index > memoryFragments[i + 1].index) {
@@ -249,11 +251,6 @@ public class PlayerController : InputReceiver {
 		} else {
 			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
 		}
-	}
-
-	public void ClearFragments() {
-		memoryFragments.Clear();
-		nextFragmentIndex = 0;
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
@@ -294,12 +291,11 @@ public class PlayerController : InputReceiver {
 
 		fragmentsList = new List<Transform>(20);
 		numberOfFragments = 0;
-		nextFragmentIndex = 0;
 		nextFragmentFind = 0;
 
 		memoryFragments = new List<Fragment>();
 		forceToApply = new Vector3(0, 0, 0);
-		CurrentZone = EnumZone.OPEN_WORLD;
+		c_currentZone = EnumZone.OPEN_WORLD;
 		PlayerCanBeMoved = true;
 		isPlayerOnstream = false;
 

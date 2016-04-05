@@ -14,18 +14,25 @@ public class LevelLoading : MonoBehaviour {
         }
     }
 
-    public void LoadLevel(string name, bool loadCheckpoint = false) {
+    public void LoadLevel(string name, bool loadCheckpoint = false, bool saveCheckpoint = false, string checkpointName = "") {
         SceneManager.LoadScene(name);
 
         if (loadCheckpoint)
             StartCoroutine(LoadCheckpoint());
-#if UNITY_EDITOR
-        UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(name).buildIndex);
-#endif
+
+		if(saveCheckpoint)
+			StartCoroutine(SaveCheckpoint(checkpointName));
+
+		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(name).buildIndex);
     }
 
     IEnumerator LoadCheckpoint() {
         yield return null;
         GameManager.RestoreFromLastCheckpoint();
     }
+
+	IEnumerator SaveCheckpoint(string checkpointName) {
+		yield return null;
+		GameManager.SaveCheckpoint(new Checkpoint(checkpointName));
+	}
 }

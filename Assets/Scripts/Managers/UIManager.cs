@@ -30,9 +30,10 @@ public class UIManager : InputReceiver {
     }
 
 	public void CallOnLevelWasLoaded(int level) {
-		mainMenuScript.OnLevelWasLoaded(level);
-		pauseMenuScript.OnLevelWasLoaded(level);
-        winScript.OnLevelWasLoaded(level);
-        gameOverScript.OnLevelWasLoaded(level);
+		mainMenuScript.LevelWasLoaded(level);
+		pauseMenuScript.LevelWasLoaded(level);
+        winScript.LevelWasLoaded(level);
+        gameOverScript.LevelWasLoaded(level);
+		enterLevelScript.LevelWasLoaded(level);
 	}
 }

@@ -24,6 +24,12 @@ public class FadeInOut : MonoBehaviour {
         StartCoroutine(FadeOutCoroutine());
     }
 
+	public void ToAlpha(int value) {
+		StopCoroutine(FadeInCoroutine());
+		StopCoroutine(FadeOutCoroutine());
+		canvasGroup.alpha = value;
+	}
+
     private IEnumerator FadeOutCoroutine() {
         while (canvasGroup.alpha > 0) {
             canvasGroup.alpha -= Time.deltaTime / fadeOutTime;

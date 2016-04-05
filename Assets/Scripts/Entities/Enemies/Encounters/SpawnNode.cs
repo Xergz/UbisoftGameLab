@@ -12,6 +12,8 @@ public class SpawnNode : MonoBehaviour {
     
 	[SerializeField]
 	private bool spawned = false;
+
+	private bool spawnedOnce = false;
     [SerializeField]
     private float delayBeforeRespawn = 2f;
     private float lastTimeSpawned = 0.0f;
@@ -27,9 +29,11 @@ public class SpawnNode : MonoBehaviour {
 	private void SpawnEncounter() {
 		if(SpecialEncounterSpawn != null) {
 			//So ugly...
-			SpecialEncounterSpawn.SpawnEntities(transform, transform.localPosition, EncounterManager, WaveManager);
+			SpecialEncounterSpawn.SpawnEntities(transform, transform.localPosition, EncounterManager, WaveManager, !spawnedOnce);
 		} else {
-			EncounterManager.GetEncounter().SpawnEntities(transform, transform.localPosition, EncounterManager, WaveManager);
+			EncounterManager.GetEncounter().SpawnEntities(transform, transform.localPosition, EncounterManager, WaveManager, !spawnedOnce);
 		}
+
+		spawnedOnce = true;
 	}
 }

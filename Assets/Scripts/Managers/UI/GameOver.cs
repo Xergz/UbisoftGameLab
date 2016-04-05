@@ -14,10 +14,10 @@ public class GameOver : MonoBehaviour {
 	public Button mainMenuButton;
 
 	void Start() {
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
+		//LevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
-	public void OnLevelWasLoaded(int level) {
+	public void LevelWasLoaded(int level) {
         if (level == SceneManager.GetSceneByName("gameOver").buildIndex) {
             gameObject.SetActive(true);
             eventSystem.gameObject.SetActive(true);
@@ -44,8 +44,6 @@ public class GameOver : MonoBehaviour {
 
 	public void ReloadLastCheckpoint() {
         LevelLoading.instance.LoadLevel("Extended", true);
-
-        UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(gameSceneName).buildIndex);
     }
 
     public void MainMenu() {
