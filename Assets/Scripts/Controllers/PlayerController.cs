@@ -19,10 +19,12 @@ public class PlayerController : InputReceiver {
 			return c_currentZone;
 		}
 		set {
-			c_currentZone = value;
+			if(c_currentZone != value) {
+				c_currentZone = value;
 
-			if(Music != null) {
-				Music.OnZoneChanged(c_currentZone);
+				if(Music != null) {
+					Music.OnZoneChanged(c_currentZone);
+				}
 			}
 		}
 	}
@@ -143,8 +145,8 @@ public class PlayerController : InputReceiver {
 		Color color;
 		switch(streamColor) {
 			case EnumStreamColor.BLUE:
-                color = new Color(0.062f, 0.062f, 0.784f);
-                color.a = 0.784f;
+				color = new Color(0.062f, 0.062f, 0.784f);
+				color.a = 0.784f;
 				break;
 			case EnumStreamColor.GREEN:
 				color = Color.green;
@@ -154,7 +156,7 @@ public class PlayerController : InputReceiver {
 				break;
 			default:
 				color = Color.yellow;
-                color.g = 0.92f;
+				color.g = 0.92f;
 				break;
 		}
 		switchParticlesStatic.startColor = color;
@@ -170,9 +172,9 @@ public class PlayerController : InputReceiver {
 
 		currentLife = Mathf.Clamp(val, 0, maxLife);
 
-        UpdateMaxLife();
-        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
-    }
+		UpdateMaxLife();
+		lifeBarFillStatic.fillAmount = maxFill * ((float) currentLife / (float) maxLife);
+	}
 
 	public void AddLife(int val) {
 		currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
