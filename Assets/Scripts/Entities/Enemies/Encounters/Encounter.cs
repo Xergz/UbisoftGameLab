@@ -1,13 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
 
-public class Encounter : MonoBehaviour {
+[System.Serializable]
+public class Encounter : ScriptableObject {
 
-	[SerializeField]
-	List<SpawnEntity> entities = null;
+	public List<SpawnEntity> entities = null;
 
-	NavMeshHit hit;
+#if UNITY_EDITOR
+	[MenuItem("Assets/Create/Encounter")]
+	public static void CreateMyAsset() {
+		Encounter encounter = CreateInstance<Encounter>();
+
+		AssetDatabase.CreateAsset(encounter, "Assets/Prefabs/Entities/Enemies/Encounters/Encounter.asset");
+		AssetDatabase.SaveAssets();
+
+		EditorUtility.FocusProjectWindow();
+
+		Selection.activeObject = encounter;
+	}
+#endif
 
 	[System.Serializable]
 	public class SpawnEntity {
@@ -24,6 +37,7 @@ public class Encounter : MonoBehaviour {
 		foreach(SpawnEntity entity in entities) {
 			if(!entity.entity.CompareTag("Hand") || spawnHands) {
 				Vector3 spawnPosition = localPosition + entity.spawnPoint;
+				NavMeshHit hit;
 				if(NavMesh.SamplePosition(spawnPosition, out hit, 10.0f, NavMesh.AllAreas)) {
 					var spawned = Instantiate(entity.entity, hit.position, Quaternion.identity) as Entity;
 					spawned.gameObject.SetActive(false);
