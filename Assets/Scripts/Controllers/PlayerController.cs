@@ -19,10 +19,12 @@ public class PlayerController : InputReceiver {
 			return c_currentZone;
 		}
 		set {
-			c_currentZone = value;
+			if(c_currentZone != value) {
+				c_currentZone = value;
 
-			if(Music != null) {
-				Music.OnZoneChanged(c_currentZone);
+				if(Music != null) {
+					Music.OnZoneChanged(c_currentZone);
+				}
 			}
 		}
 	}
@@ -71,11 +73,8 @@ public class PlayerController : InputReceiver {
 
 	public static List<Fragment> memoryFragments; // The list of all the fragments in the player's possession.
 
-	//public Transform Fragments;
 	public static List<Transform> fragmentsList; //List of every fragments
 
-	//public static Transform nextFragment;
-	public static int nextFragmentIndex;
 	public static int nextFragmentFind;
 	public static int numberOfFragments;
 	public static float nbHearts = 9;
@@ -132,6 +131,12 @@ public class PlayerController : InputReceiver {
 		_player.audioController.PlayAudio(AudioController.soundType.reverseStream, volume: 0.2f);
 	}
 
+	public static void SFXEnterOpenWorld() {
+		if(Random.Range(0.0f, 1.0f) > 0.5f) {
+			_player.audioController.PlayAudio(AudioController.soundType.enterOpenWorld);
+		}
+	}
+
 	public static IEnumerator ActivateSwitchFX(EnumStreamColor streamColor) {
 		if(switchParticlesStatic.isPlaying) {
 			switchParticlesStatic.Stop();
@@ -140,8 +145,8 @@ public class PlayerController : InputReceiver {
 		Color color;
 		switch(streamColor) {
 			case EnumStreamColor.BLUE:
-                color = new Color(0.062f, 0.062f, 0.784f);
-                color.a = 0.784f;
+				color = new Color(0.062f, 0.062f, 0.784f);
+				color.a = 0.784f;
 				break;
 			case EnumStreamColor.GREEN:
 				color = Color.green;
@@ -151,7 +156,7 @@ public class PlayerController : InputReceiver {
 				break;
 			default:
 				color = Color.yellow;
-                color.g = 0.92f;
+				color.g = 0.92f;
 				break;
 		}
 		switchParticlesStatic.startColor = color;
@@ -167,9 +172,9 @@ public class PlayerController : InputReceiver {
 
 		currentLife = Mathf.Clamp(val, 0, maxLife);
 
-        UpdateMaxLife();
-        lifeBarFillStatic.fillAmount = maxFill * ((float)currentLife / (float)maxLife);
-    }
+		UpdateMaxLife();
+		lifeBarFillStatic.fillAmount = maxFill * ((float) currentLife / (float) maxLife);
+	}
 
 	public void AddLife(int val) {
 		currentLife = Mathf.Clamp(currentLife + val, 0, maxLife);
@@ -225,7 +230,6 @@ public class PlayerController : InputReceiver {
 		memoryFragments.Add(fragment);
 
 		UpdateMaxLife();
-		nextFragmentIndex++;
 		Fragment fragmenttemp;
 		for(int i = 0; i < memoryFragments.Count - 1; i++) {
 			if(memoryFragments[i].index > memoryFragments[i + 1].index) {
@@ -249,11 +253,6 @@ public class PlayerController : InputReceiver {
 		} else {
 			GameManager.SaveCheckpoint(new Checkpoint(fragment.fragmentName));
 		}
-	}
-
-	public void ClearFragments() {
-		memoryFragments.Clear();
-		nextFragmentIndex = 0;
 	}
 
 	public static void RegisterFragment(Fragment fragment) {
@@ -294,7 +293,6 @@ public class PlayerController : InputReceiver {
 
 		fragmentsList = new List<Transform>(20);
 		numberOfFragments = 0;
-		nextFragmentIndex = 0;
 		nextFragmentFind = 0;
 
 		memoryFragments = new List<Fragment>();

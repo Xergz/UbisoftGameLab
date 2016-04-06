@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47fb123da18c9d45beb74846e825ffc, type: 3}
+  m_Name: Isolation
+  m_EditorClassIdentifier: 
+  entities:
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -53.2, y: 0, z: -11.4}
+  - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+    spawnPoint: {x: 13.5, y: 0, z: -36.5}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: 22.5, y: 0, z: -41.6}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -5.3, y: 0, z: -25.9}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -44.3, y: 0, z: -52.5}
+  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+    spawnPoint: {x: -49.71, y: 0, z: -11.7}
+  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+    spawnPoint: {x: 9.5, y: 0, z: -59.4}

@@ -34,8 +34,8 @@ public class MusicController : MonoBehaviour {
 	public void NewEnnemyStartedChasing() {
 		m_ChasingEnnemiesCount++;
 
-		if (m_ChasingEnnemiesCount > 0) {
-			ChasedInSnapshot.TransitionTo (m_TransitionIn);
+		if(m_ChasingEnnemiesCount > 0) {
+			ChasedInSnapshot.TransitionTo(m_TransitionIn);
 			PlaySting();
 		}
 	}
@@ -43,10 +43,10 @@ public class MusicController : MonoBehaviour {
 	public void EnnemyStoppedChasing() {
 		m_ChasingEnnemiesCount--;
 
-		if (m_ChasingEnnemiesCount <= 0) {
+		if(m_ChasingEnnemiesCount <= 0) {
 			m_ChasingEnnemiesCount = 0;
 
-			ChasedOutSnapshot.TransitionTo (m_TransitionOut);
+			ChasedOutSnapshot.TransitionTo(m_TransitionOut);
 		}
 	}
 
@@ -57,39 +57,41 @@ public class MusicController : MonoBehaviour {
 	public void OnZoneChanged(EnumZone newZone) {
 		m_CurrentZone = newZone;
 
-		switch (newZone) {
-		case EnumZone.OPEN_WORLD:
-			TargetClip (OpenWorldClips[m_LevelClipIndex[0]++ % OpenWorldClips.Length]);
-			break;
-		case EnumZone.LEVEL_1:
-			if(Level1Clips.Length > 0) TargetClip(Level1Clips[m_LevelClipIndex[1]++ % Level1Clips.Length]);
-			break;
-		case EnumZone.LEVEL_2:
-			if(Level2Clips.Length > 0) TargetClip(Level2Clips[m_LevelClipIndex[2]++ % Level2Clips.Length]);
-			break;
-		case EnumZone.LEVEL_3:
-			if(Level3Clips.Length > 0) TargetClip(Level3Clips[m_LevelClipIndex[3]++ % Level3Clips.Length]);
-			break;
-		default:
-			break;
+		switch(newZone) {
+			case EnumZone.OPEN_WORLD:
+				TargetClip(OpenWorldClips[m_LevelClipIndex[0]++ % OpenWorldClips.Length]);
+				break;
+			case EnumZone.LEVEL_1:
+				if(Level1Clips.Length > 0)
+					TargetClip(Level1Clips[m_LevelClipIndex[1]++ % Level1Clips.Length]);
+				break;
+			case EnumZone.LEVEL_2:
+				if(Level2Clips.Length > 0)
+					TargetClip(Level2Clips[m_LevelClipIndex[2]++ % Level2Clips.Length]);
+				break;
+			case EnumZone.LEVEL_3:
+				if(Level3Clips.Length > 0)
+					TargetClip(Level3Clips[m_LevelClipIndex[3]++ % Level3Clips.Length]);
+				break;
+			default:
+				break;
 		}
 	}
 
-	private void PlaySting()
-	{
-		if (StingSource && Stings.Length > 0) {
-			int randClip = Random.Range (0, Stings.Length);
-			StingSource.clip = Stings [randClip];
-			StingSource.Play ();
+	private void PlaySting() {
+		if(StingSource && Stings.Length > 0) {
+			int randClip = Random.Range(0, Stings.Length);
+			StingSource.clip = Stings[randClip];
+			StingSource.Play();
 		}
 	}
 
 	private void TargetClip(AudioClip target) {
 
-		if (!m_Fade) {
+		if(!m_Fade) {
 			SwapTrackSource.volume = 0;
 			SwapTrackSource.clip = target;
-			SwapTrackSource.Play ();
+			SwapTrackSource.Play();
 
 			MainTrackSource.volume = 1;
 			m_Fade = true;
@@ -122,27 +124,27 @@ public class MusicController : MonoBehaviour {
 
 		m_LevelClipIndex = new int[4];
 		// Set the starting location for every zones
-		m_LevelClipIndex [0] = Random.Range (0, OpenWorldClips.Length);
-		m_LevelClipIndex [1] = Random.Range (0, Level1Clips.Length);
-		m_LevelClipIndex [2] = Random.Range (0, Level2Clips.Length);
-		m_LevelClipIndex [3] = Random.Range (0, Level3Clips.Length);
+		m_LevelClipIndex[0] = Random.Range(0, OpenWorldClips.Length);
+		m_LevelClipIndex[1] = Random.Range(0, Level1Clips.Length);
+		m_LevelClipIndex[2] = Random.Range(0, Level2Clips.Length);
+		m_LevelClipIndex[3] = Random.Range(0, Level3Clips.Length);
 	}
 
 	void Update() {
 		// Fade musics
-		if (m_Fade) {
-			SwapTrackSource.volume = Mathf.Lerp (0, 1, m_FadeAcc / FadeDuration);
-			MainTrackSource.volume = Mathf.Lerp (1, 0, m_FadeAcc / FadeDuration);
+		if(m_Fade) {
+			SwapTrackSource.volume = Mathf.Lerp(0, 1, m_FadeAcc / FadeDuration);
+			MainTrackSource.volume = Mathf.Lerp(1, 0, m_FadeAcc / FadeDuration);
 
-			if (m_FadeAcc >= FadeDuration) {
-				SwapTracks ();
+			if(m_FadeAcc >= FadeDuration) {
+				SwapTracks();
 			}
 
 			m_FadeAcc += Time.deltaTime;
-		} else if (!m_Fade && m_NextClip != null) {
-			TargetClip (m_NextClip);
+		} else if(!m_Fade && m_NextClip != null) {
+			TargetClip(m_NextClip);
 			m_NextClip = null;
-		} else if (!m_Fade && MainTrackSource.time >= MainTrackSource.clip.length - FadeDuration) {
+		} else if(!m_Fade && MainTrackSource.time >= MainTrackSource.clip.length - FadeDuration) {
 			OnZoneChanged(m_CurrentZone);
 		}
 	}
