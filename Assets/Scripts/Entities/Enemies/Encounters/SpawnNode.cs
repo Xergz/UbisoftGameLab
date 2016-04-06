@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnNode : MonoBehaviour {
 	[Tooltip("Specify a specific encounter, if left to null, will get a random one from encounter manager")]
@@ -18,7 +18,27 @@ public class SpawnNode : MonoBehaviour {
     private float delayBeforeRespawn = 2f;
     private float lastTimeSpawned = 0.0f;
 
-    private void OnTriggerStay(Collider other) {
+
+	private void OnDrawGizmosSelected() {
+		if(SpecialEncounterSpawn != null) {
+			SpecialEncounterSpawn.entities.ForEach((entity) => {
+				Vector3 position = transform.TransformPoint(new Vector3(entity.spawnPoint.x, entity.spawnPoint.y + 1, entity.spawnPoint.z));
+				if(entity.entity is StunEntity) {
+					Gizmos.color = Color.cyan;
+					Gizmos.DrawCube(position, new Vector3(4, 4, 4));
+				} else if(entity.entity is ChasingEntity) {
+					Gizmos.color = Color.yellow;
+					Gizmos.DrawSphere(position, 1);
+				} else {
+					Gizmos.color = Color.red;
+					Gizmos.DrawCube(position, new Vector3(2, 2, 2));
+				}
+				Gizmos.DrawLine(transform.position, position);
+			});
+		}
+	}
+
+	private void OnTriggerStay(Collider other) {
 		if(other.gameObject.tag == "Player" && (!spawned || (enableRespawn && Time.time - lastTimeSpawned > delayBeforeRespawn))) {
                 spawned = true;
             lastTimeSpawned = Time.time;

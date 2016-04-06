@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47fb123da18c9d45beb74846e825ffc, type: 3}
+  m_Name: Encounter3
+  m_EditorClassIdentifier: 
+  entities:
+  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+    spawnPoint: {x: -8, y: 0, z: 10}
+  - entity: {fileID: 11421806, guid: 482c4782f39e6e94383896d164750c98, type: 2}
+    spawnPoint: {x: 8, y: 0, z: 10}
+  - entity: {fileID: 11412098, guid: 31bfe98a15a86594689cab35134377d7, type: 2}
+    spawnPoint: {x: -11, y: 0, z: 37}
+  - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+    spawnPoint: {x: 8, y: 0, z: 15}
+  - entity: {fileID: 11482188, guid: c0da05f45db9792419c1388dff0a879a, type: 2}
+    spawnPoint: {x: -8, y: 0, z: 15}
