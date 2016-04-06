@@ -2338,8 +2338,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b67ae7d6077db2b4bb3d7da1e38610c5, type: 3}
   clipsCollectLife:
   - {fileID: 8300000, guid: 569c4a4ff6307e844850cd799bd620e9, type: 3}
-  clipsCollision:
-  - {fileID: 8300000, guid: de8502014ca9eb24a9bf5cae6f66158e, type: 3}
+  clipsCollision: []
   clipsUseBoost:
   - {fileID: 8300000, guid: 605b2d1b36d523448be310410712fe4c, type: 3}
   clipsReverseStream:
@@ -7357,7 +7356,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: clipsCollision.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: clipsReceiveHit.Array.size
