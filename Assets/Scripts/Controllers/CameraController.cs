@@ -14,6 +14,8 @@ public class CameraController : InputReceiver {
 	[Tooltip("The minimum speed the player must have to be considered moving")]
 	public float minPlayerVelocity = 0.05F;
 
+	public bool canMove = true;
+
 	public Vector3 movementSmooth = new Vector3(0.05f, 0.1f, 0.05f);
 	public Vector2 rotation = new Vector2(0f, 40f);
 	public Vector2 controllerSensitivity = new Vector2(2f, 2f);
@@ -90,24 +92,26 @@ public class CameraController : InputReceiver {
 		if(playerTransform == null)
 			return;
 
-		Vector3 velocity = playerTransform.GetComponent<Rigidbody>().velocity;
-		speed = new Vector2(velocity.x, velocity.z).magnitude;
-		if(speed > minPlayerVelocity) {
-			if(!playerMoving) {
-				if(!cameraMoving) {
-					timeAtPlayerMoved = Time.time;
+		if(canMove) {
+			Vector3 velocity = playerTransform.GetComponent<Rigidbody>().velocity;
+			speed = new Vector2(velocity.x, velocity.z).magnitude;
+			if(speed > minPlayerVelocity) {
+				if(!playerMoving) {
+					if(!cameraMoving) {
+						timeAtPlayerMoved = Time.time;
+					}
+					playerMoving = true;
 				}
-				playerMoving = true;
+				oldPlayerPosition = playerTransform.position;
+			} else {
+				playerMoving = false;
 			}
-			oldPlayerPosition = playerTransform.position;
-		} else {
-			playerMoving = false;
-		}
-		speed = Mathf.Max(minSpeed, speed);
+			speed = Mathf.Max(minSpeed, speed);
 
-		//CalculateMovement();
-		CalculateCameraTarget();
-		UpdatePosition();
+			//CalculateMovement();
+			CalculateCameraTarget();
+			UpdatePosition();
+		}
 	}
 
 	void CalculateMovement() {

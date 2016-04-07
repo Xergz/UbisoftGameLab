@@ -22,16 +22,21 @@ public class Player : Entity {
 	private float invincibleTime = 1f;
 	[SerializeField]
 	private float delayBeforeCollisionSFX = 2f;
+	[SerializeField]
+	private float moveCameraForXSeconds = 3F;
 	private float beginStunTime;
 	private float beginInvincibleTime;
 
 	private float lastTimeCollisionSFX = 0.0f;
+
+	private CameraController cameraController;
 
 	[SerializeField]
 	private ParticleSystem collisionSystem;
 
 	private void Awake() {
 		ui = FindObjectOfType<UIManager>();
+		cameraController = FindObjectOfType<CameraController>();
 	}
 
 	private void Update() {
@@ -82,10 +87,14 @@ public class Player : Entity {
 	private void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Fragment")) { // Picked up a fragment
 			audioController.PlayAudio(AudioController.soundType.collectFragment);
-			other.gameObject.SetActive(false);
 			Fragment frag = other.GetComponent<Fragment>();
-			if(frag.rockTrigger != null)
+			if(frag.rockTrigger != null) {
+				other.GetComponent<MeshRenderer>().enabled = false;
 				frag.rockTrigger.startFall();
+				StartCoroutine(MoveCamera(frag));
+			} else {
+				other.gameObject.SetActive(false);
+			}
 			PlayerController.AddFragment(frag);
 		} else if(other.CompareTag("Life")) {
 			if(PlayerController.GetPlayerCurrentLife() < PlayerController.GetPlayerMaxLife()) {
@@ -104,8 +113,21 @@ public class Player : Entity {
 			}
 		}
 	}
+	private IEnumerator MoveCamera(Fragment target) {
+		yield return new WaitForSeconds(0.25F);
 
-	IEnumerator DoBlinks(float duration, float blinkTime) {
+		cameraController.canMove = false;
+		cameraController.SetCameraPosition(target.rockTrigger.transform.position);
+
+		yield return new WaitForSeconds(moveCameraForXSeconds);
+
+		cameraController.SetCameraPosition(transform.position);
+		cameraController.canMove = true;
+		target.gameObject.SetActive(false);
+		target.GetComponent<MeshRenderer>().enabled = true;
+	}
+
+	private IEnumerator DoBlinks(float duration, float blinkTime) {
 		float beginTime = Time.time;
 		while(Time.time - beginTime < duration) {
 			foreach(GameObject element in objectsForBlink)
