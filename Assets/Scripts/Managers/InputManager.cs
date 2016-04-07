@@ -7,6 +7,8 @@ public class InputManager : MonoBehaviour {
 	public InputReceiver playerController;
 	public InputReceiver streamController;
 	public InputReceiver uiController;
+    public InputReceiver uiInGameButtons;
+	public InputReceiver uiInGameTrigger;
 
 	public float timeBeforeHeldDown = 0.15F;
 
@@ -51,46 +53,56 @@ public class InputManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		CheckButtons();
-		CheckJoysticks();
-		CheckTriggers();
-		CheckBumpers();
+        if(Time.timeScale != 0) {
+            CheckButtons();
+            CheckJoysticks();
+            CheckTriggers();
+            CheckBumpers();
+        }	
 	}
 
 	private void CheckButtons() {
 		if(Input.GetButtonDown("AButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float) EnumButtonState.PRESSED));
-			AButtonTimeAtDown = Time.time;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float)EnumButtonState.PRESSED));
+            AButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("BButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float) EnumButtonState.PRESSED));
-			BButtonTimeAtDown = Time.time;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float)EnumButtonState.PRESSED));
+            BButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("XButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float) EnumButtonState.PRESSED));
-			XButtonTimeAtDown = Time.time;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float)EnumButtonState.PRESSED));
+            XButtonTimeAtDown = Time.time;
 		} else if(Input.GetButtonDown("YButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float) EnumButtonState.PRESSED));
-			YButtonTimeAtDown = Time.time;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float)EnumButtonState.PRESSED));
+            YButtonTimeAtDown = Time.time;
 		}
 
 		if(Input.GetButton("AButton")) {
 			if(Time.time - AButtonTimeAtDown > timeBeforeHeldDown && !AButtonHeldDown) {
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float) EnumButtonState.HELD_DOWN));
-				AButtonHeldDown = true;
+                uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (float)EnumButtonState.HELD_DOWN));
+                AButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("BButton")) {
 			if(Time.time - BButtonTimeAtDown > timeBeforeHeldDown && !BButtonHeldDown) {
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float) EnumButtonState.HELD_DOWN));
-				BButtonHeldDown = true;
+                uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (float)EnumButtonState.HELD_DOWN));
+                BButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("XButton")) {
 			if(Time.time - XButtonTimeAtDown > timeBeforeHeldDown && !XButtonHeldDown) {
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float) EnumButtonState.HELD_DOWN));
-				XButtonHeldDown = true;
+                uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (float)EnumButtonState.HELD_DOWN));
+                XButtonHeldDown = true;
 			}
 		} else if(Input.GetButton("YButton")) {
 			if(Time.time - YButtonTimeAtDown > timeBeforeHeldDown && !YButtonHeldDown) {
 				streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float) EnumButtonState.HELD_DOWN));
-				YButtonHeldDown = true;
+                uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (float)EnumButtonState.HELD_DOWN));
+                YButtonHeldDown = true;
 			}
 		}
 
@@ -98,22 +110,34 @@ public class InputManager : MonoBehaviour {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
-			AButtonHeldDown = false;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ?
+                                                                                (float)EnumButtonState.RELEASED :
+                                                                                (float)EnumButtonState.CLICKED));
+            AButtonHeldDown = false;
 		} else if(Input.GetButtonUp("BButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (BButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
-			BButtonHeldDown = false;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.BButton, (BButtonHeldDown) ?
+                                                                                (float)EnumButtonState.RELEASED :
+                                                                                (float)EnumButtonState.CLICKED));
+            BButtonHeldDown = false;
 		} else if(Input.GetButtonUp("XButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (XButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
-			XButtonHeldDown = false;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.XButton, (XButtonHeldDown) ?
+                                                                                (float)EnumButtonState.RELEASED :
+                                                                                (float)EnumButtonState.CLICKED));
+            XButtonHeldDown = false;
 		} else if(Input.GetButtonUp("YButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (YButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
-			YButtonHeldDown = false;
+            uiInGameButtons.ReceiveInputEvent(new InputEvent(EnumAxis.YButton, (YButtonHeldDown) ?
+                                                                                (float)EnumButtonState.RELEASED :
+                                                                                (float)EnumButtonState.CLICKED));
+            YButtonHeldDown = false;
 		}
 
 		if(Input.GetButtonDown("StartButton")) {
@@ -190,15 +214,17 @@ public class InputManager : MonoBehaviour {
 	}
 
 	private void CheckTriggers() {
-		if(Input.GetAxis("LeftTrigger") != LeftTriggerStatus) {
+		//if(Input.GetAxis("LeftTrigger") != LeftTriggerStatus) {
 			LeftTriggerStatus = Input.GetAxis("LeftTrigger");
 			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
-		}
+			uiInGameTrigger.ReceiveInputEvent(new InputEvent(EnumAxis.LeftTrigger, LeftTriggerStatus));
+		//}
 
-		if(Input.GetAxis("RightTrigger") != RightTriggerStatus) {
+		//if(Input.GetAxis("RightTrigger") != RightTriggerStatus) {
 			RightTriggerStatus = Input.GetAxis("RightTrigger");
 			playerController.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
-		}
+			uiInGameTrigger.ReceiveInputEvent(new InputEvent(EnumAxis.RightTrigger, RightTriggerStatus));
+		//}
 	}
 
 	private void CheckBumpers() {

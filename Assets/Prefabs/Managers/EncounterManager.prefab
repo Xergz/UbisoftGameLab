@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleEncounters:
   - {fileID: 11480890, guid: 65d703a51ae21304abdde7c185fbd0f9, type: 2}
-  distanceToDespawn: 100
+  distanceToDespawn: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -62,6 +62,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11480890, guid: 65d703a51ae21304abdde7c185fbd0f9,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: distanceToDespawn
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 139416}

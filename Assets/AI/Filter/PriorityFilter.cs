@@ -6,7 +6,7 @@ using RAIN.Perception.Sensors;
 using RAIN.Perception.Sensors.Filters;
 
 
-[RAINSerializableClass, RAINElement("Tag Filter")]
+[RAINSerializableClass, RAINElement("Priority Filter")]
 public class PriorityFilter : RAINSensorFilter {
     [RAINSerializableField(Visibility = FieldVisibility.Show, ToolTip = "The tags to detect")]
     public List<string> visibleTags = new List<string>();
@@ -23,12 +23,12 @@ public class PriorityFilter : RAINSensorFilter {
 
         for (int i = 0; i < visibleTags.Count; ++i) {
             if (tagsInSight.Contains(visibleTags[i])) {
-                for (int j = 0; j < aValues.Count; ++i) {
-                    if (aValues[i].Entity.Form.tag != visibleTags[i]) {
-                        aValues.RemoveAt(i);
-                        break;
+                for (int j = 0; j < aValues.Count; ++j) {
+                    if (aValues[j].Entity.Form.tag != visibleTags[i]) {
+                        aValues.RemoveAt(j);
                     }
                 }
+                break;
             }
         }
 

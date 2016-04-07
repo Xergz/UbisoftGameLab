@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
 	/// <param name="checkpoint">The checkpoint to restore the game's state from</param>
 	/// <remarks>Should throw an exception on failure</remarks>
 	public static void RestoreGameStateFrom(Checkpoint checkpoint) {
+		PlayerController.ClearCollectedFragments();
+
 		// Iterate over every fragment gameobject
 		foreach(Transform fragmentTransform in PlayerController.fragmentsList) {
 			GameObject fragmentObject = fragmentTransform.gameObject;
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="checkpoint">The checkpoint to save</param>
 	public static void SaveCheckpoint(Checkpoint checkpoint) {
+		Debug.Log("Saving " + checkpoint.GUID);
 		CheckpointController.SaveFile = "SavedGame";
 
 		CheckpointController.SaveCheckpoint(checkpoint);

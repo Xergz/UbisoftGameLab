@@ -19,7 +19,6 @@ public class CheckpointZone : MonoBehaviour {
 	void OnTriggerStay(Collider other) {
 		if(other.CompareTag("Player") && !wasTriggered) {
 			wasTriggered = true;
-			Debug.Log("Saving " + GUID);
 			GameManager.SaveCheckpoint(new Checkpoint(GUID));
 		}
 	}

@@ -29,12 +29,11 @@ public class UIManager : InputReceiver {
         enterLevelScript.DisplayLevel(levelName);
     }
 
-#if UNITY_EDITOR
 	public void CallOnLevelWasLoaded(int level) {
-		mainMenuScript.OnLevelWasLoaded(level);
-		pauseMenuScript.OnLevelWasLoaded(level);
-        winScript.OnLevelWasLoaded(level);
-        gameOverScript.OnLevelWasLoaded(level);
+		mainMenuScript.LevelWasLoaded(level);
+		pauseMenuScript.LevelWasLoaded(level);
+        winScript.LevelWasLoaded(level);
+        gameOverScript.LevelWasLoaded(level);
+		enterLevelScript.LevelWasLoaded(level);
 	}
-#endif
 }

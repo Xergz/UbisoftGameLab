@@ -10,7 +10,6 @@ public class Boost : Power
     // Use this for initialization
     private void Awake()
     {
-
         PowerType = EnumPower.boost;
     }
 
@@ -26,7 +25,6 @@ public class Boost : Power
         powerboost = true;
         timeSinceLastBoost = Time.time;
         //playerController.speedMultiplierBoost = 2.5f;
-        Debug.Log("BOOOOST");
     }
 
     public override void stopPower()
@@ -43,7 +41,6 @@ public class Boost : Power
         if (Time.time - timeSinceLastBoost > 1.5f && powerboost)
         {
             stopPower();
-            Debug.Log("ripboost");
         }
     }
 }

@@ -35,8 +35,18 @@ public class TagVerify : RAINDecision
 
 		gameObjectToverify = ai.WorkingMemory.GetItem<GameObject>(gameObjectForm.VariableName);
 
-		if(gameObjectToverify == null || tagToVerify != gameObjectToverify.tag)
-			return ActionResult.FAILURE;
+        if (gameObjectToverify == null)
+            return ActionResult.FAILURE;
+
+        if (tagToVerify.StartsWith("!")) {
+            tagToVerify = tagToVerify.TrimStart('!');
+            if (tagToVerify == gameObjectToverify.tag)
+                return ActionResult.FAILURE;
+
+        } else if(tagToVerify != gameObjectToverify.tag) {
+            return ActionResult.FAILURE;
+        }
+			
 
         for (; _lastRunning < _children.Count; _lastRunning++)
         {

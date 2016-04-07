@@ -43,6 +43,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   streamController: {fileID: 0}
   uiController: {fileID: 0}
+  uiInGameButtons: {fileID: 0}
   timeBeforeHeldDown: 0.15
 --- !u!1001 &100100000
 Prefab:

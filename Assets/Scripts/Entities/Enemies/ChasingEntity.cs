@@ -19,6 +19,7 @@ public class ChasingEntity : Entity {
 	public GameObject meshObject;
 
 	public ParticleSystem dieParticles;
+	public ParticleSystem hitParticles;
 
 
     private Rigidbody rigidBody;
@@ -71,17 +72,21 @@ public class ChasingEntity : Entity {
         }
     }
 
-    public override void ReceiveHit() {
+    public override bool ReceiveHit() {
         life -= 1;
         audioController.PlayAudio(AudioController.soundType.receiveHit);
         if (life <= 0) {
 			SetDying();
+		} else {
+			hitParticles.Emit(Random.Range(30, 50));
 		}
+		return true;
     }
 
     public override void ReceiveStun() {
         audioController.PlayAudio(AudioController.soundType.receiveStun);
         isStuned = true;
+		IsDodging = false;
         beginStunTime = Time.time;
         tRig.AI.IsActive = false;
         stunStars.SetActive(true);
@@ -103,6 +108,7 @@ public class ChasingEntity : Entity {
 
 	public void SetDying() {
 		meshObject.SetActive(false);
+		tRig.enabled = false;
 		dieParticles.Emit(Random.Range(30, 50));
 		StartCoroutine(DestroyInXSeconds(2));
 	}

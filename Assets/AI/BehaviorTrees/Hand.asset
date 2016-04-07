@@ -24,13 +24,15 @@ MonoBehaviour:
       name=&quot;action&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Entity&amp;amp;NoCooldown&quot; debugbreak=&quot;False&quot;
       constraint=&quot;detectedEntity != null &amp;amp;&amp;amp; !coolDown&quot;&gt;&lt;timer
-      waitforsec=&quot;0.1&quot; returnvalue=&quot;success&quot; name=&quot;Wait Before
-      Stun&quot; debugbreak=&quot;False&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
-      parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdHk=&quot; parameters=&quot;dmljdGltRm9ybQ==&quot;
-      namespace=&quot;(global)&quot; name=&quot;Stun&quot; debugbreak=&quot;False&quot;
-      classname=&quot;Stun&quot; /&gt;&lt;expression returnvalue=&quot;success&quot;
-      repeatuntil=&quot;&quot; name=&quot;CoolDownTrue&quot; expression=&quot;coolDown
-      = true&quot; debugbreak=&quot;False&quot; /&gt;&lt;/constraint&gt;&lt;constraint
+      waitforsec=&quot;0.05&quot; returnvalue=&quot;success&quot; name=&quot;Wait
+      Before Stun&quot; debugbreak=&quot;False&quot; /&gt;&lt;mecparam valueexpression=&quot;true&quot;
+      repeatuntil=&quot;&quot; parametertype=&quot;trigger&quot; parametername=&quot;Grabbing&quot;
+      name=&quot;mecparam&quot; debugbreak=&quot;False&quot; damptime=&quot;0&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;ZGV0ZWN0ZWRFbnRpdHk=&quot;
+      parameters=&quot;dmljdGltRm9ybQ==&quot; namespace=&quot;(global)&quot; name=&quot;Stun&quot;
+      debugbreak=&quot;False&quot; classname=&quot;Stun&quot; /&gt;&lt;expression
+      returnvalue=&quot;success&quot; repeatuntil=&quot;&quot; name=&quot;CoolDownTrue&quot;
+      expression=&quot;coolDown = true&quot; debugbreak=&quot;False&quot; /&gt;&lt;/constraint&gt;&lt;constraint
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;CoolDown&quot; debugbreak=&quot;False&quot;
       constraint=&quot;coolDown&quot;&gt;&lt;timer waitforsec=&quot;6&quot; returnvalue=&quot;success&quot;
       name=&quot;WaitBeforeNextStun&quot; debugbreak=&quot;False&quot; /&gt;&lt;expression
@@ -43,12 +45,12 @@ MonoBehaviour:
       /&gt;&lt;selector usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot;
       name=&quot;rotation&quot; debugbreak=&quot;False&quot;&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Entity Inner Ring&quot; debugbreak=&quot;False&quot;
-      constraint=&quot;detectedEntity != null&quot;&gt;&lt;move turnspeed=&quot;90&quot;
+      constraint=&quot;detectedEntity != null&quot;&gt;&lt;move turnspeed=&quot;2000&quot;
       repeatuntil=&quot;&quot; name=&quot;Turn&quot; movetarget=&quot;&quot; movespeed=&quot;&quot;
       facetarget=&quot;detectedEntity&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
       closeenoughangle=&quot;&quot; /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;Entity Outter Ring&quot; debugbreak=&quot;False&quot;
-      constraint=&quot;animationEntity != null&quot;&gt;&lt;move turnspeed=&quot;40&quot;
+      constraint=&quot;animationEntity != null&quot;&gt;&lt;move turnspeed=&quot;200&quot;
       repeatuntil=&quot;&quot; name=&quot;Turn&quot; movetarget=&quot;&quot; movespeed=&quot;&quot;
       facetarget=&quot;animationEntity&quot; debugbreak=&quot;False&quot; closeenoughdistance=&quot;&quot;
       closeenoughangle=&quot;&quot; /&gt;&lt;/constraint&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/behaviortree&gt;"

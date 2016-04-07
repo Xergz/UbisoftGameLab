@@ -43,7 +43,7 @@ public class EncounterManager : MonoBehaviour {
             yield return new WaitForSeconds(3.0f);
             foreach(Entity ent in spawnedEntities)
             {
-                if(ent.Distance > distanceToDespawn)
+                if(ent.Distance > distanceToDespawn && !ent.CompareTag("Hand"))
                 {
                     Debug.Log("Despawning entity" + ent.name);
                     toDestroy.Add(ent);

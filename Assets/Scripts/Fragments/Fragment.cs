@@ -3,7 +3,7 @@
 public class Fragment : MonoBehaviour {
     public string fragmentName;
 
-	public Sprite image;
+	public RockFall rockTrigger;
 
     public int index;
 
@@ -15,7 +15,7 @@ public class Fragment : MonoBehaviour {
         }
     }
 
-    void Update(){
+    private void Update(){
         transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
     }
 }

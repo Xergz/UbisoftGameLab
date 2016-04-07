@@ -12,12 +12,10 @@ public class Win : MonoBehaviour {
     public Button mainMenuButton;
 
 	void Start() {
-#if UNITY_EDITOR
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-#endif
+		//LevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
-	public void OnLevelWasLoaded(int level) {
+	public void LevelWasLoaded(int level) {
         if (level == SceneManager.GetSceneByName("win").buildIndex) {
             gameObject.SetActive(true);
             eventSystem.gameObject.SetActive(true);
@@ -28,12 +26,14 @@ public class Win : MonoBehaviour {
         }
     }	
 
+	public void KeepPlaying() {
+        LevelLoading.instance.LoadLevel("Extended", true);
+	}
+
 	public void MainMenu() {
 		SceneManager.LoadScene(mainMenuSceneName);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
-#endif
 	}
 
 	public void Quit() {

@@ -13,16 +13,11 @@ public class GameOver : MonoBehaviour {
 	public Button checkpointButton;
 	public Button mainMenuButton;
 
-
-	private bool onPause = false;
-
 	void Start() {
-#if UNITY_EDITOR
-		OnLevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
-#endif
+		//LevelWasLoaded(SceneManager.GetActiveScene().buildIndex);
 	}
 
-	public void OnLevelWasLoaded(int level) {
+	public void LevelWasLoaded(int level) {
         if (level == SceneManager.GetSceneByName("gameOver").buildIndex) {
             gameObject.SetActive(true);
             eventSystem.gameObject.SetActive(true);
@@ -48,20 +43,13 @@ public class GameOver : MonoBehaviour {
     }	
 
 	public void ReloadLastCheckpoint() {
-        SceneManager.LoadScene(gameSceneName);
-        GameManager.RestoreFromLastCheckpoint();
-
-#if UNITY_EDITOR
-        UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(gameSceneName).buildIndex);
-#endif
+        LevelLoading.instance.LoadLevel("Extended", true);
     }
 
     public void MainMenu() {
 		SceneManager.LoadScene(mainMenuSceneName);
 
-#if UNITY_EDITOR
 		UIManager.instance.CallOnLevelWasLoaded(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
-#endif
 	}
 
 	public void Quit() {
