@@ -10,6 +10,9 @@ public class PlayerController : InputReceiver {
 
 	public static LevelLoading loader;
 
+    public static GameObject playerInfoUi;
+    public static GameObject map;
+
 	public static int numberOfFragmentsToWin = 5;
 
 
@@ -199,6 +202,18 @@ public class PlayerController : InputReceiver {
 				ZSpeedMultiplier = 0;
 			}
 		}
+
+        if(inputEvent.InputAxis == EnumAxis.SelectButton) {
+           if((EnumButtonState) inputEvent.Value == EnumButtonState.HELD_DOWN) {
+               // Time.timeScale = 0;
+                playerInfoUi.SetActive(false);
+                map.SetActive(true);
+            }
+            else {
+                playerInfoUi.SetActive(true);
+                map.SetActive(false);
+            }
+        }
 	}
 
 	public void AddForce(Vector3 force, Stream stream) {
@@ -279,7 +294,12 @@ public class PlayerController : InputReceiver {
 	}
 
 	private void Awake() {
-		playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
+        playerInfoUi = GameObject.Find("PlayerInfoUI");
+        map = GameObject.Find("Map");
+        playerInfoUi.SetActive(true);
+        map.SetActive(false);
+
+        playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
 		_player = Player.GetComponent<Player>();
 
 		GameObject loaderObject = GameObject.Find("SceneTransitionManager");

@@ -23,13 +23,15 @@ public class InputManager : MonoBehaviour {
 	private float BButtonTimeAtDown = 0F;
 	private float XButtonTimeAtDown = 0F;
 	private float YButtonTimeAtDown = 0F;
+    private float SelectButtonTimeAtDown = 0F;
 
-	private bool AButtonHeldDown = false;
+    private bool AButtonHeldDown = false;
 	private bool BButtonHeldDown = false;
 	private bool XButtonHeldDown = false;
 	private bool YButtonHeldDown = false;
+    private bool SelectButtonHeldDown = false;
 
-	void Awake() {
+    void Awake() {
 		cameraController = GameObject.Find("CameraController").GetComponent<CameraController>();
 		streamController = GameObject.Find("StreamController").GetComponent<StreamController>();
 		playerController = GameObject.Find("PlayerController").GetComponent<PlayerController>();
@@ -105,8 +107,16 @@ public class InputManager : MonoBehaviour {
                 YButtonHeldDown = true;
 			}
 		}
+        else if (Input.GetButton("SelectButton"))
+        {
+            if (Time.time - SelectButtonTimeAtDown > timeBeforeHeldDown && !SelectButtonHeldDown)
+            {
+                playerController.ReceiveInputEvent(new InputEvent(EnumAxis.SelectButton, (float)EnumButtonState.HELD_DOWN));
+                SelectButtonHeldDown = true;
+            }
+        }
 
-		if(Input.GetButtonUp("AButton")) {
+        if (Input.GetButtonUp("AButton")) {
 			streamController.ReceiveInputEvent(new InputEvent(EnumAxis.AButton, (AButtonHeldDown) ?
 																				(float) EnumButtonState.RELEASED :
 																				(float) EnumButtonState.CLICKED));
@@ -139,13 +149,17 @@ public class InputManager : MonoBehaviour {
                                                                                 (float)EnumButtonState.CLICKED));
             YButtonHeldDown = false;
 		}
+        else if (Input.GetButtonUp("SelectButton"))
+        {
+            playerController.ReceiveInputEvent(new InputEvent(EnumAxis.SelectButton, (SelectButtonHeldDown) ?
+                                                                                (float)EnumButtonState.RELEASED :
+                                                                                (float)EnumButtonState.CLICKED));
+            SelectButtonHeldDown = false;
+        }
 
-		if(Input.GetButtonDown("StartButton")) {
+        if (Input.GetButtonDown("StartButton")) {
 			if(uiController != null)
 				uiController.ReceiveInputEvent(new InputEvent(EnumAxis.StartButton, 1));
-		}
-
-		if(Input.GetButtonDown("SelectButton")) {
 		}
 	}
 
