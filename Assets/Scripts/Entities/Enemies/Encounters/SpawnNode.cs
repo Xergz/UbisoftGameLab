@@ -19,7 +19,7 @@ public class SpawnNode : MonoBehaviour {
     private float lastTimeSpawned = 0.0f;
 
 
-	private void OnDrawGizmosSelected() {
+	private void OnDrawGizmos() {
 		if(SpecialEncounterSpawn != null) {
 			SpecialEncounterSpawn.entities.ForEach((entity) => {
 				Vector3 position = transform.TransformPoint(new Vector3(entity.spawnPoint.x, entity.spawnPoint.y + 1, entity.spawnPoint.z));
